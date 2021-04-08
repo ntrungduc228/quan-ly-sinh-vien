@@ -7,7 +7,6 @@
 	De Tai: QUAN LY DIEM SINH VIEN THEO HE TIN CHI
 */
 
-//#include <winbgim.h> 
 #include"Menu.h"
 
 int main(int argc, char *argv[])
@@ -17,12 +16,7 @@ int main(int argc, char *argv[])
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
 	
-	// now, you can run project
-	initwindow(500, 500);			// init window graphics
-	setbkcolor(1);					// set background
-   	cleardevice();
-	setcolor(14);					// set text color
-	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
+	initView();
 	
 	if(DSLTC.getN()==0){
 		outtextxy(50,120,"NULL");

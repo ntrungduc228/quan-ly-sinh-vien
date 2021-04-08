@@ -33,7 +33,7 @@ public:
 
 
 TREE::TREE(){
-	data = NULL;`
+	data = NULL;
 }
 
 TREE::~TREE(){
