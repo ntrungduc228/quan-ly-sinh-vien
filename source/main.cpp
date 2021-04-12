@@ -2,8 +2,8 @@
 	graphics in Dev-C++ - nguyenvanquan7826 
 	
 	Ho Ten: NGUYEN TRUNG DUC - NGUYEN THANH TRUNG
-	MSSV: 	N19DCCN040		 - N19DCCN
-	Lop:			   D19CQCN03-N
+	MSSV: 	N19DCCN040		 - N19DCCN216
+	Lop:			 D19CQCN03-N
 	De Tai: QUAN LY DIEM SINH VIEN THEO HE TIN CHI
 */
 
@@ -16,12 +16,12 @@ int main(int argc, char *argv[])
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
 	
-	initView();
+	DSSV DSSV;
+
+	menu(DSSV);
 	
-	if(DSLTC.getN()==0){
-		outtextxy(50,120,"NULL");
-	}
+	//initView();
 	
-	while(!kbhit()) delay(1);		// pause screen	
+	//while(!kbhit()) delay(1);		// pause screen	
 	return 0;
 }
