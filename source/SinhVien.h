@@ -1,6 +1,6 @@
 #pragma once
 #include"Const.h"
-#include<string>
+
 using namespace std;
 
 class SinhVien{
@@ -29,25 +29,44 @@ public:
 	string getSDT();
 	string getMaLop();
 	
-	void nhap_SV(){
-		string temp;
+	void nhap_SV(string maSV){
+			string temp;
+		if(maSV!="") {
+			this->maSV = maSV;
+		}else{
+			cout<<"\nNhap mssv: ";
+			getline(cin,temp);
+	
+			this->maSV = temp;
+			if(temp == "") return;
+		}
+	
+		
 		cout<<"\nNhap ho: ";
 		getline(cin,temp);
 		ho = temp;
 		cout<<"\nNhap ten: ";
 		getline(cin,temp);
 		ten = temp;
-		cout<<"\nNhap mssv: ";
-		getline(cin,temp);
-		maSV = temp;
+		
 		cout<<"\nNhap phai: ";
 		getline(cin,temp);
 		phai = temp;
+		maSV = "";
 	}
 	
 	void xuat_SV(){
 		cout<<"\nHo ten: "<<ho<<" "<<ten;
+		cout<<"\nMSSV: "<<maSV;
+		cout<<"\nPhai: "<<phai;
 	}
+	
+	void sua(SinhVien sv){
+		this->ten = sv.ten;
+		this->ho = sv.ho;
+		this->phai = sv.phai;
+	}
+	
 };
 
 class NodeSV{
@@ -79,21 +98,40 @@ public:
 	void setHead_DSSV(NodeSV *head);
 	NodeSV* getHead_DSSV();
 	
-	int timViTri_SV(NodeSV *SV);
-	void themDau_SV(NodeSV * SV);
-	void them_SV(NodeSV *SV, int viTriThem);
-	
 	void writeFile_SV(SinhVien SV, ofstream &fileOut);
 	void writeFileDS_SV();
+	
+	int tim_SV(string maSV);
+	int timViTriThem_SV(NodeSV *SV);
+	void themDau_SV(NodeSV * SV);
+	void them_SV(NodeSV *SV, int viTriThem);
+	int xoa_SV(string maSV);
+	
+	
+	
+		
+	int sua_SV(string maSV){
+		if(this->head == NULL){
+			cout<<"\nDS rong"; return-1;
+		}
+		for(NodeSV *p = this->head; p!=NULL ; p = p->getNext_SV())
+			if(p->getData_SV().getMaSV() == maSV) {
+				SinhVien sv;
+				sv.nhap_SV(maSV);
+				p->setData_SV(sv);
+				return 1;
+			}
+		return -1;
+	}
 	
 	void xuatDS_SV(){
 		if(this->head == NULL) {
 			cout<<"\nDS rong";
 			return;
 		}
-		for(NodeSV *k = this->head; k->getNode_SV() != NULL ; k=(k->getNext_SV())){
-			k->getData_SV().xuat_SV();
-			if(k->getNext_SV()==NULL) return;
+		for(NodeSV *p = this->head; p != NULL ; p=(p->getNext_SV())){
+			p->getData_SV().xuat_SV();
+			if(p->getNext_SV()==NULL) return;
 		}
 	}
 };
@@ -221,12 +259,43 @@ NodeSV* DSSV::getHead_DSSV(){
 	return this->head;
 }
 
+void DSSV::writeFile_SV(SinhVien SV, ofstream &fileOut){
+	
+	char temp = ',';
+	fileOut<<SV.getHo();
+	fileOut<<temp;
+	fileOut<<SV.getTen();
+	fileOut<<temp;
+	fileOut<<"\n";
+	
+}
+
+void DSSV::writeFileDS_SV(){
+	ofstream fileOut("data\\DSSV.txt",ios::out);
+	if(fileOut.is_open()){
+		for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
+			writeFile_SV(p->getData_SV(),fileOut);
+		}
+	}
+	fileOut.close();
+}
+
+
 void DSSV::themDau_SV(NodeSV * SV){
 	SV->setNext_SV(this->head);
 	this->head = SV->getNode_SV();
 }
 
-int DSSV::timViTri_SV( NodeSV *SV){
+int DSSV::tim_SV(string maSV){
+	int viTri = 1;
+	NodeSV *p;
+	for(p = this->head; p!=NULL ; viTri++, p = p->getNext_SV())
+		if(p->getData_SV().getMaSV() == maSV) return viTri;
+		
+	return -1;
+}
+
+int DSSV::timViTriThem_SV( NodeSV *SV){
 	int viTri = 1;
 		NodeSV *p = this->head;
 		while(p!=NULL && p->getData_SV().getTen() <= SV->getData_SV().getTen() ) {
@@ -235,7 +304,7 @@ int DSSV::timViTri_SV( NodeSV *SV){
 				while (p!=NULL && p->getData_SV().getHo() < SV->getData_SV().getHo()) {
 
 					viTri++;
-					p->setNode_SV(p->getNext_SV());
+					p=(p->getNext_SV());
 				}
 				return viTri;
 			}
@@ -253,30 +322,33 @@ void DSSV::them_SV(NodeSV *SV, int viTriThem){
 		themDau_SV(SV); return;
 	}
 	
-	int viTri = 0;
+	int viTri = 1;
 	NodeSV *p;
-	for(p = this->head; p->getNext_SV()!= NULL && viTri < viTriThem-1; viTri++,p->setNode_SV(p->getNext_SV()));
+	for(p = this->head; p->getNext_SV()!= NULL && viTri < viTriThem-1; viTri++,p=p->getNext_SV());
 	
 	SV->setNext_SV(p->getNext_SV());
 	p->setNext_SV(SV);
 	
 }
 
-void DSSV::writeFile_SV(SinhVien SV, ofstream &fileOut){
+int DSSV::xoa_SV(string maSV){
 	
-	char temp = ',';
-	fileOut<<SV.getTen();
-	fileOut<<temp;
-	fileOut<<"\n";
-	
-}
-
-void DSSV::writeFileDS_SV(){
-	ofstream fileOut("data\\DSSV.txt",ios::out);
-	if(fileOut.is_open()){
-		for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
-			writeFile_SV(p->getData_SV(),fileOut);
-		}
+	if(this->head == NULL) return -1;
+	NodeSV *p,*q;
+	if(this->head->getData_SV().getMaSV() == maSV){
+		p = this->head;
+		this->head = p->getNext_SV();
+		delete p; return 1;
 	}
-	fileOut.close();
+	
+	for(p=this->head; p->getNext_SV()!=NULL && p->getNext_SV()->getData_SV().getMaSV() != maSV ; p=p->getNext_SV());
+		if(p->getNext_SV()->getData_SV().getMaSV() == maSV){
+			
+			q = p->getNext_SV();
+			p->setNext_SV(q->getNext_SV());
+			delete q; return 1;
+		}
+	
+	
+	return 0;
 }
