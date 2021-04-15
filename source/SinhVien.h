@@ -52,13 +52,25 @@ public:
 		cout<<"\nNhap phai: ";
 		getline(cin,temp);
 		phai = temp;
+		
+		cout<<"\nNhap sdt: ";
+		getline(cin,temp);
+		sdt = temp;
+		
+		cout<<"\nNhap ma lop: ";
+		getline(cin,temp);
+		maLop = temp;
+		
 		maSV = "";
 	}
 	
 	void xuat_SV(){
-		cout<<"\nHo ten: "<<ho<<" "<<ten;
+		cout<<"\n\nHo ten: "<<ho<<" "<<ten;
 		cout<<"\nMSSV: "<<maSV;
 		cout<<"\nPhai: "<<phai;
+		cout<<"\nSDT: "<<sdt;
+		cout<<"\nMa lop: "<<maLop;
+
 	}
 	
 	void sua(SinhVien sv){
@@ -98,6 +110,7 @@ public:
 	void setHead_DSSV(NodeSV *head);
 	NodeSV* getHead_DSSV();
 	
+	void loadFile_SV();
 	void writeFile_SV(SinhVien SV, ofstream &fileOut);
 	void writeFileDS_SV();
 	
@@ -211,7 +224,7 @@ NodeSV::NodeSV(SinhVien data){
 
 
 NodeSV::~NodeSV(){
-	
+	delete next;
 }
 
 void NodeSV::setData_SV(SinhVien data){
@@ -248,7 +261,7 @@ DSSV::DSSV(){
 }
 
 DSSV::~DSSV(){
-	
+	delete head;
 }
 
 void DSSV::setHead_DSSV(NodeSV *head){
@@ -262,11 +275,18 @@ NodeSV* DSSV::getHead_DSSV(){
 void DSSV::writeFile_SV(SinhVien SV, ofstream &fileOut){
 	
 	char temp = ',';
-	fileOut<<SV.getHo();
-	fileOut<<temp;
-	fileOut<<SV.getTen();
-	fileOut<<temp;
-	fileOut<<"\n";
+	fileOut << SV.getMaSV();
+	fileOut << temp;
+	fileOut << SV.getHo();
+	fileOut << temp;
+	fileOut << SV.getTen();
+	fileOut << temp;
+	fileOut << SV.getPhai();
+	fileOut << temp;
+	fileOut << SV.getSDT();
+	fileOut << temp;
+	fileOut << SV.getMaLop();
+	fileOut << "\n";
 	
 }
 
@@ -338,7 +358,8 @@ int DSSV::xoa_SV(string maSV){
 	if(this->head->getData_SV().getMaSV() == maSV){
 		p = this->head;
 		this->head = p->getNext_SV();
-		delete p; return 1;
+		//delete p; 
+		return 1;
 	}
 	
 	for(p=this->head; p->getNext_SV()!=NULL && p->getNext_SV()->getData_SV().getMaSV() != maSV ; p=p->getNext_SV());
@@ -346,7 +367,8 @@ int DSSV::xoa_SV(string maSV){
 			
 			q = p->getNext_SV();
 			p->setNext_SV(q->getNext_SV());
-			delete q; return 1;
+			//delete q; 
+			return 1;
 		}
 	
 	

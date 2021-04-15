@@ -23,6 +23,8 @@ void menu(DSSV &dssv){
 		
 		if(chon==0){
 			dssv.writeFileDS_SV();
+			if(dssv.getHead_DSSV() == NULL) cout<<"null";
+			else cout<<"not null";
 			exit(0);
 		}else if(chon==1){
 			cin.ignore();
