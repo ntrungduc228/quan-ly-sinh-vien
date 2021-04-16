@@ -4,6 +4,7 @@
 class LopSV{
 private:
 	string maLop;
+	string tenLop;
 	DSSV dssv;
 	int soSV;
 public:

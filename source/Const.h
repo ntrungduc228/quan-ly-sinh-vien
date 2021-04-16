@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <conio.h>
+#include <ctime>
 using namespace std;
 
 /*
@@ -52,6 +53,10 @@ const int MAX_MALOP = 15;
 */
 
 const int MAX_LOPTC = 10000;
+
+/*
+** ================ Do hoa ================
+*/
 
 
 

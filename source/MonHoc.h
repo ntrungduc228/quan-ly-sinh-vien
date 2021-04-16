@@ -31,13 +31,34 @@ public:
 	~TREE();
 };
 
+MonHoc::MonHoc(){
+	maMH = "";
+	tenMH = "";
+	STCLT = 0;
+	STCTH = 0;
+}
+
+MonHoc::~MonHoc(){
+	
+}
+
+
+NodeMonHoc::NodeMonHoc(){
+	left = NULL;
+	right = NULL;
+}
+
+NodeMonHoc::~NodeMonHoc(){
+	delete left;
+	delete right;
+}
 
 TREE::TREE(){
 	data = NULL;
 }
 
 TREE::~TREE(){
-	
+	delete data;
 }
 
 
