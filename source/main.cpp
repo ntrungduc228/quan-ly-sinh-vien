@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
 	init_View();
 
-	menu(dssv,DSLTC);
+	menu(dssv,DSLTC,DSLSV);
 
 	
 	return 0;
