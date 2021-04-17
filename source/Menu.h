@@ -7,23 +7,23 @@
 #include "LopSV.h"
 #include "View.h"
 
-void menu(DSSV &DSSV, DSLopTC &DSLTC){
+void menu(DSSV &DSSV, DSLopTC &DSLTC,DSLopSV &DSLSV){
 	int chon;
 	while(true){
 		system("cls");
 		
-		cout<<"\n1. Nhap sinh vien (done)";
+		cout<<"\n1. Nhap sinh vien ";
 		cout<<"\n2. Xuat ds sinh vien (done)";
 		cout<<"\n3. Sua sinh vien (done)";
 		cout<<"\n4. Xoa sinh vien (done)";
 		cout<<"\n5. Them lop tc (done)";
 		cout<<"\n6. Xuat DS lop tc (done)";
-		cout<<"\n7. Sua lop tc";
-		cout<<"\n8. Xoa lop tc";
-		cout<<"\n. Them lop hoc";
-		cout<<"\n. Xuat ds lop hoc";
-		cout<<"\n. In ds dang ky trong 1 lop tc";
+		cout<<"\n7. Sua lop tc (done)";
+		cout<<"\n8. Xoa lop tc (done)";
+		cout<<"\n9. Them lop hoc (done)";
+		cout<<"\n10. Xuat ds lop hoc (done)";
 		cout<<"\n. Dang ky lop tc";
+		cout<<"\n. In ds dang ky trong 1 lop tc";
 		cout<<"\n. Huy lop tc";
 		cout<<"\n. Nhap diem 1 lop tc";
 		cout<<"\n. Xuat diem 1 lop tc";
@@ -46,6 +46,7 @@ void menu(DSSV &DSSV, DSLopTC &DSLTC){
 		if(chon==0){
 			DSSV.writeFileDS_SV();
 			DSLTC.writeFileDS_LTC();
+			DSLSV.writeFileDS_LSV();
 			if(DSSV.getHead_DSSV() == NULL) cout<<" dssv null";
 			else cout<<"dssv not null";
 			
@@ -115,6 +116,39 @@ void menu(DSSV &DSSV, DSLopTC &DSLTC){
 			system("cls");
 			cout<<"\n ds lop tc";
 			DSLTC.xuatDS_LTC();
+			system("pause");
+		}else if(chon==7){
+			system("cls");
+			int maLop;
+			cout<<"\nNhap ma lop tc: ";
+			cin>>maLop;
+				if(DSLTC.sua_LTC(maLop)!=-1){
+					cout<<"\nSua ltc thanh cong";
+				}else cout<<"\nKo tim thay ltc";
+			system("pause");
+		}else if(chon==8){
+			system("cls");
+			if(DSLTC.getN()==0) cout<<"\n DSLTC rong";
+			else{
+				int maLop;
+				cout<<"\nNhap ma lop tc: ";
+				cin>>maLop;
+				if(DSLTC.xoa_LTC(maLop)!=-1){
+					cout<<"\nXoa ltc thanh cong";
+				}else cout<<"\nKo tim thay ltc";
+			}
+				
+			system("pause");
+		}else if(chon==9){
+			system("cls");
+				LopSV *lsv = new LopSV;
+				lsv->nhap_LSV();
+				if(DSLSV.them_LSV(lsv)) cout<<"\nThem lop sv thanh cong";
+				else cout<<"\nLop sv da day";
+			system("pause");
+		}else if(chon==10){
+			system("cls");
+				DSLSV.xuatDS_LSV();
 			system("pause");
 		}
 		

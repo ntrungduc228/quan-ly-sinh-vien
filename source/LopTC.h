@@ -46,12 +46,15 @@ public:
 		cin>>nienKhoa;
 		cout<<"\nNhap hoc ky: ";
 		cin>>hocKy;
+		cout<<"\nNhap nhom: ";
+		cin>>nhom;
 		cout<<"\nNhap so sv max: ";
 		cin>>svMax;
 		cout<<"\nNhap so sv min: ";
 		cin>>svMin;
 		
 	}
+	
 	
 	void xuat_LTC(){
 		cout<<"\nMa lop TC: "<<maLopTC;
@@ -90,17 +93,19 @@ public:
 	void writeFileDS_LTC();
 	
 	void xuatDS_LTC(){
+		if(n==0) cout<<"\nDS ltc rong";
 		for(int i=0; i<n; i++){
 			cout<<"\n";
 			lopTC[i]->xuat_LTC();
 		}
 	}
 	
-	int sua_LTC(LopTC *ltc){
-		int viTri = tim_LTC( ltc->getMaLopTC());
+	int sua_LTC(int maLopTC){
+		int viTri = tim_LTC( maLopTC);
 		if (viTri >= 0)	{
 			
-	
+			this->lopTC[viTri]->nhap_LTC();
+			return 1;
 		}
 		
 		return -1;
