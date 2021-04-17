@@ -16,12 +16,14 @@ int main(int argc, char *argv[])
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
 	
-	DSSV DSSV;
+	DSSV dssv;
+	
+	
 
-	menu(DSSV);
+	init_View();
+
+	menu(dssv,DSLTC,DSLSV);
+
 	
-	//initView();
-	
-	//while(!kbhit()) delay(1);		// pause screen	
 	return 0;
 }

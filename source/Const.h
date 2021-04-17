@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <conio.h>
+#include <ctime>
 using namespace std;
 
 /*
@@ -48,10 +49,22 @@ const int MAX_SDT = 11;
 const int MAX_MALOP = 15;
 
 /*
+** ================ Lop sinh vien ================
+*/
+
+const int MAX_LOPSV = 200;
+
+/*
 ** ================ Lop tin chi ================
 */
 
 const int MAX_LOPTC = 10000;
+
+
+
+/*
+** ================ Do hoa ================
+*/
 
 
 
