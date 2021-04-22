@@ -73,7 +73,7 @@ public:
 
 class DSLopTC{
 private:
-	LopTC *lopTC[MAX_LOPTC] = { NULL};
+	LopTC *lopTC[MAX_LOPTC] = {NULL};
 	int n;	
 public:
 	
@@ -89,8 +89,8 @@ public:
 	int xoa_LTC(int maLopTC);
 	int tim_LTC(int maLopTC);
 	
-	void writeFile_LTC(LopTC *LTC, ofstream &fileOut);
-	void writeFileDS_LTC();
+	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
+	void writeDataDS_LTC();
 	
 	void xuatDS_LTC(){
 		if(n==0) cout<<"\nDS ltc rong";
@@ -290,7 +290,7 @@ bool DSLopTC::checkTrungMaLop_LTC(int maLop){
 	return false;
 }
 
-void DSLopTC::writeFile_LTC(LopTC *LTC, ofstream &fileOut){
+void DSLopTC::writeData_LTC(LopTC *LTC, ofstream &fileOut){
 	char temp = ',';
 	fileOut << LTC->getMaLopTC();
 	fileOut << temp;
@@ -310,12 +310,12 @@ void DSLopTC::writeFile_LTC(LopTC *LTC, ofstream &fileOut){
 	fileOut << "\n";
 }
 
-void DSLopTC::writeFileDS_LTC(){
+void DSLopTC::writeDataDS_LTC(){
 	ofstream fileOut;
 	fileOut.open("data\\DSLTC.txt", ios::out);
 	if (fileOut.is_open()) {
 		for (int i = 0; i < this->n; i++) 
-			writeFile_LTC(this->lopTC[i], fileOut);
+			writeData_LTC(this->lopTC[i], fileOut);
 		
 	}
 	fileOut.close();

@@ -32,6 +32,8 @@ const int cllightwhite = 15;
 const int screenWidth = 1368;
 const int screenHeight = 745;
 
+const string PATH_LOAD = "data\\";
+const char* PATH_SAVE = "data\\";
 
 /*
 ** ================ Danh sach mon hoc ================

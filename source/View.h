@@ -31,7 +31,7 @@ void init_View(){
    	cleardevice();
 	setcolor(clblack);					// set text color
 	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
-	while(!kbhit()) delay(1);		// pause screen	*/
+	while(!kbhit()) delay(1);*/		// pause screen	
 	
 	resizeConsole(screenWidth, screenHeight);
 }

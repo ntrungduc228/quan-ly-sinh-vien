@@ -9,6 +9,8 @@
 
 #include"Menu.h"
 
+
+
 int main(int argc, char *argv[])
 {
 	
@@ -18,11 +20,12 @@ int main(int argc, char *argv[])
 	
 	DSSV dssv;
 	
+	//DSLSV.loadData_LSV();
 	
-
+	
 	init_View();
 
-	menu(dssv,DSLTC,DSLSV);
+	menu(dssv,DSLTC,DSLSV,DSMH);
 
 	
 	return 0;

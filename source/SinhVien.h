@@ -57,9 +57,6 @@ public:
 		getline(cin,temp);
 		sdt = temp;
 		
-		cout<<"\nNhap ma lop: ";
-		getline(cin,temp);
-		maLop = temp;
 		
 		maSV = "";
 	}
@@ -110,9 +107,11 @@ public:
 	void setHead_DSSV(NodeSV *head);
 	NodeSV* getHead_DSSV();
 	
+	bool isNULL_SV();
+	
 	void loadFile_SV();
-	void writeFile_SV(SinhVien SV, ofstream &fileOut);
-	void writeFileDS_SV();
+	void writeData_SV(SinhVien SV, ofstream &fileOut);
+	void writeDataDS_SV();
 	
 	int tim_SV(string maSV);
 	int timViTriThem_SV(NodeSV *SV);
@@ -144,7 +143,7 @@ public:
 		}
 		for(NodeSV *p = this->head; p != NULL ; p=(p->getNext_SV())){
 			p->getData_SV().xuat_SV();
-			if(p->getNext_SV()==NULL) return;
+			//if(p->getNext_SV()==NULL) return;
 		}
 	}
 };
@@ -272,7 +271,11 @@ NodeSV* DSSV::getHead_DSSV(){
 	return this->head;
 }
 
-void DSSV::writeFile_SV(SinhVien SV, ofstream &fileOut){
+bool DSSV::isNULL_SV(){
+	return this->head == NULL;
+}
+
+void DSSV::writeData_SV(SinhVien SV, ofstream &fileOut){
 	
 	char temp = ',';
 	fileOut << SV.getMaSV();
@@ -290,11 +293,11 @@ void DSSV::writeFile_SV(SinhVien SV, ofstream &fileOut){
 	
 }
 
-void DSSV::writeFileDS_SV(){
+void DSSV::writeDataDS_SV(){
 	ofstream fileOut("data\\DSSV.txt",ios::out);
 	if(fileOut.is_open()){
 		for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
-			writeFile_SV(p->getData_SV(),fileOut);
+			writeData_SV(p->getData_SV(),fileOut);
 		}
 	}
 	fileOut.close();

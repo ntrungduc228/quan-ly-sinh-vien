@@ -12,11 +12,17 @@ public:
 	
 	void setMaLop(string maLop);
 	void setTenLop(string tenLop);
-	void setDS_SV(NodeSV *head);
+	
 	
 	string getMaLop();
 	string getTenLop();
-	NodeSV* getDS_SV();
+	DSSV getDS_SV();
+	void setDS_SV(DSSV ds){
+		this->dssv.setHead_DSSV(ds.getHead_DSSV());
+		cout<<"\nXuat trong ham setDS_SV";
+		this->dssv.xuatDS_SV();
+		//this->dssv = ds;
+	}
 	
 	void nhap_LSV(){
 		cin.ignore();
@@ -34,7 +40,7 @@ public:
 
 class DSLopSV{
 private:
-	LopSV *dslsv[MAX_LOPSV];
+	LopSV *lopSV[MAX_LOPSV] ;
 	int n;
 public:
 	DSLopSV();
@@ -43,8 +49,30 @@ public:
 	void setN(int n);
 	int getN();
 	
-	void writeFile_LSV(LopSV *LSV,ofstream &fileOut);
-	void writeFileDS_LSV();
+	LopSV *getLopSV_LSV(int viTri);
+	
+	void loadData_LSV(){
+		ifstream fileIn; char temp;
+		fileIn.open("data\\DSLSV.txt", ios::in);
+		
+		string str;
+		while (!fileIn.eof())
+		{
+			
+			getline(fileIn, str, ',');
+			this->lopSV[this->n]->setMaLop(str);
+			getline(fileIn, str, ',');
+			this->lopSV[this->n]->setTenLop(str);
+			fileIn.ignore();
+
+			this->n++;
+			if (fileIn.eof()) break;
+		}
+		fileIn.close();
+	}
+	
+	void writeData_LSV(LopSV *LSV,ofstream &fileOut);
+	void writeDataDS_LSV();
 	
 	bool isNull_LSV();
 	bool isFull_LSV();
@@ -52,9 +80,12 @@ public:
 	int tim_LSV(string maLop);
 	
 	void xuatDS_LSV(){
-		if(n==0) cout<<"\n dslsv rong";
+		if(n==0) {
+			cout<<"\n lopSV rong";
+			return;
+		}
 		for(int i=0; i<n; i++){
-			dslsv[i]->xuat_LSV();
+			lopSV[i]->xuat_LSV();
 		}
 	}
 };
@@ -82,9 +113,7 @@ void LopSV::setTenLop(string tenLop){
 	this->tenLop = tenLop;
 }
 
-void LopSV::setDS_SV(NodeSV *head){
-	this->dssv.setHead_DSSV(head);
-}
+
 	
 string LopSV::getMaLop(){
 	return this->maLop;
@@ -94,8 +123,8 @@ string LopSV::getTenLop(){
 	return this->tenLop;
 }
 
-NodeSV* LopSV::getDS_SV(){
-	return this->dssv.getHead_DSSV();
+DSSV LopSV::getDS_SV(){
+	return this->dssv;
 }
 
 /*
@@ -104,6 +133,7 @@ NodeSV* LopSV::getDS_SV(){
 
 DSLopSV::DSLopSV(){
 	n = 0;
+	for(int i=0; i<MAX_LOPSV; i++) lopSV[i] = NULL;
 }
 
 DSLopSV::~DSLopSV(){
@@ -129,17 +159,20 @@ bool DSLopSV::isFull_LSV(){
 int DSLopSV::them_LSV(LopSV *LSV){
 	if(isFull_LSV()) return -1;
 	
-	this->dslsv[this->n++] = LSV;
+	this->lopSV[this->n++] = LSV;
 	return 1;
 }
 
 int DSLopSV::tim_LSV(string maLop){
 	if(isNull_LSV()) return -1;
 	
+	for(int i=0; i<n; i++)
+		if(this->lopSV[i]->getMaLop() == maLop ) return i;
+	
 	return -1;
 }
 
-void DSLopSV::writeFile_LSV(LopSV *LSV,ofstream &fileOut){
+void DSLopSV::writeData_LSV(LopSV *LSV,ofstream &fileOut){
 	char temp = ',';
 	fileOut << LSV->getMaLop();
 	fileOut << temp;
@@ -148,14 +181,22 @@ void DSLopSV::writeFile_LSV(LopSV *LSV,ofstream &fileOut){
 	fileOut << "\n";
 }
 
-void DSLopSV::writeFileDS_LSV(){
+void DSLopSV::writeDataDS_LSV(){
 	ofstream fileOut;
 	fileOut.open("data\\DSLSV.txt", ios::out);
 	if (fileOut.is_open()) {
 		for (int i = 0; i < this->n; i++)	{
-				writeFile_LSV(this->dslsv[i], fileOut);
+				writeData_LSV(this->lopSV[i], fileOut);
 			}
 		
 	}
 	fileOut.close();
+}
+
+LopSV *DSLopSV::getLopSV_LSV(int viTri){
+		if(isNull_LSV()) return NULL;
+		
+		for(int i=0; i<n; i++)
+			if(i==viTri)
+				return this->lopSV[i];	
 }
