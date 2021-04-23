@@ -197,28 +197,31 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		{
 			MonHoc monHoc;
 
-			monHoc.NhapThongTinMonHoc();
+			monHoc.NhapThongTin();
+			
+			dsmh.them_MH(dsmh.getRoot(), monHoc);
 
-			if (dsmh.KiemTraTrungTheoMaMonHoc(dsmh.getData(), monHoc.getMaMH()))
+			/*if (dsmh.KiemTraTrungTheoMaMonHoc(dsmh.getData(), monHoc.getMaMH()))
 			{
 				cout << "\nNhap lai";
 			}
 			else
 			{
 				dsmh.setData(dsmh.ThemVaoDanhSachMonHoc(dsmh.getData(), new NodeMonHoc(monHoc)));
-			}
+			}*/
 
 		}
 		else if (chon == 12)
 		{
-			NodeMonHoc* arr[100];
+			/*NodeMonHoc* arr[100];
 			int n = 0;
 
 			dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getData(), n);
-			dsmh.XuatDanhSachMonHoc(arr, n);
+			dsmh.XuatDanhSachMonHoc(arr, n);*/
+			dsmh.XuatDanhSachMonHoc(dsmh.getRoot());
 			cout << "\nXUAT THANH CONG!";
 			system("pause");
-		}
+		}/*
 		else if (chon == 13)
 		{
 			string str;
@@ -236,7 +239,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			cout << "\nNhap ten mon hoc: ";
 			getline(cin, key);
 			dsmh.setData(dsmh.XoaTheoTenMonHoc(dsmh.getData(), key));
-		}
+		}*/
 		
 	}
 }
