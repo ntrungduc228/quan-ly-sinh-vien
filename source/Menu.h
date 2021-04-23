@@ -12,7 +12,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	while(true){
 		system("cls");
 		
-		cout<<"\n1. Nhap sinh vien ";
+		cout<<"\n1. Nhap sinh vien (done)";
 		cout<<"\n2. Xuat ds sinh vien (done)";
 		cout<<"\n3. Sua sinh vien (done)";
 		cout<<"\n4. Xoa sinh vien (done)";
@@ -23,10 +23,10 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n9. Them lop hoc (done)";
 		cout<<"\n10. Xuat ds lop hoc (done)";
 		
-		cout<<"\n\n11. Them mon hoc";
-		cout<<"\n12. In ds mon hoc";
-		cout<<"\n13. Sua mon hoc";
-		cout<<"\n14. Xoa mon hoc";
+		cout<<"\n\n11. Them mon hoc (done)";
+		cout<<"\n12. In ds mon hoc (done)";
+		cout<<"\n13. Sua mon hoc (done)";
+		cout<<"\n14. Xoa mon hoc (done)";
 		
 		cout<<"\n15. Dang ky lop tc";
 		cout<<"\n16. In ds dang ky trong 1 lop tc";
@@ -63,28 +63,26 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			cout<<"\nNhap ma lop: ";
 			getline(cin, maLop);
 			int viTri = DSLSV.tim_LSV(maLop);
-			DSSV dssv; 
 			if(viTri!=-1) {
-				 dssv  = DSLSV.getLopSV_LSV(viTri)->getDS_SV();
-				//dssv.setHead_DSSV(DSLSV.getLopSV_LSV(viTri)->getDS_SV().getHead_DSSV()) ;
-					while(true){
-					system("cls");
-					SinhVien sv;
-					sv.nhap_SV("");
-					sv.setMaLop(maLop);
-					if(sv.getMaSV()=="") break;
-					NodeSV *SV = new NodeSV(sv);
-					int viTriThem = dssv.timViTriThem_SV(SV);
-					cout<<"\nVi tri: "<<viTriThem;
-					dssv.them_SV(SV,viTriThem);
-					system("pause");
-				}
-					dssv.xuatDS_SV();
-					cout<<"\n\n================";
-					
-				DSLSV.getLopSV_LSV(viTri)->setDS_SV(dssv);
-		
-				//DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
+					//DSSV dssv = DSLSV.getLopSV_LSV(viTri)->getDS_SV();
+						while(true){
+						system("cls");
+						SinhVien sv;
+						sv.nhap_SV("");
+						sv.setMaLop(maLop);
+						if(sv.getMaSV()=="") break;
+						NodeSV *SV = new NodeSV(sv);
+						
+						//dssv.them_SV(SV);
+						DSLSV.getLopSV_LSV(viTri)->getDS_SV().them_SV(SV);
+						system("pause");
+					}
+					//dssv.xuatDS_SV();
+				//DSLSV.getLopSV_LSV(viTri)->setDS_SV(dssv);
+			
+				cout<<"\n\n================";
+				DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
+				
 			}else cout<<"\nKo tim thay lop sv";
 			
 			cout<<"\nok";
@@ -97,37 +95,48 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			getline(cin, maLop);
 			int viTri = DSLSV.tim_LSV(maLop);
 			if(viTri!=-1) {
-					if(DSLSV.getLopSV_LSV(viTri)->getDS_SV().isNULL_SV()==true)
-						cout<<"\nLop ko co sinh vien";
-					else 
-						DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
-				
+					//ds.xuatDS_SV();
+				DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
 			}else cout<<"\nKo tim thay lop sv";
 			system("pause");
 		}else if(chon==3){
 			system("cls");
 			string maSV;
 			cin.ignore();
-			cout<<"\nNhap ma sv can sua: ";
-			getline(cin,maSV);
-			int vt = ds.tim_SV(maSV);
-			if(ds.tim_SV(maSV)!=-1){
-				
-				if(ds.sua_SV(maSV)!=-1) cout<<"\nSua thanh cong sv";
-			}else cout<<"\nko tim thay sv";
+			string maLop;
+			cout<<"\nNhap ma lop: ";
+			getline(cin, maLop);
+			int viTri = DSLSV.tim_LSV(maLop);
+			if(viTri!=-1) {
+				cout<<"\nNhap ma sv can sua: ";
+				getline(cin,maSV);
+				int vt = DSLSV.getLopSV_LSV(viTri)->getDS_SV().tim_SV(maSV);
+				if(vt!=-1){
+					
+					if(DSLSV.getLopSV_LSV(viTri)->getDS_SV().sua_SV(maSV)!=-1) cout<<"\nSua thanh cong sv";
+				}else cout<<"\nko tim thay sv";
+			}else cout<<"\nKo tim thay lop sv";
+			
 			system("pause");
 		}
 		else if(chon==4){
 			system("cls");
 			string maSV;
 			cin.ignore();
-			cout<<"\nNhap ma sv can xoa: ";
-			getline(cin,maSV);
-			int vt = ds.tim_SV(maSV);
-			if(ds.tim_SV(maSV)!=-1){
-				
-				if(ds.xoa_SV(maSV)!=-1)	cout<<"\nXoa thanh cong sv";
-			}else cout<<"\nko tim thay sv";
+				string maLop;
+				cout<<"\nNhap ma lop: ";
+				getline(cin, maLop);
+				int viTri = DSLSV.tim_LSV(maLop);
+				if(viTri!=-1) {
+						cout<<"\nNhap ma sv can xoa: ";
+						getline(cin,maSV);
+						int vt = DSLSV.getLopSV_LSV(viTri)->getDS_SV().tim_SV(maSV);
+						if(vt!=-1){
+							
+							if(DSLSV.getLopSV_LSV(viTri)->getDS_SV().xoa_SV(maSV)!=-1) cout<<"\nXoa thanh cong sv";
+						}else cout<<"\nko tim thay sv";
+				}else cout<<"\nKo tim thay lop sv";
+			
 			system("pause");
 		}else if(chon==5){
 			system("cls");

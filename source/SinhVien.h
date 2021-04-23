@@ -116,7 +116,7 @@ public:
 	int tim_SV(string maSV);
 	int timViTriThem_SV(NodeSV *SV);
 	void themDau_SV(NodeSV * SV);
-	void them_SV(NodeSV *SV, int viTriThem);
+	void them_SV(NodeSV *SV);
 	int xoa_SV(string maSV);
 	
 	
@@ -130,6 +130,7 @@ public:
 			if(p->getData_SV().getMaSV() == maSV) {
 				SinhVien sv;
 				sv.nhap_SV(maSV);
+				sv.setMaLop(p->getData_SV().getMaLop());
 				p->setData_SV(sv);
 				return 1;
 			}
@@ -146,6 +147,8 @@ public:
 			//if(p->getNext_SV()==NULL) return;
 		}
 	}
+	
+	
 };
 
 /*
@@ -339,7 +342,9 @@ int DSSV::timViTriThem_SV( NodeSV *SV){
 	return viTri;
 }
 
-void DSSV::them_SV(NodeSV *SV, int viTriThem){
+void DSSV::them_SV(NodeSV *SV){
+	
+	int viTriThem = this->timViTriThem_SV(SV);
 	
 	if(this->head == NULL || viTriThem == 1){
 		themDau_SV(SV); return;
@@ -352,6 +357,8 @@ void DSSV::them_SV(NodeSV *SV, int viTriThem){
 	SV->setNext_SV(p->getNext_SV());
 	p->setNext_SV(SV);
 	
+	cout<<"\nthem thanh cong";
+	
 }
 
 int DSSV::xoa_SV(string maSV){
@@ -362,6 +369,8 @@ int DSSV::xoa_SV(string maSV){
 		p = this->head;
 		this->head = p->getNext_SV();
 		//delete p; 
+		p->setNext_SV(NULL);
+		p->~NodeSV();
 		return 1;
 	}
 	
@@ -371,6 +380,8 @@ int DSSV::xoa_SV(string maSV){
 			q = p->getNext_SV();
 			p->setNext_SV(q->getNext_SV());
 			//delete q; 
+			q->setNext_SV(NULL);
+			q->~NodeSV();
 			return 1;
 		}
 	

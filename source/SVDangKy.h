@@ -29,6 +29,12 @@ public:
 	
 	void setHead_DSDK(NodeDK *head);
 	NodeDK* getHead_DSDK();
+	
+	void writeData_DK(){
+		
+	}
+	
+	
 };
 
 /*
@@ -52,7 +58,7 @@ NodeDK::NodeDK(){
 }
 
 NodeDK::~NodeDK(){
-	delete next;
+	//delete next;
 }
 
 /*
@@ -64,7 +70,7 @@ DSDK::DSDK(){
 }
 
 DSDK::~DSDK(){
-	delete head;
+	//delete head;
 }
 
 void DSDK::setHead_DSDK(NodeDK *head){

@@ -16,7 +16,10 @@ public:
 	
 	string getMaLop();
 	string getTenLop();
-	DSSV getDS_SV();
+	DSSV &getDS_SV(){
+		return this->dssv;	
+	}
+	
 	void setDS_SV(DSSV ds){
 		this->dssv.setHead_DSSV(ds.getHead_DSSV());
 		cout<<"\nXuat trong ham setDS_SV";
@@ -49,7 +52,7 @@ public:
 	void setN(int n);
 	int getN();
 	
-	LopSV *getLopSV_LSV(int viTri);
+	LopSV *&getLopSV_LSV(int viTri);
 	
 	void loadData_LSV(){
 		ifstream fileIn; char temp;
@@ -123,9 +126,7 @@ string LopSV::getTenLop(){
 	return this->tenLop;
 }
 
-DSSV LopSV::getDS_SV(){
-	return this->dssv;
-}
+
 
 /*
 ** ================ Danh sach lop sinh vien ================
@@ -137,7 +138,7 @@ DSLopSV::DSLopSV(){
 }
 
 DSLopSV::~DSLopSV(){
-	
+	for(int i=0; i<MAX_LOPSV; i++) delete lopSV[i] ;
 }
 
 void DSLopSV::setN(int n){
@@ -193,10 +194,8 @@ void DSLopSV::writeDataDS_LSV(){
 	fileOut.close();
 }
 
-LopSV *DSLopSV::getLopSV_LSV(int viTri){
-		if(isNull_LSV()) return NULL;
+LopSV *&DSLopSV::getLopSV_LSV(int viTri){
+		//if(isNull_LSV()) return NULL;
 		
-		for(int i=0; i<n; i++)
-			if(i==viTri)
-				return this->lopSV[i];	
+				return this->lopSV[viTri];	
 }
