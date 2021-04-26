@@ -116,6 +116,26 @@ public:
 	void writeData_LSV(LopSV *LSV,ofstream &fileOut);
 	void writeDataDS_LSV();
 	
+	void writeDataDS_SV(){
+		
+		ofstream fileOut(PATH_SAVE_SV,ios::out);
+		if(fileOut.is_open()){
+			
+			for(int i=0; i<n; i++){
+				if(this->lopSV[i]->getDS_SV().isNULL_SV()!=true)
+						
+				for(NodeSV *p = this->lopSV[i]->getDS_SV().getHead_DSSV(); p!=NULL; p=(p->getNext_SV())){
+						p->writeData_SV(p->getData_SV(),fileOut);
+					}
+			}
+			
+			
+		}
+		fileOut.close();
+		
+		
+	}
+	
 	bool isNull_LSV();
 	bool isFull_LSV();
 	int them_LSV(LopSV *LSV);

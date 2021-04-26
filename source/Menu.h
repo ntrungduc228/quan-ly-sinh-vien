@@ -36,7 +36,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
-		cout<<"\n22. Lay data mon hoc";
+		cout<<"\n22. Lay data mon hoc (done)";
 		cout<<"\n23. Lay data ds Sv (done) ";
 		cout<<"\n24. Lay data ds dk";
 		cout<<"\n0. thoat (tu dong luu data vo file)";
@@ -47,12 +47,13 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		if(chon==0){
 			
 			// mon hoc
+			dsmh.writeDataDS_MH();
 			// ds dk
-			
-			for(int i=0; i<DSLSV.getN(); i++)
+			//DSLTC.writeDataDS_DK();
+			/*for(int i=0; i<DSLSV.getN(); i++)
 				if(DSLSV.getLopSV_LSV(i)->getDS_SV().isNULL_SV()!=true)
-					DSLSV.getLopSV_LSV(i)->getDS_SV().writeDataDS_SV();
-			
+					DSLSV.getLopSV_LSV(i)->getDS_SV().writeDataDS_SV();*/
+			DSLSV.writeDataDS_SV();
 			DSLTC.writeDataDS_LTC();
 			DSLSV.writeDataDS_LSV();
 			if(ds.getHead_DSSV() == NULL) cout<<" dssv null";
@@ -202,21 +203,19 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}else if (chon == 11)
 		{
 			MonHoc monHoc;
-
-			monHoc.NhapThongTin();
-			
-			
-			
-			dsmh.them_MH(dsmh.getRoot(), monHoc);
-
-			/*if (dsmh.KiemTraTrungTheoMaMonHoc(dsmh.getData(), monHoc.getMaMH()))
-			{
-				cout << "\nNhap lai";
-			}
-			else
-			{
-				dsmh.setData(dsmh.ThemVaoDanhSachMonHoc(dsmh.getData(), new NodeMonHoc(monHoc)));
-			}*/
+	
+			int checkTrung=0;
+			do{
+				monHoc.NhapThongTin();
+				dsmh.them_MH(dsmh.getRoot(), monHoc, checkTrung );
+				
+				if(checkTrung==1){
+					cout<<"\nMon hoc da ton tai";
+					system("pause");
+				}
+				
+			}while(checkTrung == 1);
+		
 
 		}
 		else if (chon == 12)
@@ -224,7 +223,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			/*NodeMonHoc* arr[100];
 			int n = 0;
 
-			dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getData(), n);
+			dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getRoot(), n);
 			dsmh.XuatDanhSachMonHoc(arr, n);*/
 			dsmh.XuatDanhSachMonHoc(dsmh.getRoot());
 			cout << "\nXUAT THANH CONG!";
@@ -238,7 +237,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			cout << "\nNhap Ma Mon Hoc can hieu chinh: ";
 			getline(cin, str);
 
-			dsmh.HieuChinhThongTinMonHoc(str);
+			//dsmh.HieuChinhThongTinMonHoc(str);
 		}
 		else if (chon == 14)
 		{
@@ -246,7 +245,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			string key;
 			cout << "\nNhap ten mon hoc: ";
 			getline(cin, key);
-			dsmh.setData(dsmh.XoaTheoTenMonHoc(dsmh.getData(), key));
+			//dsmh.setData(dsmh.XoaTheoTenMonHoc(dsmh.getData(), key));
 		}*/
 		else if(chon==15){
 			system("cls"); 

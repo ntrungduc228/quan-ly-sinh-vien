@@ -95,6 +95,23 @@ public:
 	NodeSV*& getNext_SV();
 	NodeSV* getNode_SV();
 		
+	void writeData_SV(SinhVien SV, ofstream &fileOut){
+	
+		char temp = ',';
+		fileOut << SV.getMaSV();
+		fileOut << temp;
+		fileOut << SV.getHo();
+		fileOut << temp;
+		fileOut << SV.getTen();
+		fileOut << temp;
+		fileOut << SV.getPhai();
+		fileOut << temp;
+		fileOut << SV.getSDT();
+		fileOut << temp;
+		fileOut << SV.getMaLop();
+		fileOut << "\n";
+		
+	}
 };
 
 class DSSV{
@@ -144,8 +161,16 @@ public:
 		
 		fileIn.close();
 	}*/
-	void writeData_SV(SinhVien SV, ofstream &fileOut);
-	void writeDataDS_SV();
+	
+	void writeDataDS_SV(){
+		/*ofstream fileOut(PATH_SAVE_SV,ios::out);
+		if(fileOut.is_open()){
+			for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
+				writeData_SV(p->getData_SV(),fileOut);
+			}
+		}
+		fileOut.close();*/
+	}
 	
 	int tim_SV(string maSV);
 	int timViTriThem_SV(NodeSV *SV);
@@ -310,33 +335,9 @@ bool DSSV::isNULL_SV(){
 	return this->head == NULL;
 }
 
-void DSSV::writeData_SV(SinhVien SV, ofstream &fileOut){
-	
-	char temp = ',';
-	fileOut << SV.getMaSV();
-	fileOut << temp;
-	fileOut << SV.getHo();
-	fileOut << temp;
-	fileOut << SV.getTen();
-	fileOut << temp;
-	fileOut << SV.getPhai();
-	fileOut << temp;
-	fileOut << SV.getSDT();
-	fileOut << temp;
-	fileOut << SV.getMaLop();
-	fileOut << "\n";
-	
-}
 
-void DSSV::writeDataDS_SV(){
-	ofstream fileOut(PATH_SAVE_SV,ios::out);
-	if(fileOut.is_open()){
-		for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
-			writeData_SV(p->getData_SV(),fileOut);
-		}
-	}
-	fileOut.close();
-}
+
+
 
 
 void DSSV::themDau_SV(NodeSV * SV){

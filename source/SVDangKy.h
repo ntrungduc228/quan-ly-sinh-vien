@@ -67,6 +67,16 @@ public:
 		return this;
 	}
 	
+	void writeData_DK(SVDangKy DK, int maLopTC, ofstream &fileOut){
+		char temp = ',';
+		fileOut << maLopTC;
+		fileOut << temp;
+		fileOut << DK.getMaSV();
+		fileOut << temp;
+		fileOut << DK.getDiem();	
+		fileOut << '\n';
+	}
+	
 };
 
 class DSDK{
@@ -77,11 +87,8 @@ public:
 	~DSDK();
 	
 	void setHead_DSDK(NodeDK *head);
-	NodeDK* getHead_DSDK();
+	NodeDK*& getHead_DSDK();
 	
-	void writeData_DK(){
-		
-	}
 	
 	
 	void xuatDS_DK(){
@@ -182,6 +189,6 @@ void DSDK::setHead_DSDK(NodeDK *head){
 	this->head = head;
 }
 
-NodeDK* DSDK::getHead_DSDK(){
+NodeDK*& DSDK::getHead_DSDK(){
 	return this->head;
 }

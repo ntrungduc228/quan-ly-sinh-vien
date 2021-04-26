@@ -198,6 +198,19 @@ public:
 		return false;
 	}
 	
+	void writeDataDS_DK(){
+		ofstream fileOut;
+		fileOut.open(PATH_SAVE_DK, ios::out);
+		if (fileOut.is_open())	{
+				for (int i = 0; i < n; i++)	{
+					for(NodeDK *k = this->lopTC[i]->getDSDK().getHead_DSDK(); k!= NULL; k=k->getNext_DK())
+						k->writeData_DK(k->getData_DK(), this->lopTC[i]->getMaLopTC(), fileOut);
+				}
+			
+		}
+		fileOut.close();
+	}
+	
 };
 
 /*

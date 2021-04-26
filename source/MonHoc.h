@@ -107,28 +107,79 @@ public:
 		return this->root;
 	}
 	
-	void writeData_MH(){
+	void loadDataDS_MH(){
+		ifstream fileIn; char temp; string tempStr; int tempInt;
+		fileIn.open("data\\DSMH.txt", ios::in);
+		if (fileIn.is_open())	{
+			//if(DSMH==NULL)
+			while (!fileIn.eof())
+			{
+				MonHoc MH;
+				//fileIn.ignore();
+				if(root!=NULL)
+				fileIn.ignore();
+				getline(fileIn, tempStr, ',');
+				MH.setMaMH(tempStr);
+				getline(fileIn, tempStr, ',');
+				MH.setTenMH(tempStr);
+				fileIn >> tempInt;
+				MH.setSTCLT(tempInt);
+				fileIn >> temp; //  doc dau , giua 2 so nguyen -> tuong tu cho cac ham load data khac
+				fileIn >> tempInt;
+				MH.setSTCTH(tempInt);
 		
+				them_MH(root, MH, tempInt);
+				if (fileIn.eof()) break;
+			}
+			
+		}
+		
+		fileIn.close();
+	}
+	
+	void writeData_MH(NodeMonHoc *root, ofstream &fileOut){
+		char temp = ',';
+		if (root != NULL)	{
+			writeData_MH(root->getLeft(), fileOut);
+			fileOut << root->getData_MH().getMaMH();
+			fileOut << temp;
+			fileOut << root->getData_MH().getTenMH();
+			fileOut << temp;
+			fileOut << root->getData_MH().getSTCLT();
+			fileOut << temp;
+			fileOut << root->getData_MH().getSTCTH();
+			fileOut << '\n';
+			writeData_MH(root->getRight(), fileOut);
+		}
 	}
 	
 	void writeDataDS_MH(){
-		
+		ofstream fileOut;
+		fileOut.open(PATH_SAVE_MH, ios::out);
+		if (fileOut.is_open())	{
+			if(this->root!=NULL)
+			writeData_MH(root, fileOut);
+		}
+		fileOut.close();
 	}
 	
-	void them_MH(NodeMonHoc *&root, MonHoc MH){
+	void them_MH(NodeMonHoc *&root, MonHoc MH, int &checkTrung){
 		if(root == NULL){
 			
 			NodeMonHoc *p = new NodeMonHoc(MH);
-			root = p;
+			root = p; checkTrung = 0;
 			
 		}else{
 			
-			if (MH.getMaMH() < root->getData_MH().getMaMH())	{
-				them_MH(root->getLeft(), MH);
-			} else if (MH.getMaMH() > root->getData_MH().getMaMH())	{
-				them_MH(root->getRight(), MH);
+			if(MH.getMaMH() == root->getData_MH().getMaMH()){
+				checkTrung = 1;  return; // da trung mon hoc co san
 			}
-			
+			else if (MH.getMaMH() < root->getData_MH().getMaMH())  {
+				them_MH(root->getLeft(), MH, checkTrung);
+			} else if (MH.getMaMH() > root->getData_MH().getMaMH())	{
+				them_MH(root->getRight(), MH, checkTrung);
+			}
+	
 		}
 	}
 	
@@ -145,6 +196,51 @@ public:
 			}
 		}
 	
+	/*void XuatDanhSachMonHoc(NodeMonHoc* arr[], int n)
+	{
+		SapXepTheoTen(arr, n);
+		for (int i = 0; i < n; i++)
+		{
+			cout << "Ma mon hoc: " << arr[i]->getData_MH().getMaMH() << endl;
+			cout << "Ten mon hoc: " << arr[i]->getData_MH().getTenMH() << endl;
+			cout << "So luong tin chi ly thuyet: " << arr[i]->getData_MH().getSTCLT() << endl;
+			cout << "So luong tin chi thuc hanh: " << arr[i]->getData_MH().getSTCTH() << endl;
+		}
+	}*/
+	
+	void ChuyenCayVaoMangConTro(NodeMonHoc* arr[], NodeMonHoc* root, int& n)
+	{
+		if (root != NULL)
+		{
+			ChuyenCayVaoMangConTro(arr, root->getLeft(), n);
+			arr[n] = root;
+			n++;
+			ChuyenCayVaoMangConTro(arr, root->getRight(), n);
+		}
+	}
+
+	void Swap(NodeMonHoc*& a, NodeMonHoc*& b)
+	{
+		NodeMonHoc* temp = a;
+
+		a = b;
+		b = temp;
+	}
+
+	void SapXepTheoTen(NodeMonHoc* arr[], int n)
+	{
+
+		for (int i = 0; i < n - 1; i++)
+		{
+			for (int j = i + 1; j < n; j++)
+			{
+				if (arr[i]->getData_MH().getTenMH()[0] > arr[j]->getData_MH().getTenMH()[0])
+				{
+					Swap(arr[i], arr[j]);
+				}
+			}
+		}
+	}
 };
 
 /*
