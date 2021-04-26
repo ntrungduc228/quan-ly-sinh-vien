@@ -24,15 +24,20 @@ public:
 	int getSTCLT();
 	int getSTCTH();
 	
-	void NhapThongTin()
+	void NhapThongTin(int chon, string str)
 	{
-		cin.ignore();
-
 		string temp;
-
-		cout << "Nhap ma mon hoc: ";
-		getline(cin, temp);
-		this->maMH = temp;
+		// nhap moi
+		if(chon==0){
+			cin.ignore();
+			cout << "Nhap ma mon hoc: ";
+			getline(cin, temp);
+			this->maMH = temp;
+		 } // chinh sua
+		else if(chon==1){
+			this->maMH = str;
+		}
+	
 
 		cout << "Nhap ten mon hoc: ";
 		getline(cin, temp);
@@ -82,7 +87,7 @@ public:
 		this->right = right;
 	}
 	
-	MonHoc getData_MH(){
+	MonHoc &getData_MH(){
 		return this->data;
 	}
 	
@@ -105,6 +110,11 @@ public:
 	
 	NodeMonHoc *&getRoot(){
 		return this->root;
+	}
+	
+	void setRoot(NodeMonHoc* root)
+	{
+		this->root = root;
 	}
 	
 	void loadDataDS_MH(){
@@ -172,7 +182,19 @@ public:
 		}else{
 			
 			if(MH.getMaMH() == root->getData_MH().getMaMH()){
-				checkTrung = 1;  return; // da trung mon hoc co san
+				
+				if(checkTrung==0){
+					checkTrung = 1;  return; // da trung mon hoc co san
+				}else if(checkTrung==2){
+					
+					root->getData_MH().setMaMH(MH.getMaMH());
+					root->getData_MH().setTenMH(MH.getTenMH());
+					root->getData_MH().setSTCLT(MH.getSTCLT());
+					root->getData_MH().setSTCTH(MH.getSTCTH());
+					checkTrung = 0; return; // chinh sua mon hoc
+				}
+				
+			
 			}
 			else if (MH.getMaMH() < root->getData_MH().getMaMH())  {
 				them_MH(root->getLeft(), MH, checkTrung);
@@ -183,7 +205,7 @@ public:
 		}
 	}
 	
-		void XuatDanhSachMonHoc(NodeMonHoc* root)
+	/*	void XuatDanhSachMonHoc(NodeMonHoc* root)
 		{
 			if(root!=NULL)
 			{
@@ -194,53 +216,124 @@ public:
 				cout << "So luong tin chi thuc hanh: " << root->getData_MH().getSTCTH() << endl;
 				XuatDanhSachMonHoc(root->getRight());
 			}
-		}
+		}*/
 	
-	/*void XuatDanhSachMonHoc(NodeMonHoc* arr[], int n)
+	NodeMonHoc* minValueNode(NodeMonHoc* root)
 	{
+		NodeMonHoc* current = root;
+
+		while (current && current->getLeft() != NULL)
+			current = current->getLeft();
+
+		return current;
+	}
+
+	NodeMonHoc* XoaTheoMaMonHoc(NodeMonHoc* &root, string key)
+	{
+		if (root == NULL)
+			return root;
+
+		if (stricmp(key.c_str(), root->getData_MH().getMaMH().c_str()) < 0)
+			root->setLeft(XoaTheoMaMonHoc(root->getLeft(), key));
+		else if (stricmp(key.c_str(), root->getData_MH().getMaMH().c_str()) > 0)
+			root->setRight(XoaTheoMaMonHoc(root->getRight(), key));
+		else {
+			if (root->getLeft() == NULL)
+			{
+				NodeMonHoc* temp = root->getRight();
+
+				root->setRight(NULL);
+				delete root;
+
+				return temp;
+			}
+			else if (root->getRight() == NULL)
+			{
+				NodeMonHoc* temp = root->getLeft();
+
+				root->setLeft(NULL);
+				delete root;
+
+				return temp;
+			}
+
+			NodeMonHoc* temp = minValueNode(root->getRight());
+
+			root->getData_MH().setTenMH(temp->getData_MH().getTenMH());
+			root->getData_MH().setMaMH(temp->getData_MH().getMaMH());
+			root->getData_MH().setSTCLT(temp->getData_MH().getSTCLT());
+			root->getData_MH().setSTCTH(temp->getData_MH().getSTCTH());
+
+			root->setRight(XoaTheoMaMonHoc(root->getRight(), temp->getData_MH().getMaMH()));
+		}
+
+		return root;
+	}
+	
+	void XuatDanhSachMonHoc(MonHoc arr[], int n)
+	{
+		if(n==0)
+		{
+			cout << "\nDanh sach rong";
+		}
+		
 		SapXepTheoTen(arr, n);
 		for (int i = 0; i < n; i++)
 		{
-			cout << "Ma mon hoc: " << arr[i]->getData_MH().getMaMH() << endl;
-			cout << "Ten mon hoc: " << arr[i]->getData_MH().getTenMH() << endl;
-			cout << "So luong tin chi ly thuyet: " << arr[i]->getData_MH().getSTCLT() << endl;
-			cout << "So luong tin chi thuc hanh: " << arr[i]->getData_MH().getSTCTH() << endl;
+			cout << "Ma mon hoc: " << arr[i].getMaMH() << endl;
+			cout << "Ten mon hoc: " << arr[i].getTenMH() << endl;
+			cout << "So luong tin chi ly thuyet: " << arr[i].getSTCLT() << endl;
+			cout << "So luong tin chi thuc hanh: " << arr[i].getSTCTH() << endl;
 		}
-	}*/
+	}
 	
-	void ChuyenCayVaoMangConTro(NodeMonHoc* arr[], NodeMonHoc* root, int& n)
+		void ChuyenCayVaoMangConTro(MonHoc arr[], NodeMonHoc* root, int& n)
 	{
 		if (root != NULL)
 		{
 			ChuyenCayVaoMangConTro(arr, root->getLeft(), n);
-			arr[n] = root;
+			arr[n] = root->getData_MH();
 			n++;
 			ChuyenCayVaoMangConTro(arr, root->getRight(), n);
 		}
 	}
-
-	void Swap(NodeMonHoc*& a, NodeMonHoc*& b)
+	
+	int DemSoNodeTrongCay(NodeMonHoc *root)
 	{
-		NodeMonHoc* temp = a;
+		if (root == NULL) {
+			return 0;
+		}
+		
+		return 1 + DemSoNodeTrongCay(root->getLeft()) +  DemSoNodeTrongCay(root->getRight());
+	
+	
+	}
+	
+	void Swap(MonHoc& a, MonHoc& b)
+	{
+		MonHoc temp = a;
 
 		a = b;
 		b = temp;
 	}
 
-	void SapXepTheoTen(NodeMonHoc* arr[], int n)
+	void SapXepTheoTen(MonHoc arr[], int n)
 	{
 
 		for (int i = 0; i < n - 1; i++)
 		{
 			for (int j = i + 1; j < n; j++)
 			{
-				if (arr[i]->getData_MH().getTenMH()[0] > arr[j]->getData_MH().getTenMH()[0])
+				if (arr[i].getTenMH()[0] > arr[j].getTenMH()[0])
 				{
 					Swap(arr[i], arr[j]);
 				}
 			}
 		}
 	}
+	
+	
+	
 };
 
 /*

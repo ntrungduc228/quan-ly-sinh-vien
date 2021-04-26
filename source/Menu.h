@@ -25,8 +25,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		
 		cout<<"\n\n11. Them mon hoc (done)";
 		cout<<"\n12. In ds mon hoc (done)";
-		cout<<"\n13. Sua mon hoc ";
-		cout<<"\n14. Xoa mon hoc ";
+		cout<<"\n13. Sua mon hoc (done)";
+		cout<<"\n14. Xoa mon hoc (done)";
 		
 		cout<<"\n15. Dang ky lop tc ";
 		cout<<"\n16. In ds dang ky trong 1 lop tc ";
@@ -206,7 +206,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	
 			int checkTrung=0;
 			do{
-				monHoc.NhapThongTin();
+				monHoc.NhapThongTin(0,"");
 				dsmh.them_MH(dsmh.getRoot(), monHoc, checkTrung );
 				
 				if(checkTrung==1){
@@ -219,16 +219,19 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 
 		}
 		else if (chon == 12)
-		{
-			/*NodeMonHoc* arr[100];
-			int n = 0;
-
-			dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getRoot(), n);
-			dsmh.XuatDanhSachMonHoc(arr, n);*/
-			dsmh.XuatDanhSachMonHoc(dsmh.getRoot());
-			cout << "\nXUAT THANH CONG!";
-			system("pause");
-		}/*
+		{	system("cls");
+			int dem = dsmh.DemSoNodeTrongCay(dsmh.getRoot());
+				MonHoc* arr = new MonHoc[dem];
+				int n = 0;
+				
+				dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getRoot(), n);
+				dsmh.XuatDanhSachMonHoc(arr, n);
+				cout << "\nXUAT THANH CONG!";
+				
+				delete [] arr;
+				system("pause");
+				
+		}
 		else if (chon == 13)
 		{
 			string str;
@@ -237,7 +240,14 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			cout << "\nNhap Ma Mon Hoc can hieu chinh: ";
 			getline(cin, str);
 
-			//dsmh.HieuChinhThongTinMonHoc(str);
+			int checkTrung = 2;
+			MonHoc MH;
+			MH.NhapThongTin(1,str);
+			
+			dsmh.them_MH(dsmh.getRoot(), MH, checkTrung);
+			
+			if(checkTrung==0) cout<<"\nSua mon hoc thanh cong";
+			else cout<"\nSua mon hoc that bai";
 		}
 		else if (chon == 14)
 		{
@@ -245,8 +255,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			string key;
 			cout << "\nNhap ten mon hoc: ";
 			getline(cin, key);
-			//dsmh.setData(dsmh.XoaTheoTenMonHoc(dsmh.getData(), key));
-		}*/
+			dsmh.setRoot(dsmh.XoaTheoMaMonHoc(dsmh.getRoot(), key));
+		}
 		else if(chon==15){
 			system("cls"); 
 			cin.ignore();
