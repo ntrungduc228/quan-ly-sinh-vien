@@ -61,12 +61,12 @@ public:
 		string str;
 		while (!fileIn.eof())
 		{
+			this->lopSV[this->n] = new LopSV;
 			
 			getline(fileIn, str, ',');
 			this->lopSV[this->n]->setMaLop(str);
-			getline(fileIn, str, ',');
+			getline(fileIn, str, '\n');
 			this->lopSV[this->n]->setTenLop(str);
-			fileIn.ignore();
 
 			this->n++;
 			if (fileIn.eof()) break;
@@ -81,6 +81,14 @@ public:
 	bool isFull_LSV();
 	int them_LSV(LopSV *LSV);
 	int tim_LSV(string maLop);
+	
+	int timSV_LSV(string maSV){
+		for(int i=0; i<n; i++){
+			if(this->lopSV[i]->getDS_SV().tim_SV(maSV)!=-1) return i;
+		}
+		
+		return -1;
+	}
 	
 	void xuatDS_LSV(){
 		if(n==0) {
@@ -184,7 +192,7 @@ void DSLopSV::writeData_LSV(LopSV *LSV,ofstream &fileOut){
 
 void DSLopSV::writeDataDS_LSV(){
 	ofstream fileOut;
-	fileOut.open("data\\DSLSV.txt", ios::out);
+	fileOut.open(PATH_SAVE_LSV, ios::out);
 	if (fileOut.is_open()) {
 		for (int i = 0; i < this->n; i++)	{
 				writeData_LSV(this->lopSV[i], fileOut);

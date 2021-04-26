@@ -25,17 +25,17 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		
 		cout<<"\n\n11. Them mon hoc (done)";
 		cout<<"\n12. In ds mon hoc (done)";
-		cout<<"\n13. Sua mon hoc (done)";
-		cout<<"\n14. Xoa mon hoc (done)";
+		cout<<"\n13. Sua mon hoc ";
+		cout<<"\n14. Xoa mon hoc ";
 		
-		cout<<"\n15. Dang ky lop tc";
-		cout<<"\n16. In ds dang ky trong 1 lop tc";
+		cout<<"\n15. Dang ky lop tc ";
+		cout<<"\n16. In ds dang ky trong 1 lop tc ";
 		cout<<"\n17. Huy lop tc";
 		cout<<"\n18. Nhap diem 1 lop tc";
 		cout<<"\n19. Xuat diem 1 lop tc";
 		
-		cout<<"\n\n20. Lay data lop SV";
-		cout<<"\n21. Lay data lop TC";
+		cout<<"\n\n20. Lay data lop SV (done)";
+		cout<<"\n21. Lay data lop TC (done)";
 		cout<<"\n22. Lay data mon hoc";
 		cout<<"\n23. Lay data ds Sv";
 		cout<<"\n24. Lay data ds dk";
@@ -45,7 +45,9 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cin>>chon;
 		
 		if(chon==0){
-			//DSSV.writeFileDS_SV();
+			
+			// mon hoc
+			// ds dk
 			
 			for(int i=0; i<DSLSV.getN(); i++)
 				if(DSLSV.getLopSV_LSV(i)->getDS_SV().isNULL_SV()!=true)
@@ -140,19 +142,23 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==5){
 			system("cls");
-			LopTC *ltc = new LopTC;
-			int maLop;
 			
-			do{
-				maLop = ltc->taoMaLop_LTC();
-			}while(DSLTC.checkTrungMaLop_LTC(maLop));
+			if(!DSLTC.isFull_LTC()){
+				LopTC *ltc = new LopTC;
+	
+				ltc->taoMaLop_LTC(DSLTC.getN());
+				
+				do{
+					ltc->nhap_LTC();
+					
+				}while(DSLTC.checkTrungDS_LTC(ltc));
+					
+				
+				if(DSLTC.them_LTC(ltc)!=0) cout<<"\nThem lop tc thanh cong";
+		
+			}else cout<<"\nLTC da day, khong the them";
 			
-			ltc->setMaLopTC(maLop);
 			
-			ltc->nhap_LTC();
-			
-			if(DSLTC.them_LTC(ltc)!=0) cout<<"\nThem lop tc thanh cong";
-			else cout<<"\nDS ltc da day";
 			
 			system("pause");
 		}else if(chon==6){
@@ -199,6 +205,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 
 			monHoc.NhapThongTin();
 			
+			
+			
 			dsmh.them_MH(dsmh.getRoot(), monHoc);
 
 			/*if (dsmh.KiemTraTrungTheoMaMonHoc(dsmh.getData(), monHoc.getMaMH()))
@@ -240,6 +248,47 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			getline(cin, key);
 			dsmh.setData(dsmh.XoaTheoTenMonHoc(dsmh.getData(), key));
 		}*/
-		
+		else if(chon==15){
+			system("cls"); 
+			cin.ignore();
+			string maSV;
+			cout<<"\nNhap ma sv: ";
+			getline(cin, maSV);
+			int coSV = DSLSV.timSV_LSV(maSV);
+			
+			if(coSV!=-1){
+				int maLopTC;
+				cout<<"\nNhap ma lop tc: ";	
+				cin>>maLopTC;
+				
+				int viTri = DSLTC.tim_LTC(maLopTC);
+				
+				if(viTri!=-1){
+					
+					bool daDK = DSLTC.checkDK_LTC(viTri, maSV);
+					if(!daDK){
+						SVDangKy SV(maSV);
+						NodeDK * dk = new NodeDK(SV);
+						DSLTC.DK_LTC(viTri, dk);
+					}else cout<<"\nSV da dang ky ltc";
+					
+				}else cout<<"\nKhong tim thay lop tc";
+				
+			}else cout<<"\nKhong tim thay sv";
+			system("pause");
+		}else if(chon==16){
+			system("cls");
+			int maLopTC;
+			cout<<"\nNhap ma lop tc: ";	
+			cin>>maLopTC;
+				
+				int viTri = DSLTC.tim_LTC(maLopTC);
+			if(viTri!=-1){
+
+					DSLTC.xuatDSDK_LTC(viTri);
+					
+				}else cout<<"\nKhong tim thay lop tc";
+			system("pause");
+		}
 	}
 }

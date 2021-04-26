@@ -20,7 +20,8 @@ int main(int argc, char *argv[])
 	
 	DSSV dssv;
 	
-	//DSLSV.loadData_LSV();
+	DSLSV.loadData_LSV();
+	DSLTC.loadDataDS_LTC();
 	
 	
 	init_View();

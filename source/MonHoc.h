@@ -107,6 +107,14 @@ public:
 		return this->root;
 	}
 	
+	void writeData_MH(){
+		
+	}
+	
+	void writeDataDS_MH(){
+		
+	}
+	
 	void them_MH(NodeMonHoc *&root, MonHoc MH){
 		if(root == NULL){
 			

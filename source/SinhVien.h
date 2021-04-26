@@ -92,7 +92,7 @@ public:
 	void setNode_SV(NodeSV *SV);
 	
 	SinhVien getData_SV();
-	NodeSV* getNext_SV();
+	NodeSV*& getNext_SV();
 	NodeSV* getNode_SV();
 		
 };
@@ -105,7 +105,7 @@ public:
 	~DSSV();
 	
 	void setHead_DSSV(NodeSV *head);
-	NodeSV* getHead_DSSV();
+	NodeSV*& getHead_DSSV();
 	
 	bool isNULL_SV();
 	
@@ -118,8 +118,6 @@ public:
 	void themDau_SV(NodeSV * SV);
 	void them_SV(NodeSV *SV);
 	int xoa_SV(string maSV);
-	
-	
 	
 		
 	int sua_SV(string maSV){
@@ -241,7 +239,7 @@ SinhVien NodeSV::getData_SV(){
 	return this->data;
 }
 
-NodeSV* NodeSV::getNext_SV(){
+NodeSV* &NodeSV::getNext_SV(){
 	return this->next;
 }
 
@@ -270,7 +268,7 @@ void DSSV::setHead_DSSV(NodeSV *head){
 	this->head = head;
 }
 
-NodeSV* DSSV::getHead_DSSV(){
+NodeSV* &DSSV::getHead_DSSV(){
 	return this->head;
 }
 
@@ -297,7 +295,7 @@ void DSSV::writeData_SV(SinhVien SV, ofstream &fileOut){
 }
 
 void DSSV::writeDataDS_SV(){
-	ofstream fileOut("data\\DSSV.txt",ios::out);
+	ofstream fileOut(PATH_SAVE_SV,ios::out);
 	if(fileOut.is_open()){
 		for(NodeSV *p = this->head; p!=NULL; p=(p->getNext_SV())){
 			writeData_SV(p->getData_SV(),fileOut);

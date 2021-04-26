@@ -32,8 +32,15 @@ const int cllightwhite = 15;
 const int screenWidth = 1368;
 const int screenHeight = 745;
 
-const string PATH_LOAD = "data\\";
-const char* PATH_SAVE = "data\\";
+/*
+** ================ Duong dan lay data tu file ================
+*/
+
+const char *PATH_SAVE_LTC = "data\\DSLTCSave.txt"; // lop tin chi
+const char *PATH_SAVE_MH = "data\\DSMHSave.txt";   // mon hoc
+const char *PATH_SAVE_SV = "data\\DSSVSave.txt";    // danh sach sinh vien
+const char *PATH_SAVE_LSV = "data\\DSLSVSave.txt";  // lop sinh vien
+const char *PATH_SAVE_DK = "data\\DSDKSave.txt";   // danh sach dang ky
 
 /*
 ** ================ Danh sach mon hoc ================

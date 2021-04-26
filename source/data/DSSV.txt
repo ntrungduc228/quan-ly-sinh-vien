@@ -1,1 +1,2 @@
-2,2,2,2,2,d19
+n19dccn040,trung,duc,nam,123,d19cn3
+n19dccn033,ngoc,duong,nam,123,d19cn3

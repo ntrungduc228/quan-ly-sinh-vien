@@ -11,6 +11,7 @@ private:
 	int svMax;
 	int svMin;
 	bool huyLop;
+	int soSVDK;
 	DSDK dsdk;
 public:
 	LopTC();
@@ -34,9 +35,19 @@ public:
 	int getSVMax();
 	int getSVMin();
 	bool getTrangThai();
-	DSDK getDSDK();
+	DSDK &getDSDK();
 	
-	int taoMaLop_LTC();
+	int getSoSVDK(){
+		return this->soSVDK;
+	}
+	
+	void setSoSVDK(int soSVDK){
+		this->soSVDK = soSVDK;
+	}
+	
+	void taoMaLop_LTC(int nLTC)	{
+			this->maLopTC = nLTC +1;
+		}
 	
 	void nhap_LTC(){
 		cin.ignore();
@@ -69,6 +80,14 @@ public:
 		if(dsdk.getHead_DSDK() == NULL) cout<<"\ndk null";
 		else cout<<"\ndsk not null";
 	}
+	
+	bool checkTrung_LTC(LopTC ltc){
+		
+		if(this->maMH == ltc.maMH && this->nienKhoa == ltc.nienKhoa && this->hocKy == ltc.hocKy && this->nhom == ltc.nhom)
+			return true;
+			
+		return false;
+	}
 };
 
 class DSLopTC{
@@ -84,13 +103,47 @@ public:
 	bool isNull_LTC();
 	bool isFull_LTC();
 	
-	bool checkTrungMaLop_LTC(int maLop);
+
 	int them_LTC(LopTC *LTC);
 	int xoa_LTC(int maLopTC);
 	int tim_LTC(int maLopTC);
 	
 	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
 	void writeDataDS_LTC();
+	
+	void loadDataDS_LTC(){
+		ifstream fileIn; char temp;
+		fileIn.open("data\\DSLTC.txt", ios::in);
+		int tempInt; string tempStr;
+		while (!fileIn.eof())
+		{
+			
+			lopTC[n] = new LopTC;
+			fileIn >> tempInt;	lopTC[n]->setMaLopTC(tempInt);
+			fileIn >> temp;
+			getline(fileIn, tempStr, ','); lopTC[n]->setMaMH(tempStr);
+			fileIn >> tempInt; lopTC[n]->setNienKhoa(tempInt);
+			fileIn >> temp;
+			fileIn >> tempInt; lopTC[n]->setHocKy(tempInt);
+			fileIn >> temp;
+			fileIn >> tempInt; lopTC[n]->setNhom(tempInt);
+			fileIn >> temp;
+			fileIn >> tempInt; lopTC[n]->setSVMax(tempInt);
+			fileIn >> temp;
+			fileIn >> tempInt; lopTC[n]->setSVMin(tempInt);
+			fileIn >> temp;
+			fileIn >> tempInt; lopTC[n]->setTrangThai(bool(tempInt));
+			
+	
+			lopTC[n]->getDSDK().setHead_DSDK(NULL);
+			
+	
+			this->n++;
+	
+			if (fileIn.eof()) break;
+		}
+		fileIn.close();
+	}
 	
 	void xuatDS_LTC(){
 		if(n==0) cout<<"\nDS ltc rong";
@@ -111,6 +164,41 @@ public:
 		return -1;
 	}
 	
+	bool checkDK_LTC(int viTri, string maSV){
+		
+		if(this->lopTC[viTri]!= NULL){
+			return this->lopTC[viTri]->getDSDK().checkSV_DK(maSV);
+		}
+		
+		
+		return false;
+	}
+	
+	void DK_LTC(int viTri, NodeDK *DK){
+		if(this->lopTC[viTri]!= NULL){
+			this->lopTC[viTri]->getDSDK().them_DK(DK);
+			cout<<"\n Dk thanh cong";
+			this->lopTC[viTri]->setSoSVDK(this->lopTC[viTri]->getSoSVDK() + 1);
+		}
+	}
+	
+	void xuatDSDK_LTC(int viTri){
+		if(this->lopTC[viTri]!= NULL){
+			this->lopTC[viTri]->getDSDK().xuatDS_DK();
+			
+		}
+	}
+	
+	bool checkTrungDS_LTC(LopTC *ltc){
+		if(this->isNull_LTC()) return false;
+		
+		for(int i=0; i<n; i++){
+			if(this->lopTC[i]->checkTrung_LTC(*(ltc))) return true;
+		}
+		
+		return false;
+	}
+	
 };
 
 /*
@@ -118,7 +206,7 @@ public:
 */
 
 LopTC::LopTC(){
-	maLopTC = LopTC::taoMaLop_LTC();;
+	maLopTC = 0;
 	maMH = "";
 	nienKhoa = 2021;
 	hocKy = 0;
@@ -126,6 +214,7 @@ LopTC::LopTC(){
 	svMax = 0;
 	svMin = 0;
 	huyLop = false;
+	soSVDK = 0;
 	dsdk.setHead_DSDK(NULL);
 }
 
@@ -200,22 +289,11 @@ bool LopTC::getTrangThai(){
 	return this->huyLop;
 }
 
-DSDK LopTC::getDSDK(){
+DSDK &LopTC::getDSDK(){
 	return this->dsdk;
 }
 
-int LopTC::taoMaLop_LTC()
-{
-	// ramdom trong khoang [a;b] -> int rand = rand() % (b-a+1) +a;
-	srand(time(NULL));
-	int maLop = 0;
-	while (maLop < 100)
-	{
-		int iMa = rand() % (9 - 0 + 1) + 0;
-		maLop = maLop * 10 + iMa;
-	}
-	return maLop;
-}
+
 
 /*
 ** ================ Danh sach LopTC ================
@@ -277,18 +355,7 @@ int DSLopTC::xoa_LTC(int maLopTC){
 	
 }
 
-bool DSLopTC::checkTrungMaLop_LTC(int maLop){
-	
-	if (!isNull_LTC())
-	{
-		for (int i = 0; i < this->n; i++)
-		{
-			if (this->lopTC[i]->getMaLopTC() == maLop)
-				return true;
-		}
-	}
-	return false;
-}
+
 
 void DSLopTC::writeData_LTC(LopTC *LTC, ofstream &fileOut){
 	char temp = ',';
@@ -312,7 +379,7 @@ void DSLopTC::writeData_LTC(LopTC *LTC, ofstream &fileOut){
 
 void DSLopTC::writeDataDS_LTC(){
 	ofstream fileOut;
-	fileOut.open("data\\DSLTC.txt", ios::out);
+	fileOut.open(PATH_SAVE_LTC, ios::out);
 	if (fileOut.is_open()) {
 		for (int i = 0; i < this->n; i++) 
 			writeData_LTC(this->lopTC[i], fileOut);
