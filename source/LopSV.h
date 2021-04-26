@@ -74,6 +74,45 @@ public:
 		fileIn.close();
 	}
 	
+	void loadDataDS_SV(){
+		ifstream fileIn; char temp; string tempStr;
+		fileIn.open("data\\DSSV.txt",ios::in);
+		if (fileIn.is_open())
+		{
+			//if(DSSV.pHead==NULL)
+			while (!fileIn.eof())
+			{
+				SinhVien data;
+				
+				getline(fileIn, tempStr, ',');
+				data.setMaSV(tempStr);
+				getline(fileIn, tempStr, ',');
+				data.setHo(tempStr);
+				getline(fileIn, tempStr, ',');
+				data.setTen(tempStr);
+				getline(fileIn, tempStr, ',');
+				data.setPhai(tempStr);
+				getline(fileIn, tempStr, ',');
+				data.setSDT(tempStr);
+				getline(fileIn, tempStr,'\n');
+				data.setMaLop(tempStr);
+	
+				NodeSV* SV = new NodeSV(data);
+				/*int viTriThem = timviTri_SV(DSSV, SV);
+				them_SV(DSSV,SV, viTriThem);*/
+		
+				int viTriLop = tim_LSV(SV->getData_SV().getMaLop());
+				if (viTriLop != -1)	{
+					this->lopSV[viTriLop]->getDS_SV().them_SV(SV);
+				}
+				if (fileIn.eof()) break;
+				
+			}
+		}
+		
+		fileIn.close();
+	}
+	
 	void writeData_LSV(LopSV *LSV,ofstream &fileOut);
 	void writeDataDS_LSV();
 	

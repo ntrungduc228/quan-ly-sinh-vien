@@ -37,7 +37,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
 		cout<<"\n22. Lay data mon hoc";
-		cout<<"\n23. Lay data ds Sv";
+		cout<<"\n23. Lay data ds Sv (done) ";
 		cout<<"\n24. Lay data ds dk";
 		cout<<"\n0. thoat (tu dong luu data vo file)";
 		
@@ -266,9 +266,13 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				if(viTri!=-1){
 					
 					bool daDK = DSLTC.checkDK_LTC(viTri, maSV);
+					cout<<"\nCheck";
 					if(!daDK){
 						SVDangKy SV(maSV);
+						cout<<"\nTao node dk";
 						NodeDK * dk = new NodeDK(SV);
+						if(dk==NULL) cout<<"\nk the cap phat";
+						cout<<"\nThem tai day\n";
 						DSLTC.DK_LTC(viTri, dk);
 					}else cout<<"\nSV da dang ky ltc";
 					

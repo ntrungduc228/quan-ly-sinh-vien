@@ -109,7 +109,41 @@ public:
 	
 	bool isNULL_SV();
 	
-	void loadFile_SV();
+	/*void loadDaTaDS_SV(){
+		ifstream fileIn; char temp;
+		fileIn.open("data\\DSSV.txt",ios::in);
+		if (fileIn.is_open())	{
+
+			while (!fileIn.eof())	{
+				
+				NODESV* SV = taoNode_SV();
+				getline(fileIn, SV->data.MASV, ',');
+				getline(fileIn, SV->data.HO, ',');
+				getline(fileIn, SV->data.TEN, ',');
+				getline(fileIn, SV->data.PHAI, ',');
+				getline(fileIn, SV->data.SDT, ',');
+				getline(fileIn, SV->data.MALOP,'\n');
+	
+	
+				/*int viTriThem = timviTri_SV(DSSV, SV);
+				them_SV(DSSV,SV, viTriThem);
+		
+				int viTriLop = timMaLop_LSV(DSLSV, SV->data.MALOP);
+				if (viTriLop != -1)
+				{
+					int viTriThem = timviTri_SV(DSLSV.Lop[viTriLop].DSSV, SV);
+					/*cout << viTriThem;
+					system("pause");
+					them_SV(DSLSV.Lop[viTriLop].DSSV, SV, viTriThem);
+					DSLSV.Lop[viTriLop].soLuongSV++;
+				}
+				if (fileIn.eof()) break;
+				
+			}
+		}
+		
+		fileIn.close();
+	}*/
 	void writeData_SV(SinhVien SV, ofstream &fileOut);
 	void writeDataDS_SV();
 	

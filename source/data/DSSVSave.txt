@@ -1,3 +1,2 @@
 n19dccn040,trung,duc,nam,123,d19cn3
 n19dccn033,ngoc,duong,nam,123,d19cn3
-n19dccn023,vo van,chau,nam,012454,d19cn3

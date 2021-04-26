@@ -167,9 +167,8 @@ public:
 	bool checkDK_LTC(int viTri, string maSV){
 		
 		if(this->lopTC[viTri]!= NULL){
-			return this->lopTC[viTri]->getDSDK().checkSV_DK(maSV);
+			if(this->lopTC[viTri]->getDSDK().checkSV_DK(maSV)) return true;
 		}
-		
 		
 		return false;
 	}
