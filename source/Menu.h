@@ -5,6 +5,7 @@
 #include "SVDangKy.h"
 #include "LopTC.h"
 #include "LopSV.h"
+#include "Validate.h"
 #include "View.h"
 
 void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
@@ -147,7 +148,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			if(!DSLTC.isFull_LTC()){
 				LopTC *ltc = new LopTC;
 	
-				ltc->taoMaLop_LTC(DSLTC.getN());
+				ltc->taoMaLop_LTC(DSLTC.getLopTC(DSLTC.getN()-1)->getMaLopTC());
 				
 				do{
 					ltc->nhap_LTC();

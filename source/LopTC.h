@@ -110,6 +110,10 @@ public:
 	bool isNull_LTC();
 	bool isFull_LTC();
 	
+	LopTC *&getLopTC(int viTri){
+		return lopTC[viTri];
+		
+	}
 
 	int them_LTC(LopTC *LTC);
 	int xoa_LTC(int maLopTC);
