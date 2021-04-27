@@ -4,7 +4,7 @@
 class LopSV{
 private:
 	string maLop;
-	string tenLop;
+	//string tenLop;
 	DSSV dssv;
 public:
 	LopSV();
@@ -31,13 +31,13 @@ public:
 		cin.ignore();
 		cout<<"\nNhap ma lop: ";
 		getline(cin, maLop);
-		cout<<"\nNhap ten lop: ";
-		getline(cin, tenLop);
+	//	cout<<"\nNhap ten lop: ";
+		//getline(cin, tenLop);
 	}
 	
 	void xuat_LSV(){
 		cout<<"\nNhap ma lop: "<<maLop;
-		cout<<"\nNhap ten lop: "<<tenLop;
+		//cout<<"\nNhap ten lop: "<<tenLop;
 	}
 };
 
@@ -63,10 +63,11 @@ public:
 		{
 			this->lopSV[this->n] = new LopSV;
 			
-			getline(fileIn, str, ',');
-			this->lopSV[this->n]->setMaLop(str);
 			getline(fileIn, str, '\n');
-			this->lopSV[this->n]->setTenLop(str);
+			if(str=="") break;
+			this->lopSV[this->n]->setMaLop(str);
+			/*getline(fileIn, str, '\n');
+			this->lopSV[this->n]->setTenLop(str);*/
 
 			this->n++;
 			if (fileIn.eof()) break;
@@ -85,6 +86,7 @@ public:
 				SinhVien data;
 				
 				getline(fileIn, tempStr, ',');
+				if(tempStr=="") break;
 				data.setMaSV(tempStr);
 				getline(fileIn, tempStr, ',');
 				data.setHo(tempStr);
@@ -167,7 +169,7 @@ public:
 
 LopSV::LopSV(){
 	maLop = "";
-	tenLop = "";
+	//tenLop = "";
 	dssv.setHead_DSSV(NULL);
 }
 
@@ -180,7 +182,7 @@ void LopSV::setMaLop(string maLop){
 }
 
 void LopSV::setTenLop(string tenLop){
-	this->tenLop = tenLop;
+//	this->tenLop = tenLop;
 }
 
 
@@ -190,7 +192,7 @@ string LopSV::getMaLop(){
 }
 
 string LopSV::getTenLop(){
-	return this->tenLop;
+//	return this->tenLop;
 }
 
 
@@ -243,9 +245,9 @@ int DSLopSV::tim_LSV(string maLop){
 void DSLopSV::writeData_LSV(LopSV *LSV,ofstream &fileOut){
 	char temp = ',';
 	fileOut << LSV->getMaLop();
-	fileOut << temp;
+	/*fileOut << temp;
 	fileOut << LSV->getTenLop();
-	fileOut << temp;
+	fileOut << temp;*/
 	fileOut << "\n";
 }
 

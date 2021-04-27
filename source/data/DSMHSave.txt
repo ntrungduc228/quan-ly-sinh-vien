@@ -39,6 +39,6 @@ INT1450,Quan ly du an phan mem,3,2
 INT1528,Nhap mon tri tue nhan tao,2,3
 TEL1401,An toan mang thong tin,3,1
 int1303,ctdl,2,2
-int1304,aloalo,100,100
+int1304,dsgfdfd,2,2
 int1305,fd,2,3
-int1306,ATTTTTTTTTttt,1,1
+int1306,attt,2,2

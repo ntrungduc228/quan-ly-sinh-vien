@@ -111,6 +111,41 @@ public:
 	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
 	void writeDataDS_LTC();
 	
+	void loadDataDS_DK(){
+		ifstream fileIn; char temp; int maLop; int viTriLop=0; string tempStr; float tempFloat;
+		fileIn.open("data\\DSDK.txt", ios::in);
+		if (fileIn.is_open())	{
+			
+				while (!fileIn.eof())	{
+					
+					fileIn >> maLop;
+					viTriLop = this->tim_LTC( maLop);
+					if (viTriLop != -1)	{
+						fileIn >> temp;
+						SVDangKy sv;
+						
+						getline(fileIn, tempStr, ',');
+						sv.setMaSV(tempStr);
+						fileIn >> tempFloat;
+						sv.setDiem(tempFloat);
+						
+						NodeDK* DK = new NodeDK(sv);
+	
+						//cout <<maLop<<" "<<viTriLop<<" " <<DK->data.MASV << " " << DK->data.DIEM<<endl;
+						
+						this->lopTC[viTriLop]->getDSDK().them_DK(DK);
+						this->lopTC[viTriLop]->setSoSVDK(this->lopTC[viTriLop]->getSoSVDK() + 1);
+					}
+	
+	
+					if (fileIn.eof()) break;
+	
+				}
+		}
+		
+		fileIn.close();
+	}
+	
 	void loadDataDS_LTC(){
 		ifstream fileIn; char temp;
 		fileIn.open("data\\DSLTC.txt", ios::in);
@@ -120,6 +155,7 @@ public:
 			
 			lopTC[n] = new LopTC;
 			fileIn >> tempInt;	lopTC[n]->setMaLopTC(tempInt);
+			if(tempInt==0) break;
 			fileIn >> temp;
 			getline(fileIn, tempStr, ','); lopTC[n]->setMaMH(tempStr);
 			fileIn >> tempInt; lopTC[n]->setNienKhoa(tempInt);
@@ -167,7 +203,10 @@ public:
 	bool checkDK_LTC(int viTri, string maSV){
 		
 		if(this->lopTC[viTri]!= NULL){
-			if(this->lopTC[viTri]->getDSDK().checkSV_DK(maSV)) return true;
+			if(this->lopTC[viTri]->getDSDK().checkSV_DK(maSV)){
+				 cout<<"\nreturn true";
+				 return true;
+			}
 		}
 		
 		return false;
@@ -175,6 +214,7 @@ public:
 	
 	void DK_LTC(int viTri, NodeDK *DK){
 		if(this->lopTC[viTri]!= NULL){
+			cout<<"\nVo day them";
 			this->lopTC[viTri]->getDSDK().them_DK(DK);
 			cout<<"\n Dk thanh cong";
 			this->lopTC[viTri]->setSoSVDK(this->lopTC[viTri]->getSoSVDK() + 1);

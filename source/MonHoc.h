@@ -129,6 +129,7 @@ public:
 				if(root!=NULL)
 				fileIn.ignore();
 				getline(fileIn, tempStr, ',');
+				if(tempStr=="") break;
 				MH.setMaMH(tempStr);
 				getline(fileIn, tempStr, ',');
 				MH.setTenMH(tempStr);

@@ -276,12 +276,12 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					
 					bool daDK = DSLTC.checkDK_LTC(viTri, maSV);
 					cout<<"\nCheck";
-					if(!daDK){
+					if(daDK==false){
 						SVDangKy SV(maSV);
 						cout<<"\nTao node dk";
 						NodeDK * dk = new NodeDK(SV);
 						if(dk==NULL) cout<<"\nk the cap phat";
-						cout<<"\nThem tai day\n";
+						
 						DSLTC.DK_LTC(viTri, dk);
 					}else cout<<"\nSV da dang ky ltc";
 					
@@ -302,6 +302,12 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					
 				}else cout<<"\nKhong tim thay lop tc";
 			system("pause");
-		}
+		}/*else if(chon==17){
+			
+		}else if(chon==18){
+			
+		}else if(chon==19){
+			
+		}*/
 	}
 }

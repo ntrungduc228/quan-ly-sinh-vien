@@ -20,10 +20,11 @@ int main(int argc, char *argv[])
 	
 	DSSV dssv;
 	
-	DSMH.loadDataDS_MH();
 	DSLSV.loadData_LSV();
-	DSLSV.loadDataDS_SV();
 	DSLTC.loadDataDS_LTC();
+	DSLSV.loadDataDS_SV();
+	DSMH.loadDataDS_MH();
+	//DSLTC.loadDataDS_DK();
 	
 	
 	init_View();

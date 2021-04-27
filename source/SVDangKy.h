@@ -11,13 +11,14 @@ public:
 	
 	SVDangKy(string maSV){
 		this->maSV = maSV;
+		diem = 0;
 	}
 	
-	string getMaSV(){
+	string &getMaSV(){
 		return this->getMaSV();
 	}
 	
-	float getDiem(){
+	float &getDiem(){
 		return this->diem;
 	}
 	
@@ -55,7 +56,7 @@ public:
 		this->next = DK;
 	}
 	
-	SVDangKy getData_DK(){
+	SVDangKy &getData_DK(){
 		return this->data;
 	}
 	
@@ -112,17 +113,24 @@ public:
 		int viTri = 1;
 
 		NodeDK* p = this->head;
+		
+		//if(p==NULL) return viTri;
+		
 		while (p != NULL && p->getData_DK().getMaSV() <= DK->getData_DK().getMaSV())	{
 			if (p->getData_DK().getMaSV() == DK->getData_DK().getMaSV()) return -1;
 			viTri++;
+			if(p->getNext_DK()==NULL) break;
 			p = p->getNext_DK();
 		}
+		//cout<<"\nVi tri them"<<viTri<<" "; system("pause");
 		return viTri;
 	}
 	
 	void them_DK(NodeDK *DK){
+		
 		int viTriThem = this->timViTriThem_DK(DK);
 	
+		
 		if(this->head == NULL || viTriThem == 1){
 			themDau_DK(DK); return;
 		}
@@ -140,7 +148,10 @@ public:
 	bool checkSV_DK(string maSV){
 		
 		for(NodeDK *p = this->head; p != NULL; p=p->getNext_DK()){
+			cout<<"\nVo day ko";
+			p->getData_DK().xuat_DK();
 			if(p->getData_DK().getMaSV() == maSV) return true;
+			if(p->getNext_DK()==NULL) break;
 		}
 		
 		return false;
