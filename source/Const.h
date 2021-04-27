@@ -33,6 +33,12 @@ const int screenWidth = 1368;
 const int screenHeight = 745;
 
 /*
+** ================ Define key ================
+*/
+
+#define ENTER 13
+
+/*
 ** ================ Duong dan lay data tu file ================
 */
 
@@ -71,9 +77,7 @@ const int MAX_LOPTC = 10000;
 
 
 
-/*
-** ================ Do hoa ================
-*/
+
 
 
 

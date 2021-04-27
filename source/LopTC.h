@@ -78,7 +78,7 @@ public:
 		cout<<"\nsvMax: "<<svMax;
 		cout<<"\nsvMin: "<<svMin;
 		if(huyLop) cout<<"\nHuy lop: true";
-		else cout<<"\nHuy lop: false";
+		else cout<<"\nSo sv dk: "<<soSVDK;
 		if(dsdk.getHead_DSDK() == NULL) cout<<"\ndk null";
 		else cout<<"\ndsk not null";
 	}
@@ -89,6 +89,11 @@ public:
 			return true;
 			
 		return false;
+	}
+	
+	void huyLopTC(){
+		if(soSVDK < svMin && huyLop == false)
+			huyLop = true;
 	}
 };
 
@@ -112,6 +117,11 @@ public:
 	
 	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
 	void writeDataDS_LTC();
+	
+	void huyLopDS_LTC(){
+		for(int i=0; i<n; i++)
+			this->lopTC[i]->huyLopTC();
+	}
 	
 	void loadDataDS_DK(){
 		ifstream fileIn; char temp; int maLop; int viTriLop=0; string tempStr; float tempFloat;
@@ -248,6 +258,27 @@ public:
 			
 		}
 		fileOut.close();
+	}
+	
+	void nhapDiem_LTC(int viTri){
+		if(viTri < n){
+			float diem; int i=1;
+			for(NodeDK *k = this->lopTC[viTri]->getDSDK().getHead_DSDK(); k!= NULL;i++, k=k->getNext_DK()){
+				cout<<"\nNhap diem ms sinh vien "<<k->getData_DK().getMaSV()<<" ";
+				cin>>diem;
+				k->getData_DK().setDiem(diem);
+			}	
+		}
+	}
+	
+	void xuatDiem_LTC(int viTri){
+		if(viTri < n){
+			 int i=1;
+			for(NodeDK *k = this->lopTC[viTri]->getDSDK().getHead_DSDK(); k!= NULL;i++, k=k->getNext_DK()){
+				
+				k->getData_DK().xuat_DK();
+			}	
+		}
 	}
 	
 };

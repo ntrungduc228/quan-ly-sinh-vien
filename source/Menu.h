@@ -28,17 +28,17 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n13. Sua mon hoc (done)";
 		cout<<"\n14. Xoa mon hoc (done)";
 		
-		cout<<"\n15. Dang ky lop tc ";
-		cout<<"\n16. In ds dang ky trong 1 lop tc ";
-		cout<<"\n17. Huy lop tc";
-		cout<<"\n18. Nhap diem 1 lop tc";
-		cout<<"\n19. Xuat diem 1 lop tc";
+		cout<<"\n15. Dang ky lop tc (done)";
+		cout<<"\n16. In ds dang ky trong 1 lop tc (done)";
+		cout<<"\n17. Huy lop tc (done)";
+		cout<<"\n18. Nhap diem 1 lop tc (done)";
+		cout<<"\n19. Xuat diem 1 lop tc (done)";
 		
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
 		cout<<"\n22. Lay data mon hoc (done)";
 		cout<<"\n23. Lay data ds Sv (done) ";
-		cout<<"\n24. Lay data ds dk";
+		cout<<"\n24. Lay data ds dk (done)";
 		cout<<"\n0. thoat (tu dong luu data vo file)";
 		
 		cout<<"\n\nNhap lua chon: ";
@@ -303,12 +303,39 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					
 				}else cout<<"\nKhong tim thay lop tc";
 			system("pause");
-		}/*else if(chon==17){
-			
+		}else if(chon==17){
+			system("cls");
+			char c;cout<<"\nNhan enter de xac nhan ";
+			c= _getch();
+			if(c==ENTER)
+				DSLTC.huyLopDS_LTC();
+			system("pause");
 		}else if(chon==18){
-			
+			system("cls");
+			int maLopTC;
+			cout<<"\nNhap ma lop tc: ";	
+			cin>>maLopTC;
+				
+			int viTri = DSLTC.tim_LTC(maLopTC);
+			if(viTri!=-1){
+
+					DSLTC.nhapDiem_LTC(viTri);
+					
+				}else cout<<"\nKhong tim thay lop tc";
+			system("pause");
 		}else if(chon==19){
-			
-		}*/
+			system("cls");
+			int maLopTC;
+			cout<<"\nNhap ma lop tc: ";	
+			cin>>maLopTC;
+				
+			int viTri = DSLTC.tim_LTC(maLopTC);
+			if(viTri!=-1){
+
+					DSLTC.xuatDiem_LTC(viTri);
+					
+				}else cout<<"\nKhong tim thay lop tc";
+			system("pause");
+		}
 	}
 }

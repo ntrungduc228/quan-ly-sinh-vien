@@ -56,7 +56,7 @@ public:
 		this->next = DK;
 	}
 	
-	SVDangKy getData_DK(){
+	SVDangKy &getData_DK(){
 		return this->data;
 	}
 	
