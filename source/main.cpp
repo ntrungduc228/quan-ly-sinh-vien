@@ -24,13 +24,13 @@ int main(int argc, char *argv[])
 	DSLTC.loadDataDS_LTC();
 	DSLSV.loadDataDS_SV();
 	DSMH.loadDataDS_MH();
-	//DSLTC.loadDataDS_DK();
+	DSLTC.loadDataDS_DK();
 	
 	
 	init_View();
 
 	menu(dssv,DSLTC,DSLSV,DSMH);
-
+	
 	
 	return 0;
 }

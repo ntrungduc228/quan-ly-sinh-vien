@@ -14,11 +14,11 @@ public:
 		diem = 0;
 	}
 	
-	string &getMaSV(){
-		return this->getMaSV();
+	string getMaSV(){
+		return this->maSV;
 	}
 	
-	float &getDiem(){
+	float getDiem(){
 		return this->diem;
 	}
 	
@@ -56,7 +56,7 @@ public:
 		this->next = DK;
 	}
 	
-	SVDangKy &getData_DK(){
+	SVDangKy getData_DK(){
 		return this->data;
 	}
 	
@@ -98,8 +98,8 @@ public:
 			return;
 		}
 		for(NodeDK *p = this->head; p != NULL ; p=(p->getNext_DK())){
-			p->getData_DK().xuat_DK();
-			//if(p->getNext_SV()==NULL) return;
+				cout<<"\n"<<p->getData_DK().getMaSV()<<" "<<p->getData_DK().getDiem();
+
 		}
 	}
 	
@@ -148,10 +148,8 @@ public:
 	bool checkSV_DK(string maSV){
 		
 		for(NodeDK *p = this->head; p != NULL; p=p->getNext_DK()){
-			cout<<"\nVo day ko";
-			p->getData_DK().xuat_DK();
 			if(p->getData_DK().getMaSV() == maSV) return true;
-			if(p->getNext_DK()==NULL) break;
+			
 		}
 		
 		return false;

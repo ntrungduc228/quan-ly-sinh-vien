@@ -32,7 +32,7 @@ void init_View(){
 	setcolor(clblack);					// set text color
 	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
 	while(!kbhit()) delay(1);*/		// pause screen	
-	
+	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);
 	resizeConsole(screenWidth, screenHeight);
 }
 	

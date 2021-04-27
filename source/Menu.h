@@ -49,7 +49,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			// mon hoc
 			dsmh.writeDataDS_MH();
 			// ds dk
-			//DSLTC.writeDataDS_DK();
+			DSLTC.writeDataDS_DK();
 			/*for(int i=0; i<DSLSV.getN(); i++)
 				if(DSLSV.getLopSV_LSV(i)->getDS_SV().isNULL_SV()!=true)
 					DSLSV.getLopSV_LSV(i)->getDS_SV().writeDataDS_SV();*/
@@ -275,10 +275,11 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				if(viTri!=-1){
 					
 					bool daDK = DSLTC.checkDK_LTC(viTri, maSV);
-					cout<<"\nCheck";
+					
 					if(daDK==false){
+						cout<<"\nChua dk";
 						SVDangKy SV(maSV);
-						cout<<"\nTao node dk";
+						
 						NodeDK * dk = new NodeDK(SV);
 						if(dk==NULL) cout<<"\nk the cap phat";
 						

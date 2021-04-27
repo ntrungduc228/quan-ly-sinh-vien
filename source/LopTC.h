@@ -35,7 +35,9 @@ public:
 	int getSVMax();
 	int getSVMin();
 	bool getTrangThai();
-	DSDK &getDSDK();
+	DSDK &getDSDK(){
+		return this->dsdk;
+	}
 	
 	int getSoSVDK(){
 		return this->soSVDK;
@@ -202,21 +204,18 @@ public:
 	
 	bool checkDK_LTC(int viTri, string maSV){
 		
-		if(this->lopTC[viTri]!= NULL){
-			if(this->lopTC[viTri]->getDSDK().checkSV_DK(maSV)){
-				 cout<<"\nreturn true";
-				 return true;
-			}
+		if(viTri < n ){
+			return this->lopTC[viTri]->getDSDK().checkSV_DK(maSV);
 		}
 		
 		return false;
 	}
 	
 	void DK_LTC(int viTri, NodeDK *DK){
-		if(this->lopTC[viTri]!= NULL){
-			cout<<"\nVo day them";
+		if(viTri < n){
+			
 			this->lopTC[viTri]->getDSDK().them_DK(DK);
-			cout<<"\n Dk thanh cong";
+			
 			this->lopTC[viTri]->setSoSVDK(this->lopTC[viTri]->getSoSVDK() + 1);
 		}
 	}
@@ -341,9 +340,7 @@ bool LopTC::getTrangThai(){
 	return this->huyLop;
 }
 
-DSDK &LopTC::getDSDK(){
-	return this->dsdk;
-}
+
 
 
 
