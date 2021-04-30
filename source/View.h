@@ -23,17 +23,45 @@ void resizeConsole(int width, int height)
 	SetWindowPos(c, NULL, 1, 1, width, height, SWP_NOSIZE | SWP_NOMOVE | SWP_FRAMECHANGED);
 }
 
+void drawMainFrame(){
+	
+	const int Border_Color = clblue;
+	
+	// main frame
+	
+	setfillstyle(SOLID_FILL,Border_Color);	
+	bar(frameLeft,frameTop,frameRight, frameBottom);
+	
+	setfillstyle(SOLID_FILL,backgroundColor);	
+	bar(frameLeft+frameBorder,frameTop+frameBorder,frameRight - frameBorder, frameBottom - frameBorder);
+	
+	// line left side bar
+	
+	setfillstyle(SOLID_FILL,Border_Color);	
+	bar(frameLeft,frameTop,leftSideBar, frameBottom);
+	
+	setfillstyle(SOLID_FILL,backgroundColor);	
+	bar(frameLeft+frameBorder,frameTop+frameBorder,leftSideBar - frameBorder, frameBottom - frameBorder);
+	
+	// 
+	int x = frameLeft, y = (frameBottom-frameBorder)/2;
+	setcolor(Border_Color);
+	rectangle(frameLeft+frameBorder-1,y,leftSideBar - frameBorder-1,y+2);
+}
 
 void init_View(){
-	// now, you can run project
-	/*initwindow(screenWidth, screenHeight);			// init window graphics
+	
+	initwindow(screenWidth, screenHeight);			// init window graphics
 	setbkcolor(cllightwhite);					// set background
    	cleardevice();
 	setcolor(clblack);					// set text color
 	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
-	while(!kbhit()) delay(1);*/		// pause screen	
+	
+	drawMainFrame();
+	
+	//while(!kbhit()) delay(1);	// pause screen	
 	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);
-	resizeConsole(screenWidth, screenHeight);
+	//resizeConsole(screenWidth, screenHeight);
 }
 	
 	

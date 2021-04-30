@@ -14,6 +14,7 @@
 int main(int argc, char *argv[])
 {
 	
+/*	
 	TREE DSMH;
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
@@ -26,11 +27,17 @@ int main(int argc, char *argv[])
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
-	
 	init_View();
 
 	menu(dssv,DSLTC,DSLSV,DSMH);
 	
+	*/
+	
+	
+	init_View();
+
+	
+	getch();
 	
 	return 0;
 }

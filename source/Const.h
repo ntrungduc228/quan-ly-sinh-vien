@@ -1,7 +1,7 @@
 #pragma once
 
 #include <winbgim.h> // lib graphics
-#include <iostream>
+#include <iostream>	
 #include <string>
 #include <fstream>
 #include <conio.h>
@@ -29,14 +29,28 @@ const int cllightpurple = 13;
 const int cllightyellow = 14;
 const int cllightwhite = 15;
 
-const int screenWidth = 1368;
-const int screenHeight = 745;
+const int backgroundColor = cllightwhite;
+
+const int screenWidth = 1400; //1368;
+const int screenHeight = 750; //745;
+
+const int frameLeft = 10;
+const int frameTop = 5;
+const int frameRight = screenWidth - 100;
+const int frameBottom = screenHeight - 40;
+
+const int frameBorder = 10;
+
+const int leftSideBar = screenWidth/5 + 20;
 
 /*
 ** ================ Define key ================
 */
 
+#define ESC 27
 #define ENTER 13
+#define SPACE 32
+#define BACKSPACE 8
 
 /*
 ** ================ Duong dan lay data tu file ================
@@ -68,6 +82,7 @@ const int MAX_MALOP = 15;
 */
 
 const int MAX_LOPSV = 200;
+const int MAXLENGTH_DIEM = 3;
 
 /*
 ** ================ Lop tin chi ================
