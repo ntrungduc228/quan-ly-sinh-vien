@@ -6,10 +6,11 @@
 #include <fstream>
 #include <conio.h>
 #include <ctime>
+#include <cmath>
 using namespace std;
 
 /*
-** ================ GRAPHICS ================
+** ================ General ================
 */
 
 const int clblack = 0;
@@ -29,7 +30,16 @@ const int cllightpurple = 13;
 const int cllightyellow = 14;
 const int cllightwhite = 15;
 
+
 const int backgroundColor = cllightwhite;
+const int FONT_SIZE = 1;
+const int FONT_OF_TEXT = 8;
+
+/*
+** ================ GRAPHICS ================
+*/
+
+
 
 const int screenWidth = 1400; //1368;
 const int screenHeight = 750; //745;
@@ -42,6 +52,15 @@ const int frameBottom = screenHeight - 40;
 const int frameBorder = 10;
 
 const int leftSideBar = screenWidth/5 + 20;
+
+/*
+** ================ Table ================
+*/
+
+const int MAX_NUM_COLUMN = 10;
+const int tableLeft = leftSideBar + 20;
+const int tableTop = 80; //50;
+const int rowTableHeight = 36; //30;
 
 /*
 ** ================ Define key ================

@@ -23,6 +23,124 @@ void resizeConsole(int width, int height)
 	SetWindowPos(c, NULL, 1, 1, width, height, SWP_NOSIZE | SWP_NOMOVE | SWP_FRAMECHANGED);
 }
 
+class Column{
+private:
+	string name;
+	int x,y,width;
+public:
+	Column(){
+		x = y = width = 0;
+		name="";
+	}
+	
+	void setX(int x){
+		this->x = x;
+	}
+	
+	void setY(int y){this->y = y;	}
+	
+	int getWidth(){
+		return this->width;
+	}
+	
+	void setWidth(int width){
+		this->width = width;
+	}
+	
+	string getName(){
+		return this->name;
+	}
+	
+	void setName(string name){
+		this->name = name;
+	}
+	
+	void drawBox(int x,int y){
+		rectangle(x,y,x+width,y+rowTableHeight);
+	}
+};
+
+class Table{
+private:
+	int numOfCols;
+	Column *col[MAX_NUM_COLUMN] = {NULL};
+public:
+	Table(){
+		numOfCols = 0;
+		for(int i=0; i<MAX_NUM_COLUMN; i++) this->col[i] = new Column;
+	}
+	
+	~Table(){
+		for(int i=0; i<MAX_NUM_COLUMN; i++) delete this->col[i];
+	}
+	
+	void setCols(int cols){
+		this->numOfCols = cols;
+	}
+	
+	Column* &getCols(int i){
+		return this->col[i]; 
+	}
+	
+	void drawLine(int x, int y){
+		
+		for(int i=0; i<numOfCols; i++){
+			
+			/*this->col[i]->setX(x);
+			this->col[i]->setY(y);*/
+			
+			this->col[i]->drawBox(x,y);
+			
+			x+= this->col[i]->getWidth();
+		}
+	}
+	
+	void drawTable(int numOfRows){
+		setcolor(clblack);
+		int y=tableTop; int x= tableLeft;
+		for(int i=0; i<numOfRows; i++){
+			
+			drawLine(x,y);
+			x=tableLeft;
+			y+=  rowTableHeight ;
+		}
+	}
+	
+	void printTitle(){
+		setcolor(clblack);
+		int y=tableTop + rowTableHeight/4 ; 
+		int x= tableLeft + this->col[0]->getWidth()/2;
+		x=0;
+		for(int i=0; i<numOfCols; i++){
+			x= tableLeft + this->col[i]->getWidth() - this->col[i]->getName().length()/2 ;
+			outtextxy(x,y,this->col[i]->getName().c_str());
+			
+		}
+	}
+	
+};
+
+Table table_SV(){
+	int numOfCols = 6;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] ={60, 200, 280, 160, 80, 170}; //{60, 200, 280, 160, 80, 170};
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho",
+								  "Ten",
+								  "Phai",
+								  "SDT"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
 void drawMainFrame(){
 	
 	const int Border_Color = clblue;
@@ -54,8 +172,11 @@ void init_View(){
 	initwindow(screenWidth, screenHeight);			// init window graphics
 	setbkcolor(cllightwhite);					// set background
    	cleardevice();
+   	settextstyle(FONT_OF_TEXT,0,FONT_SIZE);
 	setcolor(clblack);					// set text color
 	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
+	
+	
 	
 	drawMainFrame();
 	
