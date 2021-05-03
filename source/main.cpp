@@ -36,17 +36,9 @@ int main(int argc, char *argv[])
 	
 	init_View();
 
-	Table newTable = table_SV();
+	Table newTable = table_LSV();
 	newTable.drawTable(15);
-	newTable.printTitle();
-	//newTable.drawLine(tableLeft,tableTop);
 	
-	/*Column  col;
-	
-	col.setX(tableLeft);
-	col.setY(tableTop + 100);
-	col.setWidth(100);
-	col.drawBox();*/
 	
 	getch();
 	

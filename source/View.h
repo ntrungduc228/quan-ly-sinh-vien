@@ -104,17 +104,19 @@ public:
 			x=tableLeft;
 			y+=  rowTableHeight ;
 		}
+		
+		printTitle();
 	}
 	
 	void printTitle(){
 		setcolor(clblack);
 		int y=tableTop + rowTableHeight/4 ; 
-		int x= tableLeft + this->col[0]->getWidth()/2;
-		x=0;
+		int x= tableLeft + 10;  
+		
 		for(int i=0; i<numOfCols; i++){
-			x= tableLeft + this->col[i]->getWidth() - this->col[i]->getName().length()/2 ;
-			outtextxy(x,y,this->col[i]->getName().c_str());
 			
+			outtextxy(x,y,this->col[i]->getName().c_str());
+			x+= this->col[i]->getWidth();
 		}
 	}
 	
@@ -125,13 +127,117 @@ Table table_SV(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] ={60, 200, 280, 160, 80, 170}; //{60, 200, 280, 160, 80, 170};
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 80, 150}; //{60, 200, 280, 160, 80, 170};
 	string arrName[numOfCols] = { "STT",
 								  "Ma sinh vien",
 								  "Ho",
 								  "Ten",
 								  "Phai",
 								  "SDT"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_MH(){
+	int numOfCols = 5;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 140, 280, 200, 200}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ma mon hoc",
+								  "Ten mon hoc",
+								  "So TC ly thuyet",
+								  "So TC thuc hanh"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_LTC(){
+	int numOfCols = 10;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 80,140, 280, 60,60,60,80,80,80}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ma lop",
+								  "Ma mon hoc",
+								  "Ten mon hoc",
+								  "Khoa",
+								  "HK",
+								  "Nhom",
+								  "SL",
+								  "CL",
+								  "TT"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_DK(){
+	int numOfCols = 5;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 200}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho",
+								  "Ten",
+								  "Lop"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_Diem(){
+	int numOfCols = 5;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 200}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho",
+								  "Ten",
+								  "Diem"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_LSV(){
+	int numOfCols = 3;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 420,420}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ten lop",
+								  "So sinh vien hien tai cua lop"
+								  };
 	
 	for(int i=0; i<numOfCols; i++){
 		newTable.getCols(i)->setWidth(arrWidth[i]);

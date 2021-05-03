@@ -35,20 +35,21 @@ const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 1;
 const int FONT_OF_TEXT = 8;
 
+enum action { them=1, xuat=2, sua=3, xoa=4};
+
 /*
 ** ================ GRAPHICS ================
 */
 
 
 
-const int screenWidth = 1400; //1368;
+const int screenWidth = 1460; //1400;
 const int screenHeight = 750; //745;
 
 const int frameLeft = 10;
 const int frameTop = 5;
 const int frameRight = screenWidth - 100;
 const int frameBottom = screenHeight - 40;
-
 const int frameBorder = 10;
 
 const int leftSideBar = screenWidth/5 + 20;
@@ -59,7 +60,7 @@ const int leftSideBar = screenWidth/5 + 20;
 
 const int MAX_NUM_COLUMN = 10;
 const int tableLeft = leftSideBar + 20;
-const int tableTop = 80; //50;
+const int tableTop = 110; //50;
 const int rowTableHeight = 36; //30;
 
 /*

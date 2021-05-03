@@ -333,7 +333,25 @@ public:
 		}
 	}
 	
+	void xuatDSTheoTrang_MH(){
+		
+	}
 	
+	void chon_MH(action hanhDong){
+		if(this->root != NULL){
+			
+			if(hanhDong==xuat){
+				
+			}else if(hanhDong==xoa){
+				
+			}else if(hanhDong==sua){
+				
+			}
+			
+		}else{
+			return;
+		}
+	}
 	
 };
 
