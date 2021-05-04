@@ -35,7 +35,7 @@ const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 1;
 const int FONT_OF_TEXT = 8;
 
-enum action { them=1, xuat=2, sua=3, xoa=4};
+enum action { them, xuat, sua, xoa};
 
 /*
 ** ================ GRAPHICS ================
@@ -62,6 +62,8 @@ const int MAX_NUM_COLUMN = 10;
 const int tableLeft = leftSideBar + 20;
 const int tableTop = 110; //50;
 const int rowTableHeight = 36; //30;
+
+const int MAX_DONG_1_TRANG = 15;
 
 /*
 ** ================ Define key ================

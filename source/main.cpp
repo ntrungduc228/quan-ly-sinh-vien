@@ -27,16 +27,16 @@ int main(int argc, char *argv[])
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
-	init_View();
+	resizeConsole(screenWidth, screenHeight);
 
 	menu(dssv,DSLTC,DSLSV,DSMH);
 	
 	*/
 	
-	
+
 	init_View();
 
-	Table newTable = table_LSV();
+	Table newTable = table_SV();
 	newTable.drawTable(15);
 	
 	

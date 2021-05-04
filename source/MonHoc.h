@@ -333,18 +333,31 @@ public:
 		}
 	}
 	
-	void xuatDSTheoTrang_MH(){
+	void xuatDS1Trang_MH(){
 		
 	}
 	
-	void chon_MH(action hanhDong){
+	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
+		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		
+		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
+		int trangHienTai = 1;
+		
+	}
+	
+	void chon_MH(action thaoTac){
 		if(this->root != NULL){
 			
-			if(hanhDong==xuat){
+			int soLuong = DemSoNodeTrongCay(this->root);
+			MonHoc *arrMH = new MonHoc[soLuong];
+			soLuong = 0;
+			ChuyenCayVaoMangConTro(arrMH,this->root, soLuong);
+			
+			if(thaoTac==xuat){
+				xuatDSTheoTrang_MH(arrMH, soLuong, xuat);	
+			}else if(thaoTac==xoa){
 				
-			}else if(hanhDong==xoa){
-				
-			}else if(hanhDong==sua){
+			}else if(thaoTac==sua){
 				
 			}
 			

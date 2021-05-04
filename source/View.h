@@ -26,18 +26,18 @@ void resizeConsole(int width, int height)
 class Column{
 private:
 	string name;
-	int x,y,width;
+	//int x,y;
+	int width;
 public:
 	Column(){
-		x = y = width = 0;
+		//x = y = 
+		width = 0;
 		name="";
 	}
 	
-	void setX(int x){
-		this->x = x;
-	}
+	//void setX(int x){this->x = x;}
 	
-	void setY(int y){this->y = y;	}
+	//void setY(int y){this->y = y;	}
 	
 	int getWidth(){
 		return this->width;
@@ -101,8 +101,9 @@ public:
 		for(int i=0; i<numOfRows; i++){
 			
 			drawLine(x,y);
-			x=tableLeft;
-			y+=  rowTableHeight ;
+			
+			x = tableLeft;
+			y +=  rowTableHeight ;
 		}
 		
 		printTitle();
@@ -110,13 +111,17 @@ public:
 	
 	void printTitle(){
 		setcolor(clblack);
-		int y=tableTop + rowTableHeight/4 ; 
-		int x= tableLeft + 10;  
+		int y=tableTop +  rowTableHeight/2 - textheight(this->col[0]->getName().c_str())/2;    //rowTableHeight/4 ; 
+		int x = tableLeft;  
+		int temp = tableLeft;
 		
 		for(int i=0; i<numOfCols; i++){
 			
+			x = temp + this->col[i]->getWidth()/2 - textwidth(this->col[i]->getName().c_str())/2;
+			
 			outtextxy(x,y,this->col[i]->getName().c_str());
-			x+= this->col[i]->getWidth();
+			
+			temp += this->col[i]->getWidth();
 		}
 	}
 	
@@ -148,7 +153,7 @@ Table table_MH(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 140, 280, 200, 200}; 
+	int arrWidth[numOfCols] = {60, 160, 350, 200, 200}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma mon hoc",
 								  "Ten mon hoc",
@@ -288,7 +293,7 @@ void init_View(){
 	
 	//while(!kbhit()) delay(1);	// pause screen	
 	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);
-	//resizeConsole(screenWidth, screenHeight);
+	
 }
 	
 	

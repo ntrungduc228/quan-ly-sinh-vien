@@ -221,7 +221,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}
 		else if (chon == 12)
 		{	system("cls");
-			int dem = dsmh.DemSoNodeTrongCay(dsmh.getRoot());
+			/*int dem = dsmh.DemSoNodeTrongCay(dsmh.getRoot());
 				MonHoc* arr = new MonHoc[dem];
 				int n = 0;
 				
@@ -229,8 +229,11 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				dsmh.XuatDanhSachMonHoc(arr, n);
 				cout << "\nXUAT THANH CONG!";
 				
-				delete [] arr;
-				system("pause");
+				delete [] arr;*/
+				init_View();
+				
+				
+				getch();
 				
 		}
 		else if (chon == 13)
