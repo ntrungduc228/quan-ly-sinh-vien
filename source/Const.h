@@ -46,7 +46,7 @@ enum action { THEM, XUAT, SUA, XOA};
 
 
 
-const int screenWidth = 1460; //1520  1460;
+const int screenWidth = 1460; //1520 1460;
 const int screenHeight = 745; //745;
 
 const int frameLeft = 10;

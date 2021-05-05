@@ -340,33 +340,54 @@ public:
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		 
-		int STT = batDau;
+		int STT = batDau - 1;
 		int x = tableLeft ;
 		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
 		
 		string strSTT;
 		
 		for(int i = 0; i < soDong; i++){
+			++STT;
   			y += rowTableHeight;
-			strSTT = convertIntToString(++STT);
+			strSTT = convertIntToString(STT+1);
 			
-			if(thaoTac == XUAT){
+			if(thaoTac == XUAT)
 				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
-			}
 			
 			x += newTable.getCols(0)->getWidth();
-			outtextxy(x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[i].getMaMH().c_str())/2, y, arrMH[i].getMaMH().c_str());
 			
+			outtextxy(
+					x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[STT].getMaMH().c_str())/2, 
+					y, 
+					arrMH[STT].getMaMH().c_str()
+				);
 			x += newTable.getCols(1)->getWidth();
-			outtextxy(x + 20, y, arrMH[i].getTenMH().c_str());
 			
+			outtextxy(
+					x + 20,
+					y, 
+					arrMH[STT].getTenMH().c_str()
+				);		
+			x += newTable.getCols(2)->getWidth();
 			
+			outtextxy(
+					x + newTable.getCols(3)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCLT()).c_str())/2,
+					y, 
+					convertIntToString(arrMH[STT].getSTCLT()).c_str()
+				);	
+			x += newTable.getCols(3)->getWidth();
+			
+			outtextxy(
+					x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCTH()).c_str())/2,
+			 		y,
+					convertIntToString(arrMH[STT].getSTCTH()).c_str()
+				);
 			
 			x = tableLeft ;
 		
 		}
 		
-		cout<<"\n"<<string("Duong loi cach mang Dang cong san VN").length();
+		cout<<"\n"<<string("Duong loi cach mang Dang cong san VN11111111111111").length();
 	}
 	
 	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
@@ -382,6 +403,7 @@ public:
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
+		
 	}
 	
 	void chon_MH( action thaoTac){
@@ -390,7 +412,8 @@ public:
 			int soLuong = DemSoNodeTrongCay(this->root);
 			MonHoc *arrMH = new MonHoc[soLuong];
 			soLuong = 0;
-			ChuyenCayVaoMangConTro(arrMH,this->root, soLuong);
+			ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
+			SapXepTheoTen(arrMH, soLuong);
 			
 			if(thaoTac == XUAT){
 				xuatDSTheoTrang_MH(arrMH, soLuong, XUAT);

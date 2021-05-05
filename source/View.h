@@ -291,7 +291,7 @@ Table table_LTC(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60,80,140, 360, 60,60,60,80,80,80}; // 420
+	int arrWidth[numOfCols] = {60,80,140, 360, 60,60,60,70,70,70}; // 420
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
 								  "Ma mon hoc",

@@ -1,3 +1,4 @@
+BAS1101,Duong loi cach mang Dang cong san VN11111111111111,3,3
 BAS1102,Duong loi cach mang Dang cong san VN,3,3
 BAS1105,Giao duc quoc phong va an ninh,8,8
 BAS1106,Giao duc the chat 1,2,2
