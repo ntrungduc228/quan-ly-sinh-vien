@@ -232,6 +232,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				delete [] arr;*/
 				init_View();
 				
+				dsmh.chon_MH(XUAT);
 				
 				getch();
 				

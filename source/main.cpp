@@ -14,7 +14,7 @@
 int main(int argc, char *argv[])
 {
 	
-/*	
+	
 	TREE DSMH;
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
@@ -31,15 +31,19 @@ int main(int argc, char *argv[])
 
 	menu(dssv,DSLTC,DSLSV,DSMH);
 	
-	*/
+	
 	
 
-	init_View();
+	/*init_View();
 
-	Table newTable = table_SV();
+	Table newTable = table_LTC();
 	newTable.drawTable(15);
+
+	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
+	btnPrev.draw();
 	
-	
+	Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
+	btnNext.draw();*/
 	getch();
 	
 	return 0;

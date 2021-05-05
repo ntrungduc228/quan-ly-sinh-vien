@@ -26,19 +26,13 @@ void resizeConsole(int width, int height)
 class Column{
 private:
 	string name;
-	//int x,y;
 	int width;
 public:
 	Column(){
-		//x = y = 
 		width = 0;
 		name="";
 	}
-	
-	//void setX(int x){this->x = x;}
-	
-	//void setY(int y){this->y = y;	}
-	
+		
 	int getWidth(){
 		return this->width;
 	}
@@ -86,11 +80,7 @@ public:
 		
 		for(int i=0; i<numOfCols; i++){
 			
-			/*this->col[i]->setX(x);
-			this->col[i]->setY(y);*/
-			
 			this->col[i]->drawBox(x,y);
-			
 			x+= this->col[i]->getWidth();
 		}
 	}
@@ -98,7 +88,8 @@ public:
 	void drawTable(int numOfRows){
 		setcolor(clblack);
 		int y=tableTop; int x= tableLeft;
-		for(int i=0; i<numOfRows; i++){
+		// hang so 0 la hang tieu de, du lieu bat dau tu hang 1 -> numOfRows
+		for(int i=0; i<=numOfRows; i++){
 			
 			drawLine(x,y);
 			
@@ -127,6 +118,133 @@ public:
 	
 };
 
+class View{
+protected:
+	string id;
+	int left;
+	int top;
+	int right;
+	int bottom;
+	int backgroundColor;
+	int borderColor;
+	bool isInvalidate;
+public:
+	View(){
+		id = "";
+		left = top = right = bottom = 0;
+	}
+	
+	View(string id, int left, int top, int right, int bottom, int backgroundColor, int borderColor){
+		this->id = id;
+		this->left = left;
+		this->right = right;
+		this->top = top;
+		this->bottom = bottom;
+		this->backgroundColor = backgroundColor;
+		this->borderColor = borderColor;
+		this->isInvalidate = true;
+	}
+	
+	bool isClicked(int x, int y){
+		return (left < x && x < right) && (top < y && y < bottom);
+	}
+	
+	string getId(){
+		return this->id;
+	}
+	
+	virtual void draw(){
+		
+		isInvalidate = false;
+		
+		// Draw background
+		setfillstyle(SOLID_FILL, backgroundColor);
+		bar(left, top, right, bottom);
+
+		// Draw border
+		setcolor(borderColor);
+		rectangle(left, top, right, bottom);
+	}
+	
+	void Invalidate()	{
+		isInvalidate = true;
+	}
+};
+
+class Label : public View {
+protected:
+	string text;
+	int textColor;
+public:
+	
+	Label(
+		string text,
+		string id,
+		int left,
+		int top,
+		int right,
+		int bottom,
+		int backgroundColor = 5,
+		int borderColor = 5,
+		int textColor = 0
+	) : View(id, left, top, right, bottom, backgroundColor, borderColor)	{
+		this->text = text;
+		this->textColor = textColor;
+	}
+
+	Label(
+		string text,
+		int left,
+		int top,
+		int right,
+		int bottom,
+		int backgroundColor = 5,
+		int borderColor = 5,
+		int textColor = 15
+	) : View("", left, top, right, bottom, backgroundColor, borderColor)	{
+		this->text = text;
+		this->textColor = textColor;
+	}
+
+	void draw(){
+		View::draw();
+
+		// Draw text
+		int drawX = (right+left)/2 - textwidth(text.c_str())/2;
+		int drawY = top + (bottom - top - 20) / 2; 
+
+		setbkcolor(backgroundColor);
+		setcolor(textColor);
+		outtextxy(drawX, drawY, text.c_str());
+	}
+
+	
+};
+
+class Button : public Label{
+public:
+	Button(string text,
+		   string id, 
+		   int left, 
+		   int top, 
+		   int right, 
+		   int bottom, 
+		   int backgroundColor = buttonBGColor,
+		   int borderColor = buttonBorderColor,
+		   int textColor = buttonTextColor
+		) : Label(text, id, left, top, right, bottom, backgroundColor, borderColor,textColor)
+		{
+		}
+	
+	void draw(){
+		Label::draw();
+	} 
+	
+	bool isClicked(int x, int y){
+		return View::isClicked(x,y);
+	}
+};
+
 Table table_SV(){
 	int numOfCols = 6;
 	Table newTable;
@@ -153,7 +271,7 @@ Table table_MH(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 160, 350, 200, 200}; 
+	int arrWidth[numOfCols] = {60, 160, 420, 200, 200}; // 350
 	string arrName[numOfCols] = { "STT",
 								  "Ma mon hoc",
 								  "Ten mon hoc",
@@ -173,7 +291,7 @@ Table table_LTC(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 80,140, 280, 60,60,60,80,80,80}; 
+	int arrWidth[numOfCols] = {60,80,140, 420, 60,60,60,70,70,70}; //280
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
 								  "Ma mon hoc",
@@ -285,8 +403,6 @@ void init_View(){
    	cleardevice();
    	settextstyle(FONT_OF_TEXT,0,FONT_SIZE);
 	setcolor(clblack);					// set text color
-	outtextxy(50,100,"Graphics in Dev-C++");// print text in window graphics
-	
 	
 	
 	drawMainFrame();

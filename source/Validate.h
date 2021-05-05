@@ -1,6 +1,14 @@
 #pragma once
 #include "Const.h"
 
+string convertIntToString(int so){
+	stringstream ss;
+	ss<<so;
+	string str;
+	str = ss.str();
+	return str; 
+}
+
 void xuLyNhapDiem(string& str){
 	char ch;
 	

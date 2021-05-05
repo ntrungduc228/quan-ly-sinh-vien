@@ -7,6 +7,9 @@
 #include <conio.h>
 #include <ctime>
 #include <cmath>
+#include<sstream> 
+
+
 using namespace std;
 
 /*
@@ -33,9 +36,9 @@ const int cllightwhite = 15;
 
 const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 1;
-const int FONT_OF_TEXT = 8;
+const int FONT_OF_TEXT = 8; //8;
 
-enum action { them, xuat, sua, xoa};
+enum action { THEM, XUAT, SUA, XOA};
 
 /*
 ** ================ GRAPHICS ================
@@ -43,7 +46,7 @@ enum action { them, xuat, sua, xoa};
 
 
 
-const int screenWidth = 1460; //1400;
+const int screenWidth = 1520; //1460;
 const int screenHeight = 750; //745;
 
 const int frameLeft = 10;
@@ -52,7 +55,7 @@ const int frameRight = screenWidth - 100;
 const int frameBottom = screenHeight - 40;
 const int frameBorder = 10;
 
-const int leftSideBar = screenWidth/5 + 20;
+const int leftSideBar = screenWidth/5 - 20;
 
 /*
 ** ================ Table ================
@@ -61,9 +64,24 @@ const int leftSideBar = screenWidth/5 + 20;
 const int MAX_NUM_COLUMN = 10;
 const int tableLeft = leftSideBar + 20;
 const int tableTop = 110; //50;
-const int rowTableHeight = 36; //30;
+const int rowTableHeight = 32;//36; //30;
 
 const int MAX_DONG_1_TRANG = 15;
+
+/*
+** ================ Button ================
+*/
+
+const int buttonBGColor = cllightgreen;
+const int buttonBorderColor = clgreen;
+const int buttonTextColor = clblack;
+
+const int buttonPrevX = tableLeft + 150;
+const int buttonNextX = buttonPrevX + 300;
+
+const int buttonY = 660;
+const int buttonHeight = buttonY + 36;
+const int buttonWidth = 70;
 
 /*
 ** ================ Define key ================
@@ -111,8 +129,6 @@ const int MAXLENGTH_DIEM = 3;
 */
 
 const int MAX_LOPTC = 10000;
-
-
 
 
 

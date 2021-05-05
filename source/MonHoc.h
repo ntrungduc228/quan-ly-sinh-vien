@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Const.h"
+#include "View.h"
+#include "Validate.h"
 
 class MonHoc{
 private:
@@ -333,8 +335,40 @@ public:
 		}
 	}
 	
-	void xuatDS1Trang_MH(){
+	void xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, action thaoTac, Table newTable){
 		
+		int soDong = ketThuc % MAX_DONG_1_TRANG; 
+		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
+		 
+		int STT = batDau;
+		int x = tableLeft ;
+		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
+		
+		string strSTT;
+		
+		for(int i = 0; i < soDong; i++){
+  			y += rowTableHeight;
+			strSTT = convertIntToString(++STT);
+			
+			if(thaoTac == XUAT){
+				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
+			}
+			
+			x += newTable.getCols(0)->getWidth();
+			outtextxy(x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[i].getMaMH().c_str())/2, y, arrMH[i].getMaMH().c_str());
+			
+			x += newTable.getCols(1)->getWidth();
+			//outtextxy(x + 20, y, arrMH[i].getTenMH().c_str());
+			
+			x += newTable.getCols(2)->getWidth();
+			
+			outtextxy(x + 20, y, arrMH[i].getTenMH().c_str());
+			
+			x = tableLeft ;
+		
+		}
+		
+		cout<<"\n"<<string("Duong loi cach mang Dang cong san VN").length();
 	}
 	
 	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
@@ -343,9 +377,16 @@ public:
 		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
 		int trangHienTai = 1;
 		
+		int batDau = 0;
+		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
+		
+		Table newTable = table_LTC();
+		newTable.drawTable(MAX_DONG_1_TRANG);
+		
+		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
 	}
 	
-	void chon_MH(action thaoTac){
+	void chon_MH( action thaoTac){
 		if(this->root != NULL){
 			
 			int soLuong = DemSoNodeTrongCay(this->root);
@@ -353,11 +394,12 @@ public:
 			soLuong = 0;
 			ChuyenCayVaoMangConTro(arrMH,this->root, soLuong);
 			
-			if(thaoTac==xuat){
-				xuatDSTheoTrang_MH(arrMH, soLuong, xuat);	
-			}else if(thaoTac==xoa){
+			if(thaoTac == XUAT){
+				xuatDSTheoTrang_MH(arrMH, soLuong, XUAT);
+					
+			}else if(thaoTac == XOA){
 				
-			}else if(thaoTac==sua){
+			}else if(thaoTac == SUA){
 				
 			}
 			
