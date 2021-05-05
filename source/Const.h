@@ -35,8 +35,8 @@ const int cllightwhite = 15;
 
 
 const int backgroundColor = cllightwhite;
-const int FONT_SIZE = 1;
-const int FONT_OF_TEXT = 8; //8;
+const int FONT_SIZE = 0;
+const int FONT_OF_TEXT = 8; 
 
 enum action { THEM, XUAT, SUA, XOA};
 
@@ -46,8 +46,8 @@ enum action { THEM, XUAT, SUA, XOA};
 
 
 
-const int screenWidth = 1520; //1460;
-const int screenHeight = 750; //745;
+const int screenWidth = 1460; //1520  1460;
+const int screenHeight = 745; //745;
 
 const int frameLeft = 10;
 const int frameTop = 5;

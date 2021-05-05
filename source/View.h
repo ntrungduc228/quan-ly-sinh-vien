@@ -271,7 +271,7 @@ Table table_MH(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 160, 420, 200, 200}; // 350
+	int arrWidth[numOfCols] = {60, 160, 420, 200, 200}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma mon hoc",
 								  "Ten mon hoc",
@@ -291,7 +291,7 @@ Table table_LTC(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60,80,140, 420, 60,60,60,70,70,70}; //280
+	int arrWidth[numOfCols] = {60,80,140, 360, 60,60,60,80,80,80}; // 420
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
 								  "Ma mon hoc",
@@ -402,6 +402,7 @@ void init_View(){
 	setbkcolor(cllightwhite);					// set background
    	cleardevice();
    	settextstyle(FONT_OF_TEXT,0,FONT_SIZE);
+   	setusercharsize(1,3,1,2);   // response font-size text UI
 	setcolor(clblack);					// set text color
 	
 	

@@ -358,11 +358,9 @@ public:
 			outtextxy(x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[i].getMaMH().c_str())/2, y, arrMH[i].getMaMH().c_str());
 			
 			x += newTable.getCols(1)->getWidth();
-			//outtextxy(x + 20, y, arrMH[i].getTenMH().c_str());
-			
-			x += newTable.getCols(2)->getWidth();
-			
 			outtextxy(x + 20, y, arrMH[i].getTenMH().c_str());
+			
+			
 			
 			x = tableLeft ;
 		
@@ -380,7 +378,7 @@ public:
 		int batDau = 0;
 		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
 		
-		Table newTable = table_LTC();
+		Table newTable = table_MH();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
