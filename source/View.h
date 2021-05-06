@@ -198,9 +198,9 @@ public:
 		int top,
 		int right,
 		int bottom,
-		int backgroundColor = 5,
-		int borderColor = 5,
-		int textColor = 15
+		int backgroundColor = cllightwhite,
+		int borderColor = clblack,
+		int textColor = clblack
 	) : View("", left, top, right, bottom, backgroundColor, borderColor)	{
 		this->text = text;
 		this->textColor = textColor;
@@ -218,7 +218,42 @@ public:
 		outtextxy(drawX, drawY, text.c_str());
 	}
 
-	
+	void printLabel(
+				string name1 = "", 
+				string content1 = "",
+				string name2 = "",
+				string content2 = "",
+				string name3 = "",
+				string content3 = "",
+				string name4 = "",
+				string content4 = ""
+		){
+			
+			draw();
+			
+			setbkcolor(cllightwhite);
+			setcolor(clblack);
+			
+			if(name1 != "") name1 +=  ": " + content1;
+			if(name2 != "") name2 +=  ": " + content2;
+			if(name3 != "") name3 +=  ": " + content3;
+			if(name4 != "") name4 +=  ": " + content4;
+			
+			if(name1 != "")
+				outtextxy((right+left)/2 - textwidth(name1.c_str())/2, top + LABEL_SPACE_Y, name1.c_str());
+		
+			
+			if(name3 == "" && name4 == ""){
+				outtextxy((right+left)/2 - textwidth(name2.c_str())/2, top + LABEL_SPACE_Y*2 - 10 , name2.c_str());
+			}else {
+				
+				outtextxy(left + 20 , top + LABEL_SPACE_Y*2 - 10 , name2.c_str());
+				outtextxy(left + LABEL_SPACE_X + textwidth(name2.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name3.c_str());
+				outtextxy(left + LABEL_SPACE_X*2 + textwidth(name3.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name4.c_str());
+			}
+			
+			
+		}
 };
 
 class Button : public Label{
@@ -232,7 +267,7 @@ public:
 		   int backgroundColor = buttonBGColor,
 		   int borderColor = buttonBorderColor,
 		   int textColor = buttonTextColor
-		) : Label(text, id, left, top, right, bottom, backgroundColor, borderColor,textColor)
+		) : Label(text, id, left, top, right, bottom, backgroundColor, borderColor, textColor)
 		{
 		}
 	
@@ -244,6 +279,8 @@ public:
 		return View::isClicked(x,y);
 	}
 };
+
+
 
 Table table_SV(){
 	int numOfCols = 6;
@@ -271,7 +308,7 @@ Table table_MH(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 160, 420, 200, 200}; 
+	int arrWidth[numOfCols] = {60, 160, 410, 200, 200}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma mon hoc",
 								  "Ten mon hoc",
@@ -402,7 +439,8 @@ void init_View(){
 	setbkcolor(cllightwhite);					// set background
    	cleardevice();
    	settextstyle(FONT_OF_TEXT,0,FONT_SIZE);
-   	setusercharsize(1,3,1,2);   // response font-size text UI
+   	//setusercharsize(1,3,1,2);   // response font-size text UI
+   	setusercharsize(2,5,1,2);   // response font-size text UI
 	setcolor(clblack);					// set text color
 	
 	

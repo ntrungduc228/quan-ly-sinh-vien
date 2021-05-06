@@ -354,40 +354,39 @@ public:
 			if(thaoTac == XUAT)
 				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
 			
-			x += newTable.getCols(0)->getWidth();
+						x += newTable.getCols(0)->getWidth();
 			
-			outtextxy(
-					x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[STT].getMaMH().c_str())/2, 
-					y, 
-					arrMH[STT].getMaMH().c_str()
-				);
-			x += newTable.getCols(1)->getWidth();
+				outtextxy(
+						x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[STT].getMaMH().c_str())/2, 
+						y, 
+						arrMH[STT].getMaMH().c_str()
+					);
+						x += newTable.getCols(1)->getWidth();
 			
-			outtextxy(
-					x + 20,
-					y, 
-					arrMH[STT].getTenMH().c_str()
-				);		
-			x += newTable.getCols(2)->getWidth();
-			
-			outtextxy(
-					x + newTable.getCols(3)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCLT()).c_str())/2,
-					y, 
-					convertIntToString(arrMH[STT].getSTCLT()).c_str()
-				);	
-			x += newTable.getCols(3)->getWidth();
-			
-			outtextxy(
-					x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCTH()).c_str())/2,
-			 		y,
-					convertIntToString(arrMH[STT].getSTCTH()).c_str()
-				);
+				outtextxy(
+						x + 20,
+						y, 
+						arrMH[STT].getTenMH().c_str()
+					);		
+						x += newTable.getCols(2)->getWidth();
+				
+				outtextxy(
+						x + newTable.getCols(3)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCLT()).c_str())/2,
+						y, 
+						convertIntToString(arrMH[STT].getSTCLT()).c_str()
+					);	
+						x += newTable.getCols(3)->getWidth();
+				
+				outtextxy(
+						x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCTH()).c_str())/2,
+				 		y,
+						convertIntToString(arrMH[STT].getSTCTH()).c_str()
+					);
 			
 			x = tableLeft ;
 		
 		}
 		
-		cout<<"\n"<<string("Duong loi cach mang Dang cong san VN11111111111111").length();
 	}
 	
 	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
@@ -404,6 +403,11 @@ public:
 		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
 		
+		Input *newInput = new Input("Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
+		newInput->draw();
+		
+		
+		
 	}
 	
 	void chon_MH( action thaoTac){
@@ -414,6 +418,28 @@ public:
 			soLuong = 0;
 			ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
+			
+			Label title(
+					"IN DANH SACH MON HOC",
+					LABEL_X,
+					LABEL_Y,
+					LABEL_X + LABEL_WIDTH,
+					LABEL_Y + LABEL_HEIGHT,
+					clgreen,
+					cllightgreen,
+					cllightwhite
+				);
+				
+			title.printLabel(
+						"Ma lop",
+						"D19CQCN03-N",
+						"Nien khoa",
+						"2019",
+						"Hoc ky",
+						"1",
+						"Nhom",
+						"1"
+					);
 			
 			if(thaoTac == XUAT){
 				xuatDSTheoTrang_MH(arrMH, soLuong, XUAT);

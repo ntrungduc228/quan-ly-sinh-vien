@@ -1,61 +1,38 @@
 #pragma once
 #include "Const.h"
+#include "View.h"
 
 string convertIntToString(int so){
 	stringstream ss;
-	ss<<so;
+	ss << so;
 	string str;
 	str = ss.str();
 	return str; 
 }
 
-void xuLyNhapDiem(string& str){
-	char ch;
-	
-	while(true){
-		ch = _getch();
-		if(((ch>= '0' && ch<= '9') || ch =='.') && str.length() < MAXLENGTH_DIEM){
-			
-			if(str.length() > 0 ){
-				if((str[str.length()-1] == '1' && ch != '.' || ch != '0') || ( str[str.length()-1] != '1' && ch != '.' ))
-					continue;
-			}
-			
-			str.push_back(ch);
-			cout<<str;
-			
-		}else if(ch == BACKSPACE && str.length() > 0){
-			str.erase(str.length() - 1, 1);
-			cout<<"\b " ;
-		}else if(ch == ENTER){
-			return;
-		}else if(ch == ESC){
-			return;
-		}
+class Input : public Label {
+public:
+	Input(
+		string text,
+		string id,
+		int left,
+		int top,
+		int right,
+		int bottom,
+		int backgroundColor = 15,
+		int borderColor = 0,
+		int textColor = 0
+	) : Label(text, id, left,  top, right, bottom, backgroundColor, borderColor, textColor)
+	{
 	}
-}
-
-void xuLyNhapChuoi(string& str){
 	
-}
-
-void xuLyNhapSo(int& so){
+	void draw(){
+		View::draw();
+		
+		setcolor(textColor);
+		outtextxy(left - textwidth(text.c_str()) - 2, top + INPUT_HEIGHT/2 - textheight(text.c_str())/2 + 5, text.c_str() );
+	}
 	
-}
+}; 
 
-void xuLyNhapHo(string& ho){
-	
-}
-
-void xuLyNhapTen(string& ten){
-	
-}
-
-void xuLyNhapMa(string& ma){
-	
-}
-
-void xuLyNhapMaLop(string& maLop){
-	
-}
 

@@ -34,16 +34,20 @@ int main(int argc, char *argv[])
 	
 	
 
-	/*init_View();
+	/* init_View();
 
-	Table newTable = table_LTC();
+	Table newTable = table_MH();
 	newTable.drawTable(15);
 
 	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 	btnPrev.draw();
 	
 	Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
-	btnNext.draw();*/
+	btnNext.draw();
+	
+	
+	Input *newInput = new Input("", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
+	newInput->draw(); */
 	getch();
 	
 	return 0;

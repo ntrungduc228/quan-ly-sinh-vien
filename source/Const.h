@@ -22,7 +22,7 @@ const int clgreen = 2;
 const int claqua = 3;
 const int clred = 4;
 const int clpurple = 5;
-const int clyellow = 6;
+const int clbrown = 6;
 const int clwhite = 7;
 const int clgray = 8;
 const int cllightblue = 9;
@@ -30,7 +30,7 @@ const int cllightgreen = 10;
 const int cllightaqua = 11;
 const int cllightred = 12;
 const int cllightpurple = 13;
-const int cllightyellow = 14;
+const int clyellow = 14;
 const int cllightwhite = 15;
 
 
@@ -63,10 +63,30 @@ const int leftSideBar = screenWidth/5 - 20;
 
 const int MAX_NUM_COLUMN = 10;
 const int tableLeft = leftSideBar + 20;
-const int tableTop = 110; //50;
-const int rowTableHeight = 32;//36; //30;
+const int tableTop = 130;//110; 
+const int rowTableHeight = 32;//36; 
 
 const int MAX_DONG_1_TRANG = 15;
+
+/*
+** ================ Label ================
+*/
+
+const int LABEL_WIDTH = 360;
+const int LABEL_HEIGHT = rowTableHeight - 10;
+const int LABEL_X = (leftSideBar + frameRight)/2  - LABEL_WIDTH/2;
+const int LABEL_Y = frameTop + 20;
+const int LABEL_SPACE_Y = LABEL_HEIGHT + 10;
+const int LABEL_SPACE_X = 120;
+
+/*
+** ================ Input ================
+*/
+
+const int INPUT_X = 1000;// 960;
+const int INPUT_Y = tableTop - rowTableHeight - 10;
+const int INPUT_WIDTH = 320;
+const int INPUT_HEIGHT = rowTableHeight;
 
 /*
 ** ================ Button ================
