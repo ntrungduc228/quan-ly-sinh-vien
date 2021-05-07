@@ -1,5 +1,8 @@
+#ifndef __VIEW__
+#define __VIEW__
 #pragma once
 #include "Const.h"
+#include "Utilities.h"
 
 void resizeConsole(int width, int height)
 {
@@ -64,8 +67,13 @@ public:
 		for(int i=0; i<MAX_NUM_COLUMN; i++) this->col[i] = new Column;
 	}
 	
-	~Table(){
+	/*~Table(){
 		for(int i=0; i<MAX_NUM_COLUMN; i++) delete this->col[i];
+	}*/
+	
+	freeTable(){
+		for(int i=0; i<MAX_NUM_COLUMN; i++) delete this->col[i];
+		
 	}
 	
 	void setCols(int cols){
@@ -407,6 +415,26 @@ Table table_LSV(){
 	return newTable;
 }
 
+void xoaTrang(){
+	setbkcolor(cllightwhite); setcolor(cllightwhite);
+	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10 , string("     ").c_str());
+	setbkcolor(cllightwhite); setcolor(clblack);
+}
+
+void inTrang(int trangHienTai, int tongSoTrang){
+	
+	xoaTrang();
+	
+	setbkcolor(cllightwhite); setcolor(clblack);
+	string strTrangHT = convertIntToString(trangHienTai);
+	string strTongST = convertIntToString(tongSoTrang);
+	
+	strTrangHT += "/" + strTongST;
+	
+	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10, strTrangHT.c_str());
+	//outtextxy(buttonPrevX + buttonWidth + 160, buttonY + 10 , string("1/3").c_str());
+}
+
 void drawMainFrame(){
 	
 	const int Border_Color = clblue;
@@ -451,4 +479,4 @@ void init_View(){
 	
 }
 	
-	
+#endif

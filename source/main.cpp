@@ -27,8 +27,9 @@ int main(int argc, char *argv[])
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
-	resizeConsole(screenWidth, screenHeight);
+	resizeConsole(1368, 745);
 
+	
 	menu(dssv,DSLTC,DSLSV,DSMH);
 	
 	

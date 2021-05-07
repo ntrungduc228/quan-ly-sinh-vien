@@ -1,14 +1,19 @@
+#ifndef __VALIDATE__
+#define __VALIDATE__
+
 #pragma once
 #include "Const.h"
 #include "View.h"
 
-string convertIntToString(int so){
+
+
+/*string convertIntToString(int so){
 	stringstream ss;
 	ss << so;
 	string str;
 	str = ss.str();
 	return str; 
-}
+}*/
 
 class Input : public Label {
 public:
@@ -29,10 +34,20 @@ public:
 	void draw(){
 		View::draw();
 		
+		setbkcolor(backgroundColor);
 		setcolor(textColor);
 		outtextxy(left - textwidth(text.c_str()) - 2, top + INPUT_HEIGHT/2 - textheight(text.c_str())/2 + 5, text.c_str() );
+	}
+	
+	void xuLyNhapTen_MH(int ch){
+		if(ch == BACKSPACE){
+			text = text.erase(text.size() - 1, 1);	
+		}else {
+			text.push_back(ch);
+		}
 	}
 	
 }; 
 
 
+#endif

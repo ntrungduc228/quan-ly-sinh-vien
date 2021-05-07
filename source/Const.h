@@ -44,8 +44,6 @@ enum action { THEM, XUAT, SUA, XOA};
 ** ================ GRAPHICS ================
 */
 
-
-
 const int screenWidth = 1460; //1520 1460;
 const int screenHeight = 745; //745;
 
@@ -96,10 +94,10 @@ const int buttonBGColor = cllightgreen;
 const int buttonBorderColor = clgreen;
 const int buttonTextColor = clblack;
 
-const int buttonPrevX = tableLeft + 150;
-const int buttonNextX = buttonPrevX + 300;
+const int buttonPrevX = tableLeft + 320; //tableLeft + 220;
+const int buttonNextX = buttonPrevX + 250;//buttonPrevX + 450;
 
-const int buttonY = 660;
+const int buttonY = 650;
 const int buttonHeight = buttonY + 36;
 const int buttonWidth = 70;
 

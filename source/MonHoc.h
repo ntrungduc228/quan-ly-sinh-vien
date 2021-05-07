@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Const.h"
-#include "View.h"
 #include "Validate.h"
 
 class MonHoc{
@@ -12,7 +11,7 @@ private:
 	int STCTH;
 public:
 	MonHoc();
-	~MonHoc();
+	~MonHoc(){}
 	
 	
 	
@@ -344,48 +343,139 @@ public:
 		int x = tableLeft ;
 		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
 		
-		string strSTT;
+		string strSTT;	
 		
-		for(int i = 0; i < soDong; i++){
+		soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+		
+		setbkcolor(cllightwhite); setcolor(clblack); 
+		//cout<<"\nbat dau: "<<batDau<<" "<<ketThuc<<" "<<soDong;
+		for(int i = batDau; i < soDong; i++){ 
+		
+			// in ra chuoi rong cac dong con thua
+			if(i >= ketThuc){
+				y +=  rowTableHeight;
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); 	x += newTable.getCols(0)->getWidth();
+				
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(1)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(2)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(3)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(3)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(4)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); 
+				
+				x =  tableLeft;
+				continue;
+			}
+			
 			++STT;
   			y += rowTableHeight;
-			strSTT = convertIntToString(STT+1);
+			//strSTT = convertIntToString(STT+1);
+			strSTT = convertIntToString(i+1);
 			
 			if(thaoTac == XUAT)
-				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
-			
-						x += newTable.getCols(0)->getWidth();
-			
+				// xoa du lieu cu
+				//setbkcolor(clyellow);
 				outtextxy(
-						x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[STT].getMaMH().c_str())/2, 
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+				
+				// xuat du lieu moi
+				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
+				x += newTable.getCols(0)->getWidth();
+				
+				// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+				
+				// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(1)->getWidth()/2  - textwidth(arrMH[i].getMaMH().c_str())/2, 
 						y, 
-						arrMH[STT].getMaMH().c_str()
+						arrMH[i].getMaMH().c_str()
 					);
-						x += newTable.getCols(1)->getWidth();
-			
+					
+				x += newTable.getCols(1)->getWidth();
+				
+				// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+				
+				// xuat du lieu moi
 				outtextxy(
 						x + 20,
 						y, 
-						arrMH[STT].getTenMH().c_str()
-					);		
-						x += newTable.getCols(2)->getWidth();
+						arrMH[i].getTenMH().c_str()
+					);				
+				x += newTable.getCols(2)->getWidth();
 				
+				// xoa du lieu cu
 				outtextxy(
-						x + newTable.getCols(3)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCLT()).c_str())/2,
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(3)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+				
+				// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(3)->getWidth()/2  - textwidth(convertIntToString(arrMH[i].getSTCLT()).c_str())/2,
 						y, 
-						convertIntToString(arrMH[STT].getSTCLT()).c_str()
-					);	
-						x += newTable.getCols(3)->getWidth();
+						convertIntToString(arrMH[i].getSTCLT()).c_str()
+					);
+				x += newTable.getCols(3)->getWidth();
 				
+				
+				// xoa du lieu cu
 				outtextxy(
-						x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[STT].getSTCTH()).c_str())/2,
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(4)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+				
+				// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[i].getSTCTH()).c_str())/2,
 				 		y,
-						convertIntToString(arrMH[STT].getSTCTH()).c_str()
+						convertIntToString(arrMH[i].getSTCTH()).c_str()
 					);
 			
 			x = tableLeft ;
 		
 		}
+		
 		
 	}
 	
@@ -402,12 +492,67 @@ public:
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
+		inTrang(trangHienTai, tongSoTrang); cout<<"\nTrang ht: "<<trangHienTai<<" "<<tongSoTrang;
 		
-		Input *newInput = new Input("Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
-		newInput->draw();
+		//xuatDS1Trang_MH(arrMH, 15, 30, thaoTac, newTable);
+		//delay(5000); xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
 		
+		Input newInput("Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		newInput.draw();
 		
+		Input *focusInput = NULL;
 		
+		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
+		btnPrev.draw();
+		
+		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
+		btnNext.draw();
+		
+		int x,y;
+		
+		while(true){
+			delay(0.0001);
+			if (ismouseclick(WM_LBUTTONDOWN)){
+            	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+            		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
+            		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		
+            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+				}
+					
+				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
+						
+					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
+					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					
+					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+				}
+				
+				if(newInput.isClicked(x,y)) {
+					cout<<"\ninput is clicked";
+					focusInput = dynamic_cast<Input *> (&newInput);
+				}
+				
+				if(kbhit() && focusInput){
+					int ch = getch();
+						cout<<"\nFocus not null";
+						focusInput->xuLyNhapTen_MH(ch);
+						focusInput->draw();
+					
+				}
+					
+				xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
+				inTrang(trangHienTai, tongSoTrang);
+			}
+			
+			
+		}
+		
+		newTable.freeTable();
 	}
 	
 	void chon_MH( action thaoTac){
@@ -419,6 +564,7 @@ public:
 			ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
 			
+			//this->XuatDanhSachMonHoc(arrMH, soLuong);
 			Label title(
 					"IN DANH SACH MON HOC",
 					LABEL_X,
@@ -431,14 +577,14 @@ public:
 				);
 				
 			title.printLabel(
-						"Ma lop",
+						/*"Ma lop",
 						"D19CQCN03-N",
 						"Nien khoa",
 						"2019",
 						"Hoc ky",
 						"1",
 						"Nhom",
-						"1"
+						"1"*/
 					);
 			
 			if(thaoTac == XUAT){
@@ -449,6 +595,8 @@ public:
 			}else if(thaoTac == SUA){
 				
 			}
+			
+			delete[] arrMH;
 			
 		}else{
 			return;
@@ -468,9 +616,7 @@ MonHoc::MonHoc(){
 	STCTH = 0;
 }
 
-MonHoc::~MonHoc(){
-	
-}
+
 
 void MonHoc::setMaMH(string maMH){
 	this->maMH = maMH;
