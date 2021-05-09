@@ -1,5 +1,4 @@
-#ifndef __MENU__
-#define __MENU__
+
 #pragma once
 
 #include "MonHoc.h"
@@ -347,4 +346,4 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	}
 }
 
-#endif
+

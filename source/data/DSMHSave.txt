@@ -1,3 +1,4 @@
+BAS1101,Duong loi cach mang Dang cong san VN11111111111111,3,3
 BAS1102,Duong loi cach mang Dang cong san VN,3,3
 BAS1105,Giao duc quoc phong va an ninh,8,8
 BAS1106,Giao duc the chat 1,2,2
@@ -38,6 +39,8 @@ INT1434,Lap trinh web,4,1
 INT1450,Quan ly du an phan mem,3,2
 INT1528,Nhap mon tri tue nhan tao,2,3
 TEL1401,An toan mang thong tin,3,1
+int1300,opk,2,3
+int1301,okok,2,4
 int1303,ctdl,2,2
 int1304,dsgfdfd,2,2
 int1305,fd,2,3

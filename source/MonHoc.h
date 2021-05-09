@@ -479,7 +479,32 @@ public:
 		
 	}
 	
+	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter,MonHoc arrMH[], int n, int &tongSoTrang){
+		if(!content.empty()){
+			for(int i=0; i<n; i++){
+				if(arrMH[i].getTenMH().find(content) != string::npos){
+					arrMHFilter[nFilter++] = arrMH[i];
+				}
+			}
+			
+			
+		}else {
+			for(int i=0; i<n; i++){
+				arrMHFilter[nFilter++] = arrMH[i];
+			}
+		}
+		
+		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
+	}
+	
+	
 	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
+		
+		MonHoc *arrMHFilter = new MonHoc [tongSoDong];
+		for(int i=0; i<tongSoDong; i++) arrMHFilter[i] = arrMH[i];
+		int nFilter = tongSoDong;
+		
 		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		
 		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
@@ -492,16 +517,11 @@ public:
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
-		inTrang(trangHienTai, tongSoTrang); cout<<"\nTrang ht: "<<trangHienTai<<" "<<tongSoTrang;
+		inTrang(trangHienTai, tongSoTrang);
 		
-		//xuatDS1Trang_MH(arrMH, 15, 30, thaoTac, newTable);
-		//delay(5000); xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
-		
-		Input newInput("Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		Input newInput("","Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
-		
-		Input *focusInput = NULL;
-		
+	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
 		
@@ -511,11 +531,12 @@ public:
 		int x,y;
 		
 		while(true){
-			delay(0.0001);
+			delay(0.0000);
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+            		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
             		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
@@ -531,28 +552,32 @@ public:
 					
 					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
 				}
-				
-				if(newInput.isClicked(x,y)) {
-					cout<<"\ninput is clicked";
-					focusInput = dynamic_cast<Input *> (&newInput);
-				}
-				
-				if(kbhit() && focusInput){
-					int ch = getch();
-						cout<<"\nFocus not null";
-						focusInput->xuLyNhapTen_MH(ch);
-						focusInput->draw();
-					
-				}
-					
-				xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
+									
+				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, thaoTac, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 			
+			if(kbhit()){
+				char ch = getch();
+				newInput.xuLyNhapTen_MH((int)ch);
+				newInput.draw();
+				nFilter = 0;
+				locDS_MH(newInput.getContent(), arrMHFilter, nFilter, arrMH, tongSoDong, tongSoTrang);
+				/*cout<<"\n=================\n";
+				for(int i=0; i<nFilter; i++){
+					cout<<"\n"<<arrMHFilter[i].getMaMH()<<" "<<arrMHFilter[i].getTenMH()<<" "<<arrMHFilter[i].getSTCLT()<<" "<<arrMHFilter[i].getSTCTH();
+				}*/
+				
+				batDau = 0; trangHienTai = 1;
+				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
+				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, thaoTac, newTable);
+				inTrang(trangHienTai, tongSoTrang);
+			}
 			
 		}
 		
 		newTable.freeTable();
+		delete[] arrMHFilter;
 	}
 	
 	void chon_MH( action thaoTac){
@@ -599,6 +624,12 @@ public:
 			delete[] arrMH;
 			
 		}else{
+			MessageBox(
+		        NULL,
+		        "Khong co mon hoc nao !!!",
+		        "THONG BAO",
+		        MB_ICONWARNING | MB_OK
+    		);
 			return;
 		}
 	}
