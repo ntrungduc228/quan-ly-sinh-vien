@@ -101,6 +101,11 @@ const int buttonY = 650;
 const int buttonHeight = buttonY + 36;
 const int buttonWidth = 70;
 
+const int checkBoxButtonWidth = 30;
+const int checkBoxButtonHeight = 23;
+const int checkBoxButtonX = tableLeft + 15;
+const int checkBoxButtonY = rowTableHeight-3;
+
 /*
 ** ================ Define key ================
 */

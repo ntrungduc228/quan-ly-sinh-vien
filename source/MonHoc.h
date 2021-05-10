@@ -235,9 +235,9 @@ public:
 		if (root == NULL)
 			return root;
 
-		if (stricmp(key.c_str(), root->getData_MH().getMaMH().c_str()) < 0)
+		if (strcmp(key.c_str(), root->getData_MH().getMaMH().c_str()) < 0)
 			root->setLeft(XoaTheoMaMonHoc(root->getLeft(), key));
-		else if (stricmp(key.c_str(), root->getData_MH().getMaMH().c_str()) > 0)
+		else if (strcmp(key.c_str(), root->getData_MH().getMaMH().c_str()) > 0)
 			root->setRight(XoaTheoMaMonHoc(root->getRight(), key));
 		else {
 			if (root->getLeft() == NULL)
@@ -339,7 +339,6 @@ public:
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		 
-		int STT = batDau - 1;
 		int x = tableLeft ;
 		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
 		
@@ -388,12 +387,12 @@ public:
 				continue;
 			}
 			
-			++STT;
+			
   			y += rowTableHeight;
 			//strSTT = convertIntToString(STT+1);
 			strSTT = convertIntToString(i+1);
 			
-			if(thaoTac == XUAT)
+			
 				// xoa du lieu cu
 				//setbkcolor(clyellow);
 				outtextxy(
@@ -402,7 +401,7 @@ public:
 					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
 				
-				
+			if(thaoTac == XUAT)	
 				// xuat du lieu moi
 				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
 				x += newTable.getCols(0)->getWidth();
@@ -532,6 +531,7 @@ public:
 		
 		while(true){
 			delay(0.0000);
+			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
@@ -557,6 +557,7 @@ public:
 				inTrang(trangHienTai, tongSoTrang);
 			}
 			
+			// Filter by input
 			if(kbhit()){
 				char ch = getch();
 				newInput.xuLyNhapTen_MH((int)ch);
@@ -616,7 +617,7 @@ public:
 				xuatDSTheoTrang_MH(arrMH, soLuong, XUAT);
 					
 			}else if(thaoTac == XOA){
-				
+				xuatDSTheoTrang_MH(arrMH, soLuong, XOA);
 			}else if(thaoTac == SUA){
 				
 			}

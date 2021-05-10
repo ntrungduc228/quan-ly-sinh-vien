@@ -228,12 +228,10 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				
 				dsmh.ChuyenCayVaoMangConTro(arr, dsmh.getRoot(), n);
 				dsmh.XuatDanhSachMonHoc(arr, n);
-				cout << "\nXUAT THANH CONG!";
+				cout << "\nXUAT THANH CONG! "<<n;
 				
-				delete [] arr;*/
-				init_View();
-				
-				dsmh.chon_MH(XUAT);
+				delete [] arr; system("pause");*/
+				init_View(); dsmh.chon_MH(XUAT);
 				
 				getch();
 				
@@ -257,11 +255,14 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}
 		else if (chon == 14)
 		{
-			cin.ignore();
+			system("cls");
+			/*cin.ignore();
 			string key;
 			cout << "\nNhap ten mon hoc: ";
 			getline(cin, key);
-			dsmh.setRoot(dsmh.XoaTheoMaMonHoc(dsmh.getRoot(), key));
+			dsmh.setRoot(dsmh.XoaTheoMaMonHoc(dsmh.getRoot(), key));*/
+			
+			init_View(); dsmh.chon_MH(XOA); getch();
 		}
 		else if(chon==15){
 			system("cls"); 

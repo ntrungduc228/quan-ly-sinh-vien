@@ -46,7 +46,7 @@ int1333,Ctdl3,2,2
 int1343,Ctdl4,2,2
 int1353,Ctdl5,2,2
 int1363,Ctdl6,2,2
-int1373,Ctdl7,2,2
+INT1373,Ctdl7,2,2
 int1383,Ctdl8,2,2
 int1393,Ctdl9,2,2
 int1413,Ctdl10,2,2

@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	
 	
 
-	/* init_View();
+	/*init_View();
 
 	Table newTable = table_MH();
 	newTable.drawTable(15);
@@ -47,8 +47,19 @@ int main(int argc, char *argv[])
 	btnNext.draw();
 	
 	
-	Input *newInput = new Input("", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
-	newInput->draw(); */
+	Input newInput("","" ,INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
+	newInput.draw(); 
+	int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2;
+	string str = ""; //str += 251; cout<<str;
+	int x = tableLeft + 15;
+	Button checkBoxBtn(str.c_str(),"checkBoxBtn",x , y+rowTableHeight-3, x+ checkBoxButtonWidth, y +rowTableHeight+20,cllightwhite, clblack, clgreen   );
+	checkBoxBtn.draw();
+	setcolor(clgreen);
+	//setlinestyle(SOLID_LINE, 1, 3);
+	//line(x+5, y+rowTableHeight + 10,tableLeft + 30,y +rowTableHeight+18) ;
+	//line(x+checkBoxButtonWidth-3, y+rowTableHeight + 5,tableLeft + 20,y +rowTableHeight+1);*/
+	
+	
 	getch();
 	
 	return 0;
