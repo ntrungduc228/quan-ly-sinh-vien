@@ -94,7 +94,7 @@ public:
 	}
 	
 	void drawTable(int numOfRows){
-		setcolor(clblack);
+		setcolor(clblack); setbkcolor(cllightwhite); 
 		int y=tableTop; int x= tableLeft;
 		// hang so 0 la hang tieu de, du lieu bat dau tu hang 1 -> numOfRows
 		for(int i=0; i<=numOfRows; i++){
@@ -174,6 +174,10 @@ public:
 		rectangle(left, top, right, bottom);
 	}
 	
+	void setBorderColor(int borderColor){
+		this->borderColor = borderColor;
+	}
+	
 	void Invalidate()	{
 		isInvalidate = true;
 	}
@@ -213,7 +217,11 @@ public:
 		this->text = text;
 		this->textColor = textColor;
 	}
-
+	
+	string getText(){
+		return this->text;
+	}
+	
 	void draw(){
 		View::draw();
 
@@ -266,6 +274,8 @@ public:
 
 class Button : public Label{
 public:
+
+	
 	Button(string text,
 		   string id, 
 		   int left, 
@@ -279,6 +289,51 @@ public:
 		{
 		}
 	
+/*	void setText(string text){
+		this->text = text;
+	}
+	
+	
+	void setBGColor(int bgColor){
+		this->backgroundColor = bgColor;
+	}
+	
+	void setBorderColor(int borderColor){
+		this->borderColor = borderColor;
+	}
+	
+	void setTextColor(int textColor){
+		this->textColor = textColor;
+	}
+	
+	void setId(string id){
+		this->id = id;
+	}
+	
+	void setLeft(int left){
+		this->left = left;
+	}
+	
+	void setRight(int right){
+		this->right = right;
+	}
+	
+	void setTop(int top){
+		this->top = top;
+	}
+	
+	void setBottom(int bottom){
+		this->bottom = bottom;
+	}
+	*/
+	string getId(){
+		this->id;
+	}
+	
+	string getText(){
+		return Label::getText();
+	}
+	
 	void draw(){
 		Label::draw();
 	} 
@@ -286,11 +341,6 @@ public:
 	bool isClicked(int x, int y){
 		return View::isClicked(x,y);
 	}
-};
-
-class RadioButton : public Button{
-public:
-	
 };
 
 
@@ -316,16 +366,17 @@ Table table_SV(){
 }
 
 Table table_MH(){
-	int numOfCols = 5;
+	int numOfCols = 6;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 160, 410, 200, 200}; 
+	int arrWidth[numOfCols] = {60, 160, 410, 150, 150, 110}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma mon hoc",
 								  "Ten mon hoc",
 								  "So TC ly thuyet",
-								  "So TC thuc hanh"};
+								  "So TC thuc hanh",
+								  "Thao tac"};
 	
 	for(int i=0; i<numOfCols; i++){
 		newTable.getCols(i)->setWidth(arrWidth[i]);
@@ -336,11 +387,11 @@ Table table_MH(){
 }
 
 Table table_LTC(){
-	int numOfCols = 10;
+	int numOfCols = 11;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60,80,140, 360, 60,60,60,70,70,70}; // 420
+	int arrWidth[numOfCols] = {50,80,110, 360, 50,50,50,60,60,60,110}; // 420
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
 								  "Ma mon hoc",
@@ -350,7 +401,8 @@ Table table_LTC(){
 								  "Nhom",
 								  "SL",
 								  "CL",
-								  "TT"};
+								  "TT",
+								  "Thao tac"};
 	
 	for(int i=0; i<numOfCols; i++){
 		newTable.getCols(i)->setWidth(arrWidth[i]);
@@ -419,6 +471,15 @@ Table table_LSV(){
 	return newTable;
 }
 
+void freeArrButton(Button *arrButton[], int n){
+	for(int i=0; i<n; i++){
+		if(arrButton[i] != NULL) {
+			delete arrButton[i]; 
+			arrButton[i] = NULL;
+		}
+	}
+}
+
 void xoaTrang(){
 	setbkcolor(cllightwhite); setcolor(cllightwhite);
 	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10 , string("     ").c_str());
@@ -437,6 +498,17 @@ void inTrang(int trangHienTai, int tongSoTrang){
 	
 	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10, strTrangHT.c_str());
 	//outtextxy(buttonPrevX + buttonWidth + 160, buttonY + 10 , string("1/3").c_str());
+}
+
+void drawFrame(int left, int top, int right, int bottom){
+	
+	const int Border_Color = clblue;
+		
+	setfillstyle(SOLID_FILL,Border_Color);	
+	bar(left,top,right, bottom);
+	
+	setfillstyle(SOLID_FILL,backgroundColor);	
+	bar(left+frameBorder,top+frameBorder,right - frameBorder, bottom - frameBorder);
 }
 
 void drawMainFrame(){
@@ -464,6 +536,7 @@ void drawMainFrame(){
 	setcolor(Border_Color);
 	rectangle(frameLeft+frameBorder-1,y,leftSideBar - frameBorder-1,y+2);
 }
+
 
 void init_View(){
 	

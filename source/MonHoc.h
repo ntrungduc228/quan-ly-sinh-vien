@@ -246,7 +246,12 @@ public:
 
 				root->setRight(NULL);
 				delete root;
-
+				MessageBox(
+			        NULL,
+			        "XOA MON HOC THANH CONG !!!",
+			        "THONG BAO",
+			        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+	    		);
 				return temp;
 			}
 			else if (root->getRight() == NULL)
@@ -255,6 +260,12 @@ public:
 
 				root->setLeft(NULL);
 				delete root;
+				MessageBox(
+				        NULL,
+				        "XOA MON HOC THANH CONG !!!",
+				        "THONG BAO",
+				        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    		);
 
 				return temp;
 			}
@@ -267,8 +278,16 @@ public:
 			root->getData_MH().setSTCTH(temp->getData_MH().getSTCTH());
 
 			root->setRight(XoaTheoMaMonHoc(root->getRight(), temp->getData_MH().getMaMH()));
+			
+			// thong bao xoa mon hoc thanh cong
+			MessageBox(
+		        NULL,
+		        "XOA MON HOC THANH CONG !!!",
+		        "THONG BAO",
+		        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+    		);
 		}
-
+		
 		return root;
 	}
 	
@@ -334,22 +353,38 @@ public:
 		}
 	}
 	
-	void xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, action thaoTac, Table newTable){
+	void xoaTrongMang_MH(MonHoc arr[], int &n, int vt){
+		for(int i=vt+1; i<n; i++)
+			arr[i-1] = arr[i];
+		
+		n--;	
+	}
+	
+	void xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
 		
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		 
 		int x = tableLeft ;
 		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
+		int yBtn = tableTop;
 		
 		string strSTT;	
 		
-		soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+		// Bat truong hop nhap o input ko tim thay (Trung thac mac)
+		// de in khoang trang xoa toan bo du lieu cu sau khi filter content tu input ko tim thay
+		if(ketThuc==0 && batDau == 0) soDong = MAX_DONG_1_TRANG;
+		else
+			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
 		
 		setbkcolor(cllightwhite); setcolor(clblack); 
 		//cout<<"\nbat dau: "<<batDau<<" "<<ketThuc<<" "<<soDong;
-		for(int i = batDau; i < soDong; i++){ 
+		 
 		
+		for(int i = batDau; i < soDong; i++){ 
+			
+			setbkcolor(cllightwhite); setcolor(clblack); 
+			yBtn += rowTableHeight;
 			// in ra chuoi rong cac dong con thua
 			if(i >= ketThuc){
 				y +=  rowTableHeight;
@@ -381,7 +416,11 @@ public:
 					x +textwidth(string("|").c_str()), 
 					y, 
 					string((newTable.getCols(4)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
-				); 
+				); x += newTable.getCols(4)->getWidth();
+				
+				
+				View view("",x,yBtn, x+newTable.getCols(5)->getWidth(), yBtn + rowTableHeight, cllightwhite, clblack);
+				view.draw();
 				
 				x =  tableLeft;
 				continue;
@@ -389,7 +428,6 @@ public:
 			
 			
   			y += rowTableHeight;
-			//strSTT = convertIntToString(STT+1);
 			strSTT = convertIntToString(i+1);
 			
 			
@@ -401,7 +439,7 @@ public:
 					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
 				
-			if(thaoTac == XUAT)	
+		//	if(thaoTac == XUAT)	
 				// xuat du lieu moi
 				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
 				x += newTable.getCols(0)->getWidth();
@@ -469,24 +507,54 @@ public:
 						x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(arrMH[i].getSTCTH()).c_str())/2,
 				 		y,
 						convertIntToString(arrMH[i].getSTCTH()).c_str()
-					);
-			
+					); 
+				x += newTable.getCols(4)->getWidth();
+					
+				// ve button sua 
+				editButton[i] = new Button(
+											"Sua",
+											strSTT, 
+											x+3, 
+											yBtn+3, 
+											x+checkBoxButtonWidth,
+											yBtn-3+checkBoxButtonHeight, 
+											claqua, 
+											cllightblue, 
+											clblack
+										);
+				editButton[i]->draw();
+				x += checkBoxButtonWidth + buttonActionSpace;
+				
+				// ve button xoa 
+				deleteButton[i] = new Button(
+											"Xoa",
+											strSTT, 
+											x+3, 
+											yBtn+3, 
+											x+checkBoxButtonWidth,
+											yBtn-3+checkBoxButtonHeight, 
+											cllightred, 
+											clred, 
+											cllightwhite 
+										);
+				deleteButton[i]->draw();
+				
 			x = tableLeft ;
 		
 		}
 		
-		
+	
 	}
 	
 	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter,MonHoc arrMH[], int n, int &tongSoTrang){
+		// reset so mon hoc loc ra duoc
+		nFilter = 0;
 		if(!content.empty()){
 			for(int i=0; i<n; i++){
 				if(arrMH[i].getTenMH().find(content) != string::npos){
 					arrMHFilter[nFilter++] = arrMH[i];
 				}
 			}
-			
-			
 		}else {
 			for(int i=0; i<n; i++){
 				arrMHFilter[nFilter++] = arrMH[i];
@@ -498,7 +566,7 @@ public:
 	}
 	
 	
-	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, action thaoTac){
+	void xuatDSTheoTrang_MH(MonHoc arrMH[], int tongSoDong, int &viTriChon, action &thaoTac){
 		
 		MonHoc *arrMHFilter = new MonHoc [tongSoDong];
 		for(int i=0; i<tongSoDong; i++) arrMHFilter[i] = arrMH[i];
@@ -512,14 +580,18 @@ public:
 		int batDau = 0;
 		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
 		
+		Button *editButton[nFilter] = {NULL};
+		Button *deleteButton[nFilter] = {NULL};
+		
 		Table newTable = table_MH();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		xuatDS1Trang_MH(arrMH, batDau, ketThuc, thaoTac, newTable);
+		xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
 		Input newInput("","Nhap ten mon hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
+		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
@@ -527,13 +599,47 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		
+		
 		int x,y;
 		
 		while(true){
-			delay(0.0000);
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	// is clicked button Sua || Xoa
+            	for(int i=batDau; i<ketThuc; i++){
+					if(editButton[i]->isClicked(x,y)){
+						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+						MessageBox(
+					        NULL,
+					        "Ban muon sua mon hoc",
+					        "THONG BAO",
+					        MB_ICONWARNING | MB_OK
+			    		);
+					}else if(deleteButton[i]->isClicked(x,y)){
+						cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
+						int isConfirmed = MessageBox(
+										        NULL,
+										        "BAN CO CHAC CHAN MUON XOA MON HOC NAY",
+										        "THONG BAO",
+										        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+								    		);
+						switch(isConfirmed){
+							case IDCANCEL:{
+								break;
+							}
+							case IDOK: default:{
+								viTriChon = i;  thaoTac = XOA;
+								newTable.freeTable();
+								delete[] arrMHFilter;
+								return; 	
+							}
+						}
+					}
+					
+				}
             	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -552,17 +658,19 @@ public:
 					
 					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
 				}
-									
-				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, thaoTac, newTable);
+				
+			
+				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 			
 			// Filter by input
 			if(kbhit()){
+				freeArrButton(editButton, nFilter);
+				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.xuLyNhapTen_MH((int)ch);
 				newInput.draw();
-				nFilter = 0;
 				locDS_MH(newInput.getContent(), arrMHFilter, nFilter, arrMH, tongSoDong, tongSoTrang);
 				/*cout<<"\n=================\n";
 				for(int i=0; i<nFilter; i++){
@@ -571,17 +679,17 @@ public:
 				
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, thaoTac, newTable);
+				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
-			
+		
 		}
 		
 		newTable.freeTable();
 		delete[] arrMHFilter;
 	}
 	
-	void chon_MH( action thaoTac){
+	void chon_MH( ){
 		if(this->root != NULL){
 			
 			int soLuong = DemSoNodeTrongCay(this->root);
@@ -590,7 +698,9 @@ public:
 			ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
 			
-			//this->XuatDanhSachMonHoc(arrMH, soLuong);
+			int viTriChon = 0;
+			action thaoTac = XUAT;
+			
 			Label title(
 					"IN DANH SACH MON HOC",
 					LABEL_X,
@@ -613,23 +723,35 @@ public:
 						"1"*/
 					);
 			
-			if(thaoTac == XUAT){
-				xuatDSTheoTrang_MH(arrMH, soLuong, XUAT);
-					
-			}else if(thaoTac == XOA){
-				xuatDSTheoTrang_MH(arrMH, soLuong, XOA);
-			}else if(thaoTac == SUA){
-				
-			}
 			
+			xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac);
+			
+			switch (thaoTac){
+				case XOA:{
+					if(viTriChon < soLuong){
+						cout<<"\nvi tri :"<<viTriChon; 
+						this->setRoot(this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH()));
+						delete [] arrMH;
+						/*soLuong = 0;
+						ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
+						SapXepTheoTen(arrMH, soLuong);
+						viTriChon = 0; thaoTac = XUAT;
+						xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac);*/
+						this->chon_MH();
+					}
+					break;
+				}
+			}
+					
 			delete[] arrMH;
+			
 			
 		}else{
 			MessageBox(
 		        NULL,
-		        "Khong co mon hoc nao !!!",
+		        "HIEN KHONG CO MON HOC NAO !!!",
 		        "THONG BAO",
-		        MB_ICONWARNING | MB_OK
+		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
     		);
 			return;
 		}

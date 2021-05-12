@@ -24,12 +24,10 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n8. Xoa lop tc (done)";
 		cout<<"\n9. Them lop hoc (done)";
 		cout<<"\n10. Xuat ds lop hoc (done)";
-		
 		cout<<"\n\n11. Them mon hoc (done)";
-		cout<<"\n12. In ds mon hoc (done)";
+		cout<<"\n12. In ds mon hoc (done graphics)";
 		cout<<"\n13. Sua mon hoc (done)";
-		cout<<"\n14. Xoa mon hoc (done)";
-		
+		cout<<"\n14. Xoa mon hoc (done graphics)";
 		cout<<"\n15. Dang ky lop tc (done)";
 		cout<<"\n16. In ds dang ky trong 1 lop tc (done)";
 		cout<<"\n17. Huy lop tc (done)";
@@ -231,7 +229,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				cout << "\nXUAT THANH CONG! "<<n;
 				
 				delete [] arr; system("pause");*/
-				init_View(); dsmh.chon_MH(XUAT);
+				init_View(); dsmh.chon_MH();
 				
 				getch();
 				
@@ -262,7 +260,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			getline(cin, key);
 			dsmh.setRoot(dsmh.XoaTheoMaMonHoc(dsmh.getRoot(), key));*/
 			
-			init_View(); dsmh.chon_MH(XOA); getch();
+			//init_View(); dsmh.chon_MH(XOA); getch();
 		}
 		else if(chon==15){
 			system("cls"); 

@@ -59,7 +59,7 @@ const int leftSideBar = screenWidth/5 - 20;
 ** ================ Table ================
 */
 
-const int MAX_NUM_COLUMN = 10;
+const int MAX_NUM_COLUMN = 11;
 const int tableLeft = leftSideBar + 20;
 const int tableTop = 130;//110; 
 const int rowTableHeight = 32;//36; 
@@ -83,8 +83,10 @@ const int LABEL_SPACE_X = 120;
 
 const int INPUT_X = 1000;// 960;
 const int INPUT_Y = tableTop - rowTableHeight - 10;
-const int INPUT_WIDTH = 320;
+const int INPUT_WIDTH = 330;
 const int INPUT_HEIGHT = rowTableHeight;
+
+const int INPUT_BORDER_VALIDATION = cllightgreen;
 
 /*
 ** ================ Button ================
@@ -101,10 +103,12 @@ const int buttonY = 650;
 const int buttonHeight = buttonY + 36;
 const int buttonWidth = 70;
 
-const int checkBoxButtonWidth = 30;
-const int checkBoxButtonHeight = 23;
+const int checkBoxButtonWidth =  50; //30;
+const int checkBoxButtonHeight = rowTableHeight;
 const int checkBoxButtonX = tableLeft + 15;
-const int checkBoxButtonY = rowTableHeight-3;
+const int checkBoxButtonY = rowTableHeight;
+
+const int buttonActionSpace = 5;
 
 /*
 ** ================ Define key ================

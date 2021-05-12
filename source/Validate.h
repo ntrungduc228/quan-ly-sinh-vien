@@ -69,6 +69,8 @@ public:
 		
 	}
 	
+	
+	
 	void xuLyNhapTen_MH(int ch){
 		if(ch == BACKSPACE && !content.empty()){
 			content.erase(content.length() - 1, 1);	
