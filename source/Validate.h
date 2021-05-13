@@ -1,5 +1,3 @@
-#ifndef __VALIDATE__
-#define __VALIDATE__
 
 #pragma once
 #include "Const.h"
@@ -81,7 +79,16 @@ public:
 		
 	}
 	
+	void xuLyNhapMa_LSV(int ch){
+		if(ch == BACKSPACE && !content.empty()){
+			content.erase(content.length() - 1, 1);	
+		}else {
+			ch = toupper(ch); // Viet tat ca cac ki tu trong chuoi
+			content.push_back(char(ch));
+		}
+	}
+	
 }; 
 
 
-#endif
+

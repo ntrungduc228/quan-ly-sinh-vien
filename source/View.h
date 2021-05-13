@@ -453,14 +453,15 @@ Table table_Diem(){
 }
 
 Table table_LSV(){
-	int numOfCols = 3;
+	int numOfCols = 4;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 420,420}; 
+	int arrWidth[numOfCols] = {60, 420, 420, 135}; // thao tac - 110
 	string arrName[numOfCols] = { "STT",
 								  "Ten lop",
-								  "So sinh vien hien tai cua lop"
+								  "So sinh vien hien tai cua lop",
+								  "Thao tac"
 								  };
 	
 	for(int i=0; i<numOfCols; i++){

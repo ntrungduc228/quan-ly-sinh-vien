@@ -178,6 +178,12 @@ public:
 	void them_SV(NodeSV *SV);
 	int xoa_SV(string maSV);
 	
+	int demSoLuongSV(){
+		int n = 0;
+		for(NodeSV *p = this->head; p != NULL ; n++,p=(p->getNext_SV()));
+		
+		return n;
+	}
 		
 	int sua_SV(string maSV){
 		if(this->head == NULL){

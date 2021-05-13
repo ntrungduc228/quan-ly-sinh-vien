@@ -599,8 +599,6 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
-		
-		
 		int x,y;
 		
 		while(true){

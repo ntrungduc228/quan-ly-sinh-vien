@@ -23,7 +23,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n7. Sua lop tc (done)";
 		cout<<"\n8. Xoa lop tc (done)";
 		cout<<"\n9. Them lop hoc (done)";
-		cout<<"\n10. Xuat ds lop hoc (done)";
+		cout<<"\n10. Xuat ds lop hoc (done graphics)";
 		cout<<"\n\n11. Them mon hoc (done)";
 		cout<<"\n12. In ds mon hoc (done graphics)";
 		cout<<"\n13. Sua mon hoc (done)";
@@ -199,6 +199,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}else if(chon==10){
 			system("cls");
 				DSLSV.xuatDS_LSV();
+				init_View(); DSLSV.chon_LSV(); getch();
 			system("pause");
 		}else if (chon == 11)
 		{
