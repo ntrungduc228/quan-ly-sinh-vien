@@ -40,6 +40,13 @@ const int FONT_OF_TEXT = 8;
 
 enum action { THEM, XUAT, SUA, XOA};
 
+enum InputType
+{
+	NUMBER,
+	TEXT,
+	NON_SPACE
+};
+
 /*
 ** ================ GRAPHICS ================
 */

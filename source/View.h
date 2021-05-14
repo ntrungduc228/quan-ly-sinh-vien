@@ -136,6 +136,7 @@ protected:
 	int backgroundColor;
 	int borderColor;
 	bool isInvalidate;
+	static string focusedId;
 public:
 	View(){
 		id = "";
@@ -178,10 +179,27 @@ public:
 		this->borderColor = borderColor;
 	}
 	
+	void setBackgroundColor(int color)
+	{
+		this->backgroundColor=color;
+	}
+	
+	void requestFocus()
+	{
+		View::focusedId=this->id;
+	}
+	
+	bool isFocused()
+	{
+		return (this->id) == (View::focusedId); 
+	}
+	
 	void Invalidate()	{
 		isInvalidate = true;
 	}
 };
+
+string View::focusedId = "";
 
 class Label : public View {
 protected:
@@ -288,8 +306,8 @@ public:
 		) : Label(text, id, left, top, right, bottom, backgroundColor, borderColor, textColor)
 		{
 		}
-	
-/*	void setText(string text){
+	//
+	void setText(string text){
 		this->text = text;
 	}
 	
@@ -325,9 +343,9 @@ public:
 	void setBottom(int bottom){
 		this->bottom = bottom;
 	}
-	*/
+	//??
 	string getId(){
-		this->id;
+		return this->id;
 	}
 	
 	string getText(){
@@ -500,6 +518,13 @@ void inTrang(int trangHienTai, int tongSoTrang){
 	
 	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10, strTrangHT.c_str());
 	//outtextxy(buttonPrevX + buttonWidth + 160, buttonY + 10 , string("1/3").c_str());
+}
+
+
+void clearRegion(int left, int top, int right, int bottom)
+{
+	setfillstyle(SOLID_FILL,backgroundColor);	
+	bar(left,top,right, bottom);
 }
 
 void drawFrame(int left, int top, int right, int bottom){

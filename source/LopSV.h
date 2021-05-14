@@ -329,7 +329,7 @@ public:
 		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ten lop hoc:" ,"", INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		Input newInput("","Nhap ten lop hoc:" ,"", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
 		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
