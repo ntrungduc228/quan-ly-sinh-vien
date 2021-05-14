@@ -345,17 +345,18 @@ public:
 
 
 Table table_SV(){
-	int numOfCols = 6;
+	int numOfCols = 7;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 200, 280, 160, 80, 150}; //{60, 200, 280, 160, 80, 170};
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 80, 150, 110}; //{60, 200, 280, 160, 80, 170};
 	string arrName[numOfCols] = { "STT",
 								  "Ma sinh vien",
 								  "Ho",
 								  "Ten",
 								  "Phai",
-								  "SDT"};
+								  "SDT",
+								  "Thao tac"};
 	
 	for(int i=0; i<numOfCols; i++){
 		newTable.getCols(i)->setWidth(arrWidth[i]);

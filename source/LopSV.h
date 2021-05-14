@@ -347,6 +347,16 @@ public:
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
+            	// checked if btn is clicked xem dssv
+            	for(int i=batDau; i<ketThuc; i++){
+            		if(printButton[i]->isClicked(x,y)){
+            			viTriChon = i; thaoTac = XUAT;
+            			newTable.freeTable();
+						freeArrButton(printButton, nFilter);
+						return;
+					}
+				}
+            	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
@@ -407,6 +417,15 @@ public:
 			
 			int viTriChon = 0; action thaoTac = XUAT;
 			xuatDSTheoTrang_LSV(viTriChon, thaoTac);
+			
+			switch(thaoTac){
+				case XUAT:{
+					if(viTriChon < n){
+						this->lopSV[viTriChon]->getDS_SV().chon_SV(thaoTac);
+					}
+					break;
+				}
+			}
 			
 		}else {
 			MessageBox(

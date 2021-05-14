@@ -285,6 +285,49 @@ public:
 		}
 	}
 	
+	void xuatDS1Trang_LTC(){
+		
+	}
+	
+	void locDS_LTC(){
+		
+	}
+	
+	void xuatDSTheoTrang_LTC(int &viTriChon, action &thaoTac){
+		
+	}
+	
+	void chon_LTC(){
+		if(!isNull_LTC()){
+			string strN = convertIntToString(n);
+			Label title(
+					"IN DANH SACH LOP TIN CHI",
+					LABEL_X,
+					LABEL_Y,
+					LABEL_X + LABEL_WIDTH,
+					LABEL_Y + LABEL_HEIGHT,
+					clgreen,
+					cllightgreen,
+					cllightwhite
+				);
+				
+			title.printLabel(
+						"Tong so lop",
+						strN.c_str()
+					);
+			
+			int viTriChon = 0; action thaoTac = XUAT;
+			xuatDSTheoTrang_LTC(viTriChon, thaoTac);
+		}else{
+			MessageBox(
+		        NULL,
+		        "HIEN KHONG CO LOP TIN CHI NAO !!!",
+		        "THONG BAO",
+		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+    		);
+			return;
+		}
+	}
 };
 
 /*

@@ -632,6 +632,8 @@ public:
 								viTriChon = i;  thaoTac = XOA;
 								newTable.freeTable();
 								delete[] arrMHFilter;
+								freeArrButton(editButton, nFilter);
+								freeArrButton(deleteButton, nFilter);
 								return; 	
 							}
 						}
@@ -737,6 +739,10 @@ public:
 						xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac);*/
 						this->chon_MH();
 					}
+					break;
+				}
+				case THEM:{
+					
 					break;
 				}
 			}
