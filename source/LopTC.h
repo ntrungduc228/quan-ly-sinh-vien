@@ -293,7 +293,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_LTC(int &viTriChon, action &thaoTac){
+	void xuatDSTheoTrang_LTC(int &viTriChon, Action &thaoTac){
 		
 	}
 	
@@ -316,7 +316,7 @@ public:
 						strN.c_str()
 					);
 			
-			int viTriChon = 0; action thaoTac = XUAT;
+			int viTriChon = 0; Action thaoTac = XUAT;
 			xuatDSTheoTrang_LTC(viTriChon, thaoTac);
 		}else{
 			MessageBox(

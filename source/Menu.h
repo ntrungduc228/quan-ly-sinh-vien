@@ -126,7 +126,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}
 		else if(chon==4){
 			system("cls");
-			string maSV;
+			/*string maSV;
 			cin.ignore();
 				string maLop;
 				cout<<"\nNhap ma lop: ";
@@ -140,7 +140,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 							
 							if(DSLSV.getLopSV_LSV(viTri)->getDS_SV().xoa_SV(maSV)!=-1) cout<<"\nXoa thanh cong sv";
 						}else cout<<"\nko tim thay sv";
-				}else cout<<"\nKo tim thay lop sv";
+				}else cout<<"\nKo tim thay lop sv";*/
 			
 			system("pause");
 		}else if(chon==5){

@@ -305,7 +305,7 @@ public:
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;		
 	}
 	
-	void xuatDSTheoTrang_LSV(int &viTriChon, action &thaoTac){
+	void xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac){
 		int tongSoDong = n;
 		int nFilter = n;
 		
@@ -331,7 +331,7 @@ public:
 		
 		Input newInput("","Nhap ten lop hoc:" ,"", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
-		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+		//newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
@@ -350,12 +350,23 @@ public:
             	// checked if btn is clicked xem dssv
             	for(int i=batDau; i<ketThuc; i++){
             		if(printButton[i]->isClicked(x,y)){
-            			viTriChon = i; thaoTac = XUAT;
-            			newTable.freeTable();
-						freeArrButton(printButton, nFilter);
-						return;
+            			if(lop[i]->getDS_SV().isNULL_SV()){
+            					MessageBox(
+							        NULL,
+							        "LOP KHONG CO SINH VIEN NAO !!!",
+							        "THONG BAO",
+							        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+						}else{
+							viTriChon = i; thaoTac = XUAT;
+            				newTable.freeTable();
+							freeArrButton(printButton, nFilter);
+							return;
+						}
+            			
 					}
 				}
+            	
             	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -412,15 +423,16 @@ public:
 				
 			title.printLabel(
 						"Tong so lop",
-						strN.c_str()
+						strN
 					);
 			
-			int viTriChon = 0; action thaoTac = XUAT;
+			int viTriChon = 0; Action thaoTac = XUAT;
 			xuatDSTheoTrang_LSV(viTriChon, thaoTac);
 			
 			switch(thaoTac){
 				case XUAT:{
 					if(viTriChon < n){
+						clearRegion(tableLeft, INPUT_Y, frameRight - 12, frameBottom - 12);
 						this->lopSV[viTriChon]->getDS_SV().chon_SV(thaoTac);
 					}
 					break;

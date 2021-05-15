@@ -46,7 +46,6 @@ int main(int argc, char *argv[])
 	Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 	btnNext.draw();
 	
-	
 	Input newInput("","" ,INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
 	newInput.draw(); 
 	int y = tableTop ;//+ rowTableHeight/2- textheight(string("0").c_str())/2;

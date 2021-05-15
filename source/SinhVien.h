@@ -172,7 +172,24 @@ public:
 		fileOut.close();*/
 	}
 	
-	int tim_SV(string maSV);
+	NodeSV * tim_SV(int viTriChon){
+		if(head == NULL) return NULL;
+		int i=0; NodeSV*p=head;
+		for(; p!=NULL && i<viTriChon ;i++, p=p->getNext_SV());
+		
+		return p;
+	}
+	
+	
+	int tim_SV(string maSV){
+		int viTri = 1;
+		NodeSV *p;
+		for(p = this->head; p!=NULL ; viTri++, p = p->getNext_SV())
+			if(p->getData_SV().getMaSV() == maSV) return viTri;
+			
+		return -1;
+	}
+	
 	int timViTriThem_SV(NodeSV *SV);
 	void themDau_SV(NodeSV * SV);
 	void them_SV(NodeSV *SV);
@@ -414,7 +431,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_SV(int &viTriChon, action &thaoTac){
+	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
 		
 		NodeSV *pHead = this->head;
 		int tongSoDong = this->demSoLuongSV();
@@ -437,7 +454,7 @@ public:
 		xuatDS1Trang_SV(head, batDau, ketThuc, editButton, deleteButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ma sinh vien:" ,"",MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		Input newInput("","Nhap ma sinh vien:" ,"",MAX_TENMH, NON_SPACE, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
 		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
@@ -454,6 +471,40 @@ public:
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	// checked if button sua || xoa is clicked
+            	for(int i=batDau; i<ketThuc; i++){
+					if(editButton[i]->isClicked(x,y)){
+						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+						MessageBox(
+					        NULL,
+					        "Ban muon sua sinh vien",
+					        "THONG BAO",
+					        MB_ICONWARNING | MB_OK
+			    		);
+					}else if(deleteButton[i]->isClicked(x,y)){
+						cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
+						int isConfirmed = MessageBox(
+										        NULL,
+										        "BAN CO CHAC CHAN MUON XOA SINH VIEN NAY",
+										        "THONG BAO",
+										        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+								    		);
+						switch(isConfirmed){
+							case IDCANCEL:{
+								break;
+							}
+							case IDOK: default:{
+								viTriChon = i;  thaoTac = XOA;
+								newTable.freeTable();
+								freeArrButton(editButton, nFilter);
+								freeArrButton(deleteButton, nFilter);
+								return; 	
+							}
+						}
+					}
+					
+				}
             	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -476,11 +527,81 @@ public:
 				xuatDS1Trang_SV(pHead, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
+		
+			// Filter by input
+			if(kbhit()){
+				//freeArrButton(editButton, nFilter);
+				//freeArrButton(deleteButton, nFilter);
+				char ch = getch();
+				newInput.appendText(ch);
+				newInput.draw();
+			}
 		}
 	}
 	
-	void chon_SV(action thaoTac){
-		if(isNULL_SV()){
+	void chon_SV(Action thaoTac){
+		if(!isNULL_SV()){
+			
+			int soLuongSV = this->demSoLuongSV();
+			char *intStr;  itoa(soLuongSV,intStr, 10);
+			string strSL = string(intStr);
+			string maLop = this->head->getData_SV().getMaLop();
+			
+			int viTriChon = 1;
+			Label title(
+					"IN DANH SACH SINH VIEN 1 LOP",
+					LABEL_X,
+					LABEL_Y,
+					LABEL_X + LABEL_WIDTH,
+					LABEL_Y + LABEL_HEIGHT,
+					clgreen,
+					cllightgreen,
+					cllightwhite
+				);
+				
+			title.printLabel(
+						"Lop",
+						maLop,
+						"Tong so sinh vien",
+						strSL
+					);
+			
+			
+			xuatDSTheoTrang_SV(viTriChon, thaoTac);
+			
+			switch(thaoTac){
+				case XOA:{
+					if(viTriChon < soLuongSV){
+						int trangThai = 0;
+						NodeSV *sv = tim_SV(viTriChon);
+						if(sv!= NULL)
+							trangThai =	xoa_SV(sv->getData_SV().getMaSV());
+						if(trangThai == 1){
+							MessageBox(
+						        NULL,
+						        "XOA SINH VIEN THANH CONG !!!",
+						        "THONG BAO",
+						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+						}else if(trangThai == -1){
+							MessageBox(
+						        NULL,
+						        "XOA SINH VIEN THAT BAI !!!",
+						        "THONG BAO",
+						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+						}
+						thaoTac = XUAT;
+						if(isNULL_SV())	
+							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
+						this->chon_SV(thaoTac);
+					}
+					break;
+				}
+				
+				 
+			}
+		}else {
 			MessageBox(
 		        NULL,
 		        "LOP KHONG CO SINH VIEN NAO !!!",
@@ -488,10 +609,6 @@ public:
 		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
     		);
 			return;
-		}else {
-			
-			int viTriChon = 1;
-			xuatDSTheoTrang_SV(viTriChon, thaoTac);
 		}
 	}
 };
@@ -633,14 +750,6 @@ void DSSV::themDau_SV(NodeSV * SV){
 	this->head = SV->getNode_SV();
 }
 
-int DSSV::tim_SV(string maSV){
-	int viTri = 1;
-	NodeSV *p;
-	for(p = this->head; p!=NULL ; viTri++, p = p->getNext_SV())
-		if(p->getData_SV().getMaSV() == maSV) return viTri;
-		
-	return -1;
-}
 
 int DSSV::timViTriThem_SV( NodeSV *SV){
 	int viTri = 1;
@@ -705,5 +814,5 @@ int DSSV::xoa_SV(string maSV){
 		}
 	
 	
-	return 0;
+	return -1;
 }

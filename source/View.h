@@ -524,6 +524,7 @@ void inTrang(int trangHienTai, int tongSoTrang){
 void clearRegion(int left, int top, int right, int bottom)
 {
 	setfillstyle(SOLID_FILL,backgroundColor);	
+	//setfillstyle(SOLID_FILL,clyellow);	
 	bar(left,top,right, bottom);
 }
 
