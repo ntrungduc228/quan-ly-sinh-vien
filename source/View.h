@@ -410,7 +410,7 @@ Table table_LTC(){
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {50,80,110, 360, 50,50,50,60,60,60,110}; // 420
+	int arrWidth[numOfCols] = {50,80,100, 370, 50,50,50,60,60,60,110}; // 420
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
 								  "Ma mon hoc",
@@ -420,7 +420,7 @@ Table table_LTC(){
 								  "Nhom",
 								  "SL",
 								  "CL",
-								  "TT",
+								  "Huy",
 								  "Thao tac"};
 	
 	for(int i=0; i<numOfCols; i++){

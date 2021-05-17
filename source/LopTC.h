@@ -285,19 +285,377 @@ public:
 		}
 	}
 	
-	void xuatDS1Trang_LTC(){
+	void xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
+		int soDong = ketThuc % MAX_DONG_1_TRANG; 
+		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
+		 
+		int x = tableLeft ;
+		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
+		int yBtn = tableTop;
 		
+		string strSTT;	string tenMH, trangThai="TRUE";
+		
+		if(ketThuc==0 && batDau == 0) soDong = MAX_DONG_1_TRANG;
+		else
+			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+		
+		setbkcolor(cllightwhite); setcolor(clblack); 
+		
+		for(int i = batDau; i < soDong; i++){ 
+			
+			setbkcolor(cllightwhite); setcolor(clblack); 
+			yBtn += rowTableHeight;
+			
+			// in ra chuoi rong cac dong con thua
+			if(i >= ketThuc){
+				//setbkcolor(clyellow);
+				y +=  rowTableHeight;
+				
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); 	x += newTable.getCols(0)->getWidth();
+				
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(1)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(2)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(3)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(3)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(4)->getWidth() -2 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(4)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(5)->getWidth() -2 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(5)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(6)->getWidth()-3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(6)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(7)->getWidth() -3- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(7)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(8)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(8)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(9)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(9)->getWidth();
+				
+				View view("",x,yBtn, x+newTable.getCols(10)->getWidth(), yBtn + rowTableHeight, cllightwhite, clblack);
+				view.draw();
+				
+				x =  tableLeft;
+				continue;
+			}
+		
+			y += rowTableHeight;
+			strSTT = convertIntToString(i+1);
+			
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+			
+			// xuat du lieu moi
+				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
+				x += newTable.getCols(0)->getWidth();
+				
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(1)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getMaLopTC()).c_str())/2, 
+						y, 
+						convertIntToString(loptc[i]->getMaLopTC()).c_str()
+					);
+					
+				x += newTable.getCols(1)->getWidth();
+				
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+			
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(2)->getWidth()/2  - textwidth(loptc[i]->getMaMH().c_str())/2, 
+						y, 
+						loptc[i]->getMaMH().c_str()
+					);				
+				x += newTable.getCols(2)->getWidth();
+				
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(3)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			for(int j=0; j<soLuongMH; j++){
+				if(arrMH[j].getMaMH() == loptc[i]->getMaMH()){
+					tenMH = arrMH[j].getTenMH(); j = soLuongMH;
+				}
+			}
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + 10,
+						y, 
+						tenMH.c_str()
+					);				
+				x += newTable.getCols(3)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(4)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(4)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getNienKhoa()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getNienKhoa()).c_str()
+					);
+				x += newTable.getCols(4)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(5)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(5)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getHocKy()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getHocKy()).c_str()
+					);
+				x += newTable.getCols(5)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(6)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(6)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getNhom()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getNhom()).c_str()
+					);
+				x += newTable.getCols(6)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(7)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(7)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getSVMax()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getSVMax()).c_str()
+					);
+				x += newTable.getCols(7)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(8)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(8)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getSVMax() - loptc[i]->getSoSVDK()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getSVMax() - loptc[i]->getSoSVDK()).c_str()
+					);
+				x += newTable.getCols(8)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(9)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
+			
+				trangThai = loptc[i]->getTrangThai() ? "TRUE" : "FALSE";	
+			
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(9)->getWidth()/2  - textwidth(trangThai.c_str())/2,
+						y, 
+						trangThai.c_str()
+					);
+				x += newTable.getCols(9)->getWidth();
+			
+			// ve button sua 
+			if(editButton[i] == NULL)
+				editButton[i] = new Button(
+											"Sua",
+											strSTT, 
+											x+3, 
+											yBtn+3, 
+											x+checkBoxButtonWidth,
+											yBtn-3+checkBoxButtonHeight, 
+											claqua, 
+											cllightblue, 
+											clblack
+										);
+				editButton[i]->draw();
+				x += checkBoxButtonWidth + buttonActionSpace;
+			
+			// ve button xoa 
+			if(deleteButton[i] == NULL)	
+				deleteButton[i] = new Button(
+											"Xoa",
+											strSTT, 
+											x+3, 
+											yBtn+3, 
+											x+checkBoxButtonWidth,
+											yBtn-3+checkBoxButtonHeight, 
+											cllightred, 
+											clred, 
+											cllightwhite 
+										);
+				deleteButton[i]->draw();
+				
+			x = tableLeft;
+		}
 	}
 	
 	void locDS_LTC(){
 		
 	}
 	
-	void xuatDSTheoTrang_LTC(int &viTriChon, Action &thaoTac){
+	void xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac){
+		int tongSoDong = n;
+		int nFilter = n;
 		
+		int soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
+		MonHoc *arrMH = new MonHoc[soLuongMH]; 
+		soLuongMH = 0;
+		DSMH.ChuyenCayVaoMangConTro(arrMH, DSMH.getRoot(), soLuongMH);
+		
+		LopTC *loptc[n] = {NULL};
+		for(int i=0; i<n; i++)
+			loptc[i] = this->lopTC[i];
+		
+		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		
+		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
+		int trangHienTai = 1;
+		
+		int batDau = 0;
+		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
+		
+		Button *editButton[nFilter] = {NULL};
+		Button *deleteButton[nFilter] = {NULL};
+		
+		Table newTable = table_LTC();
+		newTable.drawTable(MAX_DONG_1_TRANG);
+		
+		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+		inTrang(trangHienTai, tongSoTrang);
+		
+		Input newInput("","Nhap ma lop tc:" ,"N", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		//newInput.requestFocus();
+		//
+		newInput.draw();
+		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+	
+		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
+		btnPrev.draw();
+		
+		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
+		btnNext.draw();
+		
+		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
+		btnThem.draw();
+		
+		int x,y;
+		
+		while(true){
+			delay(0.0000);
+			// Click event change page output
+			if (ismouseclick(WM_LBUTTONDOWN)){
+            	getmouseclick(WM_LBUTTONDOWN, x, y);
+        		
+        		if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+            		
+            		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
+            		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		
+            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+				}
+					
+				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
+						
+					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
+					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					
+					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+				}
+				
+				
+				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+				inTrang(trangHienTai, tongSoTrang);
+			}
+		}
+	
+		delete[] arrMH;
 	}
 	
-	void chon_LTC(){
+	void chon_LTC(TREE DSMH){
 		if(!isNull_LTC()){
 			string strN = convertIntToString(n);
 			Label title(
@@ -317,7 +675,7 @@ public:
 					);
 			
 			int viTriChon = 0; Action thaoTac = XUAT;
-			xuatDSTheoTrang_LTC(viTriChon, thaoTac);
+			xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac);
 		}else{
 			MessageBox(
 		        NULL,

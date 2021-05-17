@@ -33,20 +33,24 @@ INT1340,Nhap mon cong nghe phan mem,4,2
 INT1358,Toan roi rac 1,3,0
 INT1359,Toan roi rac 2,3,0
 INT1360,Dao duc trong CNTT,2,0
+INT1373,Ctdl7,2,2
 INT1427,Kien truc va thiet ke phan mem,3,2
 INT1433,Lap trinh mang,2,4
 INT1434,Lap trinh web,4,1
 INT1450,Quan ly du an phan mem,3,2
 INT1528,Nhap mon tri tue nhan tao,2,3
 TEL1401,An toan mang thong tin,3,1
+int1300,Opk,2,3
+int1301,Okok,2,4
 int1303,Ctdl,2,2
+int1305,Fd,2,3
+int1306,Attt,2,2
 int1313,Ctdl1,2,2
 int1323,Ctdl2,2,2
 int1333,Ctdl3,2,2
 int1343,Ctdl4,2,2
 int1353,Ctdl5,2,2
 int1363,Ctdl6,2,2
-INT1373,Ctdl7,2,2
 int1383,Ctdl8,2,2
 int1393,Ctdl9,2,2
 int1413,Ctdl10,2,2
@@ -57,7 +61,3 @@ int1453,Ctdl14,2,2
 int1463,Ctdl15,2,2
 int1473,Ctdl16,2,2
 int1484,Dsgfdfd,2,2
-int1305,Fd,2,3
-int1306,Attt,2,2
-int1300,Opk,2,3
-int1301,Okok,2,4

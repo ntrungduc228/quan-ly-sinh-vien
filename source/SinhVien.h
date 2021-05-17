@@ -395,6 +395,7 @@ public:
 				x += newTable.getCols(5)->getWidth();
 				
 			// ve button sua 
+		if(editButton[i] == NULL)
 				editButton[i] = new Button(
 											"Sua",
 											strSTT, 
@@ -410,6 +411,7 @@ public:
 				x += checkBoxButtonWidth + buttonActionSpace;
 				
 				// ve button xoa 
+			if(deleteButton[i] == NULL)
 				deleteButton[i] = new Button(
 											"Xoa",
 											strSTT, 

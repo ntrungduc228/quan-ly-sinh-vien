@@ -269,6 +269,7 @@ public:
 			
 			x += newTable.getCols(2)->getWidth();
 			
+		if(printButton[i] == NULL)
 			printButton[i] = new Button(
 										 "Xem DSSV",
 										 strSTT, 

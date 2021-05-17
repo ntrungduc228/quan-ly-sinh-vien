@@ -14,10 +14,11 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	while(true){
 		system("cls");
 		
+		cout<<"\nMenu graphics";
 		cout<<"\n1. Nhap sinh vien (done)";
-		cout<<"\n2. Xuat ds sinh vien (done)";
+		cout<<"\n2. Xuat ds sinh vien (done graphics)";
 		cout<<"\n3. Sua sinh vien (done)";
-		cout<<"\n4. Xoa sinh vien (done)";
+		cout<<"\n4. Xoa sinh vien (done graphics)";
 		cout<<"\n5. Them lop tc (done)";
 		cout<<"\n6. Xuat DS lop tc (done)";
 		cout<<"\n7. Sua lop tc (done)";
@@ -166,9 +167,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==6){
 			system("cls");
-			cout<<"\n ds lop tc";
-			DSLTC.xuatDS_LTC();
-			system("pause");
+			//cout<<"\n ds lop tc";	DSLTC.xuatDS_LTC();	system("pause");
+			init_View(); DSLTC.chon_LTC(dsmh); getch();
 		}else if(chon==7){
 			system("cls");
 			int maLop;
