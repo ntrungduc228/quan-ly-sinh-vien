@@ -167,8 +167,9 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==6){
 			system("cls");
-			//cout<<"\n ds lop tc";	DSLTC.xuatDS_LTC();	system("pause");
-			init_View(); DSLTC.chon_LTC(dsmh); getch();
+			//cout<<"\n ds lop tc";	DSLTC.xuatDS_LTC();	system("pause"); 
+			Action	thaoTac = XUAT;
+			init_View(); DSLTC.chon_LTC(dsmh, thaoTac); getch();
 		}else if(chon==7){
 			system("cls");
 			int maLop;

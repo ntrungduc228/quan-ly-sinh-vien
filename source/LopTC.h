@@ -571,23 +571,41 @@ public:
 		}
 	}
 	
-	void locDS_LTC(){
+	void locDS_LTC(string content, LopTC *loptc[], int &nFilter, int &tongSoTrang){
+		// reset so lop tin chi loc ra duoc
+		nFilter = 0; string strMaLopTC;
+		if(!content.empty()){
+			for(int i=0; i<n; i++){
+				strMaLopTC = convertIntToString(this->lopTC[i]->getMaLopTC());
+				if(strMaLopTC.find(content) != string::npos){
+					loptc[nFilter++] = this->lopTC[i];
+				}
+			}
+		}else {
+			for(int i=0; i<n; i++){
+				loptc[nFilter++] = this->lopTC[i];
+			}
+		}
 		
+		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
 	}
 	
 	void xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac){
 		int tongSoDong = n;
-		int nFilter = n;
-		
-		int soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
-		MonHoc *arrMH = new MonHoc[soLuongMH]; 
-		soLuongMH = 0;
-		DSMH.ChuyenCayVaoMangConTro(arrMH, DSMH.getRoot(), soLuongMH);
-		
+		int nFilter = n; int soLuongMH=0;
+		soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
+		cout<<"\nSo luong trc "<<soLuongMH;
+		MonHoc *arrMH = new MonHoc[soLuongMH];
+		soLuongMH = 0; cout<<"\nToi dayyyyy";
+		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH); 
+		cout<<"\nSo luong sau "<<soLuongMH;
 		LopTC *loptc[n] = {NULL};
-		for(int i=0; i<n; i++)
-			loptc[i] = this->lopTC[i];
+		for(int i=0; i<n; i++) {
+		 	loptc[i] = this->lopTC[i];
+		}
 		
+		cout<<"\nVO day r";
 		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		
 		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
@@ -605,12 +623,11 @@ public:
 		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ma lop tc:" ,"N", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
-		//newInput.requestFocus();
-		//
+		Input newInput("","Nhap ma lop tc:" ,"N", 5, NUMBER, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
-		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
-	
+		//newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+		newInput.requestFocus();
+		
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
 		
@@ -627,6 +644,52 @@ public:
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	// is clicked button Sua || Xoa
+            	for(int i=batDau; i<ketThuc; i++){
+					if(editButton[i]->isClicked(x,y)){
+						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+						MessageBox(
+					        NULL,
+					        "Ban muon sua ltc",
+					        "THONG BAO",
+					        MB_ICONWARNING | MB_OK
+			    		);
+					}else if(deleteButton[i]->isClicked(x,y)){
+							if(lopTC[i]->getSoSVDK() == 0){
+								int isConfirmed = MessageBox(
+											        NULL,
+											        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
+											        "THONG BAO",
+											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									    		);
+								switch(isConfirmed){
+									case IDCANCEL:{
+										break;
+									}
+									case IDOK: default:{
+										viTriChon = i;  thaoTac = XOA;
+										newTable.freeTable();
+										delete[] arrMH;
+										freeArrButton(editButton, nFilter);
+										freeArrButton(deleteButton, nFilter);
+										return; 	
+									}
+								}
+							
+							}else{
+								MessageBox(
+							        NULL,
+							        "LOP DA CO SINH VIEN, KHONG THE XOA !!!",
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+							}
+						
+					}
+					
+				}
+            	
         		
         		if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -650,12 +713,26 @@ public:
 				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
+			
+			// Filter by input
+			if(kbhit()){
+				freeArrButton(editButton, nFilter);
+				freeArrButton(deleteButton, nFilter);
+				char ch = getch();
+				/*newInput.xuLyNhapTen_MH((int)ch);
+				newInput.draw();
+				locDS_LTC(newInput.getContent(), loptc, nFilter, tongSoTrang);*/
+				batDau = 0; trangHienTai = 1;
+				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
+				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+				inTrang(trangHienTai, tongSoTrang);
+			}
 		}
 	
 		delete[] arrMH;
 	}
 	
-	void chon_LTC(TREE DSMH){
+	void chon_LTC(TREE DSMH, Action &thaoTac){
 		if(!isNull_LTC()){
 			string strN = convertIntToString(n);
 			Label title(
@@ -674,8 +751,28 @@ public:
 						strN.c_str()
 					);
 			
-			int viTriChon = 0; Action thaoTac = XUAT;
+			int viTriChon = 0;
 			xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac);
+			cout<<"\no day ne";
+		//while(true){
+			switch(thaoTac){
+				case XOA:{
+					if(viTriChon < n){
+						this->xoa_LTC(lopTC[viTriChon]->getMaLopTC());
+						if(n == 0)
+							clearRegion(tableLeft, INPUT_Y - 20, frameRight - 12, frameBottom - 12);
+							thaoTac = XUAT;
+							chon_LTC(DSMH, thaoTac);
+					}
+					break;
+				}
+				case XUAT:{
+					xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac);
+					break;
+				}
+			}
+		//}
+			
 		}else{
 			MessageBox(
 		        NULL,
@@ -786,13 +883,10 @@ bool LopTC::getTrangThai(){
 
 DSLopTC::DSLopTC(){
 	n = 0;
-	//for(int i=0; i<MAX_LOPTC; i++) lopTC[i] = NULL;
-	
 }
 
 DSLopTC::~DSLopTC(){
-	for(int i=0; i<n; i++)
-		delete this->lopTC[i];
+	for(int i=0; i<n; i++)	delete this->lopTC[i];
 }
 
 int DSLopTC::getN(){
@@ -833,6 +927,12 @@ int DSLopTC::xoa_LTC(int maLopTC){
 
 		this->n--;
 		
+			MessageBox(
+				    NULL,
+				    "XOA LOP TIN CHI THANH CONG !!!",
+				    "THONG BAO",
+				    MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    	);
 		return 1;
 	}
 	

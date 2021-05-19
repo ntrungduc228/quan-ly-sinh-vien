@@ -111,8 +111,17 @@ class TREE{
 private:
 	NodeMonHoc *root;
 public:
-	TREE();
-	~TREE();
+	TREE(){
+		root = NULL;
+	}
+	~TREE(){
+		//delete root; 
+		cout<<"\nXoa root cmnr";
+	}
+	
+	void freeDS_MH(NodeMonHoc *&root){
+		delete root;
+	}
 	
 	NodeMonHoc *&getRoot(){
 		return this->root;
@@ -314,14 +323,16 @@ public:
 		}
 	}
 	
-		void ChuyenCayVaoMangConTro(MonHoc arr[], NodeMonHoc* root, int& n)
+	void ChuyenCayVaoMang(MonHoc arr[], NodeMonHoc* root, int& n)
 	{
 		if (root != NULL)
 		{
-			ChuyenCayVaoMangConTro(arr, root->getLeft(), n);
-			arr[n] = root->getData_MH();
+			ChuyenCayVaoMang(arr, root->getLeft(), n); 
+			if(root != NULL)
+				arr[n] = root->getData_MH();  
+			else cout<<"\nroot null";
 			n++;
-			ChuyenCayVaoMangConTro(arr, root->getRight(), n);
+			ChuyenCayVaoMang(arr, root->getRight(), n);
 		}
 	}
 	
@@ -874,10 +885,7 @@ public:
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		//
 		Input newInput("","Nhap ten mon hoc:" ,"N", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
-		//newInput.requestFocus();
-		//
 		newInput.draw();
 		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
@@ -999,6 +1007,7 @@ public:
 				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.xuLyNhapTen_MH((int)ch);
+				newInput.requestFocus();
 				newInput.draw();
 				locDS_MH(newInput.getContent(), arrMHFilter, nFilter, arrMH, tongSoDong, tongSoTrang);
 				/*cout<<"\n=================\n";
@@ -1145,7 +1154,7 @@ public:
 			int soLuong = DemSoNodeTrongCay(this->root);
 			MonHoc *arrMH = new MonHoc[soLuong];
 			soLuong = 0;
-			ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
+			ChuyenCayVaoMang(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
 			
 			int viTriChon = 0;
@@ -1180,7 +1189,8 @@ public:
 				case XOA:{
 					if(viTriChon < soLuong){
 						cout<<"\nvi tri :"<<viTriChon; 
-						this->setRoot(this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH()));
+						//this->setRoot(this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH()));
+						this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH());
 						delete [] arrMH;
 						/*soLuong = 0;
 						ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
@@ -1289,11 +1299,5 @@ NodeMonHoc::~NodeMonHoc(){
 */
 
 
-TREE::TREE(){
-	root = NULL;
-}
 
-TREE::~TREE(){
-	delete root;
-}
 
