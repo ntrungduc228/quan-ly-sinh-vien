@@ -44,7 +44,10 @@ enum InputType
 {
 	NUMBER,
 	TEXT,
-	NON_SPACE
+	NON_NUMBER,
+	NON_SPACE,
+	STUDENT_ID,
+	MARK
 };
 
 /*

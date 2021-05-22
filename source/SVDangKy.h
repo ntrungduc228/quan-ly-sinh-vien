@@ -1,6 +1,7 @@
 #pragma once
 #include "Const.h"
 
+
 class SVDangKy{
 private:
 	string maSV;
@@ -153,6 +154,89 @@ public:
 		}
 		
 		return false;
+	}
+	
+	bool isNull_DK(){
+		return this->head == NULL;
+	}
+	
+	int demSoLuongSV(){
+		int n = 0;
+		for(NodeDK *p = this->head; p != NULL ; n++,p=(p->getNext_DK()));
+		
+		return n;
+	}
+	
+	void xuatDS1Trang_DK(){
+		
+	}
+	
+	void locDS_DK(){
+		
+	}
+	
+	void xuatDSTheoTrang_DK(){
+		NodeDK *pHead = this->head;
+		int tongSoDong = this->demSoLuongSV();
+		int nFilter = tongSoDong;
+		
+		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		
+		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
+		int trangHienTai = 1;
+		
+		int batDau = 0;
+		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
+	
+		Table newTable = table_Diem();
+		newTable.drawTable(MAX_DONG_1_TRANG);
+		
+		Input newInput("","Nhap ma sinh vien:" ,"",MAX_TENMH, NON_SPACE, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		newInput.draw();
+	}
+	
+	void chon_DK(int maLopTC, int khoa, int HK, int nhom, string tenMH){
+		if(!isNull_DK()){
+			string strMaLopTC = convertIntToString(maLopTC);
+			string strKhoa = convertIntToString(khoa);
+			string strHK = convertIntToString(HK);
+			string strNhom = convertIntToString(nhom);
+			
+			Label title(
+					"BANG DIEM 1 LOP TIN CHI",
+					LABEL_X,
+					LABEL_Y,
+					LABEL_X + LABEL_WIDTH,
+					LABEL_Y + LABEL_HEIGHT,
+					clgreen,
+					cllightgreen,
+					cllightwhite
+				);
+				
+			title.printLabel(
+						"Ten mon hoc",
+						tenMH,
+						"Nien khoa",
+						strKhoa,
+						"Hoc ky",
+						strHK,
+						"Nhom",
+						strNhom,
+						"Ma lop",
+						strMaLopTC
+					);
+			
+			xuatDSTheoTrang_DK();
+			
+		}else{
+			MessageBox(
+		        NULL,
+		        "LOP CHUA CO SINH VIEN DANG KY !!!",
+		        "THONG BAO",
+		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+    		);
+			return;
+		}
 	}
 	
 };

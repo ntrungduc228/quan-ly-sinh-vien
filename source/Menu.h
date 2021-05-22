@@ -20,9 +20,9 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n3. Sua sinh vien (done)";
 		cout<<"\n4. Xoa sinh vien (done graphics)";
 		cout<<"\n5. Them lop tc (done)";
-		cout<<"\n6. Xuat DS lop tc (done)";
+		cout<<"\n6. Xuat DS lop tc (done graphics)";
 		cout<<"\n7. Sua lop tc (done)";
-		cout<<"\n8. Xoa lop tc (done)";
+		cout<<"\n8. Xoa lop tc (done graphics)";
 		cout<<"\n9. Them lop hoc (done)";
 		cout<<"\n10. Xuat ds lop hoc (done graphics)";
 		cout<<"\n\n11. Them mon hoc (done)";
@@ -49,6 +49,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			
 			// mon hoc
 			dsmh.writeDataDS_MH();
+			dsmh.freeDS_MH(dsmh.getRoot());
 			// ds dk
 			DSLTC.writeDataDS_DK();
 			/*for(int i=0; i<DSLSV.getN(); i++)
@@ -201,7 +202,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==10){
 			system("cls");
-				DSLSV.xuatDS_LSV();
+				//DSLSV.xuatDS_LSV();
 				init_View(); DSLSV.chon_LSV(); getch();
 			system("pause");
 		}else if (chon == 11)
@@ -334,7 +335,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==19){
 			system("cls");
-			int maLopTC;
+			/*int maLopTC;
 			cout<<"\nNhap ma lop tc: ";	
 			cin>>maLopTC;
 				
@@ -344,7 +345,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					DSLTC.xuatDiem_LTC(viTri);
 					
 				}else cout<<"\nKhong tim thay lop tc";
-			system("pause");
+			system("pause");*/
+			init_View();  DSLTC.chon_LTC(dsmh,DIEM); getch();
 		}
 	}
 }

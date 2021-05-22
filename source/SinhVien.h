@@ -172,6 +172,17 @@ public:
 		fileOut.close();*/
 	}
 	
+	void freeDS_SV(){
+		
+		NodeSV* SV = NULL;
+		while (this->head != NULL)
+		{
+			SV = head;
+			head = head->getNext_SV();
+			delete SV;
+		}
+	}
+	
 	NodeSV * tim_SV(int viTriChon){
 		if(head == NULL) return NULL;
 		int i=0; NodeSV*p=head;
@@ -245,7 +256,7 @@ public:
 		setbkcolor(cllightwhite); setcolor(clblack);
 		
 		NodeSV *p = head;
-		for(int vt = 0;  vt < batDau; vt++) p = p->getNext_SV(); // chay den STT can xuat
+		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
 		
 		for(int i = batDau; i < soDong; i++){ 
 		
@@ -297,7 +308,7 @@ public:
 				continue;
 			}
 			
-			if(i != batDau && p->getNext_SV()!=NULL) p = p->getNext_SV(); // i != batDau de khong bi mat du lieu dong dau tien	
+			if(i != batDau && p!=NULL) p = p->getNext_SV(); // i != batDau de khong bi mat du lieu dong dau tien	
 				
 			y += rowTableHeight;
 			strSTT = convertIntToString(i+1);
@@ -429,13 +440,35 @@ public:
 		}
 	}
 	
-	void locDS_SV(string content, NodeSV *&pHead, int &tongSoTrang){
+	void locDS_SV(string content, DSSV &dssv, int &tongSoTrang){
+		dssv.freeDS_SV();
+		dssv.setHead_DSSV(NULL);
+		/*if(!content.empty()){
+			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
+				if(p->getData_SV().getMaSV().find(content) != string::npos){
+					//cout<<"\n"<<p->getData_SV().getMaSV();
+					NodeSV*sv = new NodeSV(p->getData_SV());
+					 dssv.them_SV(sv);
+				}
+			}
+			
+		}*///else{
+			dssv.setHead_DSSV( this->head);
+		//}
 		
+		int nFilter = 0;
+		nFilter = dssv.isNULL_SV() ? 0 : dssv.demSoLuongSV();
+		//for(NodeSV *p=dssv.getHead_DSSV(); p!=NULL; nFilter++, p=p->getNext_SV());
+		cout<<"\nnFilter: "<<nFilter;
+		
+		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
 	}
 	
 	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
 		
-		NodeSV *pHead = this->head;
+		DSSV dssv; dssv.setHead_DSSV(this->head);
+		
 		int tongSoDong = this->demSoLuongSV();
 		int nFilter = tongSoDong;
 		
@@ -453,12 +486,13 @@ public:
 		Table newTable = table_SV();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		xuatDS1Trang_SV(head, batDau, ketThuc, editButton, deleteButton, newTable);
+		xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ma sinh vien:" ,"",MAX_TENMH, NON_SPACE, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		Input newInput("","Nhap ma sinh vien:" ,"",MAX_MASV, STUDENT_ID, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
-		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+		//newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+		newInput.requestFocus();
 	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
@@ -526,17 +560,22 @@ public:
 					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
 				}
         	
-				xuatDS1Trang_SV(pHead, batDau, ketThuc, editButton, deleteButton, newTable);
+				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		
 			// Filter by input
 			if(kbhit()){
-				//freeArrButton(editButton, nFilter);
-				//freeArrButton(deleteButton, nFilter);
+				freeArrButton(editButton, nFilter);
+				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.appendText(ch);
 				newInput.draw();
+				locDS_SV(newInput.getContent(), dssv, tongSoTrang);
+				batDau = 0; trangHienTai = 1;
+				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
+				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+				inTrang(trangHienTai, tongSoTrang);
 			}
 		}
 	}
@@ -727,7 +766,8 @@ DSSV::DSSV(){
 }
 
 DSSV::~DSSV(){
-	delete head;
+	//delete head;
+	cout<<"\ndelete head sv";
 }
 
 void DSSV::setHead_DSSV(NodeSV *head){

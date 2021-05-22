@@ -54,6 +54,10 @@ public:
 		this->maxLength = maxLength;
 	}
 	
+	void setContent(string content){
+		this->content = content;
+	}
+	
 	string getContent(){
 		return this->content;
 	}
@@ -112,41 +116,95 @@ public:
 			content.erase(content.length() - 1, 1);
 		}else
 		{
-			switch(type)
-			{
-			case NUMBER:
-				if(atoi(content.c_str()) > maxLength)
-				{
+			switch(type){
+				case NUMBER:{
+					if(content.length() == maxLength)
+					{
+						break;
+					}else if(((character >= '0') && (character <= '9')))
+					{
+						content.push_back(character);
+					}	
 					break;
-				}else if(((character >= '0') && (character <= '9')))
-				{
-					content.push_back(character);
-				}	
-				break;
-				
-			case TEXT:
-				if(content.length() > maxLength)
-				{
-					return;
-				}else if(content[content.length()-1] == ' ' && character == ' ') // Kiem tra khoang trang lien tiep
-				{
-					return;
 				}
-				else if(((character < '0') || (character > '9'))) // Khong nhan ki tu So
-				{				
-					if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
-				
-					content.push_back(character);
-				}				
-				break;
-			
-			case NON_SPACE:
-				if(character != ' ' && content.length() <= maxLength)
-				{
-					character=toupper(character);
-					content.push_back(character);
+					
+					
+				case TEXT:{
+					if(content.length() > maxLength)
+					{
+						return;
+					}else if(content[content.length()-1] == ' ' && character == ' ') // Kiem tra khoang trang lien tiep
+					{
+						return;
+					}
+					else
+					{				
+						if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
+					
+						content.push_back(character);
+					}		
+					break;
 				}
-				break;
+				
+				case NON_NUMBER:{
+					if(content.length() == maxLength)
+					{
+						return;
+					}else if(content[content.length()-1] == ' ' && character == ' ') // Kiem tra khoang trang lien tiep
+					{
+						return;
+					}
+					else if(((character < '0') || (character > '9'))) // Khong nhan ki tu So
+					{				
+						if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
+					
+						content.push_back(character);
+					}		
+					break;
+				}
+					
+				
+				case NON_SPACE:{
+					if(character != ' ' && content.length() <= maxLength)
+					{
+						character=toupper(character);
+						content.push_back(character);
+					}
+					
+					break;
+				}
+					
+				case STUDENT_ID:{
+					if((character>='0' && character <= '9'|| character>='a' && character <='z' || character>='A' && character<='Z') && character != ' ' && content.length() <= maxLength)
+					{
+						character=toupper(character);
+						content.push_back(character);
+					}
+					
+					break;
+				}
+				
+				case MARK:{
+					if(content.length() == 3){
+						return;
+					}
+					else if(((character >= '0') && (character <= '9')) || character =='.')
+					{
+						if(content.length()>1){
+							if(content ==  "10")
+								return;
+						}else if(content.length()>0){
+							if(character != '.'  && content != "1")
+								return;
+							if(content == "1" && character != '0' && character != '.')
+								return;
+						}else if(character <'0' || character >'9')
+							return;
+							
+						content.push_back(character);
+					}
+					break;
+				}
 			}
 		}
 	}

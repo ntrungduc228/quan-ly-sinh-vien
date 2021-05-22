@@ -285,7 +285,7 @@ public:
 		}
 	}
 	
-	void xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
+	void xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		 
@@ -536,40 +536,58 @@ public:
 					);
 				x += newTable.getCols(9)->getWidth();
 			
-			// ve button sua 
-			if(editButton[i] == NULL)
-				editButton[i] = new Button(
-											"Sua",
-											strSTT, 
-											x+3, 
-											yBtn+3, 
-											x+checkBoxButtonWidth,
-											yBtn-3+checkBoxButtonHeight, 
-											claqua, 
-											cllightblue, 
-											clblack
-										);
+			if(thaoTac != DIEM){
+				// ve button sua 
+				if(editButton[i] == NULL)
+					editButton[i] = new Button(
+												"Sua",
+												strSTT, 
+												x+3, 
+												yBtn+3, 
+												x+checkBoxButtonWidth,
+												yBtn-3+checkBoxButtonHeight, 
+												claqua, 
+												cllightblue, 
+												clblack
+											);
+					editButton[i]->draw();
+					x += checkBoxButtonWidth + buttonActionSpace;
+				
+				// ve button xoa 
+				if(deleteButton[i] == NULL)	
+					deleteButton[i] = new Button(
+												"Xoa",
+												strSTT, 
+												x+3, 
+												yBtn+3, 
+												x+checkBoxButtonWidth,
+												yBtn-3+checkBoxButtonHeight, 
+												cllightred, 
+												clred, 
+												cllightwhite 
+											);
+					deleteButton[i]->draw();
+			}else {
+				if(editButton[i] == NULL)
+					editButton[i] = new Button(
+										 "Xem Diem",
+										 strSTT, 
+										 x+30, 
+										 yBtn+3, 
+										 x+30+checkBoxButtonWidth+30,
+										 yBtn-3+checkBoxButtonHeight, 
+										 claqua, 
+										 cllightblue, 
+										 clblack
+									);
 				editButton[i]->draw();
-				x += checkBoxButtonWidth + buttonActionSpace;
+			}
 			
-			// ve button xoa 
-			if(deleteButton[i] == NULL)	
-				deleteButton[i] = new Button(
-											"Xoa",
-											strSTT, 
-											x+3, 
-											yBtn+3, 
-											x+checkBoxButtonWidth,
-											yBtn-3+checkBoxButtonHeight, 
-											cllightred, 
-											clred, 
-											cllightwhite 
-										);
-				deleteButton[i]->draw();
 				
 			x = tableLeft;
 		}
 	}
+
 	
 	void locDS_LTC(string content, LopTC *loptc[], int &nFilter, int &tongSoTrang){
 		// reset so lop tin chi loc ra duoc
@@ -620,7 +638,7 @@ public:
 		Table newTable = table_LTC();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 		inTrang(trangHienTai, tongSoTrang);
 		
 		Input newInput("","Nhap ma lop tc:" ,"N", 5, NUMBER, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
@@ -647,49 +665,69 @@ public:
             	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
-					if(editButton[i]->isClicked(x,y)){
+            		if(thaoTac != DIEM) {
+            			if(editButton[i]->isClicked(x,y)){
 						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
-						MessageBox(
-					        NULL,
-					        "Ban muon sua ltc",
-					        "THONG BAO",
-					        MB_ICONWARNING | MB_OK
-			    		);
-					}else if(deleteButton[i]->isClicked(x,y)){
-							if(lopTC[i]->getSoSVDK() == 0){
-								int isConfirmed = MessageBox(
-											        NULL,
-											        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
-											        "THONG BAO",
-											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-									    		);
-								switch(isConfirmed){
-									case IDCANCEL:{
-										break;
-									}
-									case IDOK: default:{
-										viTriChon = i;  thaoTac = XOA;
-										newTable.freeTable();
-										delete[] arrMH;
-										freeArrButton(editButton, nFilter);
-										freeArrButton(deleteButton, nFilter);
-										return; 	
-									}
-								}
-							
-							}else{
 								MessageBox(
 							        NULL,
-							        "LOP DA CO SINH VIEN, KHONG THE XOA !!!",
+							        "Ban muon sua ltc",
 							        "THONG BAO",
-							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							        MB_ICONWARNING | MB_OK
 					    		);
-							}
+							} 
+						if(deleteButton[i]->isClicked(x,y)){
+								if(lopTC[i]->getSoSVDK() == 0){
+									int isConfirmed = MessageBox(
+												        NULL,
+												        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
+												        "THONG BAO",
+												        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+										    		);
+									switch(isConfirmed){
+										case IDCANCEL:{
+											break;
+										}
+										case IDOK: default:{
+											viTriChon = i;  thaoTac = XOA;
+											newTable.freeTable();
+											delete[] arrMH;
+											freeArrButton(editButton, nFilter);
+											freeArrButton(deleteButton, nFilter);
+											return; 	
+										}
+									}
+								
+								}else{
+									MessageBox(
+								        NULL,
+								        "LOP DA CO SINH VIEN, KHONG THE XOA !!!",
+								        "THONG BAO",
+								        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    		);
+								}
 						
+						}
+					}else {
+						if(editButton[i]->isClicked(x,y)){
+							if(lopTC[i]->getSoSVDK() != 0){
+								viTriChon = i; thaoTac = DIEM;
+								newTable.freeTable();
+								delete[] arrMH;
+								freeArrButton(editButton, nFilter);
+								freeArrButton(deleteButton, nFilter);
+								return;
+							}else {
+								MessageBox(
+								        NULL,
+								        "LOP CHUA CO SINH VIEN DANG KY !!!",
+								        "THONG BAO",
+								        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    		);
+							}
 					}
 					
 				}
-            	
+            }
         		
         		if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -710,7 +748,7 @@ public:
 				}
 				
 				
-				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 			
@@ -719,12 +757,12 @@ public:
 				freeArrButton(editButton, nFilter);
 				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
-				/*newInput.xuLyNhapTen_MH((int)ch);
+				newInput.appendText(ch);
 				newInput.draw();
-				locDS_LTC(newInput.getContent(), loptc, nFilter, tongSoTrang);*/
+				locDS_LTC(newInput.getContent(), loptc, nFilter, tongSoTrang);
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable);
+				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		}
@@ -732,7 +770,7 @@ public:
 		delete[] arrMH;
 	}
 	
-	void chon_LTC(TREE DSMH, Action &thaoTac){
+	void chon_LTC(TREE DSMH, Action thaoTac){
 		if(!isNull_LTC()){
 			string strN = convertIntToString(n);
 			Label title(
@@ -770,8 +808,25 @@ public:
 					xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac);
 					break;
 				}
+				
+				case DIEM:{
+					if(viTriChon < n){
+						clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
+						MonHoc MH; int temp = 0;
+						MH.setMaMH(lopTC[viTriChon]->getMaMH());
+						DSMH.them_MH(DSMH.getRoot(), MH, temp );
+						lopTC[viTriChon]->getDSDK().chon_DK(
+														 lopTC[viTriChon]->getMaLopTC(),
+														 lopTC[viTriChon]->getNienKhoa(),
+														 lopTC[viTriChon]->getHocKy(),
+														 lopTC[viTriChon]->getNhom(),
+														 MH.getTenMH()
+														);
+					}
+					break;
+				}
 			}
-		//}
+		
 			
 		}else{
 			MessageBox(

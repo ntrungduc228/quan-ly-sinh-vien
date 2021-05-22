@@ -907,6 +907,11 @@ public:
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
+            	if(newInput.isClicked(x,y)){
+            		newInput.requestFocus();
+            		newInput.draw();
+				}
+            	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
 					if(editButton[i]->isClicked(x,y)){
@@ -917,6 +922,27 @@ public:
 					        "THONG BAO",
 					        MB_ICONWARNING | MB_OK
 			    		);
+			    		
+			    		MonHoc monHoc;
+			    		monHoc.setMaMH(arrMH[i].getMaMH());
+			    		monHoc.setTenMH(arrMH[i].getTenMH());
+			    		monHoc.setSTCLT(arrMH[i].getSTCLT());
+			    		monHoc.setSTCTH(arrMH[i].getSTCTH());
+			    		
+			    		thaoTac=SUA;
+			    		formNhap_MH(monHoc, thaoTac);
+			    		
+			    		if(thaoTac != HUY)
+			    		{
+							delete []arrMH;
+			    			arrMH = new MonHoc(monHoc);
+			    			return;
+						}
+			    		
+			    		// Xuat lai cac trang
+			    		newTable.drawTable(MAX_DONG_1_TRANG);					
+						xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable);
+			    		
 					}else if(deleteButton[i]->isClicked(x,y)){
 						cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
 						int isConfirmed = MessageBox(
@@ -1029,123 +1055,195 @@ public:
 	
 	void formNhap_MH(MonHoc &monHoc, Action &thaoTac)
 	{
-		Input *input[4];
-		int nInput = 4; 
+		drawFrame(500, 150, 500 + 600, 200+400);
+					Input *input[4];
+					int nInput = 4; 
 																		
-		// WIDTD input=400;
-		input[0] = new Input("", "Ma mon hoc", "0", MAX_MAMH, NON_SPACE, 650, 200, 650 + 400, 200 + INPUT_HEIGHT);
-		//input[0]->requestFocus();					
-		input[1] = new Input("", "Ten mon hoc", "1", MAX_TENMH, TEXT ,650, 200 + INPUT_HEIGHT + 20, 650 + 400, 200 + INPUT_HEIGHT * 2 + 20);
-		input[2] = new Input("", "So TC ly thuyet", "2", INT_MAX, NUMBER ,650, (200 + INPUT_HEIGHT * 2) + (20 * 2), 650 + 400, (200 + INPUT_HEIGHT * 3) + (20 * 2));
-		input[3] = new Input("","So TC thuc hanh", "3", INT_MAX, NUMBER ,650, (200 + INPUT_HEIGHT * 3) + (20 * 3), 650 + 400, (200 + INPUT_HEIGHT * 4) + (20 * 3));
+					// WIDTD input=400;
+					input[0] = new Input("", "Ma mon hoc", "0", MAX_MAMH, NON_SPACE, 650, 200, 650 + 400, 200 + INPUT_HEIGHT);
+												
+					input[1] = new Input("", "Ten mon hoc", "1", MAX_TENMH, TEXT ,650, 200 + INPUT_HEIGHT + 20, 650 + 400, 200 + INPUT_HEIGHT * 2 + 20);
+					input[2] = new Input("", "So TC ly thuyet", "2", 2, NUMBER ,650, (200 + INPUT_HEIGHT * 2) + (20 * 2), 650 + 400, (200 + INPUT_HEIGHT * 3) + (20 * 2));
+					input[3] = new Input("","So TC thuc hanh", "3", 2, NUMBER ,650, (200 + INPUT_HEIGHT * 3) + (20 * 3), 650 + 400, (200 + INPUT_HEIGHT * 4) + (20 * 3));
 					
-		Button *btn[2];
-		int nButton = 2 ;
+					Button *btn[2];
+					int nButton = 2 ;
 					
-		if(thaoTac==THEM){
-			btn[0]= new Button("THEM","T", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);	
-		}else if(thaoTac==SUA){
-			btn[0]= new Button("LUU","S", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);
-		}
-													
-			btn[1]= new Button("HUY","H", 900, (200 + INPUT_HEIGHT * 5) + (20 * 5), 900 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);
+					if(thaoTac==THEM)
+					{
+						btn[0]= new Button("THEM","T", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);	
+					}else if(thaoTac==SUA)
+					{
+						
+						btn[0]= new Button("LUU","S", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);
+						input[0]->setContent(monHoc.getMaMH());
+						input[0]->setOffEnable();
 					
-		//newInput.setBorderColor(clblack);
-		//newInput.draw();
-					
-		drawFrame(500, 150, 500 + 600, 200+400);																						
-		for(int i = 0; i < nInput; i++)	{
-			input[i]->draw();
-		}
-					
-		for(int i = 0; i < nButton; i++)	{
-			btn[i]->draw();
-		}
-					
-		string idButton;
-		bool exitLoop = false;
-		int x,y;
-		int indexInput=-1;
-		// Bang input
-		while(!exitLoop)	{
-			if(ismouseclick(WM_LBUTTONDOWN))	{
-				getmouseclick(WM_LBUTTONDOWN, x, y);
-							
-				// Kiem tra click EditText
-				for(int i = 0; i < nInput; i++)	{
-					if(input[i]->isClicked(x,y)){
-						cout << "Clck ne";
-						input[i]->requestFocus();																		
-						input[i]->draw();	
-									
-						int oldIndexInput = indexInput;	
-													
-						if (oldIndexInput != -1) {
-							input[oldIndexInput]->draw();
+						input[1]->setContent(monHoc.getTenMH());				
+						input[2]->setContent(convertIntToString(monHoc.getSTCLT()));
+						cout << "\nDay neeeee1111111";
+						input[3]->setContent(convertIntToString(monHoc.getSTCTH()));
+										
+						cout << "\nDay neeeee22222";
+										// draw input
+						for(int i = 0; i < nInput; i++)
+						{
+								input[i]->draw();
 						}
-											
-						// focusEditText
-						indexInput = i;									
-																										
-							break;		
+										
+		//								getch();
+						
 					}
-				}
+													
+					btn[1]= new Button("HUY","H", 900, (200 + INPUT_HEIGHT * 5) + (20 * 5), 900 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), clgray);
+					
+					//newInput.setBorderColor(clblack);
+					//newInput.draw();
+																																
+					for(int i = 0; i < nInput; i++)
+					{
+						input[i]->draw();
+					}
+					
+					for(int i = 0; i < nButton; i++)
+					{
+						btn[i]->draw();
+					}
+					
+					string idButton;
+					bool exitLoop = false;
+					int x,y;
+					int indexInput=-1;
+					// Bang input
+					while(!exitLoop)
+					{
+						if(ismouseclick(WM_LBUTTONDOWN))
+						{
+							getmouseclick(WM_LBUTTONDOWN, x, y);
 							
-				// Kiem tra click Button
-				for(int i=0; i < nButton; i++){
-							
-					if(btn[i]->isClicked(x,y)){
-						cout<<"\n"<<i;
-						idButton = btn[i]->getId();
-						//	cout << "\n222222222222222222=========== "<<idButton;
-						cout <<btn[i]->getId();
-						if(idButton == "T" && duyetInputs(input, nInput)){
-							cout << "THEMMMMMMMM NEEEEEEEEEEe\n";
-										
-							clearRegion(500, 150, 500 + 600, 200+400);
-																																			
-							monHoc.setMaMH(input[0]->getContent());
-							monHoc.setTenMH(input[1]->getContent());
-							monHoc.setSTCLT(atoi(input[2]->getContent().c_str()));
-							monHoc.setSTCTH(atoi(input[3]->getContent().c_str()));
-																																											
-							// Free
-							for(int i = 0 ; i < nInput; i++){ 	delete input[i];}			
-										
-							for(int i=0;i<nButton; i++){	delete btn[i];	}
-										
-							cout << "\nTTTTTTTTTTTTTTTTTTtt";
+							// Kiem tra click EditText
+							for(int i = 0; i < nInput; i++)
+							{
+								if(input[i]->isClicked(x,y) && input[i]->getEnable())
+								{
+									cout << "Clck ne";
+									input[i]->requestFocus();																		
+									input[i]->draw();
 									
-							return;
-		
-							}else if(idButton == "H"){
-								cout << "HUYYYYYYYYY NEEEEEEE\n";
-										
-									thaoTac=HUY;
-									exitLoop=true;
-									clearRegion(500, 150, 500 + 600, 200+400);
-									break;
+									int oldIndexInput = indexInput;	
+													
+									if (oldIndexInput != -1) {
+										input[oldIndexInput]->draw();
 									}
-					}
-				}																					
-		}
+											
+									// focusEditText
+									indexInput = i;									
+																										
+									break;		
+								}
+							}
+							
+							// Kiem tra click Button
+							for(int i=0; i < nButton; i++)
+							{
+							
+								if(btn[i]->isClicked(x,y))
+								{
+									cout<<"\n"<<i;
+									idButton = btn[i]->getId();
+									//	cout << "\n222222222222222222=========== "<<idButton;
+										cout <<btn[i]->getId();
+									if(idButton == "T" && duyetInputs(input, nInput))
+									{
+										cout << "THEMMMMMMMM NEEEEEEEEEEe\n";
+										
+										//clearRegion(500, 150, 500 + 600, 200+400);
+																																			
+										monHoc.setMaMH(input[0]->getContent());
+										monHoc.setTenMH(input[1]->getContent());
+										monHoc.setSTCLT(atoi(input[2]->getContent().c_str()));
+										monHoc.setSTCTH(atoi(input[3]->getContent().c_str()));
+										
+										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
+										input[indexInput]->initFocusedId();																							
+										// Free
+										for(int i = 0 ; i < nInput; i++)
+										{
+											delete input[i];
+										}			
+										
+										for(int i=0;i<nButton; i++)
+										{
+											delete btn[i];
+										}
+										
+										cout << "\nTTTTTTTTTTTTTTTTTTtt";
+										
+										return;
+		
+									}else if(idButton == "S")
+									{
+										//clearRegion(500, 150, 500 + 600, 200+400);
+										monHoc.setMaMH(input[0]->getContent());
+										monHoc.setTenMH(input[1]->getContent());
+										monHoc.setSTCLT(atoi(input[2]->getContent().c_str()));
+										monHoc.setSTCTH(atoi(input[3]->getContent().c_str()));
+										input[indexInput]->initFocusedId();	
+										
+										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
+										input[indexInput]->initFocusedId();		
+											// Free
+										for(int i = 0 ; i < nInput; i++)
+										{
+											delete input[i];
+										}			
+										
+										for(int i=0;i<nButton; i++)
+										{
+											delete btn[i];
+										}
+										
+										return;
+									}else  if(idButton == "H")
+									{
+										cout << "HUYYYYYYYYY NEEEEEEE\n";
+										
+										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
+										input[indexInput]->initFocusedId();	
+										thaoTac=HUY;
+										exitLoop=true;
+										clearRegion(500, 150, 500 + 600, 200+400);
+										
+										break;
+									}
+								}
+							}																					
+						}
 						
 											
-			if(kbhit()){
-				char character = getch();
-
-				input[indexInput]->appendText(character);
-				input[indexInput]->draw();
+						if(kbhit())
+						{
+							char character = getch();
 							
-				if(duyetInputs(input, nInput)){
-					btn[0]->setBackgroundColor(clgreen);
-					btn[0]->draw();
-				}else{
-					btn[0]->setBackgroundColor(clgray);
-					btn[0]->draw();
-				}
-			}
-		}					
+							if(indexInput != -1)
+							{
+								input[indexInput]->appendText(character);
+								input[indexInput]->draw();	
+								
+								if(duyetInputs(input, nInput))
+								{
+									btn[0]->setBackgroundColor(clgreen);
+									btn[0]->draw();
+								}else
+								{
+									btn[0]->setBackgroundColor(clgray);
+									btn[0]->draw();
+								}						
+							}														
+						}
+					}					
+					
+
 	}
 	
 	void chon_MH( ){
@@ -1208,8 +1306,45 @@ public:
 						cout<<"\n"<<arrMH->getMaMH()<<" "<<arrMH->getTenMH();
 						int checkTrung = 0;
 						them_MH(this->root, *arrMH, checkTrung );
-						if(checkTrung ==0 ) cout<<"\nThem thanh cong";
-							this->chon_MH();							
+							
+						if(checkTrung == 1){
+							MessageBox(
+						        NULL,
+						        "MA MON HOC DA TON TAI !!!",
+						        "THONG BAO",
+						        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+				    		
+							
+						}else if(checkTrung ==0 ) 
+							MessageBox(
+						        NULL,
+						        "THEM MON HOC THANH CONG !!!",
+						        "THONG BAO",
+						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+							clearRegion(500, 150, 500 + 600, 200+400);
+							this->chon_MH();						
+					}
+					break;
+				}
+				
+				case SUA:{
+					if(viTriChon < soLuong){
+						cout<<"\n"<<arrMH->getMaMH()<<" "<<arrMH->getTenMH();
+						int checkTrung = 2;
+						them_MH(this->root, *arrMH, checkTrung );
+						if(checkTrung ==0 ) 
+							MessageBox(
+						        NULL,
+						        "SUA MON HOC THANH CONG !!!",
+						        "THONG BAO",
+						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+				    		clearRegion(500, 150, 500 + 600, 200+400);
+							this->chon_MH();
+						
+						delete arrMH;
 					}
 					break;
 				}

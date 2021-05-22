@@ -137,6 +137,7 @@ protected:
 	int borderColor;
 	bool isInvalidate;
 	static string focusedId;
+	bool enable = true;
 public:
 	View(){
 		id = "";
@@ -192,6 +193,21 @@ public:
 	bool isFocused()
 	{
 		return (this->id) == (View::focusedId); 
+	}
+	
+	void initFocusedId()
+	{
+		this->focusedId="";
+	}
+	
+	void setOffEnable()
+	{
+		this->enable=false;
+	}
+	
+	bool getEnable()
+	{
+		return enable;
 	}
 	
 	void Invalidate()	{
@@ -260,7 +276,11 @@ public:
 				string name3 = "",
 				string content3 = "",
 				string name4 = "",
-				string content4 = ""
+				string content4 = "",
+				string name5 = "",
+				string content5 = "",
+				string name6 = "",
+				string content6 = ""
 		){
 			
 			draw();
@@ -272,6 +292,8 @@ public:
 			if(name2 != "") name2 +=  ": " + content2;
 			if(name3 != "") name3 +=  ": " + content3;
 			if(name4 != "") name4 +=  ": " + content4;
+			if(name5 != "") name5 +=  ": " + content5;
+			if(name6 != "") name6 +=  ": " + content6;
 			
 			if(name1 != "")
 				outtextxy((right+left)/2 - textwidth(name1.c_str())/2, top + LABEL_SPACE_Y, name1.c_str());
@@ -279,11 +301,13 @@ public:
 			
 			if(name3 == "" && name4 == ""){
 				outtextxy((right+left)/2 - textwidth(name2.c_str())/2, top + LABEL_SPACE_Y*2 - 10 , name2.c_str());
-			}else {
+			}else if(name5 == "" && name6 == ""){
 				
 				outtextxy(left + 20 , top + LABEL_SPACE_Y*2 - 10 , name2.c_str());
 				outtextxy(left + LABEL_SPACE_X + textwidth(name2.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name3.c_str());
 				outtextxy(left + LABEL_SPACE_X*2 + textwidth(name3.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name4.c_str());
+			}else {
+				
 			}
 			
 			
@@ -452,15 +476,16 @@ Table table_DK(){
 }
 
 Table table_Diem(){
-	int numOfCols = 5;
+	int numOfCols = 6;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 200, 280, 160, 200}; 
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 180, 155}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma sinh vien",
 								  "Ho",
 								  "Ten",
+								  "Lop",
 								  "Diem"};
 	
 	for(int i=0; i<numOfCols; i++){

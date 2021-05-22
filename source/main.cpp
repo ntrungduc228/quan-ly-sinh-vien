@@ -1,5 +1,5 @@
 /* 
-	graphics in Dev-C++ - nguyenvanquan7826 
+	Graphics in Dev-C++ 
 	
 	Ho Ten: NGUYEN TRUNG DUC - NGUYEN THANH TRUNG
 	MSSV: 	N19DCCN040		 - N19DCCN216
@@ -8,8 +8,6 @@
 */
 
 #include"Menu.h"
-
-
 
 int main(int argc, char *argv[])
 {
@@ -31,8 +29,6 @@ int main(int argc, char *argv[])
 
 	
 	menu(dssv,DSLTC,DSLSV,DSMH);
-	
-	
 	
 
 	init_View();
@@ -58,8 +54,6 @@ int main(int argc, char *argv[])
 	checkBoxBtn1.draw(); xtemp += checkBoxButtonWidth + 5;
 	Button checkBoxBtn2("Xoa","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight,cllightred, clred, cllightwhite   );
 	checkBoxBtn2.draw();
-	
-	
 	
 	
 	getch();
