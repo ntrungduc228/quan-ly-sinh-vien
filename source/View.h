@@ -456,15 +456,16 @@ Table table_LTC(){
 }
 
 Table table_DK(){
-	int numOfCols = 5;
+	int numOfCols = 6;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 200, 280, 160, 200}; 
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 150, 180}; 
 	string arrName[numOfCols] = { "STT",
 								  "Ma sinh vien",
 								  "Ho",
 								  "Ten",
+								  "SDT",
 								  "Lop"};
 	
 	for(int i=0; i<numOfCols; i++){

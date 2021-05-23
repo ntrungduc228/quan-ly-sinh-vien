@@ -655,6 +655,10 @@ public:
 		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
 		btnThem.draw();
 		
+		Button btnXuat("XEM DSSV","xuat", 480, 80, 480 + buttonWidth, 120);
+		if(thaoTac == XUAT);	
+			btnXuat.draw();
+		
 		int x,y;
 		
 		while(true){
@@ -750,6 +754,17 @@ public:
 				
 				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 				inTrang(trangHienTai, tongSoTrang);
+				
+				if(btnXuat.isClicked(x,y)){
+					newInput.setBorderColor(clblack);
+					newInput.draw();
+					
+					formXuatDS_DK(viTriChon, thaoTac);
+					
+					if(thaoTac != HUY){
+						
+					}
+				}
 			}
 			
 			// Filter by input
@@ -768,6 +783,46 @@ public:
 		}
 	
 		delete[] arrMH;
+	}
+	
+	void formXuatDS_DK(int &viTriChon, Action &thaoTac){
+		drawFrame(500, 150, 550 + 500, 200+300);
+		
+		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
+		input.draw();
+		
+		Button btnXuat("Xem","X",650, 300, 650+buttonWidth, 300+40, claqua, cllightblue, clblack);
+		btnXuat.draw();
+		
+		Button btnHuy("Huy", "H", 850, 300, 850+buttonWidth, 300+40, cllightred, clred, cllightwhite);
+		btnHuy.draw();
+		
+		int x,y;
+		bool exitLoop = false;
+		while(!exitLoop){
+			
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				if(btnHuy.isClicked(x,y)){
+					thaoTac = HUY; 
+					clearRegion(500, 150, 550 + 500, 200+300);
+					return;
+				}
+				
+				if(input.isClicked(x,y)){
+					input.requestFocus();
+					input.draw();
+				}
+				
+				if(kbhit()){
+					char ch = getch();
+					input.appendText(ch);
+					input.draw();
+				}
+			}
+		}
+		
 	}
 	
 	void chon_LTC(TREE DSMH, Action thaoTac){
@@ -823,6 +878,11 @@ public:
 														 MH.getTenMH()
 														);
 					}
+					break;
+				}
+				
+				case XUAT_DS:{
+					
 					break;
 				}
 			}

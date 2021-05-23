@@ -15,6 +15,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		system("cls");
 		
 		cout<<"\nMenu graphics";
+		cout<<"\nMenu guides";
 		cout<<"\n1. Nhap sinh vien (done)";
 		cout<<"\n2. Xuat ds sinh vien (done graphics)";
 		cout<<"\n3. Sua sinh vien (done)";
@@ -25,9 +26,9 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n8. Xoa lop tc (done graphics)";
 		cout<<"\n9. Them lop hoc (done)";
 		cout<<"\n10. Xuat ds lop hoc (done graphics)";
-		cout<<"\n\n11. Them mon hoc (done)";
+		cout<<"\n\n11. Them mon hoc (done graphics)";
 		cout<<"\n12. In ds mon hoc (done graphics)";
-		cout<<"\n13. Sua mon hoc (done)";
+		cout<<"\n13. Sua mon hoc (done graphics)";
 		cout<<"\n14. Xoa mon hoc (done graphics)";
 		cout<<"\n15. Dang ky lop tc (done)";
 		cout<<"\n16. In ds dang ky trong 1 lop tc (done)";

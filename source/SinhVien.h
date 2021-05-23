@@ -443,18 +443,21 @@ public:
 	void locDS_SV(string content, DSSV &dssv, int &tongSoTrang){
 		dssv.freeDS_SV();
 		dssv.setHead_DSSV(NULL);
-		/*if(!content.empty()){
+		if(!content.empty()){
 			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
 				if(p->getData_SV().getMaSV().find(content) != string::npos){
-					//cout<<"\n"<<p->getData_SV().getMaSV();
-					NodeSV*sv = new NodeSV(p->getData_SV());
-					 dssv.them_SV(sv);
+					cout<<"\n"<<p->getData_SV().getMaSV();
+					//SinhVien data = p->getData_SV();
+					//data.xuat_SV();
+					//NodeSV*SV = new NodeSV(data);
+					
+					//dssv.them_SV(SV);
 				}
 			}
 			
-		}*///else{
+		}else{
 			dssv.setHead_DSSV( this->head);
-		//}
+		}
 		
 		int nFilter = 0;
 		nFilter = dssv.isNULL_SV() ? 0 : dssv.demSoLuongSV();
@@ -467,7 +470,8 @@ public:
 	
 	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
 		
-		DSSV dssv; dssv.setHead_DSSV(this->head);
+		DSSV dssv; 
+		dssv.setHead_DSSV(this->head);
 		
 		int tongSoDong = this->demSoLuongSV();
 		int nFilter = tongSoDong;

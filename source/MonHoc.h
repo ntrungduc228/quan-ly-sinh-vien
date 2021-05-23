@@ -528,7 +528,8 @@ public:
 					
 				// ve button sua 
 			if(editButton[i] == NULL)
-				editButton[i] = new Button(
+				{
+					editButton[i] = new Button(
 											"Sua",
 											strSTT, 
 											x+3, 
@@ -539,13 +540,16 @@ public:
 											cllightblue, 
 											clblack
 										);
+					cout<<"\nDa cap phat edit "<<i;
+				}
 				editButton[i]->draw();
 				x += checkBoxButtonWidth + buttonActionSpace;
 				
 			
 				// ve button xoa 
 			if(deleteButton[i] == NULL)	
-				deleteButton[i] = new Button(
+				{
+					deleteButton[i] = new Button(
 											"Xoa",
 											strSTT, 
 											x+3, 
@@ -556,6 +560,8 @@ public:
 											clred, 
 											cllightwhite 
 										);
+					cout<<"\nDa cap phat delete "<<i;
+				}
 				deleteButton[i]->draw();
 				
 			x = tableLeft ;
@@ -686,7 +692,7 @@ public:
 				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 				
-				//	Buntton THEM
+				//	Button THEM
 				if(btnThem.isClicked(x,y))
 				{
 					drawFrame(500, 150, 500 + 600, 200+400);
