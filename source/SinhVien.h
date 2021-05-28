@@ -535,7 +535,10 @@ public:
 								break;
 							}
 							case IDOK: default:{
-								viTriChon = i;  thaoTac = XOA;
+								// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
+								
+								viTriChon = i;  
+								thaoTac = XOA;
 								newTable.freeTable();
 								freeArrButton(editButton, nFilter);
 								freeArrButton(deleteButton, nFilter);

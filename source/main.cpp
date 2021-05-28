@@ -1,5 +1,5 @@
 /* 
-	Graphics in Dev-C++ 
+	Graphics in Dev-C++ winbgim.h
 	
 	Ho Ten: NGUYEN TRUNG DUC - NGUYEN THANH TRUNG
 	MSSV: 	N19DCCN040		 - N19DCCN216

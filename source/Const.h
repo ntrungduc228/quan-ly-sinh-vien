@@ -64,6 +64,12 @@ const int frameBorder = 10;
 
 const int leftSideBar = screenWidth/5 - 20;
 
+const int xMenu = frameLeft + 20;
+const int yMenu = frameTop+ 20;
+const int btnMenuWidth = leftSideBar-xMenu-20;
+const int btnMenuHeight = 40;
+const int menuSpace = btnMenuHeight + 20;
+
 /*
 ** ================ Table ================
 */
@@ -166,7 +172,24 @@ const int MAXLENGTH_DIEM = 3;
 
 const int MAX_LOPTC = 10000;
 
+/*
+** ================ Menu Titles ================
+*/
 
+string MENU[5] = {	
+				"LOP TIN CHI",
+				"SINH VIEN",
+				"MON HOC",
+				"DIEM",
+				"THOAT"	
+			};
 
+string MENU_ID[5] = {	
+				"LTC",
+				"SV",
+				"MH",
+				"DIEM",
+				"EXIT"	
+			};
 
 

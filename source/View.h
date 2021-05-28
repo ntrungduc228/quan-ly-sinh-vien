@@ -591,6 +591,28 @@ void drawMainFrame(){
 	rectangle(frameLeft+frameBorder-1,y,leftSideBar - frameBorder-1,y+2);
 }
 
+void menuTitle(string MENU[], string MENU_ID[], int n){
+	Button *button[n] = {NULL};
+	
+	int x = xMenu;
+	int y = yMenu;
+	
+	for(int i=0; i<n; i++){
+	 if(button[i] == NULL)
+		//button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, cllightgreen, clblack, clblack);
+		button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, claqua, clblack, clblack);
+		button[i]->draw();
+		
+		y+=menuSpace;
+	}
+	
+	/*Button *btn = new Button("LOP TIN CHI","LTC", xMenu, yMenu, xMenu + btnMenuWidth, yMenu+btnMenuHeight, clgreen, cllightgreen, cllightwhite);
+	btn->draw();
+	
+	delete btn;*/
+	
+}
+
 
 void init_View(){
 	
@@ -604,6 +626,7 @@ void init_View(){
 	
 	
 	drawMainFrame();
+	menuTitle(MENU, MENU_ID, 5);
 	
 	//while(!kbhit()) delay(1);	// pause screen	
 	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);

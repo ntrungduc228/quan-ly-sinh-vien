@@ -540,7 +540,7 @@ public:
 											cllightblue, 
 											clblack
 										);
-					cout<<"\nDa cap phat edit "<<i;
+					//cout<<"\nDa cap phat edit "<<i;
 				}
 				editButton[i]->draw();
 				x += checkBoxButtonWidth + buttonActionSpace;
@@ -560,7 +560,7 @@ public:
 											clred, 
 											cllightwhite 
 										);
-					cout<<"\nDa cap phat delete "<<i;
+					//cout<<"\nDa cap phat delete "<<i;
 				}
 				deleteButton[i]->draw();
 				
@@ -658,7 +658,14 @@ public:
 								break;
 							}
 							case IDOK: default:{
-								viTriChon = i;  thaoTac = XOA;
+								string tempMaMH = arrMHFilter[i].getMaMH();
+								for(int vt=0; vt<tongSoDong; vt++){
+									if(arrMH[vt].getMaMH() == tempMaMH){
+										viTriChon = vt; break;  
+									}
+								}
+								
+								thaoTac = XOA;
 								newTable.freeTable();
 								delete[] arrMHFilter;
 								freeArrButton(editButton, nFilter);
@@ -922,6 +929,12 @@ public:
             	for(int i=batDau; i<ketThuc; i++){
 					if(editButton[i]->isClicked(x,y)){
 						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+						
+						// tim vi tri thuc(real) cua mon hoc can sua khi sau da filter trong mang ArrMH
+						int vt=0;
+						for(; vt<tongSoDong; vt++){
+							if(arrMH[vt].getMaMH() == tempMaMH)	break;  
+						}
 						MessageBox(
 					        NULL,
 					        "Ban muon sua mon hoc",
@@ -930,10 +943,10 @@ public:
 			    		);
 			    		
 			    		MonHoc monHoc;
-			    		monHoc.setMaMH(arrMH[i].getMaMH());
-			    		monHoc.setTenMH(arrMH[i].getTenMH());
-			    		monHoc.setSTCLT(arrMH[i].getSTCLT());
-			    		monHoc.setSTCTH(arrMH[i].getSTCTH());
+			    		monHoc.setMaMH(arrMH[vt].getMaMH());
+			    		monHoc.setTenMH(arrMH[vt].getTenMH());
+			    		monHoc.setSTCLT(arrMH[vt].getSTCLT());
+			    		monHoc.setSTCTH(arrMH[vt].getSTCTH());
 			    		
 			    		thaoTac=SUA;
 			    		formNhap_MH(monHoc, thaoTac);
@@ -962,7 +975,14 @@ public:
 								break;
 							}
 							case IDOK: default:{
-								viTriChon = i;  thaoTac = XOA;
+								// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
+								string tempMaMH = arrMHFilter[i].getMaMH();
+								for(int vt=0; vt<tongSoDong; vt++){
+									if(arrMH[vt].getMaMH() == tempMaMH){
+										viTriChon = vt; break;  
+									}
+								}
+								thaoTac = XOA;
 								newTable.freeTable();
 								delete[] arrMHFilter;
 								freeArrButton(editButton, nFilter);
@@ -1038,7 +1058,8 @@ public:
 				freeArrButton(editButton, nFilter);
 				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
-				newInput.xuLyNhapTen_MH((int)ch);
+				//newInput.xuLyNhapTen_MH((int)ch);
+				newInput.appendText(int(ch));
 				newInput.requestFocus();
 				newInput.draw();
 				locDS_MH(newInput.getContent(), arrMHFilter, nFilter, arrMH, tongSoDong, tongSoTrang);

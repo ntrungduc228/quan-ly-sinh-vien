@@ -666,6 +666,7 @@ public:
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	clearmouseclick(WM_LBUTTONDOWN);
             	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
@@ -692,7 +693,14 @@ public:
 											break;
 										}
 										case IDOK: default:{
-											viTriChon = i;  thaoTac = XOA;
+											// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
+											int tempMaLopTC = loptc[i]->getMaLopTC();
+											for(int vt=0; vt<this->n; vt++){
+												if(lopTC[vt]->getMaLopTC() == tempMaLopTC){
+													viTriChon = vt; break;
+												}
+											}
+											thaoTac = XOA;
 											newTable.freeTable();
 											delete[] arrMH;
 											freeArrButton(editButton, nFilter);
@@ -751,7 +759,6 @@ public:
 					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
 				}
 				
-				
 				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 				inTrang(trangHienTai, tongSoTrang);
 				
@@ -759,11 +766,13 @@ public:
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
-					formXuatDS_DK(viTriChon, thaoTac);
+					thaoTac = XUAT_DS; 
+					newTable.freeTable();
+					delete[] arrMH;
+					freeArrButton(editButton, nFilter);
+					freeArrButton(deleteButton, nFilter);
+					return;
 					
-					if(thaoTac != HUY){
-						
-					}
 				}
 			}
 			
@@ -773,6 +782,7 @@ public:
 				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.appendText(ch);
+				//newInput.xuLyNhapMa_LSV(ch);
 				newInput.draw();
 				locDS_LTC(newInput.getContent(), loptc, nFilter, tongSoTrang);
 				batDau = 0; trangHienTai = 1;
@@ -791,6 +801,7 @@ public:
 		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
 		input.draw();
 		
+		
 		Button btnXuat("Xem","X",650, 300, 650+buttonWidth, 300+40, claqua, cllightblue, clblack);
 		btnXuat.draw();
 		
@@ -799,8 +810,8 @@ public:
 		
 		int x,y;
 		bool exitLoop = false;
-		while(!exitLoop){
-			
+		while(true){
+			delay(0.000);
 			if(ismouseclick(WM_LBUTTONDOWN)) {
 				getmouseclick(WM_LBUTTONDOWN, x, y);
 				
@@ -810,16 +821,12 @@ public:
 					return;
 				}
 				
-				if(input.isClicked(x,y)){
-					input.requestFocus();
-					input.draw();
-				}
-				
-				if(kbhit()){
+			}
+			
+			if(kbhit()){
 					char ch = getch();
 					input.appendText(ch);
 					input.draw();
-				}
 			}
 		}
 		
@@ -871,18 +878,24 @@ public:
 						MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						DSMH.them_MH(DSMH.getRoot(), MH, temp );
 						lopTC[viTriChon]->getDSDK().chon_DK(
-														 lopTC[viTriChon]->getMaLopTC(),
-														 lopTC[viTriChon]->getNienKhoa(),
-														 lopTC[viTriChon]->getHocKy(),
-														 lopTC[viTriChon]->getNhom(),
-														 MH.getTenMH()
+														lopTC[viTriChon]->getMaLopTC(),
+														lopTC[viTriChon]->getNienKhoa(),
+														lopTC[viTriChon]->getHocKy(),
+														lopTC[viTriChon]->getNhom(),
+														MH.getTenMH()
 														);
 					}
 					break;
 				}
 				
 				case XUAT_DS:{
-					
+					cout<<"\nXuat ds dk";
+					formXuatDS_DK(viTriChon, thaoTac);
+					if(thaoTac == HUY){
+						cout<<"\nHUY";
+						thaoTac = XUAT;
+							chon_LTC(DSMH, thaoTac);
+					}
 					break;
 				}
 			}
