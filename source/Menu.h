@@ -3,9 +3,9 @@
 
 #include "MonHoc.h"
 #include "SinhVien.h"
+#include "LopSV.h"
 #include "SVDangKy.h"
 #include "LopTC.h"
-#include "LopSV.h"
 #include "Validate.h"
 #include "View.h"
 
@@ -16,25 +16,25 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		
 		cout<<"\nMenu graphics";
 		cout<<"\nMenu guides";
-		cout<<"\n1. Nhap sinh vien (done)";
-		cout<<"\n2. Xuat ds sinh vien (done graphics)";
-		cout<<"\n3. Sua sinh vien (done)";
-		cout<<"\n4. Xoa sinh vien (done graphics)";
-		cout<<"\n5. Them lop tc (done)";
-		cout<<"\n6. Xuat DS lop tc (done graphics)";
-		cout<<"\n7. Sua lop tc (done)";
-		cout<<"\n8. Xoa lop tc (done graphics)";
-		cout<<"\n9. Them lop hoc (done)";
-		cout<<"\n10. Xuat ds lop hoc (done graphics)";
-		cout<<"\n\n11. Them mon hoc (done graphics)";
-		cout<<"\n12. In ds mon hoc (done graphics)";
-		cout<<"\n13. Sua mon hoc (done graphics)";
-		cout<<"\n14. Xoa mon hoc (done graphics)";
-		cout<<"\n15. Dang ky lop tc (done)";
-		cout<<"\n16. In ds dang ky trong 1 lop tc (done)";
-		cout<<"\n17. Huy lop tc (done)";
-		cout<<"\n18. Nhap diem 1 lop tc (done)";
-		cout<<"\n19. Xuat diem 1 lop tc (done)";
+		cout<<"\n1. Nhap sinh vien 					(done)";
+		cout<<"\n2. Xuat ds sinh vien 				(done graphics)";
+		cout<<"\n3. Sua sinh vien 					(done)";
+		cout<<"\n4. Xoa sinh vien 					(done graphics)";
+		cout<<"\n5. Them lop tc 					(done)";
+		cout<<"\n6. Xuat DS lop tc					(done graphics)";
+		cout<<"\n7. Sua lop tc 						(done)";
+		cout<<"\n8. Xoa lop tc 						(done graphics)";
+		cout<<"\n9. Them lop hoc 					(done)";
+		cout<<"\n10. Xuat ds lop hoc 				(done graphics)";
+		cout<<"\n\n11. Them mon hoc 				(done graphics)";
+		cout<<"\n12. In ds mon hoc 					(done graphics)";
+		cout<<"\n13. Sua mon hoc 					(done graphics)";
+		cout<<"\n14. Xoa mon hoc 					(done graphics)";
+		cout<<"\n15. Dang ky lop tc 				(done)";
+		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done)";
+		cout<<"\n17. Huy lop tc 					(done)";
+		cout<<"\n18. Nhap diem 1 lop tc 			(done)";
+		cout<<"\n19. Xuat diem 1 lop tc 			(done)";
 		
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
@@ -59,8 +59,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			DSLSV.writeDataDS_SV();
 			DSLTC.writeDataDS_LTC();
 			DSLSV.writeDataDS_LSV();
-			if(ds.getHead_DSSV() == NULL) cout<<" dssv null";
-			else cout<<"dssv not null";
+			DSLSV.freeDS_LSV();
 			
 			exit(0);
 		}else if(chon==1){
@@ -171,7 +170,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("cls");
 			//cout<<"\n ds lop tc";	DSLTC.xuatDS_LTC();	system("pause"); 
 			Action	thaoTac = XUAT;
-			init_View(); DSLTC.chon_LTC(dsmh, thaoTac); getch();
+			init_View(); DSLTC.chon_LTC(dsmh, DSLSV, thaoTac); getch();
 		}else if(chon==7){
 			system("cls");
 			int maLop;
@@ -347,7 +346,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					
 				}else cout<<"\nKhong tim thay lop tc";
 			system("pause");*/
-			init_View();  DSLTC.chon_LTC(dsmh,DIEM); getch();
+			init_View();  DSLTC.chon_LTC(dsmh, DSLSV, DIEM); getch();
 		}
 	}
 }

@@ -119,7 +119,10 @@ private:
 	NodeSV *head;
 public:
 	DSSV();
-	~DSSV();
+	~DSSV(){
+	//delete head;
+		cout<<"\ndelete head sv";
+	}
 	
 	void setHead_DSSV(NodeSV *head);
 	NodeSV*& getHead_DSSV();
@@ -172,13 +175,13 @@ public:
 		fileOut.close();*/
 	}
 	
-	void freeDS_SV(){
+	void freeDS_SV(NodeSV *&pHead){
 		
 		NodeSV* SV = NULL;
-		while (this->head != NULL)
+		while (pHead != NULL)
 		{
-			SV = head;
-			head = head->getNext_SV();
+			SV = pHead;
+			pHead = pHead->getNext_SV();
 			delete SV;
 		}
 	}
@@ -239,7 +242,7 @@ public:
 		}
 	}
 	
-	void xuatDS1Trang_SV(NodeSV *head, int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
+	void xuatDS1Trang_SV(NodeSV *&head, int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		
@@ -406,7 +409,7 @@ public:
 				x += newTable.getCols(5)->getWidth();
 				
 			// ve button sua 
-		if(editButton[i] == NULL)
+		/*if(editButton[i] == NULL)
 				editButton[i] = new Button(
 											"Sua",
 											strSTT, 
@@ -434,29 +437,33 @@ public:
 											clred, 
 											cllightwhite 
 										);
-				deleteButton[i]->draw();
+				deleteButton[i]->draw();*/
 			
 			x = tableLeft;
 		}
 	}
 	
-	void locDS_SV(string content, DSSV &dssv, int &tongSoTrang){
-		dssv.freeDS_SV();
-		dssv.setHead_DSSV(NULL);
+	NodeSV* &locDS_SV(string content, DSSV &newds, int &tongSoTrang){
+		newds.freeDS_SV(newds.getHead_DSSV());
+		newds.setHead_DSSV(NULL);
+		DSSV dssv; dssv.setHead_DSSV(NULL);
 		if(!content.empty()){
 			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
 				if(p->getData_SV().getMaSV().find(content) != string::npos){
 					cout<<"\n"<<p->getData_SV().getMaSV();
-					//SinhVien data = p->getData_SV();
-					//data.xuat_SV();
-					//NodeSV*SV = new NodeSV(data);
 					
-					//dssv.them_SV(SV);
+					NodeSV*SV = new NodeSV(p->getData_SV());
+					//SV->getData_SV().xuat_SV();
+					dssv.them_SV(SV);
+					cout<<"\nThem thanh cong";
 				}
 			}
 			
 		}else{
-			dssv.setHead_DSSV( this->head);
+			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
+				NodeSV *sv = new NodeSV(p->getData_SV());
+				dssv.them_SV(sv);
+			}
 		}
 		
 		int nFilter = 0;
@@ -466,12 +473,19 @@ public:
 		
 		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
+		/*system("cls");
+		dssv.xuatDS_SV();*/
+		return dssv.getHead_DSSV();
 	}
 	
 	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
 		
 		DSSV dssv; 
-		dssv.setHead_DSSV(this->head);
+		//dssv.setHead_DSSV(this->head);
+		for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
+			NodeSV *sv = new NodeSV(p->getData_SV());
+			dssv.them_SV(sv);
+		}
 		
 		int tongSoDong = this->demSoLuongSV();
 		int nFilter = tongSoDong;
@@ -514,35 +528,37 @@ public:
             	
             	// checked if button sua || xoa is clicked
             	for(int i=batDau; i<ketThuc; i++){
-					if(editButton[i]->isClicked(x,y)){
-						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
-						MessageBox(
-					        NULL,
-					        "Ban muon sua sinh vien",
-					        "THONG BAO",
-					        MB_ICONWARNING | MB_OK
-			    		);
-					}else if(deleteButton[i]->isClicked(x,y)){
-						cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
-						int isConfirmed = MessageBox(
-										        NULL,
-										        "BAN CO CHAC CHAN MUON XOA SINH VIEN NAY",
-										        "THONG BAO",
-										        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-								    		);
-						switch(isConfirmed){
-							case IDCANCEL:{
-								break;
-							}
-							case IDOK: default:{
-								// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
-								
-								viTriChon = i;  
-								thaoTac = XOA;
-								newTable.freeTable();
-								freeArrButton(editButton, nFilter);
-								freeArrButton(deleteButton, nFilter);
-								return; 	
+            		if(editButton[i] != NULL && deleteButton[i] != NULL) {
+	            		if(editButton[i]->isClicked(x,y)){
+							cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+							MessageBox(
+						        NULL,
+						        "Ban muon sua sinh vien",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK
+				    		);
+						}else if(deleteButton[i]->isClicked(x,y)){
+							cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
+							int isConfirmed = MessageBox(
+											        NULL,
+											        "BAN CO CHAC CHAN MUON XOA SINH VIEN NAY",
+											        "THONG BAO",
+											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									    		);
+							switch(isConfirmed){
+								case IDCANCEL:{
+									break;
+								}
+								case IDOK: default:{
+									// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
+									
+									viTriChon = i;  
+									thaoTac = XOA;
+									newTable.freeTable();
+									freeArrButton(editButton, nFilter);
+									freeArrButton(deleteButton, nFilter);
+									return; 	
+								}
 							}
 						}
 					}
@@ -573,15 +589,17 @@ public:
 		
 			// Filter by input
 			if(kbhit()){
-				freeArrButton(editButton, nFilter);
-				freeArrButton(deleteButton, nFilter);
+				//freeArrButton(editButton, nFilter);
+				//freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.appendText(ch);
 				newInput.draw();
-				locDS_SV(newInput.getContent(), dssv, tongSoTrang);
+				dssv.setHead_DSSV(locDS_SV(newInput.getContent(), dssv, tongSoTrang)) ;
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+				
+				dssv.xuatDS_SV();
+				//xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		}
@@ -736,7 +754,8 @@ NodeSV::NodeSV(SinhVien data){
 
 
 NodeSV::~NodeSV(){
-	delete next;
+	//delete next;
+	cout<<"\n delete next";
 }
 
 void NodeSV::setData_SV(SinhVien data){
@@ -772,10 +791,7 @@ DSSV::DSSV(){
 	this->head = NULL;
 }
 
-DSSV::~DSSV(){
-	//delete head;
-	cout<<"\ndelete head sv";
-}
+
 
 void DSSV::setHead_DSSV(NodeSV *head){
 	this->head = head;
@@ -858,7 +874,8 @@ int DSSV::xoa_SV(string maSV){
 			p->setNext_SV(q->getNext_SV());
 			//delete q; 
 			q->setNext_SV(NULL);
-			q->~NodeSV();
+			delete q;
+			//q->~NodeSV();
 			return 1;
 		}
 	

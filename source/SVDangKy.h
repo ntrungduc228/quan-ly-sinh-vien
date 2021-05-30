@@ -195,7 +195,7 @@ public:
 		newInput.draw();
 	}
 	
-	void chon_DK(int maLopTC, int khoa, int HK, int nhom, string tenMH){
+	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, string tenMH){
 		if(!isNull_DK()){
 			string strMaLopTC = convertIntToString(maLopTC);
 			string strKhoa = convertIntToString(khoa);
@@ -263,7 +263,8 @@ NodeDK::NodeDK(){
 }
 
 NodeDK::~NodeDK(){
-	delete next;
+	//delete next;
+	cout<<"\n delete next dk";
 }
 
 /*
@@ -275,7 +276,8 @@ DSDK::DSDK(){
 }
 
 DSDK::~DSDK(){
-	delete head;
+	//delete head;
+	cout<<"\n delete head dk";
 }
 
 void DSDK::setHead_DSDK(NodeDK *head){

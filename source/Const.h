@@ -135,7 +135,7 @@ const int buttonActionSpace = 5;
 #define BACKSPACE 8
 
 /*
-** ================ Duong dan lay data tu file ================
+** ================ Duong dan luu data tu file ================
 */
 
 const char *PATH_SAVE_LTC = "data\\DSLTCSave.txt"; // lop tin chi

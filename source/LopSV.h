@@ -50,11 +50,20 @@ public:
 
 class DSLopSV{
 private:
-	LopSV *lopSV[MAX_LOPSV] ;
+	LopSV *lopSV[MAX_LOPSV]  = {NULL};
 	int n;
 public:
 	DSLopSV();
 	~DSLopSV();
+	
+	void freeDS_LSV(){
+		for(int i=0; i<n; i++){
+			if(lopSV[i] != NULL) {
+				lopSV[i]->getDS_SV().freeDS_SV(lopSV[i]->getDS_SV().getHead_DSSV());
+				delete lopSV[i];
+			}
+		}
+	}
 	
 	void setN(int n);
 	int getN();
@@ -350,21 +359,29 @@ public:
             	
             	// checked if btn is clicked xem dssv
             	for(int i=batDau; i<ketThuc; i++){
-            		if(printButton[i]->isClicked(x,y)){
-            			if(lop[i]->getDS_SV().isNULL_SV()){
-            					MessageBox(
-							        NULL,
-							        "LOP KHONG CO SINH VIEN NAO !!!",
-							        "THONG BAO",
-							        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-					    		);
-						}else{
-							viTriChon = i; thaoTac = XUAT;
-            				newTable.freeTable();
-							freeArrButton(printButton, nFilter);
-							return;
+            		if(printButton[i] != NULL){
+            			if(printButton[i]->isClicked(x,y)){
+	            			if(lop[i]->getDS_SV().isNULL_SV()){
+	            					MessageBox(
+								        NULL,
+								        "LOP KHONG CO SINH VIEN NAO !!!",
+								        "THONG BAO",
+								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    		);
+							}else{
+								string tempMaLop = lop[i]->getMaLop();
+								for(int vt = 0; vt<this->n; vt++){
+									if(lopSV[vt]->getMaLop() == tempMaLop){
+										viTriChon = vt; break;
+									}
+								}
+								thaoTac = XUAT;
+	            				newTable.freeTable();
+								freeArrButton(printButton, nFilter);
+								return;
+							}
+	            			
 						}
-            			
 					}
 				}
             	
@@ -497,7 +514,8 @@ DSLopSV::DSLopSV(){
 }
 
 DSLopSV::~DSLopSV(){
-	for(int i=0; i<MAX_LOPSV; i++) delete lopSV[i] ;
+	//for(int i=0; i<MAX_LOPSV; i++) delete lopSV[i] ;
+	cout<<"\nDelete ds lop sv";
 }
 
 void DSLopSV::setN(int n){

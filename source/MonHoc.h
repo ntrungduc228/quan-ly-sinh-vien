@@ -927,71 +927,72 @@ public:
             	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
-					if(editButton[i]->isClicked(x,y)){
-						cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
-						
-						// tim vi tri thuc(real) cua mon hoc can sua khi sau da filter trong mang ArrMH
-						int vt=0;
-						for(; vt<tongSoDong; vt++){
-							if(arrMH[vt].getMaMH() == tempMaMH)	break;  
-						}
-						MessageBox(
-					        NULL,
-					        "Ban muon sua mon hoc",
-					        "THONG BAO",
-					        MB_ICONWARNING | MB_OK
-			    		);
-			    		
-			    		MonHoc monHoc;
-			    		monHoc.setMaMH(arrMH[vt].getMaMH());
-			    		monHoc.setTenMH(arrMH[vt].getTenMH());
-			    		monHoc.setSTCLT(arrMH[vt].getSTCLT());
-			    		monHoc.setSTCTH(arrMH[vt].getSTCTH());
-			    		
-			    		thaoTac=SUA;
-			    		formNhap_MH(monHoc, thaoTac);
-			    		
-			    		if(thaoTac != HUY)
-			    		{
-							delete []arrMH;
-			    			arrMH = new MonHoc(monHoc);
-			    			return;
-						}
-			    		
-			    		// Xuat lai cac trang
-			    		newTable.drawTable(MAX_DONG_1_TRANG);					
-						xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable);
-			    		
-					}else if(deleteButton[i]->isClicked(x,y)){
-						cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
-						int isConfirmed = MessageBox(
-										        NULL,
-										        "BAN CO CHAC CHAN MUON XOA MON HOC NAY",
-										        "THONG BAO",
-										        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-								    		);
-						switch(isConfirmed){
-							case IDCANCEL:{
-								break;
+            		if(editButton[i] != NULL && deleteButton[i] != NULL){
+            			if(editButton[i]->isClicked(x,y)){
+							cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
+							string tempMaMH = arrMHFilter[i].getMaMH();
+							// tim vi tri thuc(real) cua mon hoc can sua khi sau da filter trong mang ArrMH
+							int vt=0;
+							for(; vt<tongSoDong; vt++){
+								if(arrMH[vt].getMaMH() == tempMaMH)	break;  
 							}
-							case IDOK: default:{
-								// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
-								string tempMaMH = arrMHFilter[i].getMaMH();
-								for(int vt=0; vt<tongSoDong; vt++){
-									if(arrMH[vt].getMaMH() == tempMaMH){
-										viTriChon = vt; break;  
-									}
+							MessageBox(
+						        NULL,
+						        "Ban muon sua mon hoc",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK
+				    		);
+				    		
+				    		MonHoc monHoc;
+				    		monHoc.setMaMH(arrMH[vt].getMaMH());
+				    		monHoc.setTenMH(arrMH[vt].getTenMH());
+				    		monHoc.setSTCLT(arrMH[vt].getSTCLT());
+				    		monHoc.setSTCTH(arrMH[vt].getSTCTH());
+				    		
+				    		thaoTac=SUA;
+				    		formNhap_MH(monHoc, thaoTac);
+				    		
+				    		if(thaoTac != HUY)
+				    		{
+								delete []arrMH;
+				    			arrMH = new MonHoc(monHoc);
+				    			return;
+							}
+				    		
+				    		// Xuat lai cac trang
+				    		newTable.drawTable(MAX_DONG_1_TRANG);					
+							xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable);
+				    		
+						}else if(deleteButton[i]->isClicked(x,y)){
+							cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
+							int isConfirmed = MessageBox(
+											        NULL,
+											        "BAN CO CHAC CHAN MUON XOA MON HOC NAY",
+											        "THONG BAO",
+											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									    		);
+							switch(isConfirmed){
+								case IDCANCEL:{
+									break;
 								}
-								thaoTac = XOA;
-								newTable.freeTable();
-								delete[] arrMHFilter;
-								freeArrButton(editButton, nFilter);
-								freeArrButton(deleteButton, nFilter);
-								return; 	
+								case IDOK: default:{
+									// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
+									string tempMaMH = arrMHFilter[i].getMaMH();
+									for(int vt=0; vt<tongSoDong; vt++){
+										if(arrMH[vt].getMaMH() == tempMaMH){
+											viTriChon = vt; break;  
+										}
+									}
+									thaoTac = XOA;
+									newTable.freeTable();
+									delete[] arrMHFilter;
+									freeArrButton(editButton, nFilter);
+									freeArrButton(deleteButton, nFilter);
+									return; 	
+								}
 							}
 						}
 					}
-					
 				}
             	
             	if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){

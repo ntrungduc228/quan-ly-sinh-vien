@@ -67,10 +67,6 @@ public:
 		for(int i=0; i<MAX_NUM_COLUMN; i++) this->col[i] = new Column;
 	}
 	
-	/*~Table(){
-		for(int i=0; i<MAX_NUM_COLUMN; i++) delete this->col[i];
-	}*/
-	
 	freeTable(){
 		for(int i=0; i<MAX_NUM_COLUMN; i++) delete this->col[i];
 		
@@ -521,9 +517,10 @@ void freeArrButton(Button *arrButton[], int n){
 	for(int i=0; i<n; i++){
 		if(arrButton[i] != NULL) {
 			delete arrButton[i]; 
-			arrButton[i] = NULL;
 		}
 	}
+	
+	for(int i=0; i<n; i++) arrButton[i] = NULL;
 }
 
 void xoaTrang(){
