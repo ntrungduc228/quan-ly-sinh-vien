@@ -391,8 +391,10 @@ public:
 		// Bat truong hop nhap o input ko tim thay (Trung thac mac)
 		// de in khoang trang xoa toan bo du lieu cu sau khi filter content tu input ko tim thay
 		if(ketThuc==0 && batDau == 0) soDong = MAX_DONG_1_TRANG;
-		else
-			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+		else{
+			int soDongTrong = MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+				soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + soDongTrong;
+		}
 		
 		setbkcolor(cllightwhite); setcolor(clblack); 
 		//cout<<"\nbat dau: "<<batDau<<" "<<ketThuc<<" "<<soDong;
@@ -1453,8 +1455,10 @@ NodeMonHoc::NodeMonHoc(){
 }
 
 NodeMonHoc::~NodeMonHoc(){
-	delete left;
-	delete right;
+	//delete left;
+	//delete right;
+	
+	cout<<"\nXoa left va right";
 }
 
 /*

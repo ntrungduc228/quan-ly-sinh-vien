@@ -176,7 +176,7 @@ public:
 	}
 	
 	void xuatDSTheoTrang_DK(){
-		NodeDK *pHead = this->head;
+		
 		int tongSoDong = this->demSoLuongSV();
 		int nFilter = tongSoDong;
 		

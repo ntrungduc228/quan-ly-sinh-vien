@@ -15,7 +15,7 @@ private:
 	DSDK dsdk;
 public:
 	LopTC();
-	~LopTC();
+	
 	
 	void setMaLopTC(int maLopTC);
 	void setMaMH(string maMH);
@@ -572,9 +572,9 @@ public:
 					editButton[i] = new Button(
 										 "Xem Diem",
 										 strSTT, 
-										 x+30, 
+										 x+15, 
 										 yBtn+3, 
-										 x+30+checkBoxButtonWidth+30,
+										 x+15+checkBoxButtonWidth+30,
 										 yBtn-3+checkBoxButtonHeight, 
 										 claqua, 
 										 cllightblue, 
@@ -656,8 +656,7 @@ public:
 		btnThem.draw();
 		
 		Button btnXuat("XEM DSSV","xuat", 480, 80, 480 + buttonWidth, 120);
-		if(thaoTac == XUAT);	
-			btnXuat.draw();
+		if(thaoTac == XUAT)	btnXuat.draw();
 		
 		int x,y;
 		
@@ -670,9 +669,10 @@ public:
             	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
-            		if(thaoTac != DIEM) {
-            			if(editButton[i] != NULL && deleteButton[i] != NULL) {
-            					if(editButton[i]->isClicked(x,y)){
+					if(thaoTac != DIEM) {
+						if(editButton[i] != NULL && deleteButton[i] != NULL){
+							// btn sua
+							if(editButton[i]->isClicked(x,y)){
 								cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
 								MessageBox(
 							        NULL,
@@ -680,69 +680,71 @@ public:
 							        "THONG BAO",
 							        MB_ICONWARNING | MB_OK
 					    		);
-							} 
-								if(deleteButton[i]->isClicked(x,y)){
-									if(lopTC[i]->getSoSVDK() == 0){
-										int isConfirmed = MessageBox(
-														        NULL,
-														        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
-														        "THONG BAO",
-														        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+							}
+							// btn xoa
+							if(deleteButton[i]->isClicked(x,y)){
+								if(lopTC[i]->getSoSVDK() == 0){
+									int isConfirmed = MessageBox(
+													        NULL,
+													        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
+													        "THONG BAO",
+													        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
 												    		);
-											switch(isConfirmed){
-												case IDCANCEL:{
-													break;
-												}
-												case IDOK: default:{
-													// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
-													int tempMaLopTC = loptc[i]->getMaLopTC();
-													for(int vt=0; vt<this->n; vt++){
-														if(lopTC[vt]->getMaLopTC() == tempMaLopTC){
-															viTriChon = vt; break;
-														}
-													}
-													thaoTac = XOA;
-													newTable.freeTable();
-													delete[] arrMH;
-													freeArrButton(editButton, nFilter);
-													freeArrButton(deleteButton, nFilter);
-													return; 	
-												}
+												    		
+									switch(isConfirmed){
+										case IDCANCEL:{
+												break;
 											}
 										
-										}else{
-											MessageBox(
-										        NULL,
-										        "LOP DA CO SINH VIEN, KHONG THE XOA !!!",
-										        "THONG BAO",
-										        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+										case IDOK: default:{
+												// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
+												int tempMaLopTC = loptc[i]->getMaLopTC();
+												for(int vt=0; vt<this->n; vt++){
+													if(lopTC[vt]->getMaLopTC() == tempMaLopTC){
+														viTriChon = vt; break;
+													}
+												}
+												thaoTac = XOA;
+												newTable.freeTable();
+												delete[] arrMH;
+												freeArrButton(editButton, nFilter);
+												freeArrButton(deleteButton, nFilter);
+												return; 	
+											}
+									}
+								} else {
+									MessageBox(
+										       NULL,
+										       "LOP DA CO SINH VIEN, KHONG THE XOA !!!",
+										       "THONG BAO",
+										       MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 								    		);
-										}
-								
 								}
-							}else {
-								if(editButton[i]->isClicked(x,y)){
-									if(lopTC[i]->getSoSVDK() != 0){
-										viTriChon = i; thaoTac = DIEM;
-										newTable.freeTable();
-										delete[] arrMH;
-										freeArrButton(editButton, nFilter);
-										freeArrButton(deleteButton, nFilter);
-										return;
-									}else {
-										MessageBox(
+							}
+						}
+					}else{ // xem diem
+						if(editButton[i] != NULL){
+							if(editButton[i]->isClicked(x,y)){
+								if(lopTC[i]->getSoSVDK() != 0){
+									viTriChon = i; thaoTac = DIEM;
+									newTable.freeTable();
+									delete[] arrMH;
+									freeArrButton(editButton, nFilter);
+									freeArrButton(deleteButton, nFilter);
+									return;
+								}else{
+									MessageBox(
 										        NULL,
 										        "LOP CHUA CO SINH VIEN DANG KY !!!",
-										        "THONG BAO",
+											    "THONG BAO",
 										        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-								    		);
-									}
+									    	);
+								}
 							}
+						}
 					}
-            			
-					
+				
 				}
-            }
         		
         		if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
@@ -893,7 +895,7 @@ public:
 														lopTC[viTriChon]->getHocKy(),
 														lopTC[viTriChon]->getNhom(),
 														MH.getTenMH()
-														);
+													);
 					}
 					break;
 				}
@@ -925,16 +927,17 @@ public:
 						}else{ // Co lop tin chi
 							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 							MonHoc MH; int temp = 0;
-							MH.setMaMH(lopTC[viTriChon]->getMaMH());
-							DSMH.them_MH(DSMH.getRoot(), MH, temp );
-							lopTC[viTriChon]->getDSDK().chon_DK(
+							if(lopTC[viTriChon] == NULL) cout<<"\n NULL";
+							MH.setMaMH(this->lopTC[viTriChon]->getMaMH());
+							//DSMH.them_MH(DSMH.getRoot(), MH, temp );
+							/*lopTC[viTriChon]->getDSDK().chon_DK(
 															DSLSV,
 															lopTC[viTriChon]->getMaLopTC(),
 															lopTC[viTriChon]->getNienKhoa(),
 															lopTC[viTriChon]->getHocKy(),
 															lopTC[viTriChon]->getNhom(),
 															MH.getTenMH()
-															);
+														);*/
 						}
 					}
 					break;
@@ -971,9 +974,7 @@ LopTC::LopTC(){
 	dsdk.setHead_DSDK(NULL);
 }
 
-LopTC::~LopTC(){
-	
-}
+
 
 void LopTC::setMaLopTC(int maLopTC){
 	this->maLopTC = maLopTC;	
@@ -1056,6 +1057,7 @@ DSLopTC::DSLopTC(){
 
 DSLopTC::~DSLopTC(){
 	for(int i=0; i<n; i++)	delete this->lopTC[i];
+	cout<<"\n Delete ds ltc";
 }
 
 int DSLopTC::getN(){

@@ -243,8 +243,8 @@ public:
 	}
 	
 	void xuatDS1Trang_SV(NodeSV *&head, int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable){
-		int soDong = ketThuc % MAX_DONG_1_TRANG; 
-		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
+		int soDong = ketThuc % MAX_DONG_1_TRANG; // Xem can xuat bao nhieu dong
+		if(soDong == 0) soDong = MAX_DONG_1_TRANG; // neu so du == 0 thi xuat ra MAX_DONG_1_TRANG dong
 		
 		int x = tableLeft ;
 		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
@@ -258,11 +258,12 @@ public:
 		
 		setbkcolor(cllightwhite); setcolor(clblack);
 		
+		
 		NodeSV *p = head;
 		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
 		
-		for(int i = batDau; i < soDong; i++){ 
 		
+		for(int i = batDau; i < soDong; i++){ 
 			setbkcolor(cllightwhite); setcolor(clblack); 
 			yBtn += rowTableHeight;
 			// in ra chuoi rong cac dong con thua
@@ -311,7 +312,7 @@ public:
 				continue;
 			}
 			
-			if(i != batDau && p!=NULL) p = p->getNext_SV(); // i != batDau de khong bi mat du lieu dong dau tien	
+			//if(i != batDau && p!=NULL) p = p->getNext_SV(); // i != batDau de khong bi mat du lieu dong dau tien	
 				
 			y += rowTableHeight;
 			strSTT = convertIntToString(i+1);
@@ -408,8 +409,8 @@ public:
 					
 				x += newTable.getCols(5)->getWidth();
 				
-			// ve button sua 
-		/*if(editButton[i] == NULL)
+				// ve button sua 
+			if(editButton[i] == NULL)
 				editButton[i] = new Button(
 											"Sua",
 											strSTT, 
@@ -437,16 +438,19 @@ public:
 											clred, 
 											cllightwhite 
 										);
-				deleteButton[i]->draw();*/
+				deleteButton[i]->draw();
 			
 			x = tableLeft;
+			if(p!=NULL ) p = p->getNext_SV();
+			
+			
 		}
 	}
 	
-	NodeSV* &locDS_SV(string content, DSSV &newds, int &tongSoTrang){
-		newds.freeDS_SV(newds.getHead_DSSV());
-		newds.setHead_DSSV(NULL);
-		DSSV dssv; dssv.setHead_DSSV(NULL);
+	void locDS_SV(string content, DSSV &dssv, int &nFilter, int &tongSoTrang){
+		dssv.freeDS_SV(dssv.getHead_DSSV());
+		dssv.setHead_DSSV(NULL);
+		//DSSV newds; newds.setHead_DSSV(NULL);
 		if(!content.empty()){
 			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
 				if(p->getData_SV().getMaSV().find(content) != string::npos){
@@ -466,16 +470,14 @@ public:
 			}
 		}
 		
-		int nFilter = 0;
+		
 		nFilter = dssv.isNULL_SV() ? 0 : dssv.demSoLuongSV();
-		//for(NodeSV *p=dssv.getHead_DSSV(); p!=NULL; nFilter++, p=p->getNext_SV());
-		cout<<"\nnFilter: "<<nFilter;
+	
 		
 		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
-		/*system("cls");
-		dssv.xuatDS_SV();*/
-		return dssv.getHead_DSSV();
+		
+		
 	}
 	
 	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
@@ -551,8 +553,20 @@ public:
 								}
 								case IDOK: default:{
 									// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
-									
-									viTriChon = i;  
+									string tempMaSV;
+									NodeSV *p = dssv.getHead_DSSV();
+									for(int j=0; j<nFilter && p!=NULL; j++, p=p->getNext_SV()){
+										if(j==i) {
+											tempMaSV = p->getData_SV().getMaSV(); break;
+										}
+									}
+									int vt=0; 
+									for( p=this->head; p!=NULL; vt++,p=p->getNext_SV()){
+										if(p->getData_SV().getMaSV() == tempMaSV){
+											viTriChon = vt; break;
+										} 
+									}
+								
 									thaoTac = XOA;
 									newTable.freeTable();
 									freeArrButton(editButton, nFilter);
@@ -572,6 +586,9 @@ public:
             		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
             		
             		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		
+            		xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 					
 				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
@@ -581,25 +598,27 @@ public:
 					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
 					
 					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					
+					xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
         	
-				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
-				inTrang(trangHienTai, tongSoTrang);
+				
 			}
 		
 			// Filter by input
 			if(kbhit()){
-				//freeArrButton(editButton, nFilter);
-				//freeArrButton(deleteButton, nFilter);
+				freeArrButton(editButton, nFilter);
+				freeArrButton(deleteButton, nFilter);
 				char ch = getch();
 				newInput.appendText(ch);
 				newInput.draw();
-				dssv.setHead_DSSV(locDS_SV(newInput.getContent(), dssv, tongSoTrang)) ;
+				(locDS_SV(newInput.getContent(), dssv, nFilter, tongSoTrang)) ;
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
+				//cout<<"\nKet thucccccccccccccccccccc: "<<nFilter<<" "<<ketThuc;
 				
-				dssv.xuatDS_SV();
-				//xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		}

@@ -514,13 +514,11 @@ Table table_LSV(){
 }
 
 void freeArrButton(Button *arrButton[], int n){
-	for(int i=0; i<n; i++){
-		if(arrButton[i] != NULL) {
-			delete arrButton[i]; 
-		}
+	for(int i=n-1; i>=0; i--){
+		delete arrButton[i];
+		arrButton[i] = NULL;
 	}
-	
-	for(int i=0; i<n; i++) arrButton[i] = NULL;
+	cout<<"\nXoa xong ds button";
 }
 
 void xoaTrang(){
