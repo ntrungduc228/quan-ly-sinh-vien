@@ -653,10 +653,12 @@ public:
 		btnNext.draw();
 		
 		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
-		btnThem.draw();
-		
 		Button btnXuat("XEM DSSV","xuat", 480, 80, 480 + buttonWidth, 120);
-		if(thaoTac == XUAT)	btnXuat.draw();
+		
+		if(thaoTac == XUAT)	{
+			btnThem.draw();
+			btnXuat.draw();
+		}
 		
 		int x,y;
 		
@@ -682,8 +684,11 @@ public:
 					    		);
 							}
 							// btn xoa
-							if(deleteButton[i]->isClicked(x,y)){
-								if(lopTC[i]->getSoSVDK() == 0){
+						if(deleteButton[i]->isClicked(x,y)){
+							// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
+							int tempMaLopTC = loptc[i]->getMaLopTC();
+								viTriChon = tim_LTC(tempMaLopTC);
+								if(lopTC[viTriChon]->getSoSVDK() == 0){
 									int isConfirmed = MessageBox(
 													        NULL,
 													        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
@@ -693,17 +698,12 @@ public:
 												    		
 									switch(isConfirmed){
 										case IDCANCEL:{
+												viTriChon=0;
 												break;
 											}
 										
 										case IDOK: default:{
-												// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
-												int tempMaLopTC = loptc[i]->getMaLopTC();
-												for(int vt=0; vt<this->n; vt++){
-													if(lopTC[vt]->getMaLopTC() == tempMaLopTC){
-														viTriChon = vt; break;
-													}
-												}
+												
 												thaoTac = XOA;
 												newTable.freeTable();
 												delete[] arrMH;
@@ -725,8 +725,12 @@ public:
 					}else{ // xem diem
 						if(editButton[i] != NULL){
 							if(editButton[i]->isClicked(x,y)){
-								if(lopTC[i]->getSoSVDK() != 0){
-									viTriChon = i; thaoTac = DIEM;
+								// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
+								int tempMaLopTC = loptc[i]->getMaLopTC();
+								viTriChon = tim_LTC(tempMaLopTC);
+								
+								if(lopTC[viTriChon]->getSoSVDK() != 0){
+									thaoTac = DIEM;
 									newTable.freeTable();
 									delete[] arrMH;
 									freeArrButton(editButton, nFilter);
@@ -750,22 +754,27 @@ public:
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
             		
-            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+            		
+            		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 					
 				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
 						
 					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
 					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
 					
-					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+					
+					xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
-				inTrang(trangHienTai, tongSoTrang);
+				
 				
 				if(btnXuat.isClicked(x,y)){
 					newInput.setBorderColor(clblack);
@@ -801,7 +810,7 @@ public:
 	}
 	
 	void formXuatDS_DK(int &viTriChon, Action &thaoTac){
-		drawFrame(500, 150, 550 + 500, 200+300);
+		drawFrame(500, 150, 540 + 500, 200+300);
 		
 		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
 		input.draw();
@@ -886,6 +895,8 @@ public:
 					if(viTriChon < n){
 						clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 						MonHoc MH; int temp = 0;
+						if(this->lopTC[viTriChon] == NULL) cout<<"\n lop tc dc chon NULL";
+						else cout<<"\n ltc dc chon not null";
 						MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						DSMH.them_MH(DSMH.getRoot(), MH, temp );
 						lopTC[viTriChon]->getDSDK().chon_DK(
@@ -894,7 +905,8 @@ public:
 														lopTC[viTriChon]->getNienKhoa(),
 														lopTC[viTriChon]->getHocKy(),
 														lopTC[viTriChon]->getNhom(),
-														MH.getTenMH()
+														MH.getTenMH(),
+														thaoTac
 													);
 					}
 					break;
@@ -908,11 +920,7 @@ public:
 							chon_LTC(DSMH, DSLSV, thaoTac);
 					}else {
 						int vt=-1;
-						for(int i=0; i<n; i++){
-							if(lopTC[i]->getMaLopTC() == viTriChon){
-								vt = i; break;
-							}
-						}
+						vt = this->tim_LTC(viTriChon);
 						if(vt==-1){ // khong tim thay lop tin chi
 							MessageBox(
 						        NULL,
@@ -927,17 +935,19 @@ public:
 						}else{ // Co lop tin chi
 							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 							MonHoc MH; int temp = 0;
-							if(lopTC[viTriChon] == NULL) cout<<"\n NULL";
-							MH.setMaMH(this->lopTC[viTriChon]->getMaMH());
-							//DSMH.them_MH(DSMH.getRoot(), MH, temp );
-							/*lopTC[viTriChon]->getDSDK().chon_DK(
+							if(this->lopTC[viTriChon] == NULL) cout<<"\n lop tc dc chon NULL";
+							MH.setMaMH(lopTC[viTriChon]->getMaMH());
+							DSMH.them_MH(DSMH.getRoot(), MH, temp );
+							cout<<"\nDa lay thong tin mon hoc";
+							lopTC[viTriChon]->getDSDK().chon_DK(
 															DSLSV,
 															lopTC[viTriChon]->getMaLopTC(),
 															lopTC[viTriChon]->getNienKhoa(),
 															lopTC[viTriChon]->getHocKy(),
 															lopTC[viTriChon]->getNhom(),
-															MH.getTenMH()
-														);*/
+															MH.getTenMH(),
+															thaoTac
+														);
 						}
 					}
 					break;

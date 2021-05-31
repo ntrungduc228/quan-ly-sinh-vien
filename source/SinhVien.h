@@ -257,7 +257,7 @@ public:
 			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
 		
 		setbkcolor(cllightwhite); setcolor(clblack);
-		
+		cout<<"\nBat dau "<<batDau<<" "<<ketThuc;
 		
 		NodeSV *p = head;
 		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
@@ -583,9 +583,9 @@ public:
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
             		
-            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
             		
             		xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 					inTrang(trangHienTai, tongSoTrang);
@@ -595,9 +595,9 @@ public:
 						
 					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
 					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
 					
-					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
 					
 					xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 					inTrang(trangHienTai, tongSoTrang);
@@ -616,7 +616,7 @@ public:
 				(locDS_SV(newInput.getContent(), dssv, nFilter, tongSoTrang)) ;
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-				//cout<<"\nKet thucccccccccccccccccccc: "<<nFilter<<" "<<ketThuc;
+				cout<<"\nKet thucccccccccccccccccccc: "<<nFilter<<" "<<ketThuc;
 				
 				xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);

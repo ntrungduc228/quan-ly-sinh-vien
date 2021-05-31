@@ -573,7 +573,7 @@ public:
 	
 	}
 	
-	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter,MonHoc arrMH[], int n, int &tongSoTrang){
+	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter, MonHoc arrMH[], int n, int &tongSoTrang){
 		// reset so mon hoc loc ra duoc
 		nFilter = 0;
 		if(!content.empty()){
@@ -967,6 +967,13 @@ public:
 				    		
 						}else if(deleteButton[i]->isClicked(x,y)){
 							cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
+							// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
+									string tempMaMH = arrMHFilter[i].getMaMH();
+									for(int vt=0; vt<tongSoDong; vt++){
+										if(arrMH[vt].getMaMH() == tempMaMH){
+											viTriChon = vt; break;  
+										}
+									}
 							int isConfirmed = MessageBox(
 											        NULL,
 											        "BAN CO CHAC CHAN MUON XOA MON HOC NAY",
@@ -975,16 +982,11 @@ public:
 									    		);
 							switch(isConfirmed){
 								case IDCANCEL:{
+									viTriChon = 0;
 									break;
 								}
 								case IDOK: default:{
-									// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
-									string tempMaMH = arrMHFilter[i].getMaMH();
-									for(int vt=0; vt<tongSoDong; vt++){
-										if(arrMH[vt].getMaMH() == tempMaMH){
-											viTriChon = vt; break;  
-										}
-									}
+									
 									thaoTac = XOA;
 									newTable.freeTable();
 									delete[] arrMHFilter;
@@ -1001,22 +1003,27 @@ public:
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
             		
-            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+            		
+            		xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 					
 				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
 						
 					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
 					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
 					
-					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+					
+					xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
-				inTrang(trangHienTai, tongSoTrang);
+				
 				
 				// y tuong la nhap click de doi mau Border
 				//	Buntton THEM
@@ -1073,6 +1080,8 @@ public:
 				
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
+				
+				
 				xuatDS1Trang_MH(arrMHFilter, batDau, ketThuc, editButton, deleteButton, newTable);
 				inTrang(trangHienTai, tongSoTrang);
 			}
@@ -1464,7 +1473,4 @@ NodeMonHoc::~NodeMonHoc(){
 /*
 ** ================ TREE ================
 */
-
-
-
 

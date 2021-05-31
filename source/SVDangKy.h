@@ -195,7 +195,7 @@ public:
 		newInput.draw();
 	}
 	
-	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, string tenMH){
+	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, string tenMH, Action thaoTac){
 		if(!isNull_DK()){
 			string strMaLopTC = convertIntToString(maLopTC);
 			string strKhoa = convertIntToString(khoa);

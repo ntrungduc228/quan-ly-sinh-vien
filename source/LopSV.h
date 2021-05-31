@@ -361,7 +361,15 @@ public:
             	for(int i=batDau; i<ketThuc; i++){
             		if(printButton[i] != NULL){
             			if(printButton[i]->isClicked(x,y)){
-	            			if(lop[i]->getDS_SV().isNULL_SV()){
+            				// tim vi tri thuc(real) cua lop sinh vien neu dc filter
+            				string tempMaLop = lop[i]->getMaLop();
+								for(int vt = 0; vt<this->n; vt++){
+									if(lopSV[vt]->getMaLop() == tempMaLop){
+										viTriChon = vt; break;
+									}
+								}
+								
+	            			if(lop[viTriChon]->getDS_SV().isNULL_SV()){
 	            					MessageBox(
 								        NULL,
 								        "LOP KHONG CO SINH VIEN NAO !!!",
@@ -369,12 +377,7 @@ public:
 								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 						    		);
 							}else{
-								string tempMaLop = lop[i]->getMaLop();
-								for(int vt = 0; vt<this->n; vt++){
-									if(lopSV[vt]->getMaLop() == tempMaLop){
-										viTriChon = vt; break;
-									}
-								}
+								
 								thaoTac = XUAT;
 	            				newTable.freeTable();
 								freeArrButton(printButton, nFilter);
@@ -390,22 +393,27 @@ public:
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
             		
-            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+            		
+            		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 					
 				if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
 						
 					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
 					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
 					
-					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
+					
+					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
-				inTrang(trangHienTai, tongSoTrang);
+				
         	}
         	
         	// Filter by input
