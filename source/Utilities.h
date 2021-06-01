@@ -1,5 +1,3 @@
-#ifndef __UITILITIES__
-#define __UITILITIES__
 
 #pragma once
 
@@ -11,4 +9,12 @@ string convertIntToString(int so){
 	return str; 
 }
 
-#endif
+string convertFLoatToString(float so){
+	stringstream ss;
+	ss << so;
+	string str;
+	str = ss.str();
+	return str;
+}
+
+

@@ -95,7 +95,7 @@ public:
 		setcolor(textColor);
 		
 		// draw title
-		outtextxy(left - textwidth(text.c_str()) - 2, top + INPUT_HEIGHT/2 - textheight(text.c_str()) / 2 , text.c_str() );
+		outtextxy(left - textwidth(text.c_str()) - 2, top + INPUT_HEIGHT/2 - textheight(text.c_str()) / 2 + 1 , text.c_str() );
 		
 		string newContent = content;
 		

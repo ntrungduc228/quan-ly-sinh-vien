@@ -776,7 +776,6 @@ NodeSV::NodeSV(SinhVien data){
 	this->next = NULL; 
 }
 
-
 NodeSV::~NodeSV(){
 	//delete next;
 	cout<<"\n delete next";

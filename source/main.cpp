@@ -30,10 +30,9 @@ int main(int argc, char *argv[])
 	
 	menu(dssv,DSLTC,DSLSV,DSMH);
 	
-
 	init_View();
 
-	Table newTable = table_DK();
+	Table newTable = table_Diem();
 	newTable.drawTable(15);
 
 	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
