@@ -150,7 +150,6 @@ public:
 		}
 		fileOut.close();
 		
-		
 	}
 	
 	bool isNull_LSV();

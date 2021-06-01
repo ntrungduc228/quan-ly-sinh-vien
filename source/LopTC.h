@@ -673,12 +673,14 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
-		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
+		Button btnThem("THEM LTC","them",380, 80, 400 + buttonWidth, 120);
 		Button btnXuat("XEM DSSV","xuat", 480, 80, 480 + buttonWidth, 120);
+		Button btnHuyLTC("HUY LTC", "huy", 560, 80, 560 + buttonWidth, 120);
 		
 		if(thaoTac == XUAT)	{
 			btnThem.draw();
 			btnXuat.draw();
+			btnHuyLTC.draw();
 		}
 		
 		int x,y;
@@ -800,7 +802,29 @@ public:
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				
+				if(btnHuyLTC.isClicked(x,y)){
+					int isConfirmed = MessageBox(NULL,
+												"HUY CAC LOP TIN CHI KHONG DU DIEU KIEN MO",
+												"THONG BAO",
+												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+												);
+												    		
+					switch(isConfirmed){
+						case IDCANCEL:{
+							//viTriChon=0;
+								break;
+						}
+										
+						case IDOK: default:{	
+								thaoTac = HUY;
+								newTable.freeTable();
+								delete[] arrMH;
+								freeArrButton(editButton, nFilter);
+								freeArrButton(deleteButton, nFilter);
+								return; 	
+						}
+					}
+				}
 				
 				if(btnXuat.isClicked(x,y)){
 					newInput.setBorderColor(clblack);
@@ -813,6 +837,20 @@ public:
 					freeArrButton(deleteButton, nFilter);
 					return;
 					
+				}
+				
+				
+				
+				if(btnThem.isClicked(x,y)){
+					newInput.setBorderColor(clblack);
+					newInput.draw();
+					
+					thaoTac = THEM;
+					newTable.freeTable();
+					delete[] arrMH;
+					freeArrButton(editButton, nFilter);
+					freeArrButton(deleteButton, nFilter);
+					return;
 				}
 			}
 			
@@ -875,6 +913,10 @@ public:
 				input.draw();
 			}
 		}
+		
+	}
+	
+	void formNhap_LTC(Action &thaoTac){
 		
 	}
 	
@@ -976,6 +1018,19 @@ public:
 					}
 					break;
 				}
+				
+				case HUY:{
+					this->huyLopDS_LTC();
+					MessageBox(
+							NULL,
+							"HUY THANH CONG!!!",
+							"THONG BAO",
+							 MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						);						
+					thaoTac=XUAT;
+					chon_LTC(DSMH,DSLSV,thaoTac);
+				}
+				break;
 			}
 		
 			
