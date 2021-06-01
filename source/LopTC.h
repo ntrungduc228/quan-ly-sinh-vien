@@ -839,8 +839,8 @@ public:
 		drawFrame(500, 150, 540 + 500, 200+300);
 		
 		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
+		input.requestFocus();
 		input.draw();
-		
 		
 		Button btnXuat("Xem","X",650, 300, 650+buttonWidth, 300+40, claqua, cllightblue, clblack);
 		btnXuat.draw();
@@ -849,7 +849,7 @@ public:
 		btnHuy.draw();
 		
 		int x,y;
-		bool exitLoop = false;
+		
 		while(true){
 			delay(0.000);
 			if(ismouseclick(WM_LBUTTONDOWN)) {

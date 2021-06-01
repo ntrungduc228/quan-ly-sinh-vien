@@ -157,7 +157,7 @@ const int MAX_TENMH = 50;
 
 const int MAX_MASV = 15;
 const int MAX_SDT = 11;
-const int MAX_MALOP = 15;
+const int MAX_MALOPSV = 15;
 
 /*
 ** ================ Lop sinh vien ================

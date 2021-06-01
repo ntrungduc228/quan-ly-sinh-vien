@@ -34,7 +34,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done graphics)";
 		cout<<"\n17. Huy lop tc 					(done)";
 		cout<<"\n18. Nhap diem 1 lop tc 			(done)";
-		cout<<"\n19. Xuat diem 1 lop tc 			(done)";
+		cout<<"\n19. Xuat diem 1 lop tc 			(done graphics)";
 		
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
@@ -195,10 +195,10 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("pause");
 		}else if(chon==9){
 			system("cls");
-				LopSV *lsv = new LopSV;
+				/*LopSV *lsv = new LopSV;
 				lsv->nhap_LSV();
 				if(DSLSV.them_LSV(lsv)) cout<<"\nThem lop sv thanh cong";
-				else cout<<"\nLop sv da day";
+				else cout<<"\nLop sv da day";*/
 			system("pause");
 		}else if(chon==10){
 			system("cls");

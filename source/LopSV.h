@@ -77,15 +77,14 @@ public:
 		string str;
 		while (!fileIn.eof())
 		{
-			LopSV *LSV = new LopSV;
-			
+		
 			getline(fileIn, str, '\n');
 			if(str=="") break;
-			LSV->setMaLop(str);
+			
 			/*getline(fileIn, str, '\n');
 			this->lopSV[this->n]->setTenLop(str);*/
 
-			them_LSV(LSV);
+			them_LSV(str);
 			if (fileIn.eof()) break;
 		}
 		fileIn.close();
@@ -156,7 +155,7 @@ public:
 	
 	bool isNull_LSV();
 	bool isFull_LSV();
-	int them_LSV(LopSV *LSV);
+	int them_LSV(string &maLopSV);
 	int tim_LSV(string maLop);
 	
 	int timSV_LSV(string maSV){
@@ -351,7 +350,7 @@ public:
 		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ten lop hoc:" ,"", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		Input newInput("","Nhap ten lop hoc:" ,"N", MAX_MALOPSV, NON_SPACE, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
 		//newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
@@ -361,6 +360,9 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		Button btnThem("THEM LOP HOC","them",400, 80, 430 + buttonWidth, 120);
+		btnThem.draw();
+		
 		int x,y;
 		
 		while(true){
@@ -368,6 +370,11 @@ public:
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	if(newInput.isClicked(x,y)){
+            		newInput.requestFocus();
+            		newInput.draw();
+				}
             	
             	// checked if btn is clicked xem dssv
             	for(int i=batDau; i<ketThuc; i++){
@@ -425,6 +432,15 @@ public:
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
+				if(btnThem.isClicked(x,y)){
+					newInput.setBorderColor(clblack);
+					newInput.draw();
+					
+					thaoTac = THEM;
+					newTable.freeTable();
+					freeArrButton(printButton, nFilter);
+					return;
+				}
 				
         	}
         	
@@ -432,7 +448,8 @@ public:
 			if(kbhit()){
 					freeArrButton(printButton, nFilter);
 					char ch = getch();
-					newInput.xuLyNhapMa_LSV((int)ch);
+					//newInput.xuLyNhapMa_LSV((int)ch);
+					newInput.appendText(ch);
 					newInput.draw();
 					locDS_LSV(newInput.getContent(), lop, nFilter, tongSoTrang);
 					
@@ -441,10 +458,67 @@ public:
 					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
 					inTrang(trangHienTai, tongSoTrang);
 			}
-	}
+		}
 		
-}
-	
+	}
+
+
+	void formThem_LSV(string &maLopSV, Action &thaoTac){
+		drawFrame(500, 150, 540 + 500, 200+300);
+		
+		Input input("","Nhap ma lop: " ,"N", MAX_MALOPSV, NON_SPACE,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
+		input.requestFocus();
+		input.setContent(maLopSV);
+		input.draw();
+		
+		Button btnThem("Them","T",650, 300, 650+buttonWidth, 300+40, claqua, cllightblue, clblack);
+		btnThem.draw();
+		
+		Button btnHuy("Huy", "H", 850, 300, 850+buttonWidth, 300+40, cllightred, clred, cllightwhite);
+		btnHuy.draw();
+		
+		int x,y;
+		
+		while(true){
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				if(btnHuy.isClicked(x,y)){
+					thaoTac = HUY; 
+					clearRegion(500, 150, 550 + 500, 200+300);
+					return;
+				}
+				
+				if(btnThem.isClicked(x,y) && !input.getContent().empty()){
+					int isConfirmed = MessageBox(
+											 NULL,
+											"BAN CO CHAC CHAN MUON THEM LOP SINH VIEN NAY",
+											"THONG BAO",
+											MB_ICONINFORMATION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									    );
+									    
+					switch(isConfirmed){
+						case IDCANCEL:{
+							break;
+						}
+						
+						case IDOK: default:{
+							maLopSV = input.getContent();
+							return;
+						}
+					}
+					
+				}
+			}
+			
+			if(kbhit()){
+				char ch = getch();
+				input.appendText(ch);
+				input.draw();
+			}
+		}
+	}
+
 	void chon_LSV(){
 		if(n>0){
 			string strN = convertIntToString(n);
@@ -466,16 +540,66 @@ public:
 			
 			int viTriChon = 0; Action thaoTac = XUAT;
 			xuatDSTheoTrang_LSV(viTriChon, thaoTac);
+			string maLopSV;
 			
-			switch(thaoTac){
-				case XUAT:{
-					if(viTriChon < n){
-						clearRegion(tableLeft, INPUT_Y, frameRight - 12, frameBottom - 12);
-						this->lopSV[viTriChon]->getDS_SV().chon_SV(thaoTac);
+			while(true){
+				switch(thaoTac){
+					case XUAT:{
+						if(viTriChon < n){
+							clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+							this->lopSV[viTriChon]->getDS_SV().chon_SV(thaoTac);
+						}
+						break;
 					}
-					break;
-				}
-			}
+					
+					case THEM:{
+						
+						formThem_LSV(maLopSV, thaoTac);
+						if(thaoTac == HUY){
+							thaoTac = XUAT;
+							chon_LSV();
+						}else if(thaoTac == THEM){						
+							cout<<"\nma lop can them: "<<maLopSV;
+							int kq = them_LSV(maLopSV);
+							switch(kq){
+								case -1:{ // ds lop sv da full
+									MessageBox(
+											NULL,
+											"DANH SACH LOP SINH VIEN DA DAY !!!",
+											"THONG BAO",
+											MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+										);
+									break;
+								}
+								
+								case 1:{ // them thanh cong
+									MessageBox(
+											NULL,
+											"THEM LOP SINH VIEN THANH CONG !!!",
+											"THONG BAO",
+											MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+										);
+									clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+									thaoTac = XUAT; chon_LSV();
+									break;
+								}
+								
+								case 2: default:{ // lop sv da ton tai
+									MessageBox(
+									        NULL,
+									        "LOP SINH VIEN NAY DA TON TAI !!!",
+									        "THONG BAO",
+									        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							    		);
+									break;
+								}
+							}
+						}
+						break;
+					}
+				} // switch case 
+			} // while true
+				
 			
 		}else {
 			MessageBox(
@@ -554,12 +678,17 @@ bool DSLopSV::isFull_LSV(){
 	return this->n == MAX_LOPSV;
 }
 
-int DSLopSV::them_LSV(LopSV *LSV){
+int DSLopSV::them_LSV(string &maLopSV){
 	if(isFull_LSV()) return -1;
 	
 	int vt=0;
-	for(; vt<n ; vt++) 
-		if(lopSV[vt]->getMaLop() >= LSV->getMaLop()) break;
+	for(; vt<n ; vt++) {
+		if(lopSV[vt]->getMaLop() > maLopSV) break;
+		if(lopSV[vt]->getMaLop() == maLopSV ) return 2; // lop sv da ton tai
+	}
+	
+	LopSV *LSV = new LopSV;
+	LSV->setMaLop(maLopSV);
 	
 	for(int i=n; i>vt; i--)
 		lopSV[i] = lopSV[i-1];

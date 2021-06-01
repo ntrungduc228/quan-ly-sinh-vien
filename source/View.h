@@ -618,6 +618,9 @@ void menuTitle(string MENU[], string MENU_ID[], int n){
 	
 }
 
+void decorMainScreen(){
+	
+}
 
 void init_View(){
 	
