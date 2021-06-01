@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 
 	init_View();
 
-	Table newTable = table_DK();
+	Table newTable = table_LTC();
 	newTable.drawTable(15);
 
 	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);

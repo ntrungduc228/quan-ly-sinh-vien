@@ -53,7 +53,7 @@ enum InputType {
 ** ================ GRAPHICS ================
 */
 
-const int screenWidth = 1460; //1520 1460;
+const int screenWidth = 1460; // 1460;
 const int screenHeight = 745; //745;
 
 const int frameLeft = 10;
@@ -74,7 +74,7 @@ const int menuSpace = btnMenuHeight + 20;
 ** ================ Table ================
 */
 
-const int MAX_NUM_COLUMN = 11;
+const int MAX_NUM_COLUMN = 15;
 const int tableLeft = leftSideBar + 20;
 const int tableTop = 130;//110; 
 const int rowTableHeight = 32;//36; 

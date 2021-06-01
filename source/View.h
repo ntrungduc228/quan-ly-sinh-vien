@@ -426,20 +426,21 @@ Table table_MH(){
 }
 
 Table table_LTC(){
-	int numOfCols = 11;
+	int numOfCols = 12;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {50,80,100, 370, 50,50,50,60,60,60,110}; // 420
+	int arrWidth[numOfCols] = {50,70,80, 370, 50,50,50,50,50,50,60,110}; // 100, 420
 	string arrName[numOfCols] = { "STT",
 								  "Ma lop",
-								  "Ma mon hoc",
+								  "Ma MH",
 								  "Ten mon hoc",
 								  "Khoa",
 								  "HK",
 								  "Nhom",
 								  "SL",
 								  "CL",
+								  "Min",
 								  "Huy",
 								  "Thao tac"};
 	

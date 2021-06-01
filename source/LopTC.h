@@ -92,7 +92,7 @@ public:
 	}
 	
 	void huyLopTC(){
-		if(soSVDK < svMin && huyLop == false)
+		if(soSVDK != 0 && soSVDK < svMin && huyLop == false)
 			huyLop = true;
 	}
 };
@@ -314,19 +314,19 @@ public:
 				outtextxy(
 					x + textwidth(string("|").c_str()), 
 					y, 
-					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string((newTable.getCols(0)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				); 	x += newTable.getCols(0)->getWidth();
 				
 				outtextxy(
 					x + textwidth(string("|").c_str()), 
 					y, 
-					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string(	(newTable.getCols(1)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				); x += newTable.getCols(1)->getWidth();
 				
 				outtextxy(
 					x +textwidth(string("|").c_str()), 
 					y, 
-					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string((newTable.getCols(2)->getWidth() -4- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				); x += newTable.getCols(2)->getWidth();
 				
 				outtextxy(
@@ -371,7 +371,13 @@ public:
 					string((newTable.getCols(9)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
 				); x += newTable.getCols(9)->getWidth();
 				
-				View view("",x,yBtn, x+newTable.getCols(10)->getWidth(), yBtn + rowTableHeight, cllightwhite, clblack);
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(10)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(10)->getWidth();
+				
+				View view("",x,yBtn, x+newTable.getCols(11)->getWidth(), yBtn + rowTableHeight, cllightwhite, clblack);
 				view.draw();
 				
 				x =  tableLeft;
@@ -385,7 +391,7 @@ public:
 				outtextxy(
 					x + textwidth(string("|").c_str()), 
 					y, 
-					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string((newTable.getCols(0)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
 			
 			// xuat du lieu moi
@@ -396,7 +402,7 @@ public:
 				outtextxy(
 					x + textwidth(string("|").c_str()), 
 					y, 
-					string(	(newTable.getCols(1)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string(	(newTable.getCols(1)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
 				
 			// xuat du lieu moi
@@ -412,7 +418,7 @@ public:
 				outtextxy(
 					x +textwidth(string("|").c_str()), 
 					y, 
-					string((newTable.getCols(2)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+					string((newTable.getCols(2)->getWidth() -4- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
 			
 			// xuat du lieu moi
@@ -518,23 +524,38 @@ public:
 						convertIntToString(loptc[i]->getSVMax() - loptc[i]->getSoSVDK()).c_str()
 					);
 				x += newTable.getCols(8)->getWidth();
-			
+				
 			// xoa du lieu cu
 				outtextxy(
 					x +textwidth(string("|").c_str()), 
 					y, 
 					string((newTable.getCols(9)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
 				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(9)->getWidth()/2  - textwidth(convertIntToString(loptc[i]->getSVMin()).c_str())/2,
+						y, 
+						convertIntToString(loptc[i]->getSVMin()).c_str()
+					);
+				x += newTable.getCols(9)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(10)->getWidth() -2- textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				);
 			
 				trangThai = loptc[i]->getTrangThai() ? "TRUE" : "FALSE";	
 			
 			// xuat du lieu moi
 				outtextxy(
-						x + newTable.getCols(9)->getWidth()/2  - textwidth(trangThai.c_str())/2,
+						x + newTable.getCols(10)->getWidth()/2  - textwidth(trangThai.c_str())/2,
 						y, 
 						trangThai.c_str()
 					);
-				x += newTable.getCols(9)->getWidth();
+				x += newTable.getCols(10)->getWidth();
 			
 			if(thaoTac != DIEM){
 				// ve button sua 
@@ -738,11 +759,11 @@ public:
 									return;
 								}else{
 									MessageBox(
-										        NULL,
-										        "LOP CHUA CO SINH VIEN DANG KY !!!",
-											    "THONG BAO",
-										        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-									    	);
+										    NULL,
+										    "LOP CHUA CO SINH VIEN DANG KY !!!",
+											"THONG BAO",
+										    MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+									    );
 								}
 							}
 						}
@@ -895,8 +916,6 @@ public:
 					if(viTriChon < n){
 						clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 						MonHoc MH; int temp = 0;
-						if(this->lopTC[viTriChon] == NULL) cout<<"\n lop tc dc chon NULL";
-						else cout<<"\n ltc dc chon not null";
 						MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						DSMH.them_MH(DSMH.getRoot(), MH, temp );
 						lopTC[viTriChon]->getDSDK().chon_DK(
@@ -913,15 +932,14 @@ public:
 				}
 				
 				case XUAT_DS:{
-					cout<<"\nXuat ds dk";
 					formXuatDS_DK(viTriChon, thaoTac);
 					if(thaoTac == HUY){
 						thaoTac = XUAT;
 							chon_LTC(DSMH, DSLSV, thaoTac);
 					}else {
-						int vt=-1;
-						vt = this->tim_LTC(viTriChon);
-						if(vt==-1){ // khong tim thay lop tin chi
+						
+						viTriChon = this->tim_LTC(viTriChon);
+						if(viTriChon==-1){ // khong tim thay lop tin chi
 							MessageBox(
 						        NULL,
 						        "KHONG TIM THAY LOP TIN CHI !!!",
@@ -935,10 +953,9 @@ public:
 						}else{ // Co lop tin chi
 							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 							MonHoc MH; int temp = 0;
-							if(this->lopTC[viTriChon] == NULL) cout<<"\n lop tc dc chon NULL";
 							MH.setMaMH(lopTC[viTriChon]->getMaMH());
 							DSMH.them_MH(DSMH.getRoot(), MH, temp );
-							cout<<"\nDa lay thong tin mon hoc";
+							
 							lopTC[viTriChon]->getDSDK().chon_DK(
 															DSLSV,
 															lopTC[viTriChon]->getMaLopTC(),
