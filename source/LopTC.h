@@ -690,6 +690,11 @@ public:
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	clearmouseclick(WM_LBUTTONDOWN);
             	
+            	if(newInput.isClicked(x,y)){
+            		newInput.requestFocus();
+            		newInput.draw();
+				}
+            	
             	// is clicked button Sua || Xoa
             	for(int i=batDau; i<ketThuc; i++){
 					if(thaoTac != DIEM) {
@@ -924,6 +929,7 @@ public:
 														lopTC[viTriChon]->getNienKhoa(),
 														lopTC[viTriChon]->getHocKy(),
 														lopTC[viTriChon]->getNhom(),
+														lopTC[viTriChon]->getTrangThai(),
 														MH.getTenMH(),
 														thaoTac
 													);
@@ -955,13 +961,14 @@ public:
 							MonHoc MH; int temp = 0;
 							MH.setMaMH(lopTC[viTriChon]->getMaMH());
 							DSMH.them_MH(DSMH.getRoot(), MH, temp );
-							
+							thaoTac = XUAT_DS;
 							lopTC[viTriChon]->getDSDK().chon_DK(
 															DSLSV,
 															lopTC[viTriChon]->getMaLopTC(),
 															lopTC[viTriChon]->getNienKhoa(),
 															lopTC[viTriChon]->getHocKy(),
 															lopTC[viTriChon]->getNhom(),
+															lopTC[viTriChon]->getTrangThai(),
 															MH.getTenMH(),
 															thaoTac
 														);

@@ -31,7 +31,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n13. Sua mon hoc 					(done graphics)";
 		cout<<"\n14. Xoa mon hoc 					(done graphics)";
 		cout<<"\n15. Dang ky lop tc 				(done)";
-		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done)";
+		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done graphics)";
 		cout<<"\n17. Huy lop tc 					(done)";
 		cout<<"\n18. Nhap diem 1 lop tc 			(done)";
 		cout<<"\n19. Xuat diem 1 lop tc 			(done)";
@@ -234,7 +234,8 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				cout << "\nXUAT THANH CONG! "<<n;
 				
 				delete [] arr; system("pause");*/
-				init_View(); dsmh.chon_MH();
+				Action thaoTac = XUAT;
+				init_View(); dsmh.chon_MH(thaoTac);
 				
 				getch();
 				

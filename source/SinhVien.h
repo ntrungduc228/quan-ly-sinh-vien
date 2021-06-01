@@ -528,6 +528,11 @@ public:
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
+            	if(newInput.isClicked(x,y)){
+            		newInput.requestFocus();
+            		newInput.draw();
+				}
+            	
             	// checked if button sua || xoa is clicked
             	for(int i=batDau; i<ketThuc; i++){
             		if(editButton[i] != NULL && deleteButton[i] != NULL) {

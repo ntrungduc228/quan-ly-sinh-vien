@@ -1285,7 +1285,7 @@ public:
 
 	}
 	
-	void chon_MH( ){
+	void chon_MH( Action &thaoTac){
 		if(this->root != NULL){
 			
 			int soLuong = DemSoNodeTrongCay(this->root);
@@ -1293,9 +1293,10 @@ public:
 			soLuong = 0;
 			ChuyenCayVaoMang(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
+			string strSoLuong = convertIntToString(soLuong);
 			
 			int viTriChon = 0;
-			Action thaoTac = XUAT;
+			
 			
 			Label title(
 					"IN DANH SACH MON HOC",
@@ -1309,6 +1310,8 @@ public:
 				);
 				
 			title.printLabel(
+						"So luong mon hoc",
+						strSoLuong
 						/*"Ma lop",
 						"D19CQCN03-N",
 						"Nien khoa",
@@ -1336,7 +1339,8 @@ public:
 						xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac);*/
 						if(this->root == NULL)
 							clearRegion(tableLeft, INPUT_Y - 20, frameRight - 12, frameBottom - 12);
-						this->chon_MH();
+						thaoTac = XUAT;
+						this->chon_MH(thaoTac);
 					}
 					break;
 				}
@@ -1363,7 +1367,8 @@ public:
 						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 				    		);
 							clearRegion(500, 150, 500 + 600, 200+400);
-							this->chon_MH();						
+							thaoTac = XUAT;
+							this->chon_MH(thaoTac);						
 					}
 					break;
 				}
@@ -1381,7 +1386,8 @@ public:
 						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 				    		);
 				    		clearRegion(500, 150, 500 + 600, 200+400);
-							this->chon_MH();
+							thaoTac = XUAT;
+							this->chon_MH(thaoTac);
 						
 						delete arrMH;
 					}

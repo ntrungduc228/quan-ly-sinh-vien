@@ -177,6 +177,18 @@ public:
 		}
 	}
 	
+	NodeSV * layInfo_SV(string maSV){
+		for(int i=0; i<n; i++){
+			if(!lopSV[i]->getDS_SV().isNULL_SV()){
+				for(NodeSV *p = lopSV[i]->getDS_SV().getHead_DSSV(); p!=NULL; p=p->getNext_SV() )
+					if(p->getData_SV().getMaSV() == maSV)
+						return p;
+			}
+		}
+		
+		return NULL;
+	}
+	
 	void xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;

@@ -276,7 +276,9 @@ public:
 				string name5 = "",
 				string content5 = "",
 				string name6 = "",
-				string content6 = ""
+				string content6 = "",
+				string name7 = "",
+				string content7 = ""
 		){
 			
 			draw();
@@ -290,6 +292,7 @@ public:
 			if(name4 != "") name4 +=  ": " + content4;
 			if(name5 != "") name5 +=  ": " + content5;
 			if(name6 != "") name6 +=  ": " + content6;
+			if(name7 != "") name7 +=  ": " + content7;
 			
 			if(name1 != "")
 				outtextxy((right+left)/2 - textwidth(name1.c_str())/2, top + LABEL_SPACE_Y, name1.c_str());
@@ -303,7 +306,13 @@ public:
 				outtextxy(left + LABEL_SPACE_X + textwidth(name2.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name3.c_str());
 				outtextxy(left + LABEL_SPACE_X*2 + textwidth(name3.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name4.c_str());
 			}else {
+				outtextxy(left-20-textwidth(name2.c_str())/2, top + LABEL_SPACE_Y, name5.c_str());
+				outtextxy(left+140+textwidth(name2.c_str())*2, top + LABEL_SPACE_Y, name6.c_str());
 				
+				outtextxy(left-60, top + LABEL_SPACE_Y*2 - 10, name7.c_str());
+				outtextxy(left + 50 , top + LABEL_SPACE_Y*2 - 10 , name2.c_str());
+				outtextxy(left + LABEL_SPACE_X + textwidth(name2.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name3.c_str());
+				outtextxy(left + LABEL_SPACE_X*2 + textwidth(name3.c_str())/2 , top + LABEL_SPACE_Y*2 - 10 , name4.c_str());
 			}
 			
 			
