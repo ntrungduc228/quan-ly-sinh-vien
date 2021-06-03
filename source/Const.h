@@ -8,7 +8,7 @@
 #include <ctime>
 #include <cmath>
 #include<sstream> 
-
+#include <algorithm>
 
 using namespace std;
 
@@ -38,7 +38,7 @@ const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 0;
 const int FONT_OF_TEXT = 8; 
 
-enum Action { THEM, XUAT, SUA, XOA, HUY, CHON, DIEM, THOAT, XUAT_DS };
+enum Action { THEM, XUAT, SUA, XOA, HUY, CHON, DIEM, THOAT, XUAT_DS, HUY_LTC };
 
 enum InputType {
 	NUMBER,
@@ -124,6 +124,11 @@ const int checkBoxButtonX = tableLeft + 15;
 const int checkBoxButtonY = rowTableHeight;
 
 const int buttonActionSpace = 5;
+
+const int buttonXLeft = frameRight - 65;
+const int buttonXTop = frameTop + 14;
+const int buttonXWidth = 50;
+const int buttonXHeight = 30;
 
 /*
 ** ================ Define key ================

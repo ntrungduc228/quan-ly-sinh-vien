@@ -92,7 +92,8 @@ public:
 	}
 	
 	void huyLopTC(){
-		if(soSVDK != 0 && soSVDK < svMin && huyLop == false)
+		if(soSVDK < svMin && huyLop == false)
+		//if(soSVDK != 0 && soSVDK < svMin && huyLop == false)
 			huyLop = true;
 	}
 };
@@ -125,6 +126,13 @@ public:
 	void huyLopDS_LTC(){
 		for(int i=0; i<n; i++)
 			this->lopTC[i]->huyLopTC();
+	}
+	
+	void huyLopTCTheoKhoaVaHK_LTC(int khoa, int HK){
+		for(int i=0; i<n; i++){
+			if(this->lopTC[i]->getNienKhoa() == khoa && this->lopTC[i]->getHocKy() == HK)
+				this->lopTC[i]->huyLopTC();
+		}
 	}
 	
 	void loadDataDS_DK(){
@@ -435,7 +443,8 @@ public:
 					y, 
 					string((newTable.getCols(3)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
 				);
-				
+			
+			// lay ten mon hoc	
 			for(int j=0; j<soLuongMH; j++){
 				if(arrMH[j].getMaMH() == loptc[i]->getMaMH()){
 					tenMH = arrMH[j].getTenMH(); j = soLuongMH;
@@ -673,6 +682,10 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		// dau X tren cung goc phai
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
 		Button btnThem("THEM LTC","them",380, 80, 400 + buttonWidth, 120);
 		Button btnXuat("XEM DSSV","xuat", 480, 80, 480 + buttonWidth, 120);
 		Button btnHuyLTC("HUY LTC", "huy", 560, 80, 560 + buttonWidth, 120);
@@ -803,7 +816,13 @@ public:
 				}
 				
 				if(btnHuyLTC.isClicked(x,y)){
-					int isConfirmed = MessageBox(NULL,
+					thaoTac = HUY_LTC; 
+					newTable.freeTable();
+					delete[] arrMH;
+					freeArrButton(editButton, nFilter);
+					freeArrButton(deleteButton, nFilter);
+					return; 
+					/*int isConfirmed = MessageBox(NULL,
 												"HUY CAC LOP TIN CHI KHONG DU DIEU KIEN MO",
 												"THONG BAO",
 												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
@@ -823,7 +842,7 @@ public:
 								freeArrButton(deleteButton, nFilter);
 								return; 	
 						}
-					}
+					}*/
 				}
 				
 				if(btnXuat.isClicked(x,y)){
@@ -838,8 +857,6 @@ public:
 					return;
 					
 				}
-				
-				
 				
 				if(btnThem.isClicked(x,y)){
 					newInput.setBorderColor(clblack);
@@ -873,10 +890,119 @@ public:
 		delete[] arrMH;
 	}
 	
-	void formXuatDS_DK(int &viTriChon, Action &thaoTac){
-		drawFrame(500, 150, 540 + 500, 200+300);
+	void formHuy_LTC(int &khoa, int &HK, Action &thaoTac){
+		drawFrame(500, 150, 540 + 500, 200+300, "Huy lop TC");
 		
-		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
+		int nInput = 2;
+		Input *input[nInput] = {NULL};
+		
+		int left = 650;
+		int top = 220;
+		
+		input[0] = new Input("","Nien khoa ","0", 4, NUMBER, left, top, left + 300, top + INPUT_HEIGHT );
+		input[1] = new Input("","Hoc ky ","1",1, NUMBER, left, top+INPUT_HEIGHT+20, left+300, top + INPUT_HEIGHT*2 +20);
+		
+		Button btnHuy("Huy","H",left, top+130, left+buttonWidth, top+INPUT_HEIGHT+130, clyellow, clblack, clblack);
+		btnHuy.draw();
+		
+		Button btnThoat("Thoat", "T", left + 200, top+130, 850+buttonWidth, top+INPUT_HEIGHT+130, cllightred, clred, cllightwhite);
+		btnThoat.draw();
+		
+		int x,y;
+		string notification;
+		
+		for(int i=0; i<nInput; i++){
+			if(input[i] != NULL)
+				input[i]->draw();
+		}
+		
+		int oldIndexInput=-1;
+		int indexInput=0;
+		
+		while(true){
+			delay(0.000);
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				if(btnThoat.isClicked(x,y)){
+					thaoTac = THOAT; 
+					for(int i=0; i<nInput; i++){
+						if(input[i] != NULL) delete input[i];
+					}
+					clearRegion(500, 150, 550 + 500, 200+300);
+					return;
+				}
+				
+				if(btnHuy.isClicked(x,y) && !input[0]->getContent().empty() && !input[1]->getContent().empty()){
+					int isConfirmed = MessageBox(NULL,
+												"HUY CAC LOP TIN CHI KHONG DU DIEU KIEN MO",
+												"THONG BAO",
+												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+												);
+												    		
+					switch(isConfirmed){
+						case IDCANCEL:{
+								break;
+						}
+										
+						case IDOK: default:{	
+								thaoTac = HUY_LTC;
+								khoa = atoi(input[0]->getContent().c_str());
+								HK = atoi(input[1]->getContent().c_str());
+								
+								for(int i=0; i<nInput; i++){
+									if(input[i] != NULL) delete input[i];
+								}
+								
+								return; 	
+						}
+					}
+				}else if(btnHuy.isClicked(x,y)) {
+					
+					 if(input[0]->getContent().empty() && input[1]->getContent().empty())
+						notification = "KHONG DUOC BO TRONG DU LIEU !!!";
+					else  if(input[0]->getContent().empty())
+						notification = "VUI LONG NHAP O NIEN KHOA !!!";
+					else if(input[1]->getContent().empty())
+						notification = "VUI LONG NHAP O HOC KY !!!";
+						
+						MessageBox(
+							        NULL,
+							        notification.c_str(),
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+				
+				}
+				
+				for(int i=0; i<nInput; i++){
+					if(input[i]->isClicked(x,y) && input[i]->getEnable()){
+						input[i]->requestFocus();
+						input[i]->draw();
+						
+						oldIndexInput = indexInput;
+						if(oldIndexInput != -1 )
+							input[oldIndexInput]->draw();
+						indexInput = i;
+						break;
+					}
+				}
+			}
+			
+			if(kbhit()){
+				char ch = getch();
+				if(indexInput != -1){
+					input[indexInput]->appendText(ch);
+					input[indexInput]->draw();
+				}
+			}
+		}
+	}
+	
+	void formXuatDS_DK(int &viTriChon, Action &thaoTac){
+		drawFrame(500, 150, 540 + 500, 200+300, "xuat danh sach 1 lop tc");
+		
+		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 210, 650 + 300, 210 + INPUT_HEIGHT);
 		input.requestFocus();
 		input.draw();
 		
@@ -903,6 +1029,13 @@ public:
 					viTriChon = atoi(input.getContent().c_str());
 					thaoTac = XUAT;
 					return;
+				}else if(btnXuat.isClicked(x,y) && input.getContent().empty()){
+					MessageBox(
+						        NULL,
+						        "VUI LONG NHAP DU LIEU !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
 				}
 				
 			}
@@ -916,7 +1049,118 @@ public:
 		
 	}
 	
-	void formNhap_LTC(Action &thaoTac){
+	void formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac){
+		
+		drawFrame(500, 150, 640 + 500, 600, "them lop tc");
+		int nInput = 8;
+		Input *input[nInput] = {NULL};
+		MonHoc MH;
+		
+		int left = 650;
+		int top = 200;
+		
+		input[0] = new Input("","Ma lop ","0", 5, NUMBER, left, top, left + 400, top + INPUT_HEIGHT);
+		input[1] = new Input("","Ma mon hoc ","1", MAX_MAMH, NON_SPACE, left, top + INPUT_HEIGHT+ 20, left + 200, top + INPUT_HEIGHT * 2 + 20);
+		input[2] = new Input("","Ten mon hoc ","2", MAX_TENMH, TEXT, left, top+INPUT_HEIGHT*2 + 20*2, left + 400, top + INPUT_HEIGHT * 3 + 20*2);
+		input[3] = new Input("","Nien khoa ","3", 4, NUMBER, left, top+INPUT_HEIGHT*3 + 20*3, left + 90, top + INPUT_HEIGHT * 4 + 20*3);
+		input[4] = new Input("","Hoc ky ","4", 1, NUMBER, left+100+60, top+INPUT_HEIGHT*3 + 20*3, left + 250, top + INPUT_HEIGHT * 4 + 20*3);
+		input[5] = new Input("","Nhom ","5", 2, NUMBER, left+310, top+INPUT_HEIGHT*3 + 20*3, left + 400, top + INPUT_HEIGHT * 4 + 20*3);
+		input[6] = new Input("", "SL Min ","6",3, NUMBER, left, top+INPUT_HEIGHT*4 + 20*4, left + 150, top +INPUT_HEIGHT * 5 + 20*4);
+		input[7] = new Input("", "SL Max ","7",3, NUMBER, left + 250, top+INPUT_HEIGHT*4 + 20*4, left + 400, top +INPUT_HEIGHT * 5 + 20*4);
+		
+		string nameAction, idAction;
+		
+		if(thaoTac == THEM){
+			nameAction = "Them"; idAction = "T";
+		}else if(thaoTac == SUA){
+			nameAction = "Sua"; idAction = "S";
+		}
+		
+		Button btnChonMH("Chon MH","C",left+250, top + INPUT_HEIGHT+ 20, left+250+80, top + INPUT_HEIGHT * 2 + 20, claqua, cllightblue, clblack);
+		btnChonMH.draw();
+		
+		Button btnSave(nameAction, idAction, left, top+INPUT_HEIGHT*6 +20*5, left+buttonWidth, top+INPUT_HEIGHT*6+20*5+40, claqua, cllightblue, clblack);
+		btnSave.draw();
+		
+		Button btnHuy("Huy", "H", left+buttonWidth*2+100, top+INPUT_HEIGHT*6 +20*5, left+buttonWidth*3+100, top+INPUT_HEIGHT*6+20*5+40, cllightred, clred, cllightwhite);
+		btnHuy.draw();
+		
+		int x,y;
+		
+		input[0]->setContent(convertIntToString(loptc->getMaLopTC()));
+		input[1]->setContent(loptc->getMaMH());
+		input[2]->setContent(MH.getTenMH());
+		
+		if(thaoTac == SUA){
+			input[3]->setContent(convertIntToString(loptc->getNienKhoa()));
+			input[4]->setContent(convertIntToString(loptc->getHocKy()));
+			input[5]->setContent(convertIntToString(loptc->getNhom()));
+			input[6]->setContent(convertIntToString(loptc->getSVMin()));
+			input[7]->setContent(convertIntToString(loptc->getSVMax()));
+		}
+		
+		int indexInput=-1;
+		int oldIndexInput=3;
+		
+		for(int i=0; i<nInput; i++){
+			if(input[i] != NULL){
+				input[i]->draw();
+			}
+		}
+		
+		
+		while(true){
+			delay(0.000);
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				if(btnChonMH.isClicked(x,y)){
+					thaoTac = CHON;
+					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					MH = DSMH.chonMH_LTC(thaoTac);
+					
+					loptc->setMaMH(MH.getMaMH());
+					for(int i=0; i<nInput; i++)	if(input[i] != NULL) delete input[i];
+					return;
+					
+				}
+				
+				if(btnHuy.isClicked(x,y)){
+					thaoTac = HUY; 
+					clearRegion(500, 150, 640 + 500, 600);
+					for(int i=0; i<nInput; i++)
+						if(input[i] != NULL) delete input[i];
+					return;
+				}
+				
+				// clicked input
+				for(int i=3; i<nInput; i++){
+					if(input[i]->isClicked(x,y) && input[i]->getEnable()){
+						input[i]->requestFocus();
+						input[i]->draw();
+						
+						oldIndexInput = indexInput;
+						if(oldIndexInput != -1 )
+							input[oldIndexInput]->draw();
+						indexInput = i;
+						break;
+					}
+				}
+				
+			}
+			
+			if(kbhit()){
+				char ch = getch();
+				if(indexInput != -1){
+					input[indexInput]->appendText(ch);
+					input[indexInput]->draw();
+				}
+			}
+			
+		}
+		
+		for(int i=0; i<nInput; i++)
+			if(input[i] != NULL) delete input[i];
 		
 	}
 	
@@ -944,11 +1188,41 @@ public:
 			cout<<"\no day ne";
 		//while(true){
 			switch(thaoTac){
+				case THEM:{
+					MonHoc MH;
+					LopTC *loptc = new LopTC;
+					loptc->taoMaLop_LTC(this->getLopTC(this->n-1)->getMaLopTC()); 
+					/*thaoTac = CHON;
+					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					MH = DSMH.chonMH_LTC(thaoTac);*/
+					thaoTac = THEM;
+					formNhap_LTC(loptc, DSMH,thaoTac);
+					cout<<"\nThao tac: "<<thaoTac;
+					if(thaoTac == HUY){
+						cout<<"\nHuy ltc";
+						delete loptc;
+						thaoTac = XUAT;
+						chon_LTC(DSMH, DSLSV, thaoTac);
+					}else if(thaoTac == THEM){
+						
+					}else if(thaoTac == CHON){
+						cout<<"\nDa chon";
+						thaoTac = THEM;
+						//clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						
+						formNhap_LTC(loptc, DSMH,thaoTac);
+					}
+					break;
+				}
+				case SUA:{
+					
+					break;
+				}
 				case XOA:{
 					if(viTriChon < n){
 						this->xoa_LTC(lopTC[viTriChon]->getMaLopTC());
 						if(n == 0)
-							clearRegion(tableLeft, INPUT_Y - 20, frameRight - 12, frameBottom - 12);
+							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 							thaoTac = XUAT;
 							chon_LTC(DSMH, DSLSV, thaoTac);
 					}
@@ -961,7 +1235,7 @@ public:
 				
 				case DIEM:{
 					if(viTriChon < n){
-						clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 						MonHoc MH; int temp = 0;
 						MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						DSMH.them_MH(DSMH.getRoot(), MH, temp );
@@ -999,7 +1273,7 @@ public:
 				    		thaoTac = XUAT_DS;
 				    		chon_LTC(DSMH, DSLSV, thaoTac);
 						}else{ // Co lop tin chi
-							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
+							clearRegion(tableLeft, frameTop+12, frameRight - 12, frameBottom - 12);
 							MonHoc MH; int temp = 0;
 							MH.setMaMH(lopTC[viTriChon]->getMaMH());
 							DSMH.them_MH(DSMH.getRoot(), MH, temp );
@@ -1019,21 +1293,30 @@ public:
 					break;
 				}
 				
-				case HUY:{
-					this->huyLopDS_LTC();
-					MessageBox(
+				case HUY_LTC:{
+					int khoa, HK;
+					formHuy_LTC(khoa, HK, thaoTac);
+					if(thaoTac == THOAT){
+						
+					}else {
+						this->huyLopTCTheoKhoaVaHK_LTC(khoa, HK);
+						MessageBox(
 							NULL,
 							"HUY THANH CONG!!!",
 							"THONG BAO",
-							 MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-						);						
+							MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						);	
+						clearRegion(500, 150, 550 + 500, 200+300);	
+					}
+									
 					thaoTac=XUAT;
 					chon_LTC(DSMH,DSLSV,thaoTac);
+					break;
 				}
-				break;
+				
 			}
 		
-			
+		//}
 		}else{
 			MessageBox(
 		        NULL,
@@ -1062,8 +1345,6 @@ LopTC::LopTC(){
 	soSVDK = 0;
 	dsdk.setHead_DSDK(NULL);
 }
-
-
 
 void LopTC::setMaLopTC(int maLopTC){
 	this->maLopTC = maLopTC;	

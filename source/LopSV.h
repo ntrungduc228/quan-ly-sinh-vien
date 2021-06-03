@@ -359,8 +359,8 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
-		Button btnThem("THEM LOP HOC","them",400, 80, 430 + buttonWidth, 120);
-		btnThem.draw();
+		Button btnAdd("THEM LOP HOC","btnAdd",400, 80, 430 + buttonWidth, 120);
+		btnAdd.draw();
 		
 		int x,y;
 		
@@ -431,7 +431,7 @@ public:
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				if(btnThem.isClicked(x,y)){
+				if(btnAdd.isClicked(x,y)){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					

@@ -570,6 +570,24 @@ void drawFrame(int left, int top, int right, int bottom){
 	bar(left+frameBorder,top+frameBorder,right - frameBorder, bottom - frameBorder);
 }
 
+void drawFrame(int left, int top, int right, int bottom, string title){
+	
+	const int Border_Color = clblue;
+		
+	setfillstyle(SOLID_FILL,Border_Color);	
+	bar(left,top,right, bottom);
+	
+	setfillstyle(SOLID_FILL,backgroundColor);	
+	bar(left+frameBorder,top+frameBorder,right - frameBorder, bottom - frameBorder);
+	
+	title = "   " + title + "   ";
+	std::transform(title.begin(), title.end(),title.begin(), ::toupper); // in hoa chuoi 
+	
+	setbkcolor(cllightgreen);
+	setcolor(clblack);
+	outtextxy((right+left)/2 - textwidth(title.c_str())/2, top+15, title.c_str());
+}
+
 void drawMainFrame(){
 	
 	const int Border_Color = clblue;

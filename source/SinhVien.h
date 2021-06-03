@@ -518,6 +518,9 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		Button btnAdd("Nhap SV","btnAdd",400, 80, 400 + buttonWidth, 120);
+		btnAdd.draw();
+		
 		int x,y;
 		
 		while(true) {
@@ -625,6 +628,10 @@ public:
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		}
+	}
+	
+	void formNhap_SV(){
+		
 	}
 	
 	void chon_SV(Action thaoTac){

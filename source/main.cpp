@@ -54,6 +54,7 @@ int main(int argc, char *argv[])
 	Button checkBoxBtn2("Xoa","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight,cllightred, clred, cllightwhite   );
 	checkBoxBtn2.draw();
 	
+	//drawFrame(500, 150, 540 + 500, 200+300, "Them lop TC");
 	
 	getch();
 	
