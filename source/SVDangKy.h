@@ -157,7 +157,7 @@ public:
 	}
 	
 	bool isNull_DK(){
-		return this->head == NULL;
+		return  this->head == NULL;
 	}
 	
 	int demSoLuongSV(){

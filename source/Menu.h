@@ -20,9 +20,9 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n2. Xuat ds sinh vien 				(done graphics)";
 		cout<<"\n3. Sua sinh vien 					(done)";
 		cout<<"\n4. Xoa sinh vien 					(done graphics)";
-		cout<<"\n5. Them lop tc 					(done)";
+		cout<<"\n5. Them lop tc 					(done graphics)";
 		cout<<"\n6. Xuat DS lop tc					(done graphics)";
-		cout<<"\n7. Sua lop tc 						(done)";
+		cout<<"\n7. Sua lop tc 						(done graphics)";
 		cout<<"\n8. Xoa lop tc 						(done graphics)";
 		cout<<"\n9. Them lop hoc 					(done graphics)";
 		cout<<"\n10. Xuat ds lop hoc 				(done graphics)";
