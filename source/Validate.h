@@ -27,7 +27,7 @@ public:
 		int right,
 		int bottom,
 		int backgroundColor = 15,
-		int borderColor = 0,
+		int borderColor = clblack,
 		int textColor = 0
 	) : Label(text, id, left,  top, right, bottom, backgroundColor, borderColor, textColor)
 	{
@@ -44,9 +44,9 @@ public:
 		int top,
 		int right,
 		int bottom,
-		int backgroundColor = 15,
-		int borderColor = 0,
-		int textColor = 0
+		int backgroundColor = cllightwhite,
+		int borderColor = clblack,
+		int textColor = clblack
 	) : Label(text, id, left,  top, right, bottom, backgroundColor, borderColor, textColor)
 	{
 		this->content = content;
@@ -54,8 +54,51 @@ public:
 		this->maxLength = maxLength;
 	}
 	
+	/*Input(const Input &input) : Label(text, id, left,  top, right, bottom, backgroundColor, borderColor, textColor)
+	{
+		this->content = input.content;
+		this->type = input.type;
+		this->maxLength = input.maxLength;
+	}
+	
+	Input(const Input *input) : Label(text, id, left,  top, right, bottom, backgroundColor, borderColor, textColor)
+	{
+		this->content = input->content;
+		this->text = input->text;
+		this->type = input->type;
+		this->maxLength = input->maxLength;
+		this->id = input->id;
+		this->left = input->left;
+		this->right = input->right;
+		this->top = input->top;
+		this->bottom = input->bottom;
+		this->backgroundColor = input->backgroundColor;
+		this->borderColor = input->borderColor;
+		this->textColor = input->textColor;
+		this->isInvalidate = true;
+	}*/
+	
+	void setParams(int left, int top, int right, int bottom){
+		this->left = left;
+		this->top = top;
+		this->right = right;
+		this->bottom = bottom;
+	}
+	
+	void setTextColor(int textColor){
+		this->textColor = textColor;
+	}
+	
 	void setContent(string content){
 		this->content = content;
+	}
+	
+	int getMaxLength(){
+		return this->maxLength;
+	}
+	
+	InputType getType(){
+		return this->type;
 	}
 	
 	string getContent(){
@@ -81,13 +124,13 @@ public:
 	}*/
 	
 	void draw(){		
-		if(isFocused())
+		/*if(isFocused())
 		{
-			this->setBorderColor(clgreen);		
+			this->setBorderColor(INPUT_BORDER_COLOR_FOCUS);	// INPUT_BORDER_COLOL_FOCUS = clgreen
 		}else
 		{
-			this->setBorderColor(clblack);	
-		}
+			this->setBorderColor(clblack);
+		}*/
 		
 		View::draw();
 		
@@ -95,7 +138,7 @@ public:
 		setcolor(textColor);
 		
 		// draw title
-		outtextxy(left - textwidth(text.c_str()) - 2, top + INPUT_HEIGHT/2 - textheight(text.c_str()) / 2 + 1 , text.c_str() );
+		outtextxy(left - textwidth(text.c_str()) - 2, top + abs (INPUT_HEIGHT/2 - textheight(text.c_str()) / 2 )+ 1 , text.c_str() );
 		
 		string newContent = content;
 		
@@ -104,8 +147,8 @@ public:
 		}
 		
 		// draw content
-		outtextxy(left + 10, top + INPUT_HEIGHT/2 - textheight(text.c_str())/2, newContent.c_str());
-		
+		outtextxy(left + 10, top + INPUT_HEIGHT/2 - textheight(newContent.c_str())/2, newContent.c_str());
+		//outtextxy(left + 10, top + (top+bottom)/2 - textheight(text.c_str())/2, newContent.c_str());
 	}
 
 	void appendText(int character){
@@ -171,6 +214,45 @@ public:
 						content.push_back(character);
 					}
 					
+					break;
+				}
+				
+				case NAME:{
+					if(character != ' '  && ((character < '0') || (character > '9')) && content.length() <= maxLength)
+					{
+						if((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z')){
+							
+							character = tolower(character);
+							if(content.empty())	character=toupper(character);
+							
+							content.push_back(character);
+						}
+						 
+							
+					}
+				
+					break;
+				}
+				
+				case LAST_NAME:{
+					if(content.length() == maxLength)
+					{
+						return;
+					}else if(content[content.length()-1] == ' ' && character == ' ' || (content.empty() && character == ' ')) // Kiem tra khoang trang lien tiep
+					{
+						return;
+					}
+					else if(((character < '0') || (character > '9'))) // Khong nhan ki tu So
+					{	
+						if((character == ' ') || (character>='a' && character<='z') || (character>='A' && character<='Z')){
+							character = tolower(character);			
+							if(content.empty() || content[content.length()-1] == ' ') 
+								character = toupper(character); // Viet hoa chu cai dau
+							
+							content.push_back(character);
+						}
+							
+					}	
 					break;
 				}
 					

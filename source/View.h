@@ -129,8 +129,8 @@ protected:
 	int top;
 	int right;
 	int bottom;
-	int backgroundColor;
-	int borderColor;
+	int backgroundColor=15;
+	int borderColor=0;
 	bool isInvalidate;
 	static string focusedId;
 	bool enable = true;
@@ -155,9 +155,19 @@ public:
 		return (left < x && x < right) && (top < y && y < bottom);
 	}
 	
+	void setId(string id){
+		this->id = id;
+	}
+	
 	string getId(){
 		return this->id;
 	}
+	
+	int getLeft(){ return this->left; }
+	int getTop(){ return this->top; }
+	int getRight(){ return this->right; }
+	int getBottom(){ return this->bottom; }
+	
 	
 	virtual void draw(){
 		
@@ -168,7 +178,10 @@ public:
 		bar(left, top, right, bottom);
 
 		// Draw border
-		setcolor(borderColor);
+		if(isFocused()){
+			setcolor(clgreen);
+		}else  setcolor(borderColor);
+		//setcolor(borderColor);
 		rectangle(left, top, right, bottom);
 	}
 	
@@ -251,6 +264,10 @@ public:
 	string getText(){
 		return this->text;
 	}
+	
+	int getBKColor() {return this->backgroundColor;}
+	int getBorderColor() { return this->borderColor;}
+	int getTextColor() { return this->textColor;}
 	
 	void draw(){
 		View::draw();
@@ -404,6 +421,27 @@ Table table_SV(){
 								  "Phai",
 								  "SDT",
 								  "Thao tac"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_NhapSV(){
+	int numOfCols = 6;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 170, 170}; 
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho",
+								  "Ten",
+								  "Phai",
+								  "SDT"};
 	
 	for(int i=0; i<numOfCols; i++){
 		newTable.getCols(i)->setWidth(arrWidth[i]);
@@ -612,13 +650,22 @@ void drawMainFrame(){
 	int x = frameLeft, y = (frameBottom-frameBorder)/2;
 	setcolor(Border_Color);
 	rectangle(frameLeft+frameBorder-1,y,leftSideBar - frameBorder-1,y+2);
+	
+	setcolor(clblack);
+	setbkcolor(cllightgreen);
+	
+	string title = "   MENU   ";
+	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , frameTop+15, title.c_str());
+	
+	title = "   HUONG DAN   ";
+	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , y+10, title.c_str());
 }
 
-void menuTitle(string MENU[], string MENU_ID[], int n){
+void MenuTitle(string MENU[], string MENU_ID[], int n){
 	Button *button[n] = {NULL};
 	
 	int x = xMenu;
-	int y = yMenu;
+	int y = yMenu+30;
 	
 	for(int i=0; i<n; i++){
 	 if(button[i] == NULL)
@@ -629,11 +676,26 @@ void menuTitle(string MENU[], string MENU_ID[], int n){
 		y+=menuSpace;
 	}
 	
+	for(int i=0; i<n; i++) delete button[i];
 	/*Button *btn = new Button("LOP TIN CHI","LTC", xMenu, yMenu, xMenu + btnMenuWidth, yMenu+btnMenuHeight, clgreen, cllightgreen, cllightwhite);
 	btn->draw();
 	
 	delete btn;*/
 	
+}
+
+void menuTitle(Button *button[], string MENU[], string MENU_ID[], int nButton){
+	int x = xMenu;
+	int y = yMenu+30;
+	
+	for(int i=0; i<nButton; i++){
+	 if(button[i] == NULL)
+		//button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, cllightgreen, clblack, clblack);
+		button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, claqua, clblack, clblack);
+		button[i]->draw();
+		
+		y+=menuSpace;
+	}
 }
 
 void decorMainScreen(){
@@ -652,7 +714,7 @@ void init_View(){
 	
 	
 	drawMainFrame();
-	menuTitle(MENU, MENU_ID, 5);
+	MenuTitle(MENU, MENU_ID, 5);
 	
 	//while(!kbhit()) delay(1);	// pause screen	
 	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);

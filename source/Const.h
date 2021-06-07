@@ -33,6 +33,8 @@ const int cllightpurple = 13;
 const int clyellow = 14;
 const int cllightwhite = 15;
 
+#define ENTER 13
+#define TAB 9
 
 const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 0;
@@ -46,7 +48,9 @@ enum InputType {
 	NON_NUMBER,
 	NON_SPACE,
 	STUDENT_ID,
-	MARK
+	MARK,
+	NAME,
+	LAST_NAME
 };
 
 /*
@@ -79,7 +83,7 @@ const int tableLeft = leftSideBar + 20;
 const int tableTop = 130;//110; 
 const int rowTableHeight = 32;//36; 
 
-const int MAX_DONG_1_TRANG = 15;
+const int MAX_DONG_1_TRANG = 15;//15;
 
 /*
 ** ================ Label ================
@@ -101,6 +105,7 @@ const int INPUT_Y = tableTop - rowTableHeight - 10;
 const int INPUT_WIDTH = 330;
 const int INPUT_HEIGHT = rowTableHeight;
 
+const int INPUT_BORDER_COLOR_FOCUS = clgreen;
 const int INPUT_BORDER_VALIDATION = cllightgreen;
 
 /*
@@ -163,6 +168,8 @@ const int MAX_TENMH = 50;
 const int MAX_MASV = 15;
 const int MAX_SDT = 11;
 const int MAX_MALOPSV = 15;
+const int MAX_HOSV = 21;
+const int MAX_TENSV = 12;
 
 /*
 ** ================ Lop sinh vien ================

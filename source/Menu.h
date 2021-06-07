@@ -16,7 +16,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		
 		cout<<"\nMenu graphics";
 		cout<<"\nMenu guides";
-		cout<<"\n1. Nhap sinh vien 					(done)";
+		cout<<"\n1. Nhap sinh vien 					(done graphics)";
 		cout<<"\n2. Xuat ds sinh vien 				(done graphics)";
 		cout<<"\n3. Sua sinh vien 					(done)";
 		cout<<"\n4. Xoa sinh vien 					(done graphics)";
@@ -353,7 +353,14 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 }
 
 void menu1(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
+	int nButton = 5;
+	Button *button[nButton] = {NULL};
 	
+	menuTitle(button, MENU, MENU_ID, nButton);
+	
+	while(true){
+		
+	}
 }
 
 

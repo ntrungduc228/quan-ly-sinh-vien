@@ -648,6 +648,10 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		// dau X tren cung goc phai
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
 		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
 		btnThem.draw();
 		
@@ -931,6 +935,10 @@ public:
 		
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
+		
+		// dau X tren cung goc phai
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
 		
 		Button btnThem("THEM","them",400, 80, 400 + buttonWidth, 120);
 		if(thaoTac != CHON)

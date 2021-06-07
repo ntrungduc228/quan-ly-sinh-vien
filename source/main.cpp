@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	
 	init_View();
 
-	Table newTable = table_Diem();
+	Table newTable = table_NhapSV();
 	newTable.drawTable(15);
 
 	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
