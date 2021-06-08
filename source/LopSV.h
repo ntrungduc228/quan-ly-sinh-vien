@@ -394,8 +394,26 @@ public:
 								        "THONG BAO",
 								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 						    		);
+						    		
+						    		int isConfirmed = MessageBox(
+											        NULL,
+											        "BAN CO THEM SINH VIEN CHO LOP NAY",
+											        "THONG BAO",
+											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									    		);
+									switch(isConfirmed){
+										case IDCANCEL:{
+											break;
+										}
+										case IDOK: default:{
+											thaoTac = NHAP_DS;
+											newTable.freeTable();
+											freeArrButton(printButton, nFilter);
+											return;
+										}
+									}
+						    		
 							}else{
-								
 								thaoTac = XUAT;
 	            				newTable.freeTable();
 								freeArrButton(printButton, nFilter);
@@ -546,7 +564,7 @@ public:
 					case XUAT:{
 						if(viTriChon < n){
 							clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-							this->lopSV[viTriChon]->getDS_SV().chon_SV(thaoTac);
+							this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
 						}
 						break;
 					}
@@ -593,6 +611,15 @@ public:
 									break;
 								}
 							}
+						}
+						break;
+					}
+					
+					case NHAP_DS:{
+						if(viTriChon < n){
+							clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+							thaoTac = THEM;
+							this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
 						}
 						break;
 					}

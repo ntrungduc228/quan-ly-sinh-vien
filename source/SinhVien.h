@@ -175,6 +175,16 @@ public:
 		fileOut.close();*/
 	}
 	
+	bool checkTrung_SV(string maSV){
+		if(this->head == NULL) return false;
+		NodeSV *p = this->head;
+		for( ; p->getNext_SV()!=NULL && p->getData_SV().getMaSV() != maSV; p=p->getNext_SV());
+		
+		if(p->getData_SV().getMaSV() == maSV) return true;
+		
+		return false;
+	}
+	
 	void freeDS_SV(NodeSV *&pHead){
 		
 		NodeSV* SV = NULL;
@@ -548,6 +558,23 @@ public:
 						        "THONG BAO",
 						        MB_ICONWARNING | MB_OK
 				    		);
+				    		
+				    		// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
+							string tempMaSV;
+							NodeSV *p = dssv.getHead_DSSV();
+							for(int j=0; j<nFilter && p!=NULL; j++, p=p->getNext_SV()){
+								if(j==i) {
+									tempMaSV = p->getData_SV().getMaSV(); break;
+								}
+							}
+							int vt=0; 
+							for( p=this->head; p!=NULL; vt++,p=p->getNext_SV()){
+								if(p->getData_SV().getMaSV() == tempMaSV){
+									viTriChon = vt; break;
+								} 
+							}
+				    		
+				    		
 						}else if(deleteButton[i]->isClicked(x,y)){
 							cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
 							int isConfirmed = MessageBox(
@@ -755,26 +782,26 @@ public:
 		
 		for(int i=oldNRow; i<nRow; i++){
 			intID = i*10+0; strID = convertIntToString(intID);
-			input[i][0] = new Input("","",strID, MAX_MASV, STUDENT_ID, x, y, x+newTable.getCols(1)->getWidth(), y+INPUT_HEIGHT, cllightred);
+			input[i][0] = new Input("","",strID, MAX_MASV, STUDENT_ID, x, y, x+newTable.getCols(1)->getWidth(), y+INPUT_HEIGHT, cllightwhite, clblack, clblack);
 			x += newTable.getCols(1)->getWidth();
 			
 			intID = i*10+1; strID = convertIntToString(intID);
-			input[i][1] = new Input("","",strID, MAX_HOSV, LAST_NAME, x, y, x+newTable.getCols(2)->getWidth(), y+INPUT_HEIGHT, claqua);
+			input[i][1] = new Input("","",strID, MAX_HOSV, LAST_NAME, x, y, x+newTable.getCols(2)->getWidth(), y+INPUT_HEIGHT, cllightwhite, clblack, clblack);
 			x += newTable.getCols(2)->getWidth();
 			
 			intID = i*10+2; strID = convertIntToString(intID);
-			input[i][2] = new Input("","",strID, MAX_TENSV, NAME, x, y, x+newTable.getCols(3)->getWidth(), y+INPUT_HEIGHT, cllightgreen);
+			input[i][2] = new Input("","",strID, MAX_TENSV, NAME, x, y, x+newTable.getCols(3)->getWidth(), y+INPUT_HEIGHT, cllightwhite, clblack, clblack);
 			x += newTable.getCols(3)->getWidth();
 			
 			intID = i*10+3; strID = convertIntToString(intID);
-			input[i][3] = new Input("","",strID, 3, NON_NUMBER, x, y, x+newTable.getCols(4)->getWidth(), y+INPUT_HEIGHT, clyellow);
+			input[i][3] = new Input("","",strID, 3, NON_NUMBER, x, y, x+newTable.getCols(4)->getWidth(), y+INPUT_HEIGHT, cllightwhite, clblack, clblack);
 			inputPhai[i][0] = new Input("Nam","","chon",3,NON_SPACE,x+20, y+5, x+20 + 50, y+width,cllightgreen, clblack, clblack);
 			inputPhai[i][1] = new Input("Nu","","",3,NON_SPACE,x + 100, y+5, x+100+50, y+width, cllightwhite, clblack, clblack);
 			
 			x += newTable.getCols(4)->getWidth();
 			
 			intID = i*10+4; strID = convertIntToString(intID);
-			input[i][4] = new Input("","",strID, MAX_SDT, NUMBER, x, y, x+newTable.getCols(5)->getWidth(), y+INPUT_HEIGHT, cllightpurple);
+			input[i][4] = new Input("","",strID, MAX_SDT, NUMBER, x, y, x+newTable.getCols(5)->getWidth(), y+INPUT_HEIGHT, cllightwhite, clblack, clblack);
 			
 			y += INPUT_HEIGHT;
 			x = tableLeft + newTable.getCols(0)->getWidth();
@@ -875,6 +902,9 @@ public:
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
 		if(nRow > MAX_DONG_1_TRANG){
 			btnPrev.draw();
 			btnNext.draw();
@@ -934,9 +964,11 @@ public:
 		//int x,y;
 		
 		bool isFullInfo = false;
+		bool biTrung = false;
+		int viTriTrung = -1;
 		
 		int indexOfRow=0, indexOfCol = 0;
-		int oldIndexOfRow=-1, oldIndexOfCol = -1;
+		//int oldIndexOfRow=-1, oldIndexOfCol = -1;
 		
 		int trangHienTai =1;
 		int tongSoTrang = 1;
@@ -951,7 +983,7 @@ public:
 		
 		while(tiepTucNhap){
 			delay(0.000);
-			if(ismouseclick(WM_LBUTTONDOWN)) {
+			if(ismouseclick(WM_LBUTTONDOWN) || thaoTac == THOAT) {
 				getmouseclick(WM_LBUTTONDOWN, x, y); 
 				
 				for(int i=batDau; i<ketThuc ; i++){
@@ -960,11 +992,7 @@ public:
 							input[i][j]->requestFocus();
 							input[i][j]->draw();
 							
-							oldIndexOfRow = indexOfRow;
-							oldIndexOfCol = indexOfCol;
-							
-							//if(oldIndexOfRow != -1  && oldIndexOfCol != -1)
-								input[oldIndexOfRow][oldIndexOfCol]->draw();
+							input[indexOfRow][indexOfCol]->draw();
 								
 							indexOfRow = i;
 							indexOfCol = j;
@@ -990,28 +1018,120 @@ public:
 					}
 				} // end for
 				
-				if(btnSave.isClicked(x,y)){
+				if(btnSave.isClicked(x,y) || thaoTac == THOAT){
 					
-					isFullInfo = true;
+					isFullInfo = true;  biTrung = false; viTriTrung = -1;
 					
 					for(int i=0; i<soLuong && (isFullInfo); i++){
 						for(int j=0; j<nCol; j++){
 							if(input[i][j]->getContent().empty() && j != 3){
 								isFullInfo = false;
+								input[i][j]->requestFocus();
+								indexOfRow = i; indexOfCol = j;
+								
 								break;
+							}
+							
+							// check trung voi ds sinh vien da co san
+							if(j == 0 && !input[i][0]->getContent().empty()){
+								biTrung = checkTrung_SV(input[i][0]->getContent());
+								if(biTrung){ // da bi trung
+									isFullInfo = false;
+									viTriTrung = i; cout<<"\nDa bi trung voi ds co san";
+									/*MessageBox(
+								        NULL,
+								        "MA SINH VIEN DA TON TAI !!!",
+								        "THONG BAO",
+								        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    		);
+						    		input[i][0]->requestFocus();
+						    		input[indexOfRow][indexOfCol]->draw();
+						    		
+						    		indexOfRow = i;
+						    		indexOfCol = 0;
+						    		
+						    		int viTriTrang = 1;
+						    		while(viTriTrang < tongSoTrang && i >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
+						    		
+						    		if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
+						    		
+						    		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+									ketThuc = (soLuong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : soLuong;
+				            		
+				            		ketThuc = (ketThuc > soLuong) ? batDau + soLuong % batDau : ketThuc;
+						    		nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
+						    		input[indexOfRow][indexOfCol]->draw();
+						    		inTrang(trangHienTai, tongSoTrang); 
+						    		biTrung = false;*/
+						    		break;
+								}
+							}
+							
+							
+						}
+						
+							// check trung voi cac o da nhap truoc do
+							// neu biTrung == true thi bo qua, vi da trung o tren
+						if(viTriTrung == -1){
+							for(int k=0; k<i; k++){
+								if(input[k][0]->getContent() == input[i][0]->getContent()){
+									biTrung = true; isFullInfo = false; viTriTrung = i; cout<<"\nTrung voi ma sv daa nhap";
+									break;
+								}
 							}
 						}
 					}
 					
-					if(isFullInfo){
-					    tiepTucNhap = false;
-					}else {
+					if(isFullInfo && !biTrung){
+					    tiepTucNhap = false; if(thaoTac == THOAT) thaoTac = THEM;
+					}else if(!biTrung && !isFullInfo){
 						MessageBox(
 							        NULL,
 							        "VUI LONG NHAP DU THONG TIN TRUOC KHI LUU !!!",
 							        "THONG BAO",
 							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-					    		);
+					    		); 
+					    if(thaoTac == THOAT) thaoTac = THEM;
+					    
+					    int viTriTrang = 1;
+						while(viTriTrang < tongSoTrang && indexOfRow >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
+						    		
+						if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
+						    		
+						batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+						ketThuc = (soLuong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : soLuong;
+				            		
+				        ketThuc = (ketThuc > soLuong) ? batDau + soLuong % batDau : ketThuc;
+						nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
+						input[indexOfRow][indexOfCol]->draw();
+						inTrang(trangHienTai, tongSoTrang);
+					    
+					}else if(biTrung && !isFullInfo && viTriTrung != -1){
+						MessageBox(
+								    NULL,
+								    "MA SINH VIEN DA TON TAI !!!",
+								    "THONG BAO",
+								    MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    	); 
+						if(thaoTac == THOAT) thaoTac = THEM;
+						input[viTriTrung][0]->requestFocus();
+						input[indexOfRow][indexOfCol]->draw();
+						    		
+						indexOfRow = viTriTrung;
+						indexOfCol = 0;
+						    		
+						int viTriTrang = 1;
+						while(viTriTrang < tongSoTrang && viTriTrung >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
+						    		
+						if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
+						    		
+						batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+						ketThuc = (soLuong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : soLuong;
+				            		
+				        ketThuc = (ketThuc > soLuong) ? batDau + soLuong % batDau : ketThuc;
+						nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
+						input[indexOfRow][indexOfCol]->draw();
+						inTrang(trangHienTai, tongSoTrang);
 					}
 				}
 				
@@ -1030,6 +1150,7 @@ public:
 								break;
 							}
 						}
+						
 					}
 					
 					/// trang hien tai phai == tongsotrang, vd co 2 trang, dang dung trang 1 ko the them dong moi o trang 2
@@ -1095,7 +1216,47 @@ public:
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-			}
+				
+				if(btnBack.isClicked(x,y)){
+					bool coSV = false;
+					
+					if(soLuong == 1){
+						for(int j=0; j<nCol; j++){
+							if(j!=3 && !input[0][j]->getContent().empty()){
+								coSV = true; break;
+							}
+						}
+					}else if(soLuong > 1) coSV = true;
+					
+					if(coSV){
+						// xac nhan co muon luu sinh vien truoc khi thoat
+						int isConfirmed = MessageBox(NULL,
+												"BAN CO MUON LUU DS SINH VIEN",
+												"THONG BAO",
+												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+												);
+												    		
+						switch(isConfirmed){
+							case IDCANCEL:{
+								thaoTac = THOAT; tiepTucNhap = false;
+									break;
+							}
+											
+							case IDOK: default:{	
+									// kiem tra trung, nhap du thong tin truoc khi thoat (met moi ==)
+									
+									thaoTac = THOAT; continue; // quay len vong lap de kiem tra
+									break;
+										
+							}
+						}
+					}else {
+						thaoTac = THOAT; tiepTucNhap = false;
+					}
+					
+					
+				} // btnBack
+			} // end mouse click
 				
 			if(kbhit()){
 				ch = getch();
@@ -1140,7 +1301,7 @@ public:
 					
 				}else if(ch == TAB){
 					if(!input[indexOfRow][indexOfCol]->getContent().empty()){
-						oldIndexOfCol = indexOfCol;
+						int oldIndexOfCol = indexOfCol;
 						indexOfCol++;
 						if(indexOfCol == 3 || indexOfCol == nCol ) indexOfCol = 4;
 						
@@ -1149,35 +1310,42 @@ public:
 						
 						//if(oldIndexOfCol != -1 && oldIndexOfRow != -1)
 							input[indexOfRow][oldIndexOfCol]->draw();
-							
+					
 					}
 				}
 				if(indexOfRow != -1 && indexOfCol != -1 && indexOfCol != 3){
 					input[indexOfRow][indexOfCol]->appendText(ch);
 					input[indexOfRow][indexOfCol]->draw();
 				}
-			}
+			} // end kbhit
 			
-		}
+		} // end while
 		
 		// luu ds sinh vien da nhap
-		
-		for(int i=0; i<soLuong; i++){
-			SinhVien sv;
-			sv.setMaSV(input[i][0]->getContent());
-			sv.setHo(input[i][1]->getContent());
-			sv.setTen(input[i][2]->getContent());
-			
-			if(inputPhai[i][0]->getId() == "chon")
-				sv.setPhai("Nam");
-			else if(inputPhai[i][1]->getId() == "chon")
-				sv.setPhai("Nu");	
-			
-			sv.setSDT(input[i][4]->getContent());
-			
-			NodeSV *p = new NodeSV(sv);
-			this->them_SV(p);
+		if(thaoTac != THOAT){
+			string str;
+			for(int i=0; i<soLuong; i++){
+				SinhVien sv;
+				sv.setMaSV(input[i][0]->getContent());
+				
+				str = input[i][1]->getContent();
+				if(str[str.length()-1] == ' ') str.erase(str.length()-1, 1);
+				
+				sv.setHo(str);
+				sv.setTen(input[i][2]->getContent());
+				
+				if(inputPhai[i][0]->getId() == "chon")
+					sv.setPhai("Nam");
+				else if(inputPhai[i][1]->getId() == "chon")
+					sv.setPhai("Nu");	
+				
+				sv.setSDT(input[i][4]->getContent());
+				
+				NodeSV *p = new NodeSV(sv);
+				this->them_SV(p);
+			}
 		}
+			
 		
 		// giai phong arr input
 		for(int i=0; i<nRow; i++){
@@ -1194,15 +1362,19 @@ public:
 		
 	}
 	
-	void chon_SV(Action thaoTac){
+	void chon_SV(string maLop, Action thaoTac){
 		int viTriChon = 1;
 		int soLuongSV = this->demSoLuongSV();
 			char *intStr;  itoa(soLuongSV,intStr, 10);
 			string strSL = string(intStr);
-			string maLop = this->head->getData_SV().getMaLop();
+			//string maLop = maLop;
 		string titleSub;
 		
-		while(!isNULL_SV()){ soLuongSV = this->demSoLuongSV();
+		while(!isNULL_SV() || thaoTac == THEM){
+			
+			soLuongSV = this->demSoLuongSV();
+			strSL = convertIntToString(soLuongSV);
+			
 			if(thaoTac != THEM)
 				titleSub = "IN DANH SACH SINH VIEN 1 LOP";
 			else 
@@ -1230,11 +1402,12 @@ public:
 			switch(thaoTac){
 				case XUAT:{
 					xuatDSTheoTrang_SV(viTriChon, thaoTac);
-					//clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					if(thaoTac != XOA)	
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					break;
 				}
 				case THEM:{
-					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					
 					formNhap_SV(maLop, thaoTac);
 					if(thaoTac == THEM){
 						MessageBox(
@@ -1243,6 +1416,9 @@ public:
 							"THONG BAO",
 							MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 						);
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						thaoTac = XUAT;
+					}else if(thaoTac == THOAT){
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 						thaoTac = XUAT;
 					}
@@ -1418,7 +1594,7 @@ NodeSV* &DSSV::getHead_DSSV(){
 }
 
 bool DSSV::isNULL_SV(){
-	return this->head == NULL;
+	return this->head == NULL ? true : false;
 }
 
 

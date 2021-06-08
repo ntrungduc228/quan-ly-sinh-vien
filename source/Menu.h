@@ -103,7 +103,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					//ds.xuatDS_SV();
 				//DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
 				init_View();
-				DSLSV.getLopSV_LSV(viTri)->getDS_SV().chon_SV(XUAT); getch();
+				DSLSV.getLopSV_LSV(viTri)->getDS_SV().chon_SV(DSLSV.getLopSV_LSV(viTri)->getMaLop(), XUAT); getch();
 			}else cout<<"\nKo tim thay lop sv";
 			system("pause");
 		}else if(chon==3){
