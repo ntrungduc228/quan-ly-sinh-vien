@@ -184,6 +184,7 @@ public:
 		//setcolor(borderColor);
 		rectangle(left, top, right, bottom);
 	}
+
 	
 	void setBorderColor(int borderColor){
 		this->borderColor = borderColor;
@@ -371,7 +372,8 @@ public:
 	}
 	
 	void setId(string id){
-		this->id = id;
+		//this->id = id; 
+		View::setId(id);
 	}
 	
 	void setLeft(int left){

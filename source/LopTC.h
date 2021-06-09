@@ -930,6 +930,9 @@ public:
 		int oldIndexInput=-1;
 		int indexInput=0;
 		
+		input[indexInput]->requestFocus();
+		input[indexInput]->draw();
+		
 		while(true){
 			delay(0.000);
 			if(ismouseclick(WM_LBUTTONDOWN)) {
@@ -1002,6 +1005,15 @@ public:
 			
 			if(kbhit()){
 				char ch = getch();
+				
+				if(ch == TAB){
+					oldIndexInput = indexInput;
+					if(++indexInput == nInput) indexInput = 0;
+					input[indexInput]->requestFocus();
+					input[oldIndexInput]->draw();
+					input[indexInput]->draw();
+				}
+				
 				if(indexInput != -1){
 					input[indexInput]->appendText(ch);
 					input[indexInput]->draw();
@@ -1145,7 +1157,7 @@ public:
 			input[6]->setContent(convertIntToString(loptc->getSVMax()));
 		}
 		
-		int indexInput=-1;
+		int indexInput=initPos;
 		int oldIndexInput=1;
 		
 		bool isFullInfo = true;
@@ -1156,6 +1168,8 @@ public:
 			}
 		}
 		
+		input[indexInput]->requestFocus();
+		input[indexInput]->draw();
 		
 		while(true){
 			delay(0.000);
@@ -1233,6 +1247,15 @@ public:
 			
 			if(kbhit()){
 				char ch = getch();
+				if(ch == TAB){
+					oldIndexInput = indexInput;
+					indexInput++;
+					if(indexInput == nInput) indexInput = initPos;
+					input[indexInput]->requestFocus();
+					input[oldIndexInput]->draw();
+					input[indexInput]->draw();
+					
+				}
 				if(indexInput != -1){
 					input[indexInput]->appendText(ch);
 					input[indexInput]->draw();

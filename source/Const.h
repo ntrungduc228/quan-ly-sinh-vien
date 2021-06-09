@@ -7,8 +7,9 @@
 #include <conio.h>
 #include <ctime>
 #include <cmath>
-#include<sstream> 
+#include <sstream> 
 #include <algorithm>
+#include <cstdlib>
 
 using namespace std;
 

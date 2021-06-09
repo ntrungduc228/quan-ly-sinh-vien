@@ -18,7 +18,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\nMenu guides";
 		cout<<"\n1. Nhap sinh vien 					(done graphics)";
 		cout<<"\n2. Xuat ds sinh vien 				(done graphics)";
-		cout<<"\n3. Sua sinh vien 					(done)";
+		cout<<"\n3. Sua sinh vien 					(done graphics)";
 		cout<<"\n4. Xoa sinh vien 					(done graphics)";
 		cout<<"\n5. Them lop tc 					(done graphics)";
 		cout<<"\n6. Xuat DS lop tc					(done graphics)";

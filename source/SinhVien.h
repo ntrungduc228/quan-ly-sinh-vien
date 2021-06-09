@@ -574,6 +574,11 @@ public:
 								} 
 							}
 				    		
+				    		thaoTac = SUA;
+							newTable.freeTable();
+							freeArrButton(editButton, nFilter);
+							freeArrButton(deleteButton, nFilter);
+							return; 
 				    		
 						}else if(deleteButton[i]->isClicked(x,y)){
 							cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
@@ -876,12 +881,13 @@ public:
 		}
 	}
 	
-	void formNhap_SV(string maLop, Action &thaoTac){
+	void formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 		int nRow; int nCol = 5;
 		if(thaoTac == THEM) 
 			nRow = MAX_DONG_1_TRANG;
 		else if(thaoTac == SUA) 
 			nRow = 1;
+		
 		
 		int soLuong = 1; int batDau = 0; int ketThuc = 1;
 		
@@ -963,6 +969,30 @@ public:
 		
 		//int x,y;
 		
+		int initPos = thaoTac == THEM ? 0 : (thaoTac == SUA ? 0 : 0);
+		string strMaSV = "";
+		bool suaSV = false;
+		
+		if(thaoTac == SUA){
+			input[0][0]->setContent(NSV->getData_SV().getMaSV());
+			input[0][1]->setContent(NSV->getData_SV().getHo());
+			input[0][2]->setContent(NSV->getData_SV().getTen());
+			
+			if(NSV->getData_SV().getPhai() == "Nam"){
+				inputPhai[0][0]->setBackgroundColor(cllightgreen); 
+				inputPhai[0][1]->setBackgroundColor(cllightwhite); 
+				inputPhai[0][0]->setId("chon"); inputPhai[0][1]->setId("");
+			}else {
+				inputPhai[0][1]->setBackgroundColor(cllightgreen); 
+				inputPhai[0][0]->setBackgroundColor(cllightwhite); 
+				inputPhai[0][0]->setId(""); inputPhai[0][1]->setId("chon");
+			}
+			
+			input[0][4]->setContent(NSV->getData_SV().getSDT());
+			strMaSV = NSV->getData_SV().getMaSV();	
+			suaSV = true;
+		}
+		
 		bool isFullInfo = false;
 		bool biTrung = false;
 		int viTriTrung = -1;
@@ -1033,36 +1063,20 @@ public:
 							}
 							
 							// check trung voi ds sinh vien da co san
-							if(j == 0 && !input[i][0]->getContent().empty()){
+							if(!suaSV && j == 0 && !input[i][0]->getContent().empty()){
 								biTrung = checkTrung_SV(input[i][0]->getContent());
 								if(biTrung){ // da bi trung
 									isFullInfo = false;
-									viTriTrung = i; cout<<"\nDa bi trung voi ds co san";
-									/*MessageBox(
-								        NULL,
-								        "MA SINH VIEN DA TON TAI !!!",
-								        "THONG BAO",
-								        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-						    		);
-						    		input[i][0]->requestFocus();
-						    		input[indexOfRow][indexOfCol]->draw();
-						    		
-						    		indexOfRow = i;
-						    		indexOfCol = 0;
-						    		
-						    		int viTriTrang = 1;
-						    		while(viTriTrang < tongSoTrang && i >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
-						    		
-						    		if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
-						    		
-						    		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-									ketThuc = (soLuong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : soLuong;
-				            		
-				            		ketThuc = (ketThuc > soLuong) ? batDau + soLuong % batDau : ketThuc;
-						    		nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
-						    		input[indexOfRow][indexOfCol]->draw();
-						    		inTrang(trangHienTai, tongSoTrang); 
-						    		biTrung = false;*/
+									viTriTrung = i; cout<<"\nDa bi trung voi ds co san (them)";
+									
+						    		break;
+								}
+							}else if(suaSV && j == 0 && !input[i][0]->getContent().empty() && input[i][0]->getContent() != strMaSV){
+								biTrung = checkTrung_SV(input[i][0]->getContent());
+								if(biTrung){ // da bi trung
+									isFullInfo = false;
+									viTriTrung = i; cout<<"\nDa bi trung voi ds co san (sua)";
+									
 						    		break;
 								}
 							}
@@ -1072,7 +1086,7 @@ public:
 						
 							// check trung voi cac o da nhap truoc do
 							// neu biTrung == true thi bo qua, vi da trung o tren
-						if(viTriTrung == -1){
+						if(viTriTrung == -1 && !suaSV){
 							for(int k=0; k<i; k++){
 								if(input[k][0]->getContent() == input[i][0]->getContent()){
 									biTrung = true; isFullInfo = false; viTriTrung = i; cout<<"\nTrung voi ma sv daa nhap";
@@ -1083,7 +1097,10 @@ public:
 					}
 					
 					if(isFullInfo && !biTrung){
-					    tiepTucNhap = false; if(thaoTac == THOAT) thaoTac = THEM;
+					    tiepTucNhap = false; 
+					    
+						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
+					    else thaoTac = SUA;
 					}else if(!biTrung && !isFullInfo){
 						MessageBox(
 							        NULL,
@@ -1091,7 +1108,9 @@ public:
 							        "THONG BAO",
 							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 					    		); 
-					    if(thaoTac == THOAT) thaoTac = THEM;
+					    		
+					    if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
+					    else thaoTac = SUA;
 					    
 					    int viTriTrang = 1;
 						while(viTriTrang < tongSoTrang && indexOfRow >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
@@ -1113,7 +1132,10 @@ public:
 								    "THONG BAO",
 								    MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 						    	); 
-						if(thaoTac == THOAT) thaoTac = THEM;
+						    	
+						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
+					    else thaoTac = SUA;
+					    
 						input[viTriTrung][0]->requestFocus();
 						input[indexOfRow][indexOfCol]->draw();
 						    		
@@ -1322,7 +1344,7 @@ public:
 		} // end while
 		
 		// luu ds sinh vien da nhap
-		if(thaoTac != THOAT){
+		if(thaoTac != THOAT && thaoTac == THEM){
 			string str;
 			for(int i=0; i<soLuong; i++){
 				SinhVien sv;
@@ -1344,6 +1366,26 @@ public:
 				NodeSV *p = new NodeSV(sv);
 				this->them_SV(p);
 			}
+		} else if(thaoTac != THOAT && thaoTac == SUA){
+				string str;
+				SinhVien sv;
+				
+				sv.setMaSV(input[0][0]->getContent());
+				
+				str = input[0][1]->getContent();
+				if(str[str.length()-1] == ' ') str.erase(str.length()-1, 1);
+				
+				sv.setHo(str);
+				sv.setTen(input[0][2]->getContent());
+				
+				if(inputPhai[0][0]->getId() == "chon")
+					sv.setPhai("Nam");
+				else if(inputPhai[0][1]->getId() == "chon")
+					sv.setPhai("Nu");	
+				
+				sv.setSDT(input[0][4]->getContent());
+				
+				NSV->setData_SV(sv);
 		}
 			
 		
@@ -1407,8 +1449,8 @@ public:
 					break;
 				}
 				case THEM:{
-					
-					formNhap_SV(maLop, thaoTac);
+					NodeSV *sv = NULL;
+					formNhap_SV(maLop, sv, thaoTac);
 					if(thaoTac == THEM){
 						MessageBox(
 							NULL,
@@ -1426,7 +1468,26 @@ public:
 				}
 				
 				case SUA:{
-					
+					if(viTriChon < soLuongSV){
+						cout<<"\nSua sv tai vi tri "<<viTriChon;
+						NodeSV *sv = tim_SV(viTriChon);
+						if(sv != NULL){
+							formNhap_SV(maLop, sv, thaoTac);
+							if(thaoTac == SUA){
+								MessageBox(
+									NULL,
+									"SUA THONG TIN SINH VIEN THANH CONG !!!",
+									"THONG BAO",
+									MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+								);
+								clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+								thaoTac = XUAT;
+							}else if(thaoTac == THOAT){
+								clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+								thaoTac = XUAT;
+							}
+						}else thaoTac = XUAT;
+					}
 					break;
 				}
 				
