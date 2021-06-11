@@ -8,7 +8,6 @@ private:
 	float diem;
 public:
 	SVDangKy();
-	~SVDangKy();
 	
 	SVDangKy(string maSV){
 		this->maSV = maSV;
@@ -413,7 +412,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action thaoTac){
+	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac){
 		
 		DSSV DSSVDK; 
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -454,9 +453,15 @@ public:
 			Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 			btnNext.draw();
 			
+			// dau X tren cung goc phai
+			Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+			btnBack.draw();
+			
 			int x,y;
 			
-			while(true){
+			bool exitLoop = false;
+			
+			while(!exitLoop){
 				// Click event change page output
 				if (ismouseclick(WM_LBUTTONDOWN)){
 	            	getmouseclick(WM_LBUTTONDOWN, x, y);
@@ -488,6 +493,10 @@ public:
 						
 						xuatDS1Trang_DK(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
 						inTrang(trangHienTai, tongSoTrang);
+					}else if(btnBack.isClicked(x,y)){
+						thaoTac = THOAT;
+						exitLoop = true;
+						continue;
 					}
 				}
 				
@@ -693,7 +702,7 @@ public:
 		}
 	}
 	
-	void xuatDSTheoTrang_Diem(DSLopSV DSLSV){
+	void xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action &thaoTac ){
 		
 		DSSV DSSVDK; 
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -722,7 +731,7 @@ public:
 			int batDau = 0;
 			int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
 			
-			Table newTable; 	newTable = table_Diem();
+			Table newTable; newTable = table_Diem();
 			newTable.drawTable(MAX_DONG_1_TRANG);
 			
 			xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
@@ -737,7 +746,19 @@ public:
 			Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 			btnNext.draw();
 			
+			// dau X tren cung goc phai
+			Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+			btnBack.draw();
+			
+			Button btnSuaDiem("Sua diem","btnSuaDiem", tableLeft + 40, tableTop-60, (tableLeft + 40) + buttonWidth, tableTop-10 );
+			btnSuaDiem.draw();
+			
 			int x,y;
+			int nInputDiem = this->demSoLuongSV();
+			Input *inputDiem[nInputDiem];
+			int viTriThieu = -1;
+			
+			bool isSuaDiem = false;
 			
 			while(true){
 				// Click event change page output
@@ -772,6 +793,7 @@ public:
 						xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
 						inTrang(trangHienTai, tongSoTrang);
 					}
+					
 				}
 				
 				// Filter
@@ -786,6 +808,8 @@ public:
 					
 					xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
 					inTrang(trangHienTai, tongSoTrang);
+					
+					// nhap diem
 				}
 			}
 			
@@ -805,16 +829,24 @@ public:
 		
 	}
 	
+	void nhapDiemTheoTrang_DK(){
+		
+	}
+		
 	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac){
-		if(!isNull_DK()){
-			string strMaLopTC = convertIntToString(maLopTC);
-			string strKhoa = convertIntToString(khoa);
-			string strHK = convertIntToString(HK);
-			string strNhom = convertIntToString(nhom);
-			string strTT = trangThai ? "Mo lop" : "Huy lop";
-			string subTitle;
-			int soLuong = this->demSoLuongSV();
-			string strSoLuong = convertIntToString(soLuong);
+		string strMaLopTC = convertIntToString(maLopTC);
+		string strKhoa = convertIntToString(khoa);
+		string strHK = convertIntToString(HK);
+		string strNhom = convertIntToString(nhom);
+		string strTT = trangThai ? "Mo lop" : "Huy lop";
+		string subTitle;
+		int soLuong;
+		string strSoLuong;
+		while(!isNull_DK()){
+			
+			
+			soLuong = this->demSoLuongSV();
+			strSoLuong = convertIntToString(soLuong);
 			
 			if(thaoTac == DIEM)
 				subTitle = "BANG DIEM 1 LOP TIN CHI";
@@ -852,17 +884,27 @@ public:
 			switch(thaoTac){
 				case XUAT_DS:{
 					xuatDSTheoTrang_DK(DSLSV, thaoTac);
+					if(thaoTac == THOAT) return;
 					break;
 				}
 				
 				case DIEM:{
-					xuatDSTheoTrang_Diem(DSLSV);
+					xuatDSTheoTrang_Diem(DSLSV, thaoTac);
+					if(thaoTac == THOAT_CT){
+						thaoTac = DIEM;
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						
+					}else if(thaoTac == THOAT){
+						thaoTac = XUAT;
+					}else if(thaoTac == DIEM){
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					}
 					break;
 				}
 			}
 			
 			
-		}else{
+		} if(isNull_DK()){
 			MessageBox(
 		        NULL,
 		        "LOP CHUA CO SINH VIEN DANG KY !!!",
@@ -884,9 +926,6 @@ SVDangKy::SVDangKy(){
 	diem = 0;
 }
 
-SVDangKy::~SVDangKy(){
-	
-}
 
 /*
 ** ================ Node SV dang ky ================

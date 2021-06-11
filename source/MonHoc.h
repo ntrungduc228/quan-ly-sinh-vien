@@ -1478,17 +1478,24 @@ public:
 	
 	MonHoc chonMH_LTC(Action thaoTac){
 			MonHoc MH;
+			int soLuong = DemSoNodeTrongCay(this->root);
+			MonHoc *arrMH = new MonHoc[soLuong];
+			soLuong = 0;
+			ChuyenCayVaoMang(arrMH, this->root, soLuong);
+			SapXepTheoTen(arrMH, soLuong);
+			string strSoLuong = convertIntToString(soLuong);
+					
+			int viTriChon = 0;
+			
 			if(this->root != NULL){
-					
-					int soLuong = DemSoNodeTrongCay(this->root);
-					MonHoc *arrMH = new MonHoc[soLuong];
-					soLuong = 0;
-					ChuyenCayVaoMang(arrMH, this->root, soLuong);
-					SapXepTheoTen(arrMH, soLuong);
-					string strSoLuong = convertIntToString(soLuong);
-					
-					int viTriChon = 0;
-					
+				soLuong = DemSoNodeTrongCay(this->root);
+				arrMH = new MonHoc[soLuong];
+				soLuong = 0;
+				ChuyenCayVaoMang(arrMH, this->root, soLuong);
+				SapXepTheoTen(arrMH, soLuong);
+				strSoLuong = convertIntToString(soLuong);
+				
+				viTriChon = 0;
 					
 					Label title(
 							"CHON MON HOC",

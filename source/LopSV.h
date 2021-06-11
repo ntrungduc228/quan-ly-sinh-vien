@@ -359,6 +359,10 @@ public:
 		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
 		btnNext.draw();
 		
+		// dau X tren cung goc phai
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
 		Button btnAdd("THEM LOP HOC","btnAdd",400, 80, 430 + buttonWidth, 120);
 		btnAdd.draw();
 		
@@ -378,7 +382,7 @@ public:
             	// checked if btn is clicked xem dssv
             	for(int i=batDau; i<ketThuc; i++){
             		if(printButton[i] != NULL){
-            			if(printButton[i]->isClicked(x,y)){
+            			if(printButton[i]->isClicked(x,y) && printButton[i]->getEnable()){
             				// tim vi tri thuc(real) cua lop sinh vien neu dc filter
             				string tempMaLop = lop[i]->getMaLop();
 								for(int vt = 0; vt<this->n; vt++){
@@ -537,7 +541,7 @@ public:
 	}
 
 	void chon_LSV(){
-		if(n>0){
+		while(n>0){
 			string strN = convertIntToString(n);
 			Label title(
 					"IN DANH SACH LOP SINH VIEN",
@@ -559,75 +563,73 @@ public:
 			xuatDSTheoTrang_LSV(viTriChon, thaoTac);
 			string maLopSV;
 			
-			while(true){
-				switch(thaoTac){
-					case XUAT:{
-						if(viTriChon < n){
-							clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-							this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
-						}
-						break;
+			switch(thaoTac){
+				case XUAT:{
+					if(viTriChon < n){
+						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
 					}
+					break;
+				}
 					
-					case THEM:{
-						
-						formThem_LSV(maLopSV, thaoTac);
-						if(thaoTac == HUY){
-							thaoTac = XUAT;
-							chon_LSV();
-						}else if(thaoTac == THEM){						
-							cout<<"\nma lop can them: "<<maLopSV;
-							int kq = them_LSV(maLopSV);
-							switch(kq){
-								case -1:{ // ds lop sv da full
-									MessageBox(
-											NULL,
-											"DANH SACH LOP SINH VIEN DA DAY !!!",
-											"THONG BAO",
-											MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-										);
-									break;
-								}
-								
-								case 1:{ // them thanh cong
-									MessageBox(
-											NULL,
-											"THEM LOP SINH VIEN THANH CONG !!!",
-											"THONG BAO",
-											MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-										);
-									clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-									thaoTac = XUAT; chon_LSV();
-									break;
-								}
-								
-								case 2: default:{ // lop sv da ton tai
-									MessageBox(
-									        NULL,
-									        "LOP SINH VIEN NAY DA TON TAI !!!",
-									        "THONG BAO",
-									        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-							    		);
-									break;
-								}
+				case THEM:{
+					formThem_LSV(maLopSV, thaoTac);
+					if(thaoTac == HUY){
+						thaoTac = XUAT;
+						chon_LSV();
+					}else if(thaoTac == THEM){						
+						cout<<"\nma lop can them: "<<maLopSV;
+						int kq = them_LSV(maLopSV);
+						switch(kq){
+							case -1:{ // ds lop sv da full
+								MessageBox(
+										NULL,
+										"DANH SACH LOP SINH VIEN DA DAY !!!",
+										"THONG BAO",
+										MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+									);
+								break;
 							}
-						}
-						break;
+								
+							case 1:{ // them thanh cong
+								MessageBox(
+										NULL,
+										"THEM LOP SINH VIEN THANH CONG !!!",
+										"THONG BAO",
+										MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+									);
+								clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+								thaoTac = XUAT; chon_LSV();
+								break;
+							}
+								
+							case 2: default:{ // lop sv da ton tai
+								MessageBox(
+								        NULL,
+								        "LOP SINH VIEN NAY DA TON TAI !!!",
+								        "THONG BAO",
+								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							   		);
+								break;
+							}
+						}	
+						
 					}
+					break;
+				}
 					
-					case NHAP_DS:{
-						if(viTriChon < n){
-							clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-							thaoTac = THEM;
-							this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
-						}
-						break;
+				case NHAP_DS:{
+					if(viTriChon < n){
+						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
+						thaoTac = THEM;
+						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac);
 					}
-				} // switch case 
-			} // while true
+					break;
+				}
+			} // switch case 
 				
 			
-		}else {
+		} if(n==0){
 			MessageBox(
 		        NULL,
 		        "HIEN KHONG CO LOP SINH VIEN NAO !!!",

@@ -41,7 +41,7 @@ const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 0;
 const int FONT_OF_TEXT = 8; 
 
-enum Action { THEM, XUAT, SUA, XOA, HUY, CHON, DIEM, THOAT, XUAT_DS, HUY_LTC, NHAP_DS, THOAT_CT };
+enum Action { THEM, XUAT, SUA, XOA, HUY, CHON, DIEM, THOAT, XUAT_DS, DK_LTC, HUY_LTC, NHAP_DS, THOAT_CT };
 
 enum InputType {
 	NUMBER,

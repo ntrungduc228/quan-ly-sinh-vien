@@ -9,7 +9,7 @@
 #include "Validate.h"
 #include "View.h"
 
-void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
+void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	int chon;
 	while(true){
 		system("cls");
@@ -294,7 +294,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 						NodeDK * dk = new NodeDK(SV);
 						if(dk==NULL) cout<<"\nk the cap phat";
 						
-						DSLTC.DK_LTC(viTri, dk);
+						DSLTC.dangKy_LTC(viTri, dk);
 					}else cout<<"\nSV da dang ky ltc";
 					
 				}else cout<<"\nKhong tim thay lop tc";
@@ -352,7 +352,7 @@ void menu(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	}
 }
 
-void menu1(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
+void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 	int nButton = 5;
 	Button *button[nButton] = {NULL};
 	

@@ -516,12 +516,16 @@ public:
 		Table newTable = table_SV();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
-		inTrang(trangHienTai, tongSoTrang);
-		
 		Input newInput("","Nhap ma sinh vien:" ,"N", MAX_MASV, STUDENT_ID, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
 		newInput.requestFocus();
+		
+		xuatDS1Trang_SV(dssv.getHead_DSSV(), batDau, ketThuc, editButton, deleteButton, newTable);
+		inTrang(trangHienTai, tongSoTrang);
+		
+		/*Input newInput("","Nhap ma sinh vien:" ,"N", MAX_MASV, STUDENT_ID, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		newInput.draw();
+		newInput.requestFocus();*/
 	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
@@ -532,7 +536,8 @@ public:
 		Button btnAdd("Nhap SV","btnAdd", 400, 80, 400 + buttonWidth, 120);
 		btnAdd.draw();
 		
-		
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
 		
 		int x,y;
 		
@@ -1412,7 +1417,7 @@ public:
 			//string maLop = maLop;
 		string titleSub;
 		
-		while(!isNULL_SV() || thaoTac == THEM){
+		while(!isNULL_SV()){ // while(!isNULL_SV() || thaoTac == THEM){}
 			
 			soLuongSV = this->demSoLuongSV();
 			strSL = convertIntToString(soLuongSV);

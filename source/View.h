@@ -72,6 +72,10 @@ public:
 		
 	}
 	
+	int getNumOfCols(){
+		return this->numOfCols;
+	}
+	
 	void setCols(int cols){
 		this->numOfCols = cols;
 	}
@@ -208,6 +212,10 @@ public:
 	void initFocusedId()
 	{
 		this->focusedId="";
+	}
+	
+	void setEnable(){
+		this->enable = true;
 	}
 	
 	void setOffEnable()
@@ -353,7 +361,7 @@ public:
 		) : Label(text, id, left, top, right, bottom, backgroundColor, borderColor, textColor)
 		{
 		}
-	//
+	
 	void setText(string text){
 		this->text = text;
 	}
@@ -376,21 +384,21 @@ public:
 		View::setId(id);
 	}
 	
-	void setLeft(int left){
+	void setParams(int left, int top, int right, int bottom){
 		this->left = left;
-	}
-	
-	void setRight(int right){
-		this->right = right;
-	}
-	
-	void setTop(int top){
 		this->top = top;
-	}
-	
-	void setBottom(int bottom){
+		this->right = right;
 		this->bottom = bottom;
 	}
+	
+	void setState(string text, string id, int bgColor, int borderColor, bool enable){
+		this->text = text;
+		this->id = id;
+		this->backgroundColor = bgColor;
+		this->borderColor = borderColor;
+		this->enable = enable;
+	}
+	
 	//??
 	string getId(){
 		return this->id;
@@ -701,7 +709,9 @@ void menuTitle(Button *button[], string MENU[], string MENU_ID[], int nButton){
 }
 
 void decorMainScreen(){
-	
+	setcolor(clred);
+	circle(845, 346, 300); setbkcolor(cllightwhite);
+	outtextxy(800, 250, "FUCKING WOW SHIT !!!");
 }
 
 void init_View(){

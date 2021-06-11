@@ -28,11 +28,13 @@ int main(int argc, char *argv[])
 	resizeConsole(1368, 745);
 
 	
-	menu(dssv,DSLTC,DSLSV,DSMH);
+	menu1(dssv,DSLTC,DSLSV,DSMH);
 	
 	init_View();
-
-	Table newTable = table_NhapSV();
+	menu(DSMH, DSLTC, DSLSV);
+	//decorMainScreen();
+	
+	/*Table newTable = table_NhapSV();
 	newTable.drawTable(15);
 
 	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
@@ -43,16 +45,14 @@ int main(int argc, char *argv[])
 	
 	Input newInput("","" ,INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
 	newInput.draw(); 
-	int y = tableTop ;//+ rowTableHeight/2- textheight(string("0").c_str())/2;
-	string str = ""; //str += 251; cout<<str;
+	int y = tableTop ;
+	string str = "";
 	int x = tableLeft + 15;
 	int xtemp = 1225;
-	/*Button checkBoxBtn(str.c_str(),"checkBoxBtn",x , y+rowTableHeight-3, x+ checkBoxButtonWidth, y +rowTableHeight+20,cllightwhite, clblack, clgreen   );
-	checkBoxBtn.draw();*/
 	Button checkBoxBtn1("Sua","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight, claqua, cllightblue, clblack   );
 	checkBoxBtn1.draw(); xtemp += checkBoxButtonWidth + 5;
 	Button checkBoxBtn2("Xoa","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight,cllightred, clred, cllightwhite   );
-	checkBoxBtn2.draw();
+	checkBoxBtn2.draw();*/
 	
 	//drawFrame(500, 150, 540 + 500, 200+300, "Them lop TC");
 	
