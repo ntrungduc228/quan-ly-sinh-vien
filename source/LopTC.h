@@ -1024,11 +1024,6 @@ public:
 			if(lopTC[i]->getNienKhoa() == khoa && lopTC[i]->getHocKy() == HK) 
 				loptc[nFilter++] = lopTC[i];
  		}
- 		
- 		LopTC *loptcFilter[nFilter] = {NULL};
- 		for(int i=0; i<nFilter; i++)
- 			loptcFilter[i] = loptc[i];
-		
 		
 		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		
@@ -1044,10 +1039,6 @@ public:
 		Table newTable = table_LTC();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		Input newInput("","Nhap ma lop tc:" ,"N", 5, NUMBER, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
-		newInput.draw();
-		newInput.requestFocus();
-		
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
 		
@@ -1061,7 +1052,7 @@ public:
 		Button btnSave("Luu","luu",380, 80, 380 + buttonWidth, 120);
 		btnSave.draw();
 		
-		xuatDS1Trang_LTC(loptcFilter, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
+		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 		inTrang(trangHienTai, tongSoTrang);
 		
 		int xBtn=tableLeft; int yBtn = tableTop+rowTableHeight;
@@ -1088,33 +1079,15 @@ public:
 		// kiem tra nhung lop tc da dang ki truoc do trong nien khoa, hoc ki da nhap
 		for(int i=batDau; i<ketThuc; i++){
 			if(chooseButton[i] != NULL){
-				if(this->checkSVDK_LTC(loptcFilter[i]->getMaLopTC(),maSV)){
+				if(this->checkSVDK_LTC(loptc[i]->getMaLopTC(),maSV)){
 					chooseButton[i]->setBackgroundColor(clgray);
 					chooseButton[i]->setId("da_dangky");
 					chooseButton[i]->setText("Da DK");
 					chooseButton[i]->setOffEnable();
 					chooseButton[i]->draw();
-					resetChooseButton(chooseButton, loptcFilter, nFilter, loptcFilter[i]->getMaMH(), i, batDau, ketThuc);
+					resetChooseButton(chooseButton, loptc, nFilter, loptc[i]->getMaMH(), i, batDau, ketThuc);
 				}
 			}
-		}
-		
-		Button *tempButton[MAX_DONG_1_TRANG] = {NULL};
-		for(int i=0; i<MAX_DONG_1_TRANG; i++){
-			tempButton[i] = new Button("","",0,0,0,0);
-			tempButton[i]->setParams(
-									chooseButton[i]->getLeft(),
-									chooseButton[i]->getTop(),
-									chooseButton[i]->getRight(),
-									chooseButton[i]->getBottom()
-								);
-			tempButton[i]->setState(
-									chooseButton[i]->getText(),
-									chooseButton[i]->getId(),
-									chooseButton[i]->getBKColor(),
-									chooseButton[i]->getBorderColor(),
-									chooseButton[i]->getEnable()
-								);
 		}
 		
 		// da_dangky, dangky, ko_duocchon
@@ -1130,14 +1103,11 @@ public:
             	
             	for(int i=batDau; i<ketThuc; i++){
             		if(chooseButton[i]->isClicked(x,y) && chooseButton[i]->getEnable()){
-            			resetChooseButton(chooseButton, loptc, nFilter, loptcFilter[i]->getMaMH(), i, batDau, ketThuc);
+            			resetChooseButton(chooseButton, loptc, nFilter, loptc[i]->getMaMH(), i, batDau, ketThuc);
 					}
 				}
 				
-				if(newInput.isClicked(x,y)){
-            		newInput.requestFocus();
-            		newInput.draw();
-				}else if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+				if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
             		
             		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
             		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
@@ -1147,7 +1117,7 @@ public:
             		
             		cout<<"\nprev "<<batDau<<" "<<ketThuc;
             		
-            		xuatDS1Trang_LTC(loptcFilter, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
+            		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
 					
 					
@@ -1163,7 +1133,7 @@ public:
 					
 					cout<<"\nnext "<<batDau<<" "<<ketThuc;
 					
-					xuatDS1Trang_LTC(loptcFilter, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
+					xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
 					
 				}else if(btnBack.isClicked(x,y)){
@@ -1171,7 +1141,6 @@ public:
             		newTable.freeTable();
 					delete[] arrMH;
 					freeArrButton(chooseButton, nFilter);
-					freeArrButton(tempButton, MAX_DONG_1_TRANG);
 					return;
             		
 				}else if(btnSave.isClicked(x,y)){
@@ -1187,49 +1156,13 @@ public:
 					
 					delete[] arrMH;
 					freeArrButton(chooseButton, tongSoDong);
-					freeArrButton(tempButton, MAX_DONG_1_TRANG);
 					newTable.freeTable();
 					return;
 				}
 				
 			}
 			
-			if(kbhit()){
-				ch = getch();
-				newInput.appendText(ch);
-				newInput.draw();
-				locDS_LTC(newInput.getContent(), loptcFilter, loptc, nFilter, tongSoDong, tongSoTrang);
-				batDau = 0; trangHienTai = 1;
-				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-				xuatDS1Trang_LTC(loptcFilter, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
-				inTrang(trangHienTai, tongSoTrang);
-				
-				for(int i=0; i<ketThuc; i++){
-					for(int j=0; j<tongSoDong; j++){
-						if(loptc[j]->getMaLopTC() == loptcFilter[i]->getMaLopTC() ){
-							tempButton[i]->setParams(
-												chooseButton[i]->getLeft(),
-												chooseButton[i]->getTop(),
-												chooseButton[i]->getRight(),
-												chooseButton[i]->getBottom()
-											);
-							tempButton[i]->setState(
-												chooseButton[j]->getText(),
-												chooseButton[j]->getId(),
-												chooseButton[j]->getBKColor(),
-												chooseButton[j]->getBorderColor(),
-												chooseButton[j]->getEnable()
-											);
-							
-							tempButton[i]->draw();
-							j = tongSoDong;
-						}
-					}
-				}
-				
-			} // end kbhit
 		} // end while
-		
 	}
 	
 	void formDK_LTC(string &maSV, int &khoa, int &HK, Action &thaoTac){

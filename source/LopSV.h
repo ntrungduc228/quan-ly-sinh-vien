@@ -125,6 +125,13 @@ public:
 				if (fileIn.eof()) break;
 				
 			}
+		}else { cout<<"\nKHONG TIM THAY FILE DU LIEU DS SINH VIEN";
+			MessageBox(
+					NULL,
+					"KHONG TIM THAY FILE DU LIEU DS SINH VIEN",
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+				);
 		}
 		
 		fileIn.close();

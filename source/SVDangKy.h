@@ -754,11 +754,6 @@ public:
 			btnSuaDiem.draw();
 			
 			int x,y;
-			int nInputDiem = this->demSoLuongSV();
-			Input *inputDiem[nInputDiem];
-			int viTriThieu = -1;
-			
-			bool isSuaDiem = false;
 			
 			while(true){
 				// Click event change page output
@@ -838,7 +833,7 @@ public:
 		string strKhoa = convertIntToString(khoa);
 		string strHK = convertIntToString(HK);
 		string strNhom = convertIntToString(nhom);
-		string strTT = trangThai ? "Mo lop" : "Huy lop";
+		string strTT = !trangThai ? "Mo lop" : "Huy lop";
 		string subTitle;
 		int soLuong;
 		string strSoLuong;

@@ -30,7 +30,7 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\n12. In ds mon hoc 					(done graphics)";
 		cout<<"\n13. Sua mon hoc 					(done graphics)";
 		cout<<"\n14. Xoa mon hoc 					(done graphics)";
-		cout<<"\n15. Dang ky lop tc 				(done)";
+		cout<<"\n15. Dang ky lop tc 				(done graphics)";
 		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done graphics)";
 		cout<<"\n17. Huy lop tc 					(done graphics)";
 		cout<<"\n18. Nhap diem 1 lop tc 			(done)";

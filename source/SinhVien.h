@@ -1258,7 +1258,7 @@ public:
 					if(coSV){
 						// xac nhan co muon luu sinh vien truoc khi thoat
 						int isConfirmed = MessageBox(NULL,
-												"BAN CO MUON LUU DS SINH VIEN",
+												"BAN CO MUON LUU LAI KO",
 												"THONG BAO",
 												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
 												);
