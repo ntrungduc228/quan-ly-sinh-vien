@@ -2016,8 +2016,6 @@ public:
 							coSV = -1; coLTC = -1; maSV = "";
 							khoa = 0; HK = 0;
 						}
-							
-						
 					
 					clearRegion(500, 150, 550 + 500, 200+300);
 					
