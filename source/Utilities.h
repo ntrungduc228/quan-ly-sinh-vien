@@ -9,7 +9,7 @@ string convertIntToString(int so){
 	return str; 
 }
 
-string convertFLoatToString(float so){
+string convertFloatToString(float so){
 	stringstream ss;
 	ss << so;
 	string str;

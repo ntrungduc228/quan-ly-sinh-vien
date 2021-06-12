@@ -90,6 +90,17 @@ public:
 	void setHead_DSDK(NodeDK *head);
 	NodeDK*& getHead_DSDK();
 	
+	void freeDS_SV(NodeDK *&pHead){
+		
+		NodeDK* SV = NULL;
+		while (pHead != NULL)
+		{
+			SV = pHead;
+			pHead = pHead->getNext_DK();
+			delete SV;
+		}
+	}
+	
 	NodeDK * timSV_DK(string maSV){
 		if(head == NULL) return NULL;
 		NodeDK*p=head;
@@ -699,9 +710,9 @@ public:
 				
 			// xuat du lieu moi
 				outtextxy(
-						x + newTable.getCols(5)->getWidth()/2 - textwidth(convertFLoatToString(diem).c_str())/2, 
+						x + newTable.getCols(5)->getWidth()/2 - textwidth(convertFloatToString(diem).c_str())/2, 
 						y, 
-						convertFLoatToString(diem).c_str()
+						convertFloatToString(diem).c_str()
 					);
 			
 			
@@ -940,7 +951,6 @@ public:
 					if (btnBack.isClicked(x, y))
 					{						
 						exitLoop=true;
-						
 						continue;
 					}
 				}
@@ -963,7 +973,8 @@ public:
 			DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
 			DSSVDKFilter.freeDS_SV(DSSVDKFilter.getHead_DSSV());
 			newTable.freeTable();
-
+			thaoTac = THOAT;
+			
 		}
 		else {
 			MessageBox(
@@ -1010,7 +1021,7 @@ public:
 		bool exitLoop = false;
 		
 		NodeDK *svdk = NULL;
-	NHAP_MA_SV:	
+	/*NHAP_MA_SV:	
 		indexInput = 0;
 		while(!exitLoop){
 			delay(0.000);
@@ -1067,31 +1078,66 @@ public:
 		input[0]->setOffEnable();
 		//input[0]->setBorderColor(clblack);
 		input[0]->draw();
-		input[1]->setContent(convertFLoatToString(svdk->getData_DK().getDiem()));
+		input[1]->setContent(convertFloatToString(svdk->getData_DK().getDiem()));
 		input[1]->draw();
 		
 		indexInput = 1;
 		
-		exitLoop = false;
+		exitLoop = false;*/
 		
 		while(!exitLoop){
 			delay(0.000);
 			if(ismouseclick(WM_LBUTTONDOWN)) {
 				getmouseclick(WM_LBUTTONDOWN, x, y);
 				
-				if(btnThoat.isClicked(x,y)){
+				if(btnThoat.isClicked(x,y) && indexInput == 1){
 					clearRegion(left-textwidth(btnThoat.getText().c_str()), top+INPUT_HEIGHT+20, left+302, top + INPUT_HEIGHT*2 +22);
 					btnThoat.setText("Thoat");
 					btnThoat.draw();
-					//clearRegion(500, 150, 550 + 500, 200+300);
-					goto NHAP_MA_SV;
+					indexInput = 0;
+					input[indexInput]->requestFocus();
+					input[indexInput]->draw();
+				}else if(btnThoat.isClicked(x,y)){
+					thaoTac = THOAT; 
+					exitLoop = true;
+				}
+				else if(btnLuu.isClicked(x,y) && !input[indexInput]->getContent().empty() && indexInput == 0){
+					svdk = timSV_DK(input[indexInput]->getContent());
+					
+					if(svdk != NULL){
+						
+						btnLuu.setText("Luu");
+						btnLuu.draw();
+						
+						btnThoat.setText("Quay lai");
+						btnThoat.draw();
+						
+						input[1]->requestFocus();
+						input[0]->setOffEnable();
+						input[0]->draw();
+						input[1]->setContent(convertFloatToString(svdk->getData_DK().getDiem()));
+						input[1]->draw();
+						
+						indexInput = 1;
+						continue;
+					}else {
+						MessageBox(
+						        NULL,
+						        "KHONG TIM THAY SINH VIEN !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+					}
+					
+					
 				}else if(btnLuu.isClicked(x,y) && !input[indexInput]->getContent().empty()){
 					sv.setDiem(atof(input[indexInput]->getContent().c_str()));
 					sv.setMaSV(input[0]->getContent());
 					svdk->setData(sv);
 					exitLoop = true;
 					continue;
-				}else if (btnLuu.isClicked(x,y) && input[indexInput]->getContent().empty()){
+				}
+				else if (btnLuu.isClicked(x,y) && input[indexInput]->getContent().empty()){
 					MessageBox(
 						        NULL,
 						        "VUI LONG KHONG BO TRONG DU LIEU !!!",
@@ -1103,6 +1149,51 @@ public:
 			
 			if(kbhit()){
 				ch = getch();
+				
+				if(ch == ENTER){
+					if(!input[indexInput]->getContent().empty() && indexInput == 0){
+						svdk = timSV_DK(input[indexInput]->getContent());
+					
+						if(svdk != NULL){
+							
+							btnLuu.setText("Luu");
+							btnLuu.draw();
+							
+							btnThoat.setText("Quay lai");
+							btnThoat.draw();
+							
+							input[1]->requestFocus();
+							input[0]->setOffEnable();
+							input[0]->draw();
+							input[1]->setContent(convertFloatToString(svdk->getData_DK().getDiem()));
+							input[1]->draw();
+							
+							indexInput = 1; continue;
+						}else {
+							MessageBox(
+							        NULL,
+							        "KHONG TIM THAY SINH VIEN !!!",
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+					    	continue;
+						}
+					}else if(!input[indexInput]->getContent().empty() && indexInput == 1){
+						sv.setDiem(atof(input[indexInput]->getContent().c_str()));
+						sv.setMaSV(input[0]->getContent());
+						svdk->setData(sv);
+						exitLoop = true;
+						continue;
+					}else{
+						MessageBox(
+						        NULL,
+						        "VUI LONG KHONG BO TRONG DU LIEU !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+					}
+				}
+				
 				if(input[indexInput]->getEnable()){
 					input[indexInput]->appendText(ch);
 					input[indexInput]->draw();
@@ -1120,9 +1211,7 @@ public:
 
 		DSSV DSSVDK;
 		this->thongKeDS_DK(DSSVDK, DSLSV);
-
 		
-
 		/*NodeSV *p = DSSVDK.getHead_DSSV();
 		NodeDK *k = this->head;
 		for( ??!=NULL && k!=NULL; p=p->getNext_SV(), k=k->getNext_DK()){
@@ -1178,8 +1267,7 @@ public:
 			SVDangKy *arrDiem=new SVDangKy[nInputDiem];
 
 			// Ve input, cap phat o nho
-			for (int i = 0; i < nInputDiem; i++)
-			{
+			for (int i = 0; i < nInputDiem; i++){
 
 				inputDiem[i] = new Input("", "", "", MAXLENGTH_DIEM, TEXT, left, top, right, bottom, cllightwhite, clred, clblack);
 				inputDiem[i]->draw();
@@ -1187,8 +1275,7 @@ public:
 				top = bottom;
 				bottom += rowTableHeight;
 
-				if ((i + 1) % MAX_DONG_1_TRANG == 0)
-				{
+				if ((i + 1) % MAX_DONG_1_TRANG == 0){
 					top = tableTop + rowTableHeight;
 					bottom = top + rowTableHeight;
 				}
@@ -1200,12 +1287,11 @@ public:
 			for (NodeSV* p = DSSVDK.getHead_DSSV(); p != NULL && i < nInputDiem; p = p->getNext_SV(), i++) {
 				diem=timDiem_DK(p->getData_SV().getMaSV());
 				
-				inputDiem[i]->setContent(convertFLoatToString(diem));
+				inputDiem[i]->setContent(convertFloatToString(diem));
 				inputDiem[i]->setId(p->getData_SV().getMaSV());							
 			}
 
-			for(int i=0 ; i<nInputDiem;i++)
-			{
+			for(int i=0 ; i<nInputDiem;i++){
 				cout << inputDiem[i]->getContent() << "    " << inputDiem[i]->getId() << "\n";
 				cout <<	arrDiem[i].getDiem() << "      " << arrDiem[i].getMaSV() <<"\n";
 				cout << "\n==============================\n";
@@ -1213,8 +1299,7 @@ public:
 			
 			
 
-			for (int i = batDau; i < ketThuc; i++)
-			{
+			for (int i = batDau; i < ketThuc; i++){
 				inputDiem[i]->draw();
 			}
 
@@ -1271,7 +1356,7 @@ public:
 						
 						for(int i = 0; i < nInputDiem; i++){
 							if(inputDiem[i]->getId() == svdk.getMaSV()){
-								inputDiem[i]->setContent(convertFLoatToString(svdk.getDiem()));
+								inputDiem[i]->setContent(convertFloatToString(svdk.getDiem()));
 								break;
 							}
 						}
@@ -1507,7 +1592,6 @@ public:
 				} // mouse click
 
 				if (kbhit()) {
-
 					if (indexIsFocused != -1) {
 						char ch = getch();
 
@@ -1517,8 +1601,6 @@ public:
 						continue;
 					}
 					
-//
-//					
 //					//Filter
 //					char ch = getch();
 //					newInput.appendText(ch);
@@ -1536,7 +1618,6 @@ public:
 //						inputDiem[i]->draw();
 //					}
 
-
 				}
 			}
 			
@@ -1544,7 +1625,6 @@ public:
 			//DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
 			DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
 			newTable.freeTable();
-			// FREE
 
 		}
 		else {
@@ -1620,7 +1700,7 @@ public:
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 						
 					}else if(thaoTac == THOAT){
-						thaoTac = XUAT;
+						return;
 					}else if(thaoTac == DIEM){
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					}

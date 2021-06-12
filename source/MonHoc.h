@@ -158,6 +158,15 @@ public:
 				if (fileIn.eof()) break;
 			}
 			
+		}else {
+			cout<<"\nKHONG TIM THAY FILE DU LIEU DS MON HOC";
+			MessageBox(
+					NULL,
+					"KHONG TIM THAY FILE DU LIEU DS MON HOC",
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+			); 
+			loadFileIsSuccess = false;
 		}
 		
 		fileIn.close();
@@ -1148,7 +1157,8 @@ public:
 	
 	void formNhap_MH(MonHoc &monHoc, Action &thaoTac)
 	{
-		drawFrame(500, 150, 500 + 600, 200+400, "them mon hoc");
+		string title = thaoTac == THEM ? "Them mon hoc" : "Sua mon hoc";
+		drawFrame(500, 150, 500 + 600, 200+400, title);
 					Input *input[4];
 					int nInput = 4; 
 																		

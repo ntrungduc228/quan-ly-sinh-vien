@@ -149,6 +149,8 @@ const int buttonXHeight = 30;
 ** ================ Duong dan luu data tu file ================
 */
 
+bool loadFileIsSuccess = true;
+
 const char *PATH_SAVE_LTC = "data\\DSLTCSave.txt"; // lop tin chi
 const char *PATH_SAVE_MH = "data\\DSMHSave.txt";   // mon hoc
 const char *PATH_SAVE_SV = "data\\DSSVSave.txt";    // danh sach sinh vien

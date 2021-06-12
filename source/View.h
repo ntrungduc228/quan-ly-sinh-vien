@@ -604,7 +604,7 @@ void clearRegion(int left, int top, int right, int bottom)
 {
 	setfillstyle(SOLID_FILL,backgroundColor);	
 	//setfillstyle(SOLID_FILL,clyellow);	
-	bar(left,top,right, bottom);
+	bar(left, top, right, bottom);
 }
 
 void drawFrame(int left, int top, int right, int bottom){

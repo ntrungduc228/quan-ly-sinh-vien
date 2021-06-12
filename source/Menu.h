@@ -9,6 +9,12 @@
 #include "Validate.h"
 #include "View.h"
 
+void free(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
+	DSMH.freeDS_MH(DSMH.getRoot());
+	DSLTC.freeDS_LTC();
+	DSLSV.freeDS_LSV();
+}
+
 void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 	int chon;
 	while(true){
@@ -358,8 +364,13 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 	
 	menuTitle(button, MENU, MENU_ID, nButton);
 	
+	int x,y;
+	
 	while(true){
-		
+		//delay(0.0001);
+		if(ismouseclick(WM_LBUTTONDOWN)) {
+			getmouseclick(WM_LBUTTONDOWN, x, y);
+		}
 	}
 }
 

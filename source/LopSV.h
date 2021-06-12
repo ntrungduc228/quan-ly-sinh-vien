@@ -4,7 +4,6 @@
 class LopSV{
 private:
 	string maLop;
-	//string tenLop;
 	DSSV dssv;
 public:
 	LopSV();
@@ -73,20 +72,30 @@ public:
 	void loadData_LSV(){
 		ifstream fileIn; char temp;
 		fileIn.open("data\\DSLSV.txt", ios::in);
-		
-		string str;
-		while (!fileIn.eof())
-		{
-		
-			getline(fileIn, str, '\n');
-			if(str=="") break;
+		if(fileIn.is_open()){
+			string str;
+			while (!fileIn.eof()){
 			
-			/*getline(fileIn, str, '\n');
-			this->lopSV[this->n]->setTenLop(str);*/
-
-			them_LSV(str);
-			if (fileIn.eof()) break;
+				getline(fileIn, str, '\n');
+				if(str=="") break;
+				
+				/*getline(fileIn, str, '\n');
+				this->lopSV[this->n]->setTenLop(str);*/
+	
+				them_LSV(str);
+				if (fileIn.eof()) break;
+			}
+		}else {
+			cout<<"\nKHONG TIM THAY FILE DU LIEU DS LOP SINH VIEN";
+			MessageBox(
+					NULL,
+					"KHONG TIM THAY FILE DU LIEU DS LOP SINH VIEN",
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+			); 
+			loadFileIsSuccess = false;
 		}
+			
 		fileIn.close();
 	}
 	
@@ -132,6 +141,7 @@ public:
 					"THONG BAO",
 					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
 				);
+			loadFileIsSuccess = false;
 		}
 		
 		fileIn.close();

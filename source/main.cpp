@@ -11,8 +11,6 @@
 
 int main(int argc, char *argv[])
 {
-	
-	
 	TREE DSMH;
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
@@ -25,13 +23,17 @@ int main(int argc, char *argv[])
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
-	resizeConsole(1368, 745);
+	if(loadFileIsSuccess){
+		resizeConsole(1368, 745);
 
+		menu1(dssv,DSLTC,DSLSV,DSMH);
+		
+		init_View();
+		menu(DSMH, DSLTC, DSLSV);
+	}
 	
-	menu1(dssv,DSLTC,DSLSV,DSMH);
+	free(DSMH, DSLTC, DSLSV);
 	
-	init_View();
-	menu(DSMH, DSLTC, DSLSV);
 	//decorMainScreen();
 	
 	/*Table newTable = table_NhapSV();

@@ -125,6 +125,15 @@ public:
 	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
 	void writeDataDS_LTC();
 	
+	void freeDS_LTC(){
+		for(int i=0; i<n; i++){
+			if(this->lopTC[i] != NULL){
+				lopTC[i]->getDSDK().freeDS_SV(lopTC[i]->getDSDK().getHead_DSDK());
+				delete lopTC[i];
+			}
+		}
+	}
+	
 	int getMaLopTCMax(){
 		int max = -1;
 		if(n>0){
@@ -188,6 +197,15 @@ public:
 					if (fileIn.eof()) break;
 	
 				}
+		}else {
+			cout<<"\nKHONG TIM THAY FILE DU LIEU DS SINH VIEN DK ";
+			MessageBox(
+					NULL,
+					"KHONG TIM THAY FILE DU LIEU DS SINH VIEN DK",
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+			); 
+			loadFileIsSuccess = false;
 		}
 		
 		fileIn.close();
@@ -196,34 +214,45 @@ public:
 	void loadDataDS_LTC(){
 		ifstream fileIn; char temp;
 		fileIn.open("data\\DSLTC.txt", ios::in);
-		int tempInt; string tempStr;
-		while (!fileIn.eof())
-		{
-			
-			lopTC[n] = new LopTC;
-			fileIn >> tempInt;	lopTC[n]->setMaLopTC(tempInt);
-			if(tempInt==0) break;
-			fileIn >> temp;
-			getline(fileIn, tempStr, ','); lopTC[n]->setMaMH(tempStr);
-			fileIn >> tempInt; lopTC[n]->setNienKhoa(tempInt);
-			fileIn >> temp;
-			fileIn >> tempInt; lopTC[n]->setHocKy(tempInt);
-			fileIn >> temp;
-			fileIn >> tempInt; lopTC[n]->setNhom(tempInt);
-			fileIn >> temp;
-			fileIn >> tempInt; lopTC[n]->setSVMax(tempInt);
-			fileIn >> temp;
-			fileIn >> tempInt; lopTC[n]->setSVMin(tempInt);
-			fileIn >> temp;
-			fileIn >> tempInt; lopTC[n]->setTrangThai(bool(tempInt));
-			
-	
-			lopTC[n]->getDSDK().setHead_DSDK(NULL);
-			
-	
-			this->n++;
-	
-			if (fileIn.eof()) break;
+		if(fileIn.is_open()){
+			int tempInt; string tempStr;
+			while (!fileIn.eof())
+			{
+				
+				lopTC[n] = new LopTC;
+				fileIn >> tempInt;	lopTC[n]->setMaLopTC(tempInt);
+				if(tempInt==0) break;
+				fileIn >> temp;
+				getline(fileIn, tempStr, ','); lopTC[n]->setMaMH(tempStr);
+				fileIn >> tempInt; lopTC[n]->setNienKhoa(tempInt);
+				fileIn >> temp;
+				fileIn >> tempInt; lopTC[n]->setHocKy(tempInt);
+				fileIn >> temp;
+				fileIn >> tempInt; lopTC[n]->setNhom(tempInt);
+				fileIn >> temp;
+				fileIn >> tempInt; lopTC[n]->setSVMax(tempInt);
+				fileIn >> temp;
+				fileIn >> tempInt; lopTC[n]->setSVMin(tempInt);
+				fileIn >> temp;
+				fileIn >> tempInt; lopTC[n]->setTrangThai(bool(tempInt));
+				
+		
+				lopTC[n]->getDSDK().setHead_DSDK(NULL);
+				
+		
+				this->n++;
+		
+				if (fileIn.eof()) break;
+			}
+		}else {
+			cout<<"\nKHONG TIM THAY FILE DU LIEU DS LOP TC";
+			MessageBox(
+					NULL,
+					"KHONG TIM THAY FILE DU LIEU DS LOP TC",
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+			); 
+			loadFileIsSuccess = false;
 		}
 		fileIn.close();
 	}
@@ -1895,6 +1924,8 @@ public:
 														MH.getTenMH(),
 														thaoTac
 													);
+						if(thaoTac == THOAT) thaoTac = DIEM;
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);									
 					}
 					break;
 				}
@@ -2133,7 +2164,7 @@ DSLopTC::DSLopTC(){
 }
 
 DSLopTC::~DSLopTC(){
-	for(int i=0; i<n; i++)	delete this->lopTC[i];
+	//for(int i=0; i<n; i++)	delete this->lopTC[i];
 	cout<<"\n Delete ds ltc";
 }
 
