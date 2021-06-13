@@ -9,6 +9,7 @@
 #include "Validate.h"
 #include "View.h"
 
+
 void free(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 	DSMH.freeDS_MH(DSMH.getRoot());
 	DSLTC.freeDS_LTC();
@@ -23,24 +24,24 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		cout<<"\nMenu graphics";
 		cout<<"\nMenu guides";
 		cout<<"\n1. Nhap sinh vien 					(done graphics)";
-		cout<<"\n2. Xuat ds sinh vien 				(done graphics)";
+		cout<<"\n2. Xuat ds sinh vien 				(done graphics ok)";
 		cout<<"\n3. Sua sinh vien 					(done graphics)";
 		cout<<"\n4. Xoa sinh vien 					(done graphics)";
 		cout<<"\n5. Them lop tc 					(done graphics)";
-		cout<<"\n6. Xuat DS lop tc					(done graphics)";
+		cout<<"\n6. Xuat DS lop tc					(done graphics ok)";
 		cout<<"\n7. Sua lop tc 						(done graphics)";
 		cout<<"\n8. Xoa lop tc 						(done graphics)";
 		cout<<"\n9. Them lop hoc 					(done graphics)";
-		cout<<"\n10. Xuat ds lop hoc 				(done graphics)";
+		cout<<"\n10. Xuat ds lop hoc 				(done graphics ok)";
 		cout<<"\n\n11. Them mon hoc 				(done graphics)";
-		cout<<"\n12. In ds mon hoc 					(done graphics)";
+		cout<<"\n12. In ds mon hoc 					(done graphics ok)";
 		cout<<"\n13. Sua mon hoc 					(done graphics)";
 		cout<<"\n14. Xoa mon hoc 					(done graphics)";
 		cout<<"\n15. Dang ky lop tc 				(done graphics)";
-		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done graphics)";
+		cout<<"\n16. In ds dang ky trong 1 lop tc 	(done graphics ok)";
 		cout<<"\n17. Huy lop tc 					(done graphics)";
 		cout<<"\n18. Nhap diem 1 lop tc 			(done graphics)";
-		cout<<"\n19. Xuat diem 1 lop tc 			(done graphics)";
+		cout<<"\n19. Xuat diem 1 lop tc 			(done graphics ok)";
 		
 		cout<<"\n\n20. Lay data lop SV (done)";
 		cout<<"\n21. Lay data lop TC (done)";
@@ -59,9 +60,7 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			dsmh.freeDS_MH(dsmh.getRoot());
 			// ds dk
 			DSLTC.writeDataDS_DK();
-			/*for(int i=0; i<DSLSV.getN(); i++)
-				if(DSLSV.getLopSV_LSV(i)->getDS_SV().isNULL_SV()!=true)
-					DSLSV.getLopSV_LSV(i)->getDS_SV().writeDataDS_SV();*/
+			
 			DSLSV.writeDataDS_SV();
 			DSLTC.writeDataDS_LTC();
 			DSLSV.writeDataDS_LSV();
@@ -109,7 +108,7 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					//ds.xuatDS_SV();
 				//DSLSV.getLopSV_LSV(viTri)->getDS_SV().xuatDS_SV();
 				init_View();
-				DSLSV.getLopSV_LSV(viTri)->getDS_SV().chon_SV(DSLSV.getLopSV_LSV(viTri)->getMaLop(), XUAT); getch();
+				//DSLSV.getLopSV_LSV(viTri)->getDS_SV().chon_SV(DSLSV.getLopSV_LSV(viTri)->getMaLop(), XUAT); getch();
 			}else cout<<"\nKo tim thay lop sv";
 			system("pause");
 		}else if(chon==3){
@@ -176,7 +175,7 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 			system("cls");
 			//cout<<"\n ds lop tc";	DSLTC.xuatDS_LTC();	system("pause"); 
 			Action	thaoTac = XUAT;
-			init_View(); DSLTC.chon_LTC(dsmh, DSLSV, thaoTac); getch();
+			//init_View(); DSLTC.chon_LTC(dsmh, DSLSV, thaoTac); getch();
 		}else if(chon==7){
 			system("cls");
 			int maLop;
@@ -209,7 +208,8 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 		}else if(chon==10){
 			system("cls");
 				//DSLSV.xuatDS_LSV();
-				init_View(); DSLSV.chon_LSV(); getch();
+				Action thaoTac = XUAT;
+				//init_View(); DSLSV.chon_LSV(thaoTac); getch();
 			system("pause");
 		}else if (chon == 11)
 		{
@@ -241,7 +241,7 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 				
 				delete [] arr; system("pause");*/
 				Action thaoTac = XUAT;
-				init_View(); dsmh.chon_MH(thaoTac);
+				//init_View(); dsmh.chon_MH(thaoTac);
 				
 				getch();
 				
@@ -353,25 +353,113 @@ void menu1(DSSV &ds, DSLopTC &DSLTC,DSLopSV &DSLSV, TREE &dsmh){
 					
 				}else cout<<"\nKhong tim thay lop tc";
 			system("pause");*/
-			init_View();  DSLTC.chon_LTC(dsmh, DSLSV, DIEM); getch();
+			//init_View();  DSLTC.chon_LTC(dsmh, DSLSV, DIEM); getch();
 		}
 	}
 }
 
 void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
-	int nButton = 5;
-	Button *button[nButton] = {NULL};
 	
-	menuTitle(button, MENU, MENU_ID, nButton);
+	Button *menuButton[nMenuButton] = {NULL};
+	
+	menuTitle(menuButton, MENU, MENU_ID);
 	
 	int x,y;
 	
+	Action thaoTac = XUAT;
+
 	while(true){
-		//delay(0.0001);
+		
+		delay(0.0001);
 		if(ismouseclick(WM_LBUTTONDOWN)) {
 			getmouseclick(WM_LBUTTONDOWN, x, y);
+			
+			indexMenu = isClickMenuButton(menuButton, x,y);
+			
+		}
+		
+		if(indexMenu == -1) {
+			decorMainScreen();
+		}else if(indexMenu != -1){ cout<<"\nindex khac 1";
+			thaoTac = XUAT;
+			clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+			
+			if(indexMenu != -1 && indexMenu != nMenuButton -1 ) drawMenu(menuButton);
+				
+			if(menuButton[indexMenu]->getId() == "LTC"){
+				
+				oldIndexMenu = indexMenu; indexMenu = -1;
+				
+				DSLTC.chon_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt ltc "<<indexMenu;
+				
+			}else if(menuButton[indexMenu]->getId() == "SV"){
+				
+				oldIndexMenu = indexMenu; indexMenu = -1;
+				
+				DSLSV.chon_LSV(thaoTac, menuButton); //cout<<"\ntt lsv "<<indexMenu;
+				
+			}else if(menuButton[indexMenu]->getId() == "MH"){
+				
+				oldIndexMenu = indexMenu; indexMenu = -1;
+				
+				DSMH.chon_MH(thaoTac, menuButton); //cout<<"\ntt mh "<<indexMenu;
+				
+			}else if(menuButton[indexMenu]->getId() == "DIEM"){
+				
+				thaoTac = DIEM; oldIndexMenu = indexMenu; indexMenu = -1;
+				
+				DSLTC.chon_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt dk "<<indexMenu;
+			}else if(indexMenu == nMenuButton -1 ){
+				exitProgram = isExit();
+				if(!exitProgram){
+					indexMenu = -1; continue;
+				}
+			}
+			
+			
+			clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);	
+		}
+	
+		if(exitProgram){
+			int isConfirmed = MessageBox(
+						NULL,
+						"BAN CO MUON LUU DU LIEU VAO FILE",
+						"THONG BAO",
+						MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+					);
+												    		
+			switch(isConfirmed){
+				case IDCANCEL:{
+					DSMH.writeDataDS_MH();
+					DSLTC.writeDataDS_DK();
+					DSLTC.writeDataDS_LTC();
+					DSLSV.writeDataDS_LSV();
+					DSLSV.writeDataDS_SV();
+					freeArrButton(menuButton, nMenuButton);
+					return;
+					break;
+				}
+												
+				case IDOK: default:{
+					DSMH.writeDataDS_MH(PATH_MH.c_str());
+					DSLTC.writeDataDS_DK(PATH_DK.c_str());
+					DSLTC.writeDataDS_LTC(PATH_LTC.c_str());
+					DSLSV.writeDataDS_LSV(PATH_LSV.c_str());
+					DSLSV.writeDataDS_SV(PATH_SV.c_str());
+					
+					DSMH.writeDataDS_MH();
+					DSLTC.writeDataDS_DK();
+					DSLTC.writeDataDS_LTC();
+					DSLSV.writeDataDS_LSV();
+					DSLSV.writeDataDS_SV();	
+					freeArrButton(menuButton, nMenuButton);
+					return;			
+					break;
+				}
+			}
 		}
 	}
+	
 }
 
 

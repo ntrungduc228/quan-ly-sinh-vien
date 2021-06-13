@@ -11,6 +11,8 @@
 #include <algorithm>
 #include <cstdlib>
 
+#include "Menu.h"
+
 using namespace std;
 
 /*
@@ -40,6 +42,8 @@ const int cllightwhite = 15;
 const int backgroundColor = cllightwhite;
 const int FONT_SIZE = 0;
 const int FONT_OF_TEXT = 8; 
+
+bool exitProgram = false;
 
 enum Action { THEM, XUAT, SUA, XOA, HUY, CHON, DIEM, THOAT, XUAT_DS, DK_LTC, HUY_LTC, NHAP_DS, THOAT_CT };
 
@@ -150,11 +154,18 @@ const int buttonXHeight = 30;
 */
 
 bool loadFileIsSuccess = true;
+string LIST_DATA = "";
+
+string PATH_LTC = "data\\DSLTC.txt";
+string PATH_MH = "data\\DSMH.txt";
+string PATH_SV = "data\\DSSV.txt";
+string PATH_LSV = "data\\DSLSV.txt";
+string PATH_DK = "data\\DSDK.txt";
 
 const char *PATH_SAVE_LTC = "data\\DSLTCSave.txt"; // lop tin chi
 const char *PATH_SAVE_MH = "data\\DSMHSave.txt";   // mon hoc
 const char *PATH_SAVE_SV = "data\\DSSVSave.txt";    // danh sach sinh vien
-const char *PATH_SAVE_LSV = "data\\DSLSVSave.txt";  // lop sinh vien
+string PATH_SAVE_LSV = "data\\DSLSVSave.txt";  // lop sinh vien
 const char *PATH_SAVE_DK = "data\\DSDKSave.txt";   // danh sach dang ky
 
 /*
@@ -206,5 +217,10 @@ string MENU_ID[5] = {
 				"DIEM",
 				"EXIT"	
 			};
+
+
+const int nMenuButton = 5;
+int indexMenu = -1;
+int oldIndexMenu = -1;
 
 

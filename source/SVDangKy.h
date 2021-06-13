@@ -74,8 +74,8 @@ public:
 		fileOut << temp;
 		fileOut << DK.getMaSV();
 		fileOut << temp;
-		fileOut << DK.getDiem();	
-		fileOut << '\n';
+		fileOut << DK.getDiem();
+		fileOut <<"\n";
 	}
 	
 };
@@ -161,7 +161,7 @@ public:
 		DK->setNext_DK(p->getNext_DK());
 		p->setNext_DK(DK);
 		
-		cout<<"\nthem thanh cong";
+		//cout<<"\nthem thanh cong";
 	}
 	
 	bool checkSV_DK(string maSV){
@@ -431,7 +431,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac){
+	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac, Button *menuButton[]){
 		
 		DSSV DSSVDK; 
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -484,6 +484,21 @@ public:
 				// Click event change page output
 				if (ismouseclick(WM_LBUTTONDOWN)){
 	            	getmouseclick(WM_LBUTTONDOWN, x, y);
+					
+					indexMenu = isClickMenuButton(menuButton, x, y);
+					if(indexMenu != -1){
+						if(indexMenu == nMenuButton - 1){
+	            			exitProgram = isExit();
+	            			if(exitProgram)
+	            				exitLoop = true;
+	            			else indexMenu = -1;
+	            			continue;	
+						}            			
+						else {
+							
+							exitLoop = true; continue;
+						}
+					}
 					
 					if(newInput.isClicked(x,y)){
 	            		newInput.requestFocus();
@@ -721,7 +736,7 @@ public:
 		}
 	}
 	
-	void xuatDSTheoTrang_Diem123(DSLopSV DSLSV, Action &thaoTac ){
+	void xuatDSTheoTrang_Diem123(DSLopSV DSLSV, Action &thaoTac){
 		
 		DSSV DSSVDK; 
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -845,7 +860,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac) {
+	void xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac, Button *menuButton[]) {
 
 		DSSV DSSVDK;
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -910,6 +925,22 @@ public:
 						newInput.draw();
 
 						//newInput.initFocusedId();
+					}
+					
+					indexMenu = isClickMenuButton(menuButton, x,y );
+					
+					if(indexMenu != -1){
+						if(indexMenu == nMenuButton - 1){
+	            			exitProgram = isExit();
+	            			if(exitProgram)
+	            				exitLoop = true;
+	            			else indexMenu = -1;
+	            			continue;	
+						}            			
+						else {
+							
+							exitLoop = true; continue;
+						}
 					}
 
 					if (btnPrev.isClicked(x, y) && (trangHienTai > 1)) {
@@ -1021,69 +1052,6 @@ public:
 		bool exitLoop = false;
 		
 		NodeDK *svdk = NULL;
-	/*NHAP_MA_SV:	
-		indexInput = 0;
-		while(!exitLoop){
-			delay(0.000);
-			if(ismouseclick(WM_LBUTTONDOWN)) {
-				getmouseclick(WM_LBUTTONDOWN, x, y);
-					
-				if(btnThoat.isClicked(x,y)){
-					thaoTac = THOAT; 
-					exitLoop = true;
-					clearRegion(500, 150, 550 + 500, 200+300);
-					return;
-				}else if(btnLuu.isClicked(x,y) && !input[indexInput]->getContent().empty()){
-					svdk = timSV_DK(input[indexInput]->getContent());
-					
-					if(svdk != NULL){
-						
-						btnLuu.setText("Luu");
-						btnLuu.draw();
-						
-						btnThoat.setText("Quay lai");
-						btnThoat.draw();
-						
-						exitLoop = true;
-						continue;
-					}else {
-						MessageBox(
-						        NULL,
-						        "KHONG TIM THAY SINH VIEN !!!",
-						        "THONG BAO",
-						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-				    		);
-					}
-					
-				}else if (btnLuu.isClicked(x,y) && input[indexInput]->getContent().empty()){
-					MessageBox(
-						        NULL,
-						        "VUI LONG KHONG BO TRONG DU LIEU !!!",
-						        "THONG BAO",
-						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-				    		);
-				}
-			}
-			
-			if(kbhit()){
-				ch = getch();
-				input[indexInput]->appendText(ch);
-				input[indexInput]->draw();
-			}
-				
-		}
-		
-		
-		input[1]->requestFocus();
-		input[0]->setOffEnable();
-		//input[0]->setBorderColor(clblack);
-		input[0]->draw();
-		input[1]->setContent(convertFloatToString(svdk->getData_DK().getDiem()));
-		input[1]->draw();
-		
-		indexInput = 1;
-		
-		exitLoop = false;*/
 		
 		while(!exitLoop){
 			delay(0.000);
@@ -1638,7 +1606,7 @@ public:
 		}
 	}
 		
-	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac){
+	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]){
 		string strMaLopTC = convertIntToString(maLopTC);
 		string strKhoa = convertIntToString(khoa);
 		string strHK = convertIntToString(HK);
@@ -1647,7 +1615,7 @@ public:
 		string subTitle;
 		int soLuong;
 		string strSoLuong;
-		while(!isNull_DK()){
+		while(!isNull_DK() && indexMenu == -1){ lamVoVan();
 			
 			
 			soLuong = this->demSoLuongSV();
@@ -1688,13 +1656,13 @@ public:
 			
 			switch(thaoTac){
 				case XUAT_DS:{
-					xuatDSTheoTrang_DK(DSLSV, thaoTac);
+					xuatDSTheoTrang_DK(DSLSV, thaoTac, menuButton);
 					if(thaoTac == THOAT) return;
 					break;
 				}
 				
 				case DIEM:{
-					xuatDSTheoTrang_Diem(DSLSV, thaoTac);
+					xuatDSTheoTrang_Diem(DSLSV, thaoTac, menuButton);
 					if(thaoTac == THOAT_CT){
 						thaoTac = DIEM;
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
@@ -1706,7 +1674,15 @@ public:
 					}
 					break;
 				}
+				
+				case THOAT_CT:{
+					indexMenu =-1;
+					return;
+					break;
+				}
+				
 			}
+			
 			
 			
 		} if(isNull_DK()){

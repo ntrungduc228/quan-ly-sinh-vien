@@ -1,8 +1,9 @@
-#ifndef __VIEW__
-#define __VIEW__
+
 #pragma once
-#include "Const.h"
+//#include "Const.h"
 #include "Utilities.h"
+
+
 
 void resizeConsole(int width, int height)
 {
@@ -194,7 +195,7 @@ public:
 		this->borderColor = borderColor;
 	}
 	
-	void setBackgroundColor(int color)
+	void setBGColor(int color)
 	{
 		this->backgroundColor=color;
 	}
@@ -367,9 +368,6 @@ public:
 	}
 	
 	
-	void setBGColor(int bgColor){
-		this->backgroundColor = bgColor;
-	}
 	
 	void setBorderColor(int borderColor){
 		this->borderColor = borderColor;
@@ -636,6 +634,40 @@ void drawFrame(int left, int top, int right, int bottom, string title){
 	outtextxy((right+left)/2 - textwidth(title.c_str())/2, top+15, title.c_str());
 }
 
+const int nFunny = 10;
+int indexFun = 0;
+string funny[nFunny] = {
+						"O DAY CO TAM SU",
+						"Yeu em 3000 <3",
+						"Neu co bug, do la tinh nang moi",
+						"Fucking wow shit !!!",
+						"Thuong em",
+						"Tim em kho hon tim bug",
+						"Bug co la gi dau.Em moi la noi sau",
+						"Con tho la con bug",
+						"Biet nhung chua chac da thau",
+						"Hieu cung chua chac da sau"
+					};
+
+void lamVoVan(){
+	int y = (frameBottom-frameBorder)/2;
+	// LAM VO VAN
+	setbkcolor(cllightwhite);  setcolor(cllightwhite);
+	outtextxy(
+			(frameLeft + leftSideBar)/2 - textwidth(funny[indexFun].c_str())/2 , y+80,
+			string(textwidth(funny[indexFun].c_str())/7 ,' ').c_str()
+	);
+	
+	
+	indexFun = rand() % nFunny; // [0;nFunny)
+	setbkcolor(cllightgreen);	setcolor(clblack);
+		outtextxy(
+			(frameLeft + leftSideBar)/2 - textwidth(funny[indexFun].c_str())/2 , y+80,
+			funny[indexFun].c_str()
+	);
+	
+}
+
 void drawMainFrame(){
 	
 	const int Border_Color = clblue;
@@ -669,15 +701,38 @@ void drawMainFrame(){
 	
 	title = "   HUONG DAN   ";
 	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , y+10, title.c_str());
+	
+	lamVoVan();
+	
 }
 
-void MenuTitle(string MENU[], string MENU_ID[], int n){
-	Button *button[n] = {NULL};
+
+int isClickMenuButton(Button **menuButton, int x, int y){
+	for(int i=0; i<nMenuButton; i++){
+		if(menuButton[i]->isClicked(x,y)){
+			return i;
+		}
+	}
 	
+	return -1;
+}
+
+void drawMenu(Button *menuButton[]){ cout<<"\nold "<<oldIndexMenu<<" "<<indexMenu;
+	if(oldIndexMenu != -1){
+		menuButton[oldIndexMenu]->setBGColor(claqua);
+		menuButton[oldIndexMenu]->draw();
+	}
+	
+	
+	menuButton[indexMenu]->setBGColor(cllightgreen);
+	menuButton[indexMenu]->draw();
+}
+
+void menuTitle(Button *button[], string MENU[], string MENU_ID[]){
 	int x = xMenu;
 	int y = yMenu+30;
 	
-	for(int i=0; i<n; i++){
+	for(int i=0; i< nMenuButton; i++){
 	 if(button[i] == NULL)
 		//button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, cllightgreen, clblack, clblack);
 		button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, claqua, clblack, clblack);
@@ -685,33 +740,18 @@ void MenuTitle(string MENU[], string MENU_ID[], int n){
 		
 		y+=menuSpace;
 	}
-	
-	for(int i=0; i<n; i++) delete button[i];
-	/*Button *btn = new Button("LOP TIN CHI","LTC", xMenu, yMenu, xMenu + btnMenuWidth, yMenu+btnMenuHeight, clgreen, cllightgreen, cllightwhite);
-	btn->draw();
-	
-	delete btn;*/
-	
 }
 
-void menuTitle(Button *button[], string MENU[], string MENU_ID[], int nButton){
-	int x = xMenu;
-	int y = yMenu+30;
-	
-	for(int i=0; i<nButton; i++){
-	 if(button[i] == NULL)
-		//button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, cllightgreen, clblack, clblack);
-		button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, claqua, clblack, clblack);
-		button[i]->draw();
-		
-		y+=menuSpace;
-	}
-}
+
 
 void decorMainScreen(){
 	setcolor(clred);
 	circle(845, 346, 300); setbkcolor(cllightwhite);
-	outtextxy(800, 250, "FUCKING WOW SHIT !!!");
+	outtextxy(800, 250, "QUAN LY SINH DZIEN !!!");
+	
+	setbkcolor(cllightred); setcolor(cllightwhite);
+	//string author = "AUTHOR:   TRUNG DUC   -   THANH TRUNG   ";
+	outtextxy(600, 600, "AUTHOR:   NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
 }
 
 void init_View(){
@@ -726,11 +766,29 @@ void init_View(){
 	
 	
 	drawMainFrame();
-	MenuTitle(MENU, MENU_ID, 5);
+	//MenuTitle(MENU, MENU_ID, 5);
 	
 	//while(!kbhit()) delay(1);	// pause screen	
 	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);
 	
 }
-	
-#endif
+
+bool isExit(string title = "BAN CO CHAC CHAN THOAT CHUONG TRINH"){
+	bool exit = false;
+	int isConfirmed = MessageBox(
+						NULL,
+						title.c_str(),
+						"THONG BAO",
+						MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+					);
+												    		
+	switch(isConfirmed){
+									
+		case IDOK: {
+			exit = true;							
+			break;
+		}
+	}
+	return exit;
+}
+

@@ -2,7 +2,7 @@
 	Graphics in Dev-C++ winbgim.h
 	
 	Ho Ten: NGUYEN TRUNG DUC - NGUYEN THANH TRUNG
-	MSSV: 	N19DCCN040		 - N19DCCN216
+	MSSV: 	N19DCCN040	- N19DCCN216
 	Lop:			 D19CQCN03-N
 	De Tai: QUAN LY DIEM SINH VIEN THEO HE TIN CHI
 */
@@ -23,13 +23,22 @@ int main(int argc, char *argv[])
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
+	srand(time(NULL));
+	
 	if(loadFileIsSuccess){
 		resizeConsole(1368, 745);
-
-		menu1(dssv,DSLTC,DSLSV,DSMH);
+		//menu1(dssv,DSLTC,DSLSV,DSMH);
 		
 		init_View();
 		menu(DSMH, DSLTC, DSLSV);
+	}else {
+		LIST_DATA.insert(0, "KHONG TIM THAY FILE DU LIEU ");
+		MessageBox(
+					NULL,
+					LIST_DATA.c_str(),
+					"THONG BAO",
+					MB_ICONERROR | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+			);
 	}
 	
 	free(DSMH, DSLTC, DSLSV);
@@ -58,7 +67,7 @@ int main(int argc, char *argv[])
 	
 	//drawFrame(500, 150, 540 + 500, 200+300, "Them lop TC");
 	
-	getch();
+	//getch();
 	
 	return 0;
 }

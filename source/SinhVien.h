@@ -109,7 +109,7 @@ public:
 		fileOut << SV.getSDT();
 		fileOut << temp;
 		fileOut << SV.getMaLop();
-		fileOut << "\n";
+		fileOut <<"\n";
 		
 	}
 };
@@ -490,7 +490,7 @@ public:
 		
 	}
 	
-	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac){
+	void xuatDSTheoTrang_SV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
 		
 		DSSV dssv; 
 		//dssv.setHead_DSSV(this->head);
@@ -541,15 +541,39 @@ public:
 		
 		int x,y;
 		
-		while(true) {
+		bool exitLoop = false;
+		
+		while(!exitLoop) {
 			delay(0.000);
 			// Click event change page output
 			if (ismouseclick(WM_LBUTTONDOWN)){
             	getmouseclick(WM_LBUTTONDOWN, x, y);
             	
+            	indexMenu = isClickMenuButton(menuButton, x, y);
+            	if(indexMenu != -1){
+            		
+            		if(indexMenu == nMenuButton - 1){
+            			exitProgram = isExit();
+            			if(exitProgram)
+            				exitLoop = true;
+            			else indexMenu = -1;
+            			continue;	
+					}            			
+					else {
+						
+						exitLoop = true; continue;
+					}
+					
+				}
+            	
             	if(newInput.isClicked(x,y)){
             		newInput.requestFocus();
             		newInput.draw();
+				}
+				
+				if(btnBack.isClicked(x,y)){
+					thaoTac = THOAT_CT;
+					exitLoop = true; continue;
 				}
             	
             	// checked if button sua || xoa is clicked
@@ -557,12 +581,12 @@ public:
             		if(editButton[i] != NULL && deleteButton[i] != NULL) {
 	            		if(editButton[i]->isClicked(x,y)){
 							cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
-							MessageBox(
+							/*MessageBox(
 						        NULL,
 						        "Ban muon sua sinh vien",
 						        "THONG BAO",
 						        MB_ICONWARNING | MB_OK
-				    		);
+				    		);*/
 				    		
 				    		// tim vi tri thuc(real) cua sinh can xoa khi sau da filter 
 							string tempMaSV;
@@ -674,6 +698,10 @@ public:
 				inTrang(trangHienTai, tongSoTrang);
 			}
 		}
+		
+		newTable.freeTable();
+		freeArrButton(editButton, nFilter);
+		freeArrButton(deleteButton, nFilter);
 	}
 	
 	void resetArrInput(Input ***&input, Input ***&inputPhai, int &nRow, int nCol, Table newTable){
@@ -984,12 +1012,12 @@ public:
 			input[0][2]->setContent(NSV->getData_SV().getTen());
 			
 			if(NSV->getData_SV().getPhai() == "Nam"){
-				inputPhai[0][0]->setBackgroundColor(cllightgreen); 
-				inputPhai[0][1]->setBackgroundColor(cllightwhite); 
+				inputPhai[0][0]->setBGColor(cllightgreen); 
+				inputPhai[0][1]->setBGColor(cllightwhite); 
 				inputPhai[0][0]->setId("chon"); inputPhai[0][1]->setId("");
 			}else {
-				inputPhai[0][1]->setBackgroundColor(cllightgreen); 
-				inputPhai[0][0]->setBackgroundColor(cllightwhite); 
+				inputPhai[0][1]->setBGColor(cllightgreen); 
+				inputPhai[0][0]->setBGColor(cllightwhite); 
 				inputPhai[0][0]->setId(""); inputPhai[0][1]->setId("chon");
 			}
 			
@@ -1038,14 +1066,14 @@ public:
 					
 					for(int j=0; j<2; j++){
 						if(inputPhai[i][0]->isClicked(x,y) && inputPhai[i][0]->getId() == ""){
-							inputPhai[i][0]->setBackgroundColor(cllightgreen); 
-							inputPhai[i][1]->setBackgroundColor(cllightwhite); 
+							inputPhai[i][0]->setBGColor(cllightgreen); 
+							inputPhai[i][1]->setBGColor(cllightwhite); 
 							inputPhai[i][0]->setId("chon"); inputPhai[i][1]->setId("");
 							inputPhai[i][0]->draw(); inputPhai[i][1]->draw();
 						}
 						else if(inputPhai[i][1]->isClicked(x,y) && inputPhai[i][1]->getId() == ""){
-							inputPhai[i][1]->setBackgroundColor(cllightgreen); 
-							inputPhai[i][0]->setBackgroundColor(cllightwhite); 
+							inputPhai[i][1]->setBGColor(cllightgreen); 
+							inputPhai[i][0]->setBGColor(cllightwhite); 
 							inputPhai[i][0]->setId(""); inputPhai[i][1]->setId("chon");
 							inputPhai[i][0]->draw(); inputPhai[i][1]->draw();
 						}
@@ -1103,9 +1131,10 @@ public:
 					
 					if(isFullInfo && !biTrung){
 					    tiepTucNhap = false; 
-					    
 						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
-					    else thaoTac = SUA;
+					    else if(suaSV) thaoTac = SUA;
+					    
+					    //cout<<"\nbtn saveq "<<thaoTac;
 					}else if(!biTrung && !isFullInfo){
 						MessageBox(
 							        NULL,
@@ -1347,7 +1376,7 @@ public:
 			} // end kbhit
 			
 		} // end while
-		
+		cout<<"\nluu sv tai day"<<thaoTac;
 		// luu ds sinh vien da nhap
 		if(thaoTac != THOAT && thaoTac == THEM){
 			string str;
@@ -1370,6 +1399,7 @@ public:
 				
 				NodeSV *p = new NodeSV(sv);
 				this->them_SV(p);
+				cout<<"\nket thuc tai "<<i;
 			}
 		} else if(thaoTac != THOAT && thaoTac == SUA){
 				string str;
@@ -1393,7 +1423,7 @@ public:
 				NSV->setData_SV(sv);
 		}
 			
-		
+		cout<<"\nGiai phong sv";
 		// giai phong arr input
 		for(int i=0; i<nRow; i++){
 			for(int j=0; j<nCol; j++){
@@ -1409,7 +1439,7 @@ public:
 		
 	}
 	
-	void chon_SV(string maLop, Action thaoTac){
+	void chon_SV(string maLop, Action thaoTac, Button *menuButton[]){
 		int viTriChon = 1;
 		int soLuongSV = this->demSoLuongSV();
 			char *intStr;  itoa(soLuongSV,intStr, 10);
@@ -1417,7 +1447,8 @@ public:
 			//string maLop = maLop;
 		string titleSub;
 		
-		while(!isNULL_SV()){ // while(!isNULL_SV() || thaoTac == THEM){}
+		while((!isNULL_SV() || thaoTac == THEM) && indexMenu == -1){ // while(!isNULL_SV() || thaoTac == THEM){}
+			lamVoVan();
 			
 			soLuongSV = this->demSoLuongSV();
 			strSL = convertIntToString(soLuongSV);
@@ -1448,7 +1479,7 @@ public:
 			
 			switch(thaoTac){
 				case XUAT:{
-					xuatDSTheoTrang_SV(viTriChon, thaoTac);
+					xuatDSTheoTrang_SV(viTriChon, thaoTac, menuButton);
 					if(thaoTac != XOA)	
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					break;
@@ -1523,10 +1554,14 @@ public:
 					}
 					break;
 				}
-				
+				case THOAT_CT:{
+					indexMenu =-1;
+					return;
+					break;
+				}
 				 
-			}
-		} if(isNULL_SV()){
+			} // switch case
+		} /*if(isNULL_SV()){
 			MessageBox(
 		        NULL,
 		        "LOP KHONG CO SINH VIEN NAO !!!",
@@ -1534,7 +1569,7 @@ public:
 		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
     		);
 			return;
-		}
+		}*/
 	}
 };
 
