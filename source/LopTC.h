@@ -1998,7 +1998,7 @@ public:
 														menuButton
 													);
 						if(thaoTac == THOAT) thaoTac = DIEM;
-						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);									
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);								
 					}
 					break;
 				}

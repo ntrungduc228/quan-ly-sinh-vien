@@ -181,7 +181,7 @@ public:
 						return;
 					}
 					else
-					{				
+					{	if(character == TAB || character == ENTER) return;			
 						if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
 					
 						content.push_back(character);

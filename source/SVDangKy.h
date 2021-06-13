@@ -973,14 +973,16 @@ public:
 						clearRegion(INPUT_X, INPUT_Y, INPUT_X + INPUT_WIDTH+2, INPUT_Y + INPUT_HEIGHT+2);
 						clearRegion(INPUT_X - 150 , INPUT_Y + 10, INPUT_X , INPUT_Y + INPUT_HEIGHT - 5 );
 						nhapDiemTheoTrang(DSLSV, thaoTac);
-						
-						exitLoop=true;
-						
+						thaoTac = DIEM;
+						exitLoop=true; cout<<"\nda luu xong diem";
+						//xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
+						//inTrang(trangHienTai, tongSoTrang);
 						continue;
 					}
 					
 					if (btnBack.isClicked(x, y))
-					{						
+					{				
+						thaoTac = THOAT;		
 						exitLoop=true;
 						continue;
 					}
@@ -1004,7 +1006,6 @@ public:
 			DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
 			DSSVDKFilter.freeDS_SV(DSSVDKFilter.getHead_DSSV());
 			newTable.freeTable();
-			thaoTac = THOAT;
 			
 		}
 		else {
@@ -1237,7 +1238,7 @@ public:
 			// Ve input, cap phat o nho
 			for (int i = 0; i < nInputDiem; i++){
 
-				inputDiem[i] = new Input("", "", "", MAXLENGTH_DIEM, TEXT, left, top, right, bottom, cllightwhite, clred, clblack);
+				inputDiem[i] = new Input("", "", "", MAXLENGTH_DIEM, MARK, left, top, right, bottom, cllightwhite, clred, clblack);
 				inputDiem[i]->draw();
 
 				top = bottom;
@@ -1546,7 +1547,7 @@ public:
 									"THONG BAO",
 									MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 								);
-								
+								thaoTac = DIEM;
 								exitLoop=true;
 								continue;
 							}
@@ -1671,6 +1672,7 @@ public:
 						return;
 					}else if(thaoTac == DIEM){
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						cout<<"\nclear diem";
 					}
 					break;
 				}
@@ -1685,7 +1687,8 @@ public:
 			
 			
 			
-		} if(isNull_DK()){
+		}
+		if(isNull_DK()){
 			MessageBox(
 		        NULL,
 		        "LOP CHUA CO SINH VIEN DANG KY !!!",

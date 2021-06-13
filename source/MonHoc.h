@@ -706,6 +706,8 @@ public:
 								for(; vt<tongSoDong; vt++){
 									if(arrMH[vt].getMaMH() == tempMaMH)	break;  
 								}
+								viTriChon = vt;
+								cout<<"\nvi tri thuc "<<arrMH[viTriChon].getTenMH();
 								/*MessageBox(
 							        NULL,
 							        "Ban muon sua mon hoc",
@@ -713,26 +715,11 @@ public:
 							        MB_ICONWARNING | MB_OK
 					    		);*/
 					    		
-					    		MonHoc monHoc;
-					    		monHoc.setMaMH(arrMH[vt].getMaMH());
-					    		monHoc.setTenMH(arrMH[vt].getTenMH());
-					    		monHoc.setSTCLT(arrMH[vt].getSTCLT());
-					    		monHoc.setSTCTH(arrMH[vt].getSTCTH());
+					    		
 					    		
 					    		thaoTac=SUA;
-					    		formNhap_MH(monHoc, thaoTac);
+					    		exitLoop = true; continue;
 					    		
-					    		if(thaoTac != HUY)
-					    		{
-									delete []arrMH;
-									delete []arrMHFilter;
-					    			arrMH = new MonHoc(monHoc);
-					    			return;
-								}
-					    		
-					    		// Xuat lai cac trang
-					    		newTable.drawTable(MAX_DONG_1_TRANG);					
-								xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 					    		
 							}else if(deleteButton[i]->isClicked(x,y)){
 								cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
@@ -820,10 +807,11 @@ public:
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
-					MonHoc monHoc;																					
+																									
 					
 					thaoTac = THEM;
 					
+					/*MonHoc monHoc;	
 					formNhap_MH(monHoc, thaoTac);
 					
 					if(thaoTac!=HUY)
@@ -847,11 +835,16 @@ public:
 					}
 																																																																																
 					newTable.drawTable(MAX_DONG_1_TRANG);
-					xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+					xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);*/
+					
+					freeArrButton(editButton, nFilter);
+					freeArrButton(deleteButton, nFilter);
+					newTable.freeTable();
+					return;
+					
 				}else if(btnBack.isClicked(x,y)){
 					if(thaoTac == CHON){
 						thaoTac = THOAT;
-						delete[] arrMH;
 						newTable.freeTable();
 						return;
 					}
@@ -895,7 +888,9 @@ public:
 		drawFrame(500, 150, 500 + 600, 200+400, title);
 					Input *input[4];
 					int nInput = 4; 
-																		
+					
+					int initPos = thaoTac == THEM ? 0 : 1;
+												
 					// WIDTD input=400;
 					input[0] = new Input("", "Ma mon hoc ", "0", MAX_MAMH, NON_SPACE, 650, 200, 650 + 400, 200 + INPUT_HEIGHT);
 												
@@ -911,8 +906,8 @@ public:
 						btn[0]= new Button("THEM","T", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), claqua, cllightblue, clblack);	
 					}else if(thaoTac==SUA)
 					{
-						
-						btn[0]= new Button("LUU","S", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5),  claqua, cllightblue, clblack);
+						initPos = 1;
+						btn[0]= new Button("LUU","S", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), claqua, cllightblue, clblack);
 						input[0]->setContent(monHoc.getMaMH());
 						input[0]->setOffEnable();
 					
@@ -950,7 +945,11 @@ public:
 					string idButton;
 					bool exitLoop = false;
 					int x,y;
-					int indexInput=-1;
+					int indexInput=initPos;
+					int oldIndexInput=0;
+					input[indexInput]->requestFocus();
+					input[indexInput]->draw();
+					bool isFullInfo = true;
 					// Bang input
 					while(!exitLoop)
 					{
@@ -1043,6 +1042,7 @@ public:
 										return;
 									}else  if(idButton == "H")
 									{
+										cout << "HUYYYYYYYYY NEEEEEEE\n";
 										
 										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
 										input[indexInput]->initFocusedId();	
@@ -1060,31 +1060,83 @@ public:
 						if(kbhit())
 						{
 							char character = getch();
-							
+							if(character == TAB){
+								oldIndexInput = indexInput;
+								indexInput++;
+								if(indexInput == nInput) indexInput = initPos;
+								input[indexInput]->requestFocus();
+								input[oldIndexInput]->draw();
+								input[indexInput]->draw();
+							}else if(character == ENTER){
+								isFullInfo = true;
+								for(int i=initPos; i<nInput; i++){
+									if(input[i]->getContent().empty()){
+										isFullInfo = false; 
+										oldIndexInput = indexInput;
+										indexInput = i;
+										i = nInput;
+									}
+								}
+								
+								if(isFullInfo){
+									monHoc.setMaMH(input[0]->getContent());
+										monHoc.setTenMH(input[1]->getContent());
+										monHoc.setSTCLT(atoi(input[2]->getContent().c_str()));
+										monHoc.setSTCTH(atoi(input[3]->getContent().c_str()));
+										
+										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
+										input[indexInput]->initFocusedId();																							
+										// Free
+										for(int i = 0 ; i < nInput; i++)
+										{
+											delete input[i];
+										}			
+										
+										for(int i=0;i<nButton; i++)
+										{
+											delete btn[i];
+										}
+									return;
+								}else {
+									MessageBox(
+								        NULL,
+								        "VUI LONG KHONG BO TRONG THONG TIN !!!",
+								        "THONG BAO",
+								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+						    		);
+						    		input[indexInput]->requestFocus();
+						    		input[indexInput]->draw();
+						    		input[oldIndexInput]->draw();
+						    		continue;
+								}
+								
+							}
 							if(indexInput != -1)
 							{
 								input[indexInput]->appendText(character);
 								input[indexInput]->draw();	
 								
+														
 							}														
 						}
 					}					
+						
 					
 
 	}
 	
 	void chon_MH( Action &thaoTac, Button *menuButton[]){
+		MonHoc monhoc;
+		
+		int viTriChon = 0;
+		
 		while(this->root != NULL && indexMenu == -1){ lamVoVan();
-			
 			int soLuong = DemSoNodeTrongCay(this->root);
 			MonHoc *arrMH = new MonHoc[soLuong];
 			soLuong = 0;
 			ChuyenCayVaoMang(arrMH, this->root, soLuong);
 			SapXepTheoTen(arrMH, soLuong);
 			string strSoLuong = convertIntToString(soLuong);
-			
-			int viTriChon = 0;
-			
 			
 			Label title(
 					"DANH SACH MON HOC",
@@ -1128,51 +1180,75 @@ public:
 					break;
 				}
 				case THEM:{
-					if(viTriChon < soLuong){
-						cout<<"\n"<<arrMH->getMaMH()<<" "<<arrMH->getTenMH();
+					
+					formNhap_MH(monhoc, thaoTac);
+					if(thaoTac == HUY){
+						clearRegion(500, 150, 500 + 600, 200+400);
+						thaoTac = XUAT;	
+					}else {
+						
+						cout<<"\nThem mon hoc"<<monhoc.getMaMH()<<" "<<monhoc.getTenMH();
+						 
 						int checkTrung = 0;
-						them_MH(this->root, *arrMH, checkTrung );
+						them_MH(this->root, monhoc, checkTrung );
 							
 						if(checkTrung == 1){
-							MessageBox(
+							
+				    		MessageBox(
 						        NULL,
 						        "MA MON HOC DA TON TAI !!!",
 						        "THONG BAO",
 						        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 				    		);
-				    		
 							
-						}else if(checkTrung ==0 ) 
+						}else if(checkTrung ==0 ) {
 							MessageBox(
 						        NULL,
 						        "THEM MON HOC THANH CONG !!!",
 						        "THONG BAO",
 						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 				    		);
-							clearRegion(500, 150, 500 + 600, 200+400);
-							thaoTac = XUAT;					
+				    		clearRegion(500, 150, 500 + 600, 200+400);
+							thaoTac = XUAT;
+							monhoc.setMaMH(""); monhoc.setTenMH(""); monhoc.setSTCLT(0); monhoc.setSTCTH(0);
+						}
+							
+				    		
 					}
+					
+						
+											
+					
 					break;
 				}
 				
-				case SUA:{
-					if(viTriChon < soLuong){
-						cout<<"\n"<<arrMH->getMaMH()<<" "<<arrMH->getTenMH();
-						int checkTrung = 2;
-						them_MH(this->root, *arrMH, checkTrung );
-						if(checkTrung ==0 ) 
-							MessageBox(
-						        NULL,
-						        "SUA MON HOC THANH CONG !!!",
-						        "THONG BAO",
-						        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-				    		);
-				    		clearRegion(500, 150, 500 + 600, 200+400);
-							thaoTac = XUAT;
-							
+				case SUA:{ cout<<"\n"<<arrMH[viTriChon].getTenMH();
+						monhoc.setMaMH(arrMH[viTriChon].getMaMH());
+					    monhoc.setTenMH(arrMH[viTriChon].getTenMH());
+					    monhoc.setSTCLT(arrMH[viTriChon].getSTCLT());
+					    monhoc.setSTCTH(arrMH[viTriChon].getSTCTH());
+					    
+					    formNhap_MH(monhoc, thaoTac);
+					    if(thaoTac != HUY){
+					    	int checkTrung = 2;
+							them_MH(this->root, monhoc, checkTrung );
+							if(checkTrung == 0 ){
+								MessageBox(
+							        NULL,
+							        "SUA MON HOC THANH CONG !!!",
+							        "THONG BAO",
+							        MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+					    		
+								monhoc.setMaMH(""); monhoc.setTenMH(""); monhoc.setSTCLT(0); monhoc.setSTCTH(0);
+							}
+						}
+					    
 						
-						delete arrMH;
-					}
+							clearRegion(500, 150, 500 + 600, 200+400);
+							thaoTac = XUAT;
+						
+					
 					break;
 				}
 				
