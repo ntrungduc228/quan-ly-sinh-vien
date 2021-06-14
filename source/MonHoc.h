@@ -9,11 +9,18 @@ private:
 	string tenMH;
 	int STCLT;
 	int STCTH;
+	bool daMoLop;
 public:
 	MonHoc();
 	~MonHoc(){}
 	
+	void setTT(bool tt){
+		this->daMoLop = tt;
+	}
 	
+	bool getTT(){
+		return this->daMoLop;
+	}
 	
 	void setMaMH(string maMH);
 	void setTenMH(string tenMH);
@@ -153,7 +160,10 @@ public:
 				fileIn >> temp; //  doc dau , giua 2 so nguyen -> tuong tu cho cac ham load data khac
 				fileIn >> tempInt;
 				MH.setSTCTH(tempInt);
-		
+				fileIn >> temp;
+				fileIn >> tempInt;
+				MH.setTT(bool(tempInt)); tempInt = 1;
+			
 				them_MH(root, MH, tempInt);
 				if (fileIn.eof()) break;
 			}
@@ -178,6 +188,8 @@ public:
 			fileOut << root->getData_MH().getSTCLT();
 			fileOut << temp;
 			fileOut << root->getData_MH().getSTCTH();
+			fileOut << temp;
+			fileOut << root->getData_MH().getTT();
 			fileOut << '\n';
 			writeData_MH(root->getRight(), fileOut);
 		}
@@ -193,8 +205,13 @@ public:
 		fileOut.close();
 	}
 	
+	
+	
 	void them_MH(NodeMonHoc *&root, MonHoc &MH, int &checkTrung){
 		if(root == NULL){
+			
+			if(checkTrung == 0) { checkTrung = -1; return; // khong ton tai mon hoc ( tao ltc moi )
+			}
 			
 			NodeMonHoc *p = new NodeMonHoc(MH);
 			root = p; checkTrung = 0;
@@ -212,9 +229,12 @@ public:
 					root->getData_MH().setTenMH(MH.getTenMH());
 					root->getData_MH().setSTCLT(MH.getSTCLT());
 					root->getData_MH().setSTCTH(MH.getSTCTH());
+					
 					checkTrung = 0; return; // chinh sua mon hoc
+				}else if(checkTrung == 3){
+					root->getData_MH().setTT(MH.getTT());
+					checkTrung = 0; return; // set lai trang thai sau khi them, xoa lop tc
 				}
-				
 			
 			}
 			else if (MH.getMaMH() < root->getData_MH().getMaMH())  {
@@ -1164,16 +1184,21 @@ public:
 				case XOA:{
 					if(viTriChon < soLuong){
 						cout<<"\nvi tri :"<<viTriChon; 
-						//this->setRoot(this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH()));
-						this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH());
-						delete [] arrMH;
-						/*soLuong = 0;
-						ChuyenCayVaoMangConTro(arrMH, this->root, soLuong);
-						SapXepTheoTen(arrMH, soLuong);
-						viTriChon = 0; thaoTac = XUAT;
-						xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac);*/
-						if(this->root == NULL)
-							clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						if(!arrMH[viTriChon].getTT()) {
+							this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH());
+							delete [] arrMH;
+							
+							if(this->root == NULL)
+								clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						}else {
+							MessageBox(
+						        NULL,
+						        "KHONG THE XOA MON HOC DA MO LOP TC !!!",
+						        "THONG BAO",
+						        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+						}
+						
 						thaoTac = XUAT;
 						
 					}
@@ -1363,6 +1388,7 @@ MonHoc::MonHoc(){
 	tenMH = "";
 	STCLT = 0;
 	STCTH = 0;
+	daMoLop = false;
 }
 
 

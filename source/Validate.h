@@ -291,6 +291,11 @@ public:
 		}
 	}
 	
+	void validateContent(){
+		if(this->content.length() > 0 ){
+			while(content[content.length()-1] == ' ') content.erase(content.length()-1, 1);
+		}
+	}
 	
 	void xuLyNhapTen_MH(int ch){
 		if(ch == BACKSPACE && !content.empty()){

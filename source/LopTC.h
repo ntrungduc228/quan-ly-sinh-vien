@@ -156,6 +156,15 @@ public:
 		return max;
 	}
 	
+	bool checkLopTC(string maMH){
+		
+		for(int i=0; i<n; i++)
+			if(lopTC[i]->getMaMH() == maMH)
+				return true;
+		
+		return false;
+	}
+	
 	void huyLopDS_LTC(){
 		for(int i=0; i<n; i++)
 			this->lopTC[i]->huyLopTC();
@@ -1029,7 +1038,7 @@ public:
 	
 	void resetChooseButton(Button *chooseButton[], LopTC *loptc[],  int n, string maMH, int viTriDaChon, int batDau, int ketThuc){
 		for(int i=0; i<n; i++){
-			if(loptc[i]->getMaMH() == maMH && i != viTriDaChon){
+			if(loptc[i]->getMaMH() == maMH && i != viTriDaChon && chooseButton[i]->getId() != "da_du"){
 				if(chooseButton[i]->getId() != "khong_duocchon"){
 					chooseButton[i]->setBGColor(clgray);
 					chooseButton[i]->setId("khong_duocchon");
@@ -1044,7 +1053,7 @@ public:
 						chooseButton[i]->draw();
 				}
 				
-			}else if(i == viTriDaChon){
+			}else if(i == viTriDaChon && chooseButton[i]->getId() != "da_du"){
 				if(chooseButton[i]->getId() != "dangky" && chooseButton[i]->getId() != "da_dangky"){
 					chooseButton[i]->setBGColor(cllightgreen);
 					chooseButton[i]->setId("dangky");
@@ -1064,7 +1073,7 @@ public:
 		
 		// dem xem co bao nhieu ltc thoa man khoa, hk duoc nhap vao
 		for(int i=0; i<n; i++){
-			if(lopTC[i]->getNienKhoa() == khoa && lopTC[i]->getHocKy() == HK && !lopTC[i]->getTrangThai()) 
+			if(lopTC[i]->getNienKhoa() == khoa && lopTC[i]->getHocKy() == HK) 
 				tongSoDong++;
 		}
 		
@@ -1095,7 +1104,7 @@ public:
 		LopTC *loptc[nFilter] = {NULL};
 		nFilter = 0;
 		for(int i=0; i<n; i++){
-			if(lopTC[i]->getNienKhoa() == khoa && lopTC[i]->getHocKy() == HK && !lopTC[i]->getTrangThai()) 
+			if(lopTC[i]->getNienKhoa() == khoa && lopTC[i]->getHocKy() == HK) 
 				loptc[nFilter++] = lopTC[i];
  		}
 		
@@ -1147,6 +1156,14 @@ public:
 										clblack
 									);
 				yBtn += rowTableHeight;
+				
+				if((loptc[i]->getSVMax() - loptc[i]->getSoSVDK()) == 0){
+					chooseButton[i]->setBGColor(clgray);
+					chooseButton[i]->setId("da_du");
+					chooseButton[i]->setOffEnable();
+					chooseButton[i]->draw();
+				}
+				
 			}
 		}
 		
@@ -1160,6 +1177,13 @@ public:
 					chooseButton[i]->setOffEnable();
 					chooseButton[i]->draw();
 					resetChooseButton(chooseButton, loptc, nFilter, loptc[i]->getMaMH(), i, batDau, ketThuc);
+				}
+				
+				if((loptc[i]->getSVMax() - loptc[i]->getSoSVDK()) == 0){
+					chooseButton[i]->setBGColor(clgray);
+					chooseButton[i]->setId("da_du");
+					chooseButton[i]->setOffEnable();
+					chooseButton[i]->draw();
 				}
 			}
 		}
@@ -1697,14 +1721,15 @@ public:
 		int oldIndexInput=1;
 		
 		bool isFullInfo = true;
-		
+		int checkTrung = 0;
+		input[indexInput]->requestFocus();
 		for(int i=0; i<nInput; i++){
 			if(input[i] != NULL){
 				input[i]->draw();
 			}
 		}
 		
-		input[indexInput]->requestFocus();
+		
 		input[indexInput]->draw();
 		
 		while(true){
@@ -1731,6 +1756,7 @@ public:
 				}
 				
 				if(btnSave.isClicked(x,y)){
+					isFullInfo = true;
 					for(int i=initPos; i<nInput; i++){
 						if(input[i]->getContent().empty()){
 							MessageBox(
@@ -1745,6 +1771,42 @@ public:
 					}
 					
 					if(isFullInfo){
+						
+						// check xem so luong max co bi be hon so luong min hay ko
+						// 5-min 6-max
+						if(atoi(input[5]->getContent().c_str()) > atoi(input[6]->getContent().c_str())){
+							isFullInfo = false;
+							MessageBox(
+						        NULL,
+						        "SL MAX PHAI LON HON SL MIN !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+				    		continue;
+						}
+						
+						// check ma mon hoc co ton tai trong danh sach hay ko
+						MH.setMaMH(input[1]->getContent());
+						DSMH.them_MH(DSMH.getRoot(), MH, checkTrung); cout<<"\ncheck trung "<<checkTrung<<" "<<MH.getMaMH();
+						if(checkTrung == -1){
+							MessageBox(
+						        NULL,
+						        "MA MON HOC KHONG TON TAI !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		);
+							
+							isFullInfo = false;
+							checkTrung = 0;
+							
+							input[1]->requestFocus();
+							input[indexInput]->draw();
+							indexInput = 1;
+							input[indexInput]->draw();
+						}
+					}
+					
+					if(isFullInfo && checkTrung==1){
 						loptc->setMaMH(input[1]->getContent());
 						loptc->setNienKhoa(atoi(input[2]->getContent().c_str()));
 						loptc->setHocKy(atoi(input[3]->getContent().c_str()));
@@ -1806,7 +1868,7 @@ public:
 		
 	}
 	
-	void chon_LTC(TREE DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
+	void chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
 		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
 		int viTriChon = 0;
 		int khoa = 0, HK = 0;
@@ -1882,6 +1944,15 @@ public:
 				    		clearRegion(500, 150, 640 + 500, 600);
 							thaoTac = XUAT;
 							daThem = true;
+							
+							MH.setMaMH(lopTC[n-1]->getMaMH());
+							
+							MH.setTT(true);
+							int checkTrung = 3;
+							DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
+							
+							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
+							
 						}
 					}else if(thaoTac == CHON){
 						cout<<"\nDa chon";
@@ -1965,12 +2036,25 @@ public:
 					break;
 				}
 				case XOA:{
-					if(viTriChon < n){
+					if(viTriChon < n){ MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						this->xoa_LTC(lopTC[viTriChon]->getMaLopTC());
 						if(n == 0)
 							clearRegion(tableLeft, INPUT_Y - 30, frameRight - 12, frameBottom - 12);
 							thaoTac = XUAT;
-							//chon_LTC(DSMH, DSLSV, thaoTac);
+							
+							// set lai trang thai daMoLop cua mon hoc theo lop tc vua xoa
+							int checkTrung = 0;
+							
+							bool coLop = checkLopTC(MH.getMaMH());
+							
+							if(coLop==false){
+								MH.setTT(false);
+								checkTrung = 3;
+								DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
+							}
+							
+							
+							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
 					}
 					break;
 				}

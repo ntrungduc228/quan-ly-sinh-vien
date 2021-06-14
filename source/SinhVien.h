@@ -1085,6 +1085,13 @@ public:
 					
 					isFullInfo = true;  biTrung = false; viTriTrung = -1;
 					
+					soLuong--;
+					for(int j=0; j<nCol; j++){
+						if(!input[soLuong][j]->getContent().empty() && j!= 3){
+							soLuong++; break;
+						}
+					}
+					
 					for(int i=0; i<soLuong && (isFullInfo); i++){
 						for(int j=0; j<nCol; j++){
 							if(input[i][j]->getContent().empty() && j != 3){
@@ -1208,6 +1215,7 @@ public:
 						}
 						
 					}
+					
 					
 					/// trang hien tai phai == tongsotrang, vd co 2 trang, dang dung trang 1 ko the them dong moi o trang 2
 					if(isFullInfo && trangHienTai == tongSoTrang){
@@ -1396,6 +1404,7 @@ public:
 					sv.setPhai("Nu");	
 				
 				sv.setSDT(input[i][4]->getContent());
+				sv.setMaLop(maLop);
 				
 				NodeSV *p = new NodeSV(sv);
 				this->them_SV(p);
