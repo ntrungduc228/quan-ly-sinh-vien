@@ -1952,6 +1952,8 @@ public:
 							DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
 							
 							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
+							this->writeDataDS_LTC(PATH_LTC.c_str());
+							DSMH.writeDataDS_MH(PATH_MH.c_str());
 							
 						}
 					}else if(thaoTac == CHON){
@@ -2015,6 +2017,7 @@ public:
 										thaoTac = XUAT;
 										daThem = true;
 										viTriChon = 0;
+										this->writeDataDS_LTC(PATH_LTC.c_str());
 									//}
 									
 								}else if(thaoTac == CHON){
@@ -2053,7 +2056,8 @@ public:
 								DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
 							}
 							
-							
+							this->writeDataDS_LTC(PATH_LTC.c_str());
+							DSMH.writeDataDS_MH(PATH_MH.c_str());
 							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
 					}
 					break;
@@ -2127,6 +2131,7 @@ public:
 							
 							clearRegion(tableLeft, frameTop+12, frameRight - 12, frameBottom - 12);
 							thaoTac = XUAT;
+							this->writeDataDS_DK(PATH_DK.c_str());
 						}
 					}
 					break;
@@ -2149,7 +2154,7 @@ public:
 					}
 					khoa = 0; HK = 0;				
 					thaoTac=XUAT;
-					//chon_LTC(DSMH,DSLSV,thaoTac);
+					this->writeDataDS_LTC(PATH_LTC.c_str());
 					break;
 				}
 				
@@ -2204,6 +2209,7 @@ public:
 							thaoTac = XUAT;
 							coSV = -1; coLTC = -1; maSV = "";
 							khoa = 0; HK = 0;
+							this->writeDataDS_DK(PATH_DK.c_str());
 						}
 					
 					clearRegion(500, 150, 550 + 500, 200+300);

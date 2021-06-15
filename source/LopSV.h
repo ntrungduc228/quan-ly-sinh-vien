@@ -644,6 +644,8 @@ public:
 						thaoTac = XUAT;
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
+						
+						this->writeDataDS_SV(PATH_SV.c_str());
 					}
 					break;
 				}
@@ -677,6 +679,7 @@ public:
 									);
 								clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 								thaoTac = XUAT;
+								this->writeDataDS_LSV(PATH_LSV.c_str());
 								break;
 							}
 								
@@ -701,6 +704,7 @@ public:
 						thaoTac = THEM;
 						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						thaoTac = XUAT_DS;
+						this->writeDataDS_SV(PATH_SV.c_str());
 					}
 					break;
 				}

@@ -421,42 +421,21 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 		}
 	
 		if(exitProgram){
-			int isConfirmed = MessageBox(
-						NULL,
-						"BAN CO MUON LUU DU LIEU VAO FILE",
-						"THONG BAO",
-						MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-					);
-												    		
-			switch(isConfirmed){
-				case IDCANCEL:{
-					DSMH.writeDataDS_MH();
-					DSLTC.writeDataDS_DK();
-					DSLTC.writeDataDS_LTC();
-					DSLSV.writeDataDS_LSV();
-					DSLSV.writeDataDS_SV();
-					freeArrButton(menuButton, nMenuButton);
-					return;
-					break;
-				}
-												
-				case IDOK: default:{
-					DSMH.writeDataDS_MH(PATH_MH.c_str());
-					DSLTC.writeDataDS_DK(PATH_DK.c_str());
-					DSLTC.writeDataDS_LTC(PATH_LTC.c_str());
-					DSLSV.writeDataDS_LSV(PATH_LSV.c_str());
-					DSLSV.writeDataDS_SV(PATH_SV.c_str());
+			
+			DSMH.writeDataDS_MH(PATH_MH.c_str());
+			DSLTC.writeDataDS_DK(PATH_DK.c_str());
+			DSLTC.writeDataDS_LTC(PATH_LTC.c_str());
+			DSLSV.writeDataDS_LSV(PATH_LSV.c_str());
+			DSLSV.writeDataDS_SV(PATH_SV.c_str());
 					
-					DSMH.writeDataDS_MH();
-					DSLTC.writeDataDS_DK();
-					DSLTC.writeDataDS_LTC();
-					DSLSV.writeDataDS_LSV();
-					DSLSV.writeDataDS_SV();	
-					freeArrButton(menuButton, nMenuButton);
-					return;			
-					break;
-				}
-			}
+			DSMH.writeDataDS_MH();
+			DSLTC.writeDataDS_DK();
+			DSLTC.writeDataDS_LTC();
+			DSLSV.writeDataDS_LSV();
+			DSLSV.writeDataDS_SV();	
+			freeArrButton(menuButton, nMenuButton);
+			return;			
+				
 		}
 	}
 	

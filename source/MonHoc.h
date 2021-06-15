@@ -1200,7 +1200,7 @@ public:
 						}
 						
 						thaoTac = XUAT;
-						
+						this->writeDataDS_MH(PATH_MH.c_str());
 					}
 					break;
 				}
@@ -1236,6 +1236,7 @@ public:
 				    		clearRegion(500, 150, 500 + 600, 200+400);
 							thaoTac = XUAT;
 							monhoc.setMaMH(""); monhoc.setTenMH(""); monhoc.setSTCLT(0); monhoc.setSTCTH(0);
+							this->writeDataDS_MH(PATH_MH.c_str());
 						}
 							
 				    		
@@ -1272,7 +1273,7 @@ public:
 						
 							clearRegion(500, 150, 500 + 600, 200+400);
 							thaoTac = XUAT;
-						
+							this->writeDataDS_MH(PATH_MH.c_str());
 					
 					break;
 				}
