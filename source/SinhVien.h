@@ -1431,6 +1431,7 @@ public:
 					sv.setPhai("Nu");	
 				
 				sv.setSDT(input[0][4]->getContent());
+				sv.setMaLop(maLop);
 				
 				NSV->setData_SV(sv);
 		}

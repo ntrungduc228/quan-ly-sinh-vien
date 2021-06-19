@@ -204,6 +204,8 @@ public:
 						fileIn >> tempFloat;
 						sv.setDiem(tempFloat);
 						
+						if(this->lopTC[viTriLop]->getDSDK().checkSV_DK(sv.getMaSV())) continue;
+						
 						NodeDK* DK = new NodeDK(sv);
 	
 						//cout <<maLop<<" "<<viTriLop<<" " <<DK->data.MASV << " " << DK->data.DIEM<<endl;
@@ -345,6 +347,7 @@ public:
 				for (int i = 0; i < n; i++)	{
 					for(NodeDK *k = this->lopTC[i]->getDSDK().getHead_DSDK(); k!= NULL; k=k->getNext_DK())	{
 							k->writeData_DK(k->getData_DK(), this->lopTC[i]->getMaLopTC(), fileOut);
+							if(k->getNext_DK() != NULL || i + 1 != n ) fileOut << "\n";
 						}
 						
 				}

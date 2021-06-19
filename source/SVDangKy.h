@@ -75,7 +75,7 @@ public:
 		fileOut << DK.getMaSV();
 		fileOut << temp;
 		fileOut << DK.getDiem();
-		fileOut <<"\n";
+		//fileOut <<"\n";
 	}
 	
 };
@@ -185,43 +185,62 @@ public:
 		return n;
 	}
 	
+	int xoaSV_DK(string maSV){
+	
+		if(this->head == NULL) return -1;
+		NodeDK *p,*q;
+		if(this->head->getData_DK().getMaSV() == maSV){
+			p = this->head;
+			this->head = p->getNext_DK();
+			//delete p; 
+			p->setNext_DK(NULL);
+			delete q;
+			return 1;
+		}
+		
+		for(p=this->head; p->getNext_DK()!=NULL && p->getNext_DK()->getData_DK().getMaSV() != maSV ; p=p->getNext_DK());
+			if(p->getNext_DK()->getData_DK().getMaSV() == maSV){
+				
+				q = p->getNext_DK();
+				p->setNext_DK(q->getNext_DK());
+				
+				q->setNext_DK(NULL);
+				delete q;
+				
+				return 1;
+			}
+		
+		
+		return -1;
+	}
+	
 	void thongKeDS_DK(DSSV &DSSVDK, DSLopSV DSLSV){
-		int n=0; int tmp=0;
-		if(!isNull_DK()){
+		int n=0; int tmp=0; string tb = "MA SV KO  HOP LE, SE BI XOA !!!";
+		if(!isNull_DK()){ NodeDK *q=this->head;
 			for(NodeDK *p = this->head; p!=NULL; p=p->getNext_DK()){
 				NodeSV*temp = DSLSV.layInfo_SV(p->getData_DK().getMaSV());
 				tmp++;
 				if(temp!=NULL){
 					NodeSV *sv = new NodeSV(temp->getData_SV());
-					DSSVDK.them_SV(sv); n++;
+					DSSVDK.them_SV(sv); n++; q = p;
 				}else {
 					cout<<"\nKhong tim thay: "<<p->getData_DK().getMaSV();
+					tb.insert(6,p->getData_DK().getMaSV());
+					this->xoaSV_DK(p->getData_DK().getMaSV());
+					p = q;
+					MessageBox(
+				        NULL,
+				        tb.c_str(),
+				        "THONG BAO",
+				        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    		);
 				}
+				
 			}
 		}else{
 			return;
 		}
 		cout<<"\n so ld dk: "<<n<<" "<<tmp;
-	}
-	
-	void thongKeDiemDS_DK(DSSV &DSSVDK, DSDK &DSDiem, DSLopSV DSLSV){
-		int n=0; int tmp=0;
-		if(!isNull_DK()){
-			for(NodeDK *p = this->head; p!=NULL; p=p->getNext_DK()){
-				NodeSV*temp = DSLSV.layInfo_SV(p->getData_DK().getMaSV());
-				tmp++;
-				if(temp!=NULL){
-					NodeSV *sv = new NodeSV(temp->getData_SV());
-					DSSVDK.them_SV(sv); n++;
-					
-					
-				}else {
-					cout<<"\nKhong tim thay: "<<p->getData_DK().getMaSV();
-				}
-			}
-		}else{
-			return;
-		}
 	}
 	
 	float timDiem_DK(string maSV){
