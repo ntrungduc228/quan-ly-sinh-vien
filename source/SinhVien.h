@@ -915,11 +915,14 @@ public:
 	}
 	
 	void formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
-		int nRow; int nCol = 5;
-		if(thaoTac == THEM) 
+		int nRow; int nCol = 5; 
+		if(thaoTac == THEM) {
 			nRow = MAX_DONG_1_TRANG;
-		else if(thaoTac == SUA) 
+		}
+		else if(thaoTac == SUA) {
 			nRow = 1;
+		}
+			
 		
 		
 		int soLuong = 1; int batDau = 0; int ketThuc = 1;
@@ -1002,7 +1005,7 @@ public:
 		
 		//int x,y;
 		
-		int initPos = thaoTac == THEM ? 0 : (thaoTac == SUA ? 0 : 0);
+		int initPos = thaoTac == THEM ? 0 : (thaoTac == SUA ? 1 : 0);
 		string strMaSV = "";
 		bool suaSV = false;
 		
@@ -1030,15 +1033,15 @@ public:
 		bool biTrung = false;
 		int viTriTrung = -1;
 		
-		int indexOfRow=0, indexOfCol = 0;
+		int indexOfRow=0, indexOfCol = initPos;
 		//int oldIndexOfRow=-1, oldIndexOfCol = -1;
 		
 		int trangHienTai =1;
 		int tongSoTrang = 1;
 		
-		input[batDau][0]->requestFocus();
+		input[batDau][initPos]->requestFocus();
 		nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
-		input[batDau][0]->draw();
+		input[batDau][initPos]->draw();
 		
 		char ch;
 		
@@ -1050,7 +1053,7 @@ public:
 				getmouseclick(WM_LBUTTONDOWN, x, y); 
 				
 				for(int i=batDau; i<ketThuc ; i++){
-					for(int j=0; j<nCol; j++){
+					for(int j=initPos; j<nCol; j++){
 						if(input[i][j]->isClicked(x,y) && input[i][j]->getEnable() && j != 3){
 							input[i][j]->requestFocus();
 							input[i][j]->draw();
@@ -1137,11 +1140,11 @@ public:
 					}
 					
 					if(isFullInfo && !biTrung){
-					    tiepTucNhap = false; 
+					    tiepTucNhap = false;  cout<<"\nbtn  "<<thaoTac;
 						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
 					    else if(suaSV) thaoTac = SUA;
 					    
-					    //cout<<"\nbtn saveq "<<thaoTac;
+					    cout<<"\nbtn saveq "<<thaoTac;
 					}else if(!biTrung && !isFullInfo){
 						MessageBox(
 							        NULL,
@@ -1151,7 +1154,7 @@ public:
 					    		); 
 					    		
 					    if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
-					    else thaoTac = SUA;
+					    else if(suaSV) thaoTac = SUA;
 					    
 					    int viTriTrang = 1;
 						while(viTriTrang < tongSoTrang && indexOfRow >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;

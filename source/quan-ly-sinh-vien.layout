@@ -1,16 +1,16 @@
 [Editors]
 <<<<<<< HEAD
 Order=2,0,5,3,6,9,1,8,7,4,10
-Focused=6
+Focused=4
 [Editor_0]
-CursorCol=24
-CursorRow=22
-TopLine=13
+CursorCol=3
+CursorRow=29
+TopLine=19
 LeftChar=1
 [Editor_1]
 CursorCol=46
 CursorRow=397
-TopLine=412
+TopLine=413
 LeftChar=1
 [Editor_2]
 CursorCol=1
@@ -43,15 +43,15 @@ TopLine=1
 >>>>>>> temp
 LeftChar=1
 [Editor_3]
-CursorCol=8
-CursorRow=1276
-TopLine=1190
+CursorCol=15
+CursorRow=1184
+TopLine=1181
 LeftChar=1
 [Editor_4]
 <<<<<<< HEAD
-CursorCol=20
-CursorRow=1567
-TopLine=1556
+CursorCol=1
+CursorRow=917
+TopLine=1021
 =======
 CursorCol=4
 CursorRow=95
@@ -66,7 +66,7 @@ LeftChar=1
 [Editor_6]
 CursorCol=8
 CursorRow=2058
-TopLine=2056
+TopLine=2044
 LeftChar=1
 [Editor_7]
 CursorCol=16

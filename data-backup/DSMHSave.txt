@@ -1,0 +1,63 @@
+BAS1101,Duong loi cach mang Dang cong san VN11111111111111,3,3,1
+BAS1102,Duong loi cach mang Dang cong san VN,3,3,0
+BAS1105,Giao duc quoc phong va an ninh,8,8,0
+BAS1106,Giao duc the chat 1,2,2,0
+BAS1122,Tu tuong Ho Chi Minh,2,2,0
+BAS1124,Vat ly 1 va thi nghiem,2,2,0
+BAS1141,Tieng anh A1.1,3,3,0
+BAS1142,Tieng anh A1.2,4,4,0
+BAS1143,Tieng anh A2.1,2,1,0
+BAS1145,Tieng anh B1.1,3,3,0
+BAS1150,Triet hoc Mac - Lenin,2,0,0
+BAS1151,Kinh te chinh tri Mac - Lenin,2,2,0
+BAS1152,Chu nghia xa hoi khoa hoc,2,2,0
+BAS1201,Dai so,3,0,0
+BAS1203,Giai tich 1,3,0,0
+BAS1204,Giai tich 2,3,0,0
+BAS1225,Vat ly 2 va thi nghiem,2,2,0
+BAS1226,Xac suat thong ke,2,2,0
+BAS1227,Vat ly 3 va thi nghiem,2,2,1
+ELE1433,Ky thuat so,2,2,0
+INT1154,Tin hoc co so 1,2,3,0
+INT1156,Tin hoc co so 3,2,2,1
+INT1157,Tin hoc co so 2,2,2,1
+INT1303,An toan va bao mat he thong,2,1,1
+INT1306,Cau truc du lieu va giai thuat,3,2,1
+INT1313,Co so du lieu,1,2,1
+INT1319,He dieu hanh,1,3,1
+INT1330,Ky thuat vi xu ly,3,2,1
+INT1332,Lap trinh huong doi tuong,2,2,1
+INT1336,Mang may tinh,3,4,1
+INT1339,Ngon ngu lap trinh C++,3,3,1
+INT1340,Nhap mon cong nghe phan mem,4,2,1
+INT1358,Toan roi rac 1,3,0,0
+INT1359,Toan roi rac 2,3,0,0
+INT1360,Dao duc trong CNTT,2,0,0
+INT1373,Ctdl7,2,2,0
+INT1427,Kien truc va thiet ke phan mem,3,2,0
+INT1433,Lap trinh mang,2,4,1
+INT1434,Lap trinh web,4,1,0
+INT1450,Quan ly du an phan mem,3,2,0
+INT1528,Nhap mon tri tue nhan tao,2,3,1
+TEL1401,An toan mang thong tin,3,1,0
+int1300,Opk,2,3,0
+int1301,Okok,2,4,0
+int1303,Ctdl,2,2,0
+int1305,Fd,2,3,0
+int1306,Attt,2,2,0
+int1313,Ctdl1,2,2,0
+int1323,Ctdl2,2,2,0
+int1333,Ctdl3,2,2,0
+int1343,Ctdl4,2,2,0
+int1353,Ctdl5,2,2,0
+int1363,Ctdl6,2,2,0
+int1383,Ctdl8,2,2,0
+int1393,Ctdl9,2,2,0
+int1413,Ctdl10,2,2,0
+int1423,Ctdl11,2,2,0
+int1433,Ctdl12,2,2,0
+int1443,Ctdl13,2,2,0
+int1453,Ctdl14,2,2,0
+int1463,Ctdl15,2,2,0
+int1473,Ctdl16,2,2,0
+int1484,Dsgfdfd,2,2,0
