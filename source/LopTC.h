@@ -14,90 +14,54 @@ private:
 	int soSVDK;
 	DSDK dsdk;
 public:
+	
 	LopTC();
 	
-	
 	void setMaLopTC(int maLopTC);
+	
 	void setMaMH(string maMH);
+	
 	void setNienKhoa(int khoa);
+	
 	void setHocKy(int hocKy);
+	
 	void setNhom(int nhom);
+	
 	void setSVMax(int svMax);
+	
 	void setSVMin(int svMin);
+	
 	void setTrangThai(bool huyLop);
+	
 	void setDSDK(DSDK DS);
 	
 	int getMaLopTC();
+	
 	string getMaMH();
+	
 	int getNienKhoa();
+	
 	int getHocKy();
+	
 	int getNhom();
+	
 	int getSVMax();
+	
 	int getSVMin();
+	
 	bool getTrangThai();
-	DSDK &getDSDK(){
-		return this->dsdk;
-	}
 	
-	int getSoSVDK(){
-		return this->soSVDK;
-	}
+	DSDK &getDSDK();
 	
-	void setSoSVDK(int soSVDK){
-		this->soSVDK = soSVDK;
-	}
+	int getSoSVDK();
 	
-	void taoMaLop_LTC(int nLTC)	{
-			this->maLopTC = nLTC +1;
-		}
+	void setSoSVDK(int soSVDK);
 	
-	void nhap_LTC(){
-		cin.ignore();
-		cout<<"\nNhap ma mh ";
-		getline(cin,maMH);
-		cout<<"\nNhap nien khoa: ";
-		cin>>nienKhoa;
-		cout<<"\nNhap hoc ky: ";
-		cin>>hocKy;
-		cout<<"\nNhap nhom: ";
-		cin>>nhom;
-		cout<<"\nNhap so sv max: ";
-		cin>>svMax;
-		cout<<"\nNhap so sv min: ";
-		cin>>svMin;
-		
-	}
+	void taoMaLop_LTC(int nLTC);
 	
+	bool checkTrung_LTC(LopTC ltc);
 	
-	void xuat_LTC(){
-		cout<<"\nMa lop TC: "<<maLopTC;
-		cout<<"\nMa mh: "<<maMH;
-		cout<<"\nkhoa: "<<nienKhoa;
-		cout<<"\nHoc ky: "<<hocKy;
-		cout<<"\nNhom: "<<nhom;
-		cout<<"\nsvMax: "<<svMax;
-		cout<<"\nsvMin: "<<svMin;
-		if(huyLop) cout<<"\nHuy lop: true";
-		else cout<<"\nSo sv dk: "<<soSVDK;
-		if(dsdk.getHead_DSDK() == NULL) cout<<"\ndk null";
-		else cout<<"\ndsk not null";
-	}
-	
-	bool checkTrung_LTC(LopTC ltc){
-		
-		if(this->maMH == ltc.maMH && this->nienKhoa == ltc.nienKhoa && (this->hocKy == ltc.hocKy && this->nhom == ltc.nhom)){
-			return true;
-		}
-			
-		return false;
-	}
-	
-	
-	void huyLopTC(){
-		if(soSVDK < svMin && huyLop == false)
-		//if(soSVDK != 0 && soSVDK < svMin && huyLop == false)
-			this->huyLop = true;
-	}
+	void huyLopTC();
 };
 
 class DSLopTC{
@@ -107,25 +71,258 @@ private:
 public:
 	
 	DSLopTC();
-	~DSLopTC();
+	
 	int getN();
 	
 	bool isNull_LTC();
+	
 	bool isFull_LTC();
 	
-	LopTC *&getLopTC(int viTri){
+	LopTC *&getLopTC(int viTri);
+
+	int them_LTC(LopTC *LTC);
+	
+	int xoa_LTC(int maLopTC);
+	
+	int tim_LTC(int maLopTC);
+	
+	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
+	
+	void writeDataDS_LTC();
+	
+	void freeDS_LTC();
+
+	int getMaLopTCMax();
+	
+	bool checkLopTC(string maMH);
+	
+	void huyLopDS_LTC();
+	
+	void huyLopTCTheoKhoaVaHK_LTC(int khoa, int HK);
+	
+	int checkLopTheoKhoaVaHK_LTC(int khoa, int HK);
+	
+	void loadDataDS_DK();
+	
+	void loadDataDS_LTC();
+	
+	bool checkSVDK_LTC(int maLopTC, string maSV);
+	
+	bool checkDK_LTC(int viTri, string maSV);
+	
+	void dangKy_LTC(int viTri, NodeDK *DK);
+	
+	void dangKyMH_LTC(int maLopTC, NodeDK *DK);
+	
+	bool checkTrungDS_LTC(LopTC *ltc);
+	
+	void writeDataDS_DK();
+	
+	void xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac);
+	
+	void locDS_LTC(string content, LopTC *loptc[], LopTC *lopTC[], int &nFilter, int n, int &tongSoTrang);
+	
+	void xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Button *menuButton[]);
+	
+	void resetChooseButton(Button *chooseButton[], LopTC *loptc[],  int n, string maMH, int viTriDaChon, int batDau, int ketThuc);
+	
+	void dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action &thaoTac);
+	
+	void formDK_LTC(string &maSV, int &khoa, int &HK, Action &thaoTac);
+	
+	void formHuy_LTC(int &khoa, int &HK, Action &thaoTac);
+	
+	void formXuatDS_DK(int &viTriChon, Action &thaoTac);
+	
+	void formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]);
+	
+	void chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]);
+	
+};
+
+/*
+** ================ LopTC ================
+*/
+
+LopTC::LopTC(){
+	maLopTC = 0;
+	maMH = "";
+	nienKhoa = 0;
+	hocKy = 0;
+	nhom = 0;
+	svMax = 0;
+	svMin = 0;
+	huyLop = false;
+	soSVDK = 0;
+	dsdk.setHead_DSDK(NULL);
+}
+
+void LopTC::setMaLopTC(int maLopTC){
+	this->maLopTC = maLopTC;	
+}
+
+void LopTC::setMaMH(string maMH){
+	this->maMH = maMH;
+}
+
+void LopTC::setNienKhoa(int khoa){
+	this->nienKhoa = khoa;
+}
+
+void LopTC::setHocKy(int hocKy){
+	this->hocKy = hocKy;
+}
+
+void LopTC::setNhom(int nhom){
+	this->nhom = nhom;
+}
+
+void LopTC::setSVMax(int svMax){
+	this->svMax = svMax;
+}
+
+void LopTC::setSVMin(int svMin){
+	this->svMin = svMin;
+}
+
+void LopTC::setTrangThai(bool huyLop){
+	this->huyLop = huyLop;
+}
+void LopTC::setDSDK(DSDK DS){
+	this->dsdk = DS; 
+}
+	
+int LopTC::getMaLopTC(){
+	return this->maLopTC;	
+}
+
+string LopTC::getMaMH(){
+	return this->maMH;
+}
+
+int LopTC::getNienKhoa(){
+	return this->nienKhoa;
+}
+
+int LopTC::getHocKy(){
+	return this->hocKy;
+}
+
+int LopTC::getNhom(){
+	return this->nhom;
+}
+
+int LopTC::getSVMax(){
+	return this->svMax;
+}
+
+int LopTC::getSVMin(){
+	return this->svMin;
+}
+
+bool LopTC::getTrangThai(){
+	return this->huyLop;
+}
+
+DSDK &LopTC::getDSDK(){
+		return this->dsdk;
+	}
+	
+int LopTC::getSoSVDK(){
+		return this->soSVDK;
+	}
+	
+void LopTC::setSoSVDK(int soSVDK){
+		this->soSVDK = soSVDK;
+	}
+	
+void LopTC::taoMaLop_LTC(int nLTC)	{
+			this->maLopTC = nLTC +1;
+		}
+	
+bool LopTC::checkTrung_LTC(LopTC ltc){
+		
+		if(this->maMH == ltc.maMH && this->nienKhoa == ltc.nienKhoa && (this->hocKy == ltc.hocKy && this->nhom == ltc.nhom)){
+			return true;
+		}
+			
+		return false;
+	}
+	
+void LopTC::huyLopTC(){
+		if(soSVDK < svMin && huyLop == false)
+		//if(soSVDK != 0 && soSVDK < svMin && huyLop == false)
+			this->huyLop = true;
+	}
+
+
+/*
+** ================ Danh sach LopTC ================
+*/
+
+DSLopTC::DSLopTC(){
+	n = 0;
+}
+
+int DSLopTC::getN(){
+	return this->n;
+}
+
+bool DSLopTC::isNull_LTC(){
+	return this->n == 0;
+}
+
+bool DSLopTC::isFull_LTC(){
+	return this->n >= MAX_LOPTC;
+}
+
+int DSLopTC::tim_LTC(int maLopTC){
+	for(int i=0; i<this->n; i++)
+		if(this->lopTC[i]->getMaLopTC() == maLopTC)
+			return i;
+	return -1;
+}
+
+int DSLopTC::them_LTC(LopTC *LTC){
+	if(isFull_LTC()) return 0;
+	
+	this->lopTC[this->n++] = LTC;
+	return 1;
+}
+
+int DSLopTC::xoa_LTC(int maLopTC){
+	
+	int viTri = tim_LTC(maLopTC);
+	if(viTri>=0){
+		
+		delete this->lopTC[viTri];
+		
+		for (int i = viTri; i < this->n; i++)
+			this->lopTC[i] = this->lopTC[i + 1];
+
+		this->n--;
+		
+			MessageBox(
+				    NULL,
+				    "XOA LOP TIN CHI THANH CONG !!!",
+				    "THONG BAO",
+				    MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    	);
+		return 1;
+	}
+	
+	return -1;
+	
+}
+
+LopTC *&DSLopTC::getLopTC(int viTri){
 		return lopTC[viTri];
 		
 	}
 
-	int them_LTC(LopTC *LTC);
-	int xoa_LTC(int maLopTC);
-	int tim_LTC(int maLopTC);
-	
-	void writeData_LTC(LopTC *LTC, ofstream &fileOut);
-	void writeDataDS_LTC(const char*PATH_SAVE = PATH_SAVE_LTC){
+void DSLopTC::writeDataDS_LTC(){
 		ofstream fileOut;
-		fileOut.open(PATH_SAVE, ios::out);
+		fileOut.open(PATH_LTC.c_str(), ios::out);
 		if (fileOut.is_open()) {
 			for (int i = 0; i < this->n; i++) {
 				writeData_LTC(this->lopTC[i], fileOut);
@@ -134,8 +331,8 @@ public:
 		}
 		fileOut.close();
 	}
-	
-	void freeDS_LTC(){
+
+void DSLopTC::freeDS_LTC(){
 		for(int i=0; i<n; i++){
 			if(this->lopTC[i] != NULL){
 				lopTC[i]->getDSDK().freeDS_SV(lopTC[i]->getDSDK().getHead_DSDK());
@@ -143,8 +340,8 @@ public:
 			}
 		}
 	}
-	
-	int getMaLopTCMax(){
+
+int DSLopTC::getMaLopTCMax(){
 		int max = -1;
 		if(n>0){
 			max = lopTC[0]->getMaLopTC();
@@ -155,8 +352,8 @@ public:
 		}
 		return max;
 	}
-	
-	bool checkLopTC(string maMH){
+
+bool DSLopTC::checkLopTC(string maMH){
 		
 		for(int i=0; i<n; i++)
 			if(lopTC[i]->getMaMH() == maMH)
@@ -164,20 +361,20 @@ public:
 		
 		return false;
 	}
-	
-	void huyLopDS_LTC(){
+
+void DSLopTC::huyLopDS_LTC(){
 		for(int i=0; i<n; i++)
 			this->lopTC[i]->huyLopTC();
 	}
-	
-	void huyLopTCTheoKhoaVaHK_LTC(int khoa, int HK){
+
+void DSLopTC::huyLopTCTheoKhoaVaHK_LTC(int khoa, int HK){
 		for(int i=0; i<n; i++){
 			if(this->lopTC[i]->getNienKhoa() == khoa && this->lopTC[i]->getHocKy() == HK)
 				this->lopTC[i]->huyLopTC();
 		}
 	}
-	
-	int checkLopTheoKhoaVaHK_LTC(int khoa, int HK){
+
+int DSLopTC::checkLopTheoKhoaVaHK_LTC(int khoa, int HK){
 		for(int i=0; i<n; i++){
 			if(this->lopTC[i]->getNienKhoa() == khoa && this->lopTC[i]->getHocKy() == HK)
 				return i;
@@ -185,8 +382,8 @@ public:
 		
 		return  -1;
 	}
-	
-	void loadDataDS_DK(){ if(!loadFileIsSuccess) return;
+
+void DSLopTC::loadDataDS_DK(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp; int maLop; int viTriLop=0; string tempStr; float tempFloat;
 		fileIn.open(PATH_DK.c_str(), ios::in);
 		if (fileIn.is_open())	{
@@ -226,8 +423,8 @@ public:
 		
 		fileIn.close();
 	}
-	
-	void loadDataDS_LTC(){ if(!loadFileIsSuccess) return;
+
+void DSLopTC::loadDataDS_LTC(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp;
 		fileIn.open(PATH_LTC.c_str(), ios::in);
 		if(fileIn.is_open()){
@@ -267,27 +464,8 @@ public:
 		}
 		fileIn.close();
 	}
-	
-	void xuatDS_LTC(){
-		if(n==0) cout<<"\nDS ltc rong";
-		for(int i=0; i<n; i++){
-			cout<<"\n";
-			lopTC[i]->xuat_LTC();
-		}
-	}
-	
-	int sua_LTC(int maLopTC){
-		int viTri = tim_LTC( maLopTC);
-		if (viTri >= 0)	{
-			
-			this->lopTC[viTri]->nhap_LTC();
-			return 1;
-		}
-		
-		return -1;
-	}
-	
-	bool checkSVDK_LTC(int maLopTC, string maSV){
+
+bool DSLopTC::checkSVDK_LTC(int maLopTC, string maSV){
 		int vt = 0;
 		for(; vt<n && this->lopTC[vt]->getMaLopTC() != maLopTC; vt++);
 		
@@ -296,8 +474,8 @@ public:
 		
 		return false;
 	}
-	
-	bool checkDK_LTC(int viTri, string maSV){
+
+bool DSLopTC::checkDK_LTC(int viTri, string maSV){
 		
 		if(viTri < n ){
 			return this->lopTC[viTri]->getDSDK().checkSV_DK(maSV);
@@ -305,8 +483,8 @@ public:
 		
 		return false;
 	}
-	
-	void dangKy_LTC(int viTri, NodeDK *DK){
+
+void DSLopTC::dangKy_LTC(int viTri, NodeDK *DK){
 		if(viTri < n){
 			
 			this->lopTC[viTri]->getDSDK().them_DK(DK);
@@ -314,23 +492,36 @@ public:
 			this->lopTC[viTri]->setSoSVDK(this->lopTC[viTri]->getSoSVDK() + 1);
 		}
 	}
-	
-	void dangKyMH_LTC(int maLopTC, NodeDK *DK){
+
+void DSLopTC::writeData_LTC(LopTC *LTC, ofstream &fileOut){
+	char temp = ',';
+	fileOut << LTC->getMaLopTC();
+	fileOut << temp;
+	fileOut << LTC->getMaMH();
+	fileOut << temp;
+	fileOut << LTC->getNienKhoa();
+	fileOut << temp;
+	fileOut << LTC->getHocKy();
+	fileOut << temp;
+	fileOut << LTC->getNhom();
+	fileOut << temp;
+	fileOut << LTC->getSVMax();
+	fileOut << temp;
+	fileOut << LTC->getSVMin();
+	fileOut << temp;
+	fileOut << LTC->getTrangThai();
+	fileOut<<"\n";
+}
+
+void DSLopTC::dangKyMH_LTC(int maLopTC, NodeDK *DK){
 		for(int i=0; i<n; i++){
 			if(this->lopTC[i]->getMaLopTC() == maLopTC){
 				dangKy_LTC(i, DK); return;
 			}
 		}
 	}
-	
-	void xuatDSDK_LTC(int viTri){
-		if(this->lopTC[viTri]!= NULL){
-			this->lopTC[viTri]->getDSDK().xuatDS_DK();
-			
-		}
-	}
-	
-	bool checkTrungDS_LTC(LopTC *ltc){
+
+bool DSLopTC::checkTrungDS_LTC(LopTC *ltc){
 		if(this->isNull_LTC()) return false;
 		
 		for(int i=0; i<n; i++){
@@ -339,10 +530,10 @@ public:
 		
 		return false;
 	}
-	
-	void writeDataDS_DK(const char *PATH_SAVE = PATH_SAVE_DK){
+
+void DSLopTC::writeDataDS_DK(){
 		ofstream fileOut;
-		fileOut.open(PATH_SAVE, ios::out);
+		fileOut.open(PATH_DK.c_str(), ios::out);
 		if (fileOut.is_open())	{
 				for (int i = 0; i < n; i++)	{
 					for(NodeDK *k = this->lopTC[i]->getDSDK().getHead_DSDK(); k!= NULL; k=k->getNext_DK())	{
@@ -355,29 +546,8 @@ public:
 		}
 		fileOut.close();
 	}
-	
-	void nhapDiem_LTC(int viTri){
-		if(viTri < n){
-			float diem; int i=1;
-			for(NodeDK *k = this->lopTC[viTri]->getDSDK().getHead_DSDK(); k!= NULL;i++, k=k->getNext_DK()){
-				cout<<"\nNhap diem ms sinh vien "<<k->getData_DK().getMaSV()<<" ";
-				cin>>diem;
-				k->getData_DK().setDiem(diem);
-			}	
-		}
-	}
-	
-	void xuatDiem_LTC(int viTri){
-		if(viTri < n){
-			 int i=1;
-			for(NodeDK *k = this->lopTC[viTri]->getDSDK().getHead_DSDK(); k!= NULL;i++, k=k->getNext_DK()){
-				
-				k->getData_DK().xuat_DK();
-			}	
-		}
-	}
-	
-	void xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac){
+
+void DSLopTC::xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		 
@@ -716,8 +886,8 @@ public:
 		}
 	}
 
-	
-	void locDS_LTC(string content, LopTC *loptc[], LopTC *lopTC[], int &nFilter, int n, int &tongSoTrang){
+
+void DSLopTC::locDS_LTC(string content, LopTC *loptc[], LopTC *lopTC[], int &nFilter, int n, int &tongSoTrang){
 		// reset so lop tin chi loc ra duoc
 		nFilter = 0; string strMaLopTC;
 		if(!content.empty()){
@@ -737,13 +907,13 @@ public:
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
 	}
 	
-	void xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Button *menuButton[]){
+
+void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Button *menuButton[]){
 		int tongSoDong = n;
 		int nFilter = n; int soLuongMH=0;
 		soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
-		cout<<"\nSo luong trc "<<soLuongMH;
 		MonHoc *arrMH = new MonHoc[soLuongMH];
-		soLuongMH = 0; cout<<"\nToi dayyyyy";
+		soLuongMH = 0; 
 		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH); 
 		cout<<"\nSo luong sau "<<soLuongMH;
 		LopTC *loptc[n] = {NULL};
@@ -751,7 +921,6 @@ public:
 		 	loptc[i] = this->lopTC[i];
 		}
 		
-		cout<<"\nVO day r";
 		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		
 		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
@@ -955,27 +1124,7 @@ public:
 					freeArrButton(editButton, nFilter);
 					freeArrButton(deleteButton, nFilter);
 					return; 
-					/*int isConfirmed = MessageBox(NULL,
-												"HUY CAC LOP TIN CHI KHONG DU DIEU KIEN MO",
-												"THONG BAO",
-												MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-												);
-												    		
-					switch(isConfirmed){
-						case IDCANCEL:{
-							//viTriChon=0;
-								break;
-						}
-										
-						case IDOK: default:{	
-								thaoTac = HUY;
-								newTable.freeTable();
-								delete[] arrMH;
-								freeArrButton(editButton, nFilter);
-								freeArrButton(deleteButton, nFilter);
-								return; 	
-						}
-					}*/
+					
 				}
 				
 				if(btnXuat.isClicked(x,y)){
@@ -1038,8 +1187,8 @@ public:
 		freeArrButton(editButton, nFilter);
 		freeArrButton(deleteButton, nFilter);
 	}
-	
-	void resetChooseButton(Button *chooseButton[], LopTC *loptc[],  int n, string maMH, int viTriDaChon, int batDau, int ketThuc){
+
+void DSLopTC::resetChooseButton(Button *chooseButton[], LopTC *loptc[],  int n, string maMH, int viTriDaChon, int batDau, int ketThuc){
 		for(int i=0; i<n; i++){
 			if(loptc[i]->getMaMH() == maMH && i != viTriDaChon && chooseButton[i]->getId() != "da_du"){
 				if(chooseButton[i]->getId() != "khong_duocchon"){
@@ -1069,8 +1218,8 @@ public:
 			}
 		}
 	}
-	
-	void dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action &thaoTac){
+
+void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action &thaoTac){
 		
 		int tongSoDong = 0;
 		
@@ -1100,9 +1249,6 @@ public:
 		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH);
 		
 		
-	
-		
-		cout<<"\nTong so dong "<<tongSoDong;
 		nFilter = tongSoDong;
 		LopTC *loptc[nFilter] = {NULL};
 		nFilter = 0;
@@ -1192,7 +1338,6 @@ public:
 		}
 		
 		// da_dangky, dangky, ko_duocchon
-		cout<<"\nDa chuan bi xong xuoiii nee";
 		int x,y; char ch;
 		
 		while(true){
@@ -1216,7 +1361,7 @@ public:
             		
             		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
             		
-            		cout<<"\nprev "<<batDau<<" "<<ketThuc;
+            	
             		
             		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
@@ -1232,7 +1377,7 @@ public:
 					
 					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
 					
-					cout<<"\nnext "<<batDau<<" "<<ketThuc;
+					
 					
 					xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
@@ -1282,8 +1427,8 @@ public:
 			
 		} // end while
 	}
-	
-	void formDK_LTC(string &maSV, int &khoa, int &HK, Action &thaoTac){
+
+void DSLopTC::formDK_LTC(string &maSV, int &khoa, int &HK, Action &thaoTac){
 		drawFrame(500, 150, 540 + 500, 200+300, "Dang ky TC");
 		
 		int nInput = 3;
@@ -1437,8 +1582,8 @@ public:
 		for(int i=0; i<nInput; i++) delete input[i];
 		
 	}
-	
-	void formHuy_LTC(int &khoa, int &HK, Action &thaoTac){
+
+void DSLopTC::formHuy_LTC(int &khoa, int &HK, Action &thaoTac){
 		drawFrame(500, 150, 540 + 500, 200+300, "Huy lop TC");
 		
 		int nInput = 2;
@@ -1568,8 +1713,8 @@ public:
 			}
 		}
 	}
-	
-	void formXuatDS_DK(int &viTriChon, Action &thaoTac){
+
+void DSLopTC::formXuatDS_DK(int &viTriChon, Action &thaoTac){
 		drawFrame(500, 150, 540 + 500, 200+300, "xuat danh sach 1 lop tc");
 		
 		Input input("","Nhap ma lop tc:" ,"N", 5, NUMBER,  650, 210, 650 + 300, 210 + INPUT_HEIGHT);
@@ -1634,8 +1779,8 @@ public:
 		}
 		
 	}
-	
-	void formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]){
+
+void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]){
 		
 		drawFrame(500, 150, 640 + 500, 580, "them lop tc");
 		int nInput = 7; 
@@ -1645,11 +1790,6 @@ public:
 		
 		if(thaoTac == SUA && loptc->getSoSVDK() != 0) initPos = 5; // vi tri bat dau cua input neu da co sinh vien dang ky
 		
-		if(loptc->getSoSVDK() != 0) cout<<"\nlop tc ko rong";
-		
-		cout<<"\ninit pos "<<initPos<<" "<<thaoTac;
-		
-		//loptc->xuat_LTC();
 		
 		int left = 650;
 		int top = 200;
@@ -1870,8 +2010,8 @@ public:
 			if(input[i] != NULL) delete input[i];
 		
 	}
-	
-	void chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
+
+void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
 		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
 		int viTriChon = 0;
 		int khoa = 0, HK = 0;
@@ -1879,7 +2019,7 @@ public:
 		// DKI LTC
 		string maSV = ""; int coSV = -1; int coLTC = -1;
 		string strN;
-		while(!isNull_LTC() && indexMenu == -1){ lamVoVan();
+		while(!isNull_LTC() && indexMenu == -1){ 
 			strN = convertIntToString(n);
 			if(thaoTac != DK_LTC) 
 				subTitle = "DANH SACH LOP TIN CHI";
@@ -1921,9 +2061,7 @@ public:
 					
 					thaoTac = THEM;
 					formNhap_LTC(loptc, DSMH,thaoTac, menuButton);
-					cout<<"\nThao tac: "<<thaoTac;
 					if(thaoTac == HUY){
-						cout<<"\nHuy ltc";
 						delete loptc;
 						thaoTac = XUAT;
 						daThem = true;
@@ -1955,12 +2093,11 @@ public:
 							DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
 							
 							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
-							this->writeDataDS_LTC(PATH_LTC.c_str());
-							DSMH.writeDataDS_MH(PATH_MH.c_str());
+							this->writeDataDS_LTC();
+							DSMH.writeDataDS_MH();
 							
 						}
 					}else if(thaoTac == CHON){
-						cout<<"\nDa chon";
 						thaoTac = THEM;
 						xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac, menuButton);
 						//clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
@@ -1989,14 +2126,14 @@ public:
 									delete loptc;
 									thaoTac = XUAT; loptc = NULL; daThem = true;
 								}else if(thaoTac == SUA){
-									/*if(this->checkTrungDS_LTC(loptc)){
+									if(this->checkTrungDS_LTC(loptc)){
 										MessageBox(
 									        NULL,
 									        "THONG TIN NHAP BI TRUNG VOI THONG TIN DA CO !!!",
 									        "THONG BAO",
 									        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 							    		);
-									}else{*/
+									}else{
 										
 										// neu lop tc chua co sinh vien dang ky
 										if(lopTC[viTriChon]->getDSDK().isNull_DK()){
@@ -2020,11 +2157,10 @@ public:
 										thaoTac = XUAT;
 										daThem = true;
 										viTriChon = 0;
-										this->writeDataDS_LTC(PATH_LTC.c_str());
-									//}
+										this->writeDataDS_LTC();
+									}
 									
 								}else if(thaoTac == CHON){
-									cout<<"\n Da chon de sua";
 									thaoTac = SUA;
 									xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac, menuButton);
 								}
@@ -2059,8 +2195,8 @@ public:
 								DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
 							}
 							
-							this->writeDataDS_LTC(PATH_LTC.c_str());
-							DSMH.writeDataDS_MH(PATH_MH.c_str());
+							this->writeDataDS_LTC();
+							DSMH.writeDataDS_MH();
 							MH.setMaMH(""); MH.setSTCLT(0); MH.setSTCTH(0); MH.setTenMH("");
 					}
 					break;
@@ -2110,7 +2246,6 @@ public:
 						        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 				    		);
 				    		
-							//clearRegion(500, 150, 550 + 500, 200+300);
 				    		thaoTac = XUAT_DS;
 						}else{ // Co lop tin chi
 							MonHoc MH; int temp = 0;
@@ -2134,7 +2269,7 @@ public:
 							
 							clearRegion(tableLeft, frameTop+12, frameRight - 12, frameBottom - 12);
 							thaoTac = XUAT;
-							this->writeDataDS_DK(PATH_DK.c_str());
+							this->writeDataDS_DK();
 						}
 					}
 					break;
@@ -2157,7 +2292,7 @@ public:
 					}
 					khoa = 0; HK = 0;				
 					thaoTac=XUAT;
-					this->writeDataDS_LTC(PATH_LTC.c_str());
+					this->writeDataDS_LTC();
 					break;
 				}
 				
@@ -2212,7 +2347,7 @@ public:
 							thaoTac = XUAT;
 							coSV = -1; coLTC = -1; maSV = "";
 							khoa = 0; HK = 0;
-							this->writeDataDS_DK(PATH_DK.c_str());
+							this->writeDataDS_DK();
 						}
 					
 					clearRegion(500, 150, 550 + 500, 200+300);
@@ -2239,181 +2374,5 @@ public:
 			return;
 		}
 	}
-};
-
-/*
-** ================ LopTC ================
-*/
-
-LopTC::LopTC(){
-	maLopTC = 0;
-	maMH = "";
-	nienKhoa = 0;
-	hocKy = 0;
-	nhom = 0;
-	svMax = 0;
-	svMin = 0;
-	huyLop = false;
-	soSVDK = 0;
-	dsdk.setHead_DSDK(NULL);
-}
-
-void LopTC::setMaLopTC(int maLopTC){
-	this->maLopTC = maLopTC;	
-}
-
-void LopTC::setMaMH(string maMH){
-	this->maMH = maMH;
-}
-
-void LopTC::setNienKhoa(int khoa){
-	this->nienKhoa = khoa;
-}
-
-void LopTC::setHocKy(int hocKy){
-	this->hocKy = hocKy;
-}
-
-void LopTC::setNhom(int nhom){
-	this->nhom = nhom;
-}
-
-void LopTC::setSVMax(int svMax){
-	this->svMax = svMax;
-}
-
-void LopTC::setSVMin(int svMin){
-	this->svMin = svMin;
-}
-
-void LopTC::setTrangThai(bool huyLop){
-	this->huyLop = huyLop;
-}
-void LopTC::setDSDK(DSDK DS){
-	this->dsdk = DS; 
-}
-	
-int LopTC::getMaLopTC(){
-	return this->maLopTC;	
-}
-
-string LopTC::getMaMH(){
-	return this->maMH;
-}
-
-int LopTC::getNienKhoa(){
-	return this->nienKhoa;
-}
-
-int LopTC::getHocKy(){
-	return this->hocKy;
-}
-
-int LopTC::getNhom(){
-	return this->nhom;
-}
-
-int LopTC::getSVMax(){
-	return this->svMax;
-}
-
-int LopTC::getSVMin(){
-	return this->svMin;
-}
-
-bool LopTC::getTrangThai(){
-	return this->huyLop;
-}
-
-
-
-
-
-/*
-** ================ Danh sach LopTC ================
-*/
-
-DSLopTC::DSLopTC(){
-	n = 0;
-}
-
-DSLopTC::~DSLopTC(){
-	//for(int i=0; i<n; i++)	delete this->lopTC[i];
-	cout<<"\n Delete ds ltc";
-}
-
-int DSLopTC::getN(){
-	return this->n;
-}
-
-bool DSLopTC::isNull_LTC(){
-	return this->n == 0;
-}
-
-bool DSLopTC::isFull_LTC(){
-	return this->n >= MAX_LOPTC;
-}
-
-int DSLopTC::tim_LTC(int maLopTC){
-	for(int i=0; i<this->n; i++)
-		if(this->lopTC[i]->getMaLopTC() == maLopTC)
-			return i;
-	return -1;
-}
-
-int DSLopTC::them_LTC(LopTC *LTC){
-	if(isFull_LTC()) return 0;
-	
-	this->lopTC[this->n++] = LTC;
-	return 1;
-}
-
-int DSLopTC::xoa_LTC(int maLopTC){
-	
-	int viTri = tim_LTC(maLopTC);
-	if(viTri>=0){
-		
-		delete this->lopTC[viTri];
-		
-		for (int i = viTri; i < this->n; i++)
-			this->lopTC[i] = this->lopTC[i + 1];
-
-		this->n--;
-		
-			MessageBox(
-				    NULL,
-				    "XOA LOP TIN CHI THANH CONG !!!",
-				    "THONG BAO",
-				    MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-		    	);
-		return 1;
-	}
-	
-	return -1;
-	
-}
-
-
-
-void DSLopTC::writeData_LTC(LopTC *LTC, ofstream &fileOut){
-	char temp = ',';
-	fileOut << LTC->getMaLopTC();
-	fileOut << temp;
-	fileOut << LTC->getMaMH();
-	fileOut << temp;
-	fileOut << LTC->getNienKhoa();
-	fileOut << temp;
-	fileOut << LTC->getHocKy();
-	fileOut << temp;
-	fileOut << LTC->getNhom();
-	fileOut << temp;
-	fileOut << LTC->getSVMax();
-	fileOut << temp;
-	fileOut << LTC->getSVMin();
-	fileOut << temp;
-	fileOut << LTC->getTrangThai();
-	fileOut<<"\n";
-}
-
 
 

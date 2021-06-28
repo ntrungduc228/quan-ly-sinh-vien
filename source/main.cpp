@@ -15,19 +15,14 @@ int main(int argc, char *argv[])
 	DSLopTC DSLTC;
 	DSLopSV DSLSV;
 	
-	DSSV dssv;
-	
 	DSLSV.loadData_LSV();
 	DSLTC.loadDataDS_LTC();
 	DSLSV.loadDataDS_SV();
 	DSMH.loadDataDS_MH();
 	DSLTC.loadDataDS_DK();
 	
-	srand(time(NULL));
-	
 	if(loadFileIsSuccess){
-		resizeConsole(1368, 745);
-		//menu1(dssv,DSLTC,DSLSV,DSMH);
+		resizeConsole(745, 745);
 		
 		init_View();
 		menu(DSMH, DSLTC, DSLSV);
@@ -42,32 +37,6 @@ int main(int argc, char *argv[])
 	}
 	
 	free(DSMH, DSLTC, DSLSV);
-	
-	//decorMainScreen();
-	
-	/*Table newTable = table_NhapSV();
-	newTable.drawTable(15);
 
-	Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
-	btnPrev.draw();
-	
-	Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
-	btnNext.draw();
-	
-	Input newInput("","" ,INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT);
-	newInput.draw(); 
-	int y = tableTop ;
-	string str = "";
-	int x = tableLeft + 15;
-	int xtemp = 1225;
-	Button checkBoxBtn1("Sua","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight, claqua, cllightblue, clblack   );
-	checkBoxBtn1.draw(); xtemp += checkBoxButtonWidth + 5;
-	Button checkBoxBtn2("Xoa","checkBoxBtn",xtemp , y+checkBoxButtonY+3, xtemp+ checkBoxButtonWidth, y-3 +checkBoxButtonY+checkBoxButtonHeight,cllightred, clred, cllightwhite   );
-	checkBoxBtn2.draw();*/
-	
-	//drawFrame(500, 150, 540 + 500, 200+300, "Them lop TC");
-	
-	//getch();
-	
 	return 0;
 }

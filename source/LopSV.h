@@ -6,45 +6,21 @@ private:
 	string maLop;
 	DSSV dssv;
 public:
+	
 	LopSV();
-	~LopSV();
 	
 	void setMaLop(string maLop);
+	
 	void setTenLop(string tenLop);
 	
-	
 	string getMaLop();
+	
 	string getTenLop();
-	DSSV &getDS_SV(){
-		return this->dssv;	
-	}
 	
-	/*int demSoLuongSV(){
-		int n = 0;
-		for(NodeSV *p = dssv.getHead_DSSV(); p != NULL ; n++,p=(p->getNext_SV()))
-		
-		return n;
-	}*/
+	DSSV &getDS_SV();
+
+	void setDS_SV(DSSV ds);
 	
-	void setDS_SV(DSSV ds){
-		this->dssv.setHead_DSSV(ds.getHead_DSSV());
-		cout<<"\nXuat trong ham setDS_SV";
-		this->dssv.xuatDS_SV();
-		//this->dssv = ds;
-	}
-	
-	void nhap_LSV(){
-		cin.ignore();
-		cout<<"\nNhap ma lop: ";
-		getline(cin, maLop);
-	//	cout<<"\nNhap ten lop: ";
-		//getline(cin, tenLop);
-	}
-	
-	void xuat_LSV(){
-		cout<<"\nNhap ma lop: "<<maLop<<" "<<this->getDS_SV().demSoLuongSV();
-		//cout<<"\nNhap ten lop: "<<tenLop;
-	}
 };
 
 class DSLopSV{
@@ -52,10 +28,87 @@ private:
 	LopSV *lopSV[MAX_LOPSV]  = {NULL};
 	int n;
 public:
-	DSLopSV();
-	~DSLopSV();
 	
-	void freeDS_LSV(){
+	DSLopSV();
+	
+	void freeDS_LSV();
+	
+	void setN(int n);
+	
+	int getN();
+	
+	LopSV *&getLopSV_LSV(int viTri);
+	
+	void loadData_LSV();
+	
+	void loadDataDS_SV();
+	
+	void writeData_LSV(LopSV *LSV,ofstream &fileOut);
+	
+	void writeDataDS_LSV();
+	
+	void writeDataDS_SV();
+	
+	bool isNull_LSV();
+	
+	bool isFull_LSV();
+	
+	int them_LSV(string &maLopSV);
+	
+	int tim_LSV(string maLop);
+	
+	int timSV_LSV(string maSV);
+	
+	NodeSV * layInfo_SV(string maSV);
+	
+	void xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable);
+	
+	void locDS_LSV(string content, LopSV *lop[], int &nFilter, int &tongSoTrang);
+	
+	void xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]);
+	
+	void formThem_LSV(string &maLopSV, Action &thaoTac);
+
+	void chon_LSV(Action &thaoTac, Button *menuButton[]);
+	
+};
+
+
+/*
+** ================ Lop sinh vien ================
+*/
+
+LopSV::LopSV(){
+	maLop = "";
+	dssv.setHead_DSSV(NULL);
+}
+
+DSSV &LopSV::getDS_SV(){
+		return this->dssv;	
+}
+
+void LopSV::setMaLop(string maLop){
+	this->maLop = maLop;
+}
+	
+string LopSV::getMaLop(){
+	return this->maLop;
+}
+
+void LopSV::setDS_SV(DSSV ds){
+		this->dssv.setHead_DSSV(ds.getHead_DSSV());
+	}
+
+/*
+** ================ Danh sach lop sinh vien ================
+*/
+
+DSLopSV::DSLopSV(){
+	n = 0;
+	for(int i=0; i<MAX_LOPSV; i++) lopSV[i] = NULL;
+}
+
+void DSLopSV::freeDS_LSV(){
 		for(int i=0; i<n; i++){
 			if(lopSV[i] != NULL) {
 				lopSV[i]->getDS_SV().freeDS_SV(lopSV[i]->getDS_SV().getHead_DSSV());
@@ -63,13 +116,24 @@ public:
 			}
 		}
 	}
-	
-	void setN(int n);
-	int getN();
-	
-	LopSV *&getLopSV_LSV(int viTri);
-	
-	void loadData_LSV(){ if(!loadFileIsSuccess) return;
+
+void DSLopSV::setN(int n){
+	this->n = n;
+}
+
+int DSLopSV::getN(){
+	return this->n;
+}
+
+bool DSLopSV::isNull_LSV(){
+	return this->n == 0;
+}
+
+bool DSLopSV::isFull_LSV(){
+	return this->n == MAX_LOPSV;
+}
+
+void DSLopSV::loadData_LSV(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp;
 		fileIn.open(PATH_LSV.c_str(), ios::in);
 		if(fileIn.is_open()){
@@ -93,8 +157,8 @@ public:
 			
 		fileIn.close();
 	}
-	
-	void loadDataDS_SV(){ if(!loadFileIsSuccess) return;
+
+void DSLopSV::loadDataDS_SV(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp; string tempStr;
 		fileIn.open(PATH_SV.c_str(),ios::in);
 		if (fileIn.is_open())
@@ -136,11 +200,10 @@ public:
 		
 		fileIn.close();
 	}
-	
-	void writeData_LSV(LopSV *LSV,ofstream &fileOut);
-	void writeDataDS_LSV(const char*PATH_SAVE = PATH_SAVE_LSV.c_str()){
+
+void DSLopSV::writeDataDS_LSV(){
 		ofstream fileOut;
-		fileOut.open(PATH_SAVE, ios::out);
+		fileOut.open(PATH_LSV.c_str(), ios::out);
 		if (fileOut.is_open()) {
 			for (int i = 0; i < this->n; i++)	{
 					writeData_LSV(this->lopSV[i], fileOut);
@@ -149,10 +212,10 @@ public:
 		}
 		fileOut.close();
 	}
-	
-	void writeDataDS_SV(const char*PATH_SAVE = PATH_SAVE_SV){
+
+void DSLopSV::writeDataDS_SV(){
 		
-		ofstream fileOut(PATH_SAVE,ios::out);
+		ofstream fileOut(PATH_SV.c_str(),ios::out);
 		if(fileOut.is_open()){
 			
 			for(int i=0; i<n; i++){
@@ -168,31 +231,56 @@ public:
 		fileOut.close();
 		
 	}
+
+int DSLopSV::them_LSV(string &maLopSV){
+	if(isFull_LSV()) return -1;
 	
-	bool isNull_LSV();
-	bool isFull_LSV();
-	int them_LSV(string &maLopSV);
-	int tim_LSV(string maLop);
+	int vt=0;
+	for(; vt<n ; vt++) {
+		if(lopSV[vt]->getMaLop() > maLopSV) break;
+		if(lopSV[vt]->getMaLop() == maLopSV ) return 2; // lop sv da ton tai
+	}
 	
-	int timSV_LSV(string maSV){
+	LopSV *LSV = new LopSV;
+	LSV->setMaLop(maLopSV);
+	
+	for(int i=n; i>vt; i--)
+		lopSV[i] = lopSV[i-1];
+	
+	lopSV[vt] = LSV;
+	n++;
+	
+	return 1;
+}
+
+int DSLopSV::tim_LSV(string maLop){
+	if(isNull_LSV()) return -1;
+	
+	for(int i=0; i<n; i++)
+		if(this->lopSV[i]->getMaLop() == maLop ) return i;
+	
+	return -1;
+}
+
+int DSLopSV::timSV_LSV(string maSV){
 		for(int i=0; i<n; i++){
 			if(this->lopSV[i]->getDS_SV().tim_SV(maSV)!=-1) return i;
 		}
 		
 		return -1;
 	}
-	
-	void xuatDS_LSV(){
-		if(n==0) {
-			cout<<"\n lopSV rong";
-			return;
-		}
-		for(int i=0; i<n; i++){
-			lopSV[i]->xuat_LSV();
-		}
-	}
-	
-	NodeSV * layInfo_SV(string maSV){
+
+void DSLopSV::writeData_LSV(LopSV *LSV,ofstream &fileOut){
+	char temp = ',';
+	fileOut << LSV->getMaLop();
+	fileOut<<"\n";
+}
+
+LopSV *&DSLopSV::getLopSV_LSV(int viTri){
+	return this->lopSV[viTri];	
+}
+
+NodeSV * DSLopSV::layInfo_SV(string maSV){
 		for(int i=0; i<n; i++){
 			if(!lopSV[i]->getDS_SV().isNULL_SV()){
 				for(NodeSV *p = lopSV[i]->getDS_SV().getHead_DSSV(); p!=NULL; p=p->getNext_SV() )
@@ -203,8 +291,8 @@ public:
 		
 		return NULL;
 	}
-	
-	void xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable){
+
+void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		
@@ -323,8 +411,8 @@ public:
 			x = tableLeft ;
 		}
 	}
-	
-	void locDS_LSV(string content, LopSV *lop[], int &nFilter, int &tongSoTrang){
+
+void DSLopSV::locDS_LSV(string content, LopSV *lop[], int &nFilter, int &tongSoTrang){
 		nFilter = 0;
 		// chuoi khac rong
 		if(!content.empty()){
@@ -341,8 +429,8 @@ public:
 		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;		
 	}
-	
-	void xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
+
+void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
 		int tongSoDong = n;
 		int nFilter = n;
 		
@@ -523,9 +611,8 @@ public:
 		freeArrButton(printButton, nFilter);
 		return;
 	}
-
-
-	void formThem_LSV(string &maLopSV, Action &thaoTac){
+	
+void DSLopSV::formThem_LSV(string &maLopSV, Action &thaoTac){
 		drawFrame(500, 150, 540 + 500, 200+300);
 		
 		Input input("","Nhap ma lop: " ,"N", MAX_MALOPSV, NON_SPACE,  650, 200, 650 + 300, 200 + INPUT_HEIGHT);
@@ -581,7 +668,7 @@ public:
 		}
 	}
 
-	void chon_LSV(Action &thaoTac, Button *menuButton[]){
+void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 		int viTriChon = 0; 
 		string maLopSV = "";
 		
@@ -612,7 +699,7 @@ public:
 			}
 		}
 		
-		while((n>0 || thaoTac == THEM ) && indexMenu == -1){ lamVoVan();
+		while((n>0 || thaoTac == THEM ) && indexMenu == -1){ 
 			string strN = convertIntToString(n);
 			Label title(
 					"DANH SACH LOP SINH VIEN",
@@ -645,7 +732,7 @@ public:
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						
-						this->writeDataDS_SV(PATH_SV.c_str());
+						this->writeDataDS_SV();
 					}
 					break;
 				}
@@ -679,7 +766,7 @@ public:
 									);
 								clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 								thaoTac = XUAT;
-								this->writeDataDS_LSV(PATH_LSV.c_str());
+								this->writeDataDS_LSV();
 								break;
 							}
 								
@@ -704,7 +791,7 @@ public:
 						thaoTac = THEM;
 						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						thaoTac = XUAT_DS;
-						this->writeDataDS_SV(PATH_SV.c_str());
+						this->writeDataDS_SV();
 					}
 					break;
 				}
@@ -720,114 +807,3 @@ public:
 			
 		} 
 	}
-};
-
-
-/*
-** ================ Lop sinh vien ================
-*/
-
-LopSV::LopSV(){
-	maLop = "";
-	//tenLop = "";
-	dssv.setHead_DSSV(NULL);
-}
-
-LopSV::~LopSV(){
-	
-}
-
-void LopSV::setMaLop(string maLop){
-	this->maLop = maLop;
-}
-
-void LopSV::setTenLop(string tenLop){
-//	this->tenLop = tenLop;
-}
-
-
-	
-string LopSV::getMaLop(){
-	return this->maLop;
-}
-
-string LopSV::getTenLop(){
-//	return this->tenLop;
-}
-
-
-
-/*
-** ================ Danh sach lop sinh vien ================
-*/
-
-DSLopSV::DSLopSV(){
-	n = 0;
-	for(int i=0; i<MAX_LOPSV; i++) lopSV[i] = NULL;
-}
-
-DSLopSV::~DSLopSV(){
-	//for(int i=0; i<MAX_LOPSV; i++) delete lopSV[i] ;
-	cout<<"\nDelete ds lop sv";
-}
-
-void DSLopSV::setN(int n){
-	this->n = n;
-}
-
-int DSLopSV::getN(){
-	return this->n;
-}
-
-bool DSLopSV::isNull_LSV(){
-	return this->n == 0;
-}
-
-bool DSLopSV::isFull_LSV(){
-	return this->n == MAX_LOPSV;
-}
-
-int DSLopSV::them_LSV(string &maLopSV){
-	if(isFull_LSV()) return -1;
-	
-	int vt=0;
-	for(; vt<n ; vt++) {
-		if(lopSV[vt]->getMaLop() > maLopSV) break;
-		if(lopSV[vt]->getMaLop() == maLopSV ) return 2; // lop sv da ton tai
-	}
-	
-	LopSV *LSV = new LopSV;
-	LSV->setMaLop(maLopSV);
-	
-	for(int i=n; i>vt; i--)
-		lopSV[i] = lopSV[i-1];
-	
-	lopSV[vt] = LSV;
-	n++;
-	
-	//this->lopSV[this->n++] = LSV;
-	return 1;
-}
-
-int DSLopSV::tim_LSV(string maLop){
-	if(isNull_LSV()) return -1;
-	
-	for(int i=0; i<n; i++)
-		if(this->lopSV[i]->getMaLop() == maLop ) return i;
-	
-	return -1;
-}
-
-void DSLopSV::writeData_LSV(LopSV *LSV,ofstream &fileOut){
-	char temp = ',';
-	fileOut << LSV->getMaLop();
-	fileOut<<"\n";
-}
-
-
-
-LopSV *&DSLopSV::getLopSV_LSV(int viTri){
-		//if(isNull_LSV()) return NULL;
-		
-				return this->lopSV[viTri];	
-}

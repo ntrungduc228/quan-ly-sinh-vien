@@ -3,8 +3,6 @@
 //#include "Const.h"
 #include "Utilities.h"
 
-
-
 void resizeConsole(int width, int height)
 {
 	// CODE 1
@@ -634,39 +632,7 @@ void drawFrame(int left, int top, int right, int bottom, string title){
 	outtextxy((right+left)/2 - textwidth(title.c_str())/2, top+15, title.c_str());
 }
 
-const int nFunny = 10;
-int indexFun = 0;
-string funny[nFunny] = {
-						"O DAY CO TAM SU",
-						"Yeu em 3000 <3",
-						"Neu co bug, do la tinh nang moi",
-						"Fucking wow shit !!!",
-						"Thuong em",
-						"Tim em kho hon tim bug",
-						"Bug co la gi dau.Em moi la noi sau",
-						"Con tho la con bug",
-						"Biet nhung chua chac da thau",
-						"Hieu cung chua chac da sau"
-					};
 
-void lamVoVan(){
-	int y = (frameBottom-frameBorder)/2;
-	// LAM VO VAN
-	setbkcolor(cllightwhite);  setcolor(cllightwhite);
-	outtextxy(
-			(frameLeft + leftSideBar)/2 - textwidth(funny[indexFun].c_str())/2 , y+80,
-			string(textwidth(funny[indexFun].c_str())/7 ,' ').c_str()
-	);
-	
-	
-	indexFun = rand() % nFunny; // [0;nFunny)
-	setbkcolor(cllightgreen);	setcolor(clblack);
-		outtextxy(
-			(frameLeft + leftSideBar)/2 - textwidth(funny[indexFun].c_str())/2 , y+80,
-			funny[indexFun].c_str()
-	);
-	
-}
 
 void drawMainFrame(){
 	
@@ -699,10 +665,25 @@ void drawMainFrame(){
 	string title = "   MENU   ";
 	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , frameTop+15, title.c_str());
 	
-	title = "   HUONG DAN   ";
+	title = "   THONG TIN   ";
 	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , y+10, title.c_str());
 	
-	lamVoVan();
+	y+= 80;
+	// thong tin ve do an
+	string info = "Nguyen Trung Duc - N19DCCN040";
+	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	
+	y+=40;
+	info = "Nguyen Thanh Trung - N19DCCN216";
+	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	
+	y+=40;
+	info = "D19CQCCN03-N";
+	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	
+	y+=40;
+	info = "PTIT HCM";
+	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
 	
 }
 
@@ -745,13 +726,10 @@ void menuTitle(Button *button[], string MENU[], string MENU_ID[]){
 
 
 void decorMainScreen(){
-	setcolor(clred);
-	circle(845, 346, 300); setbkcolor(cllightwhite);
-	outtextxy(800, 250, "QUAN LY SINH DZIEN !!!");
 	
-	setbkcolor(cllightred); setcolor(cllightwhite);
-	//string author = "AUTHOR:   TRUNG DUC   -   THANH TRUNG   ";
-	outtextxy(600, 600, "AUTHOR:   NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
+	
+	//setbkcolor(cllightred); setcolor(cllightwhite);
+	//outtextxy(600, 600, "AUTHORS:   NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
 }
 
 void init_View(){

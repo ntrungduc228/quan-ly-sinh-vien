@@ -1,39 +1,24 @@
 #pragma once
 #include "Const.h"
 
-
 class SVDangKy{
 private:
 	string maSV;
 	float diem;
 public:
+	
 	SVDangKy();
 	
-	SVDangKy(string maSV){
-		this->maSV = maSV;
-		diem = 0;
-	}
+	SVDangKy(string maSV);
 	
-	string getMaSV(){
-		return this->maSV;
-	}
+	string getMaSV();
 	
-	float getDiem(){
-		return this->diem;
-	}
+	float getDiem();
 	
-	void setMaSV(string maSV){
-		this->maSV = maSV;
-	}
+	void setMaSV(string maSV);
 	
-	void setDiem(float diem){
-		this->diem = diem;
-	}
+	void setDiem(float diem);
 	
-	void xuat_DK(){
-		cout<<"\nMa sv: "<<maSV;
-		cout<<"\nDiem: "<<diem;
-	}
 };
 
 class NodeDK{
@@ -41,34 +26,139 @@ private:
 	SVDangKy data;
 	NodeDK *next;
 public:
+	
 	NodeDK();
-	NodeDK(SVDangKy data){
+	
+	NodeDK(SVDangKy data);
+	
+	void setData(SVDangKy data);
+	
+	void setNext_DK(NodeDK *DK);
+	
+	SVDangKy &getData_DK();
+	
+	NodeDK *&getNext_DK();
+	
+	NodeDK *getNode_DK();
+	
+	void writeData_DK(SVDangKy DK, int maLopTC, ofstream &fileOut);
+};
+
+class DSDK{
+private:
+	NodeDK *head;
+public:
+	
+	DSDK();
+	
+	void setHead_DSDK(NodeDK *head);
+	
+	NodeDK*& getHead_DSDK();
+	
+	void freeDS_SV(NodeDK *&pHead);
+	
+	NodeDK * timSV_DK(string maSV);
+	
+	void themDau_DK(NodeDK *DK);
+	
+	int timViTriThem_DK(NodeDK *DK);
+	
+	void them_DK(NodeDK *DK);
+	
+	bool checkSV_DK(string maSV);
+	
+	bool isNull_DK();
+	
+	int demSoLuongSV();
+	
+	int xoaSV_DK(string maSV);
+	
+	void thongKeDS_DK(DSSV &DSSVDK, DSLopSV DSLSV);
+	
+	float timDiem_DK(string maSV);
+	
+	void xuatDS1Trang_DK(NodeSV *&head, int batDau, int ketThuc, Table newTable);
+	
+	void locDS_DK(string content, DSSV dssv,  DSSV &dssvfilter, int &nFilter, int &tongSoTrang);
+	
+	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac, Button *menuButton[]);
+	
+	void xuatDS1Trang_Diem(NodeSV *&head, int batDau, int ketThuc, Table newTable);
+	
+	void xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac, Button *menuButton[]);
+	
+	void formNhapDiem(SVDangKy &sv, Action &thaoTac);
+	
+	void nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac);
+	
+	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]);
+	
+};
+
+/*
+** ================ SV dang ky ================
+*/
+
+SVDangKy::SVDangKy(){
+	maSV = "";
+	diem = 0;
+}
+
+SVDangKy::SVDangKy(string maSV){
+		this->maSV = maSV;
+		diem = 0;
+	}
+	
+string SVDangKy::getMaSV(){
+		return this->maSV;
+	}
+	
+float SVDangKy::getDiem(){
+		return this->diem;
+	}
+	
+void SVDangKy::setMaSV(string maSV){
+		this->maSV = maSV;
+	}
+	
+	
+void SVDangKy::setDiem(float diem){
+		this->diem = diem;
+	}
+
+/*
+** ================ Node SV dang ky ================
+*/
+
+NodeDK::NodeDK(){
+	next = NULL;
+}
+
+NodeDK::NodeDK(SVDangKy data){
 		this->data = data;
 		this->next = NULL;
 	}
-	~NodeDK();
-	
-	void setData(SVDangKy data){
+
+void NodeDK::setData(SVDangKy data){
 		this->data = data;
 	}
-	
-	void setNext_DK(NodeDK *DK){
+
+void NodeDK::setNext_DK(NodeDK *DK){
 		this->next = DK;
 	}
-	
-	SVDangKy &getData_DK(){
+SVDangKy & NodeDK::getData_DK(){
 		return this->data;
 	}
-	
-	NodeDK *&getNext_DK(){
+
+NodeDK *& NodeDK::getNext_DK(){
 		return this->next;
 	}
 	
-	NodeDK *getNode_DK(){
+NodeDK *NodeDK::getNode_DK(){
 		return this;
 	}
-	
-	void writeData_DK(SVDangKy DK, int maLopTC, ofstream &fileOut){
+
+void NodeDK::writeData_DK(SVDangKy DK, int maLopTC, ofstream &fileOut){
 		char temp = ',';
 		fileOut << maLopTC;
 		fileOut << temp;
@@ -77,20 +167,24 @@ public:
 		fileOut << DK.getDiem();
 		//fileOut <<"\n";
 	}
-	
-};
 
-class DSDK{
-private:
-	NodeDK *head;
-public:
-	DSDK();
-	~DSDK();
-	
-	void setHead_DSDK(NodeDK *head);
-	NodeDK*& getHead_DSDK();
-	
-	void freeDS_SV(NodeDK *&pHead){
+/*
+** ================ DS SV dang ky ================
+*/
+
+DSDK::DSDK(){
+	head = NULL;
+}
+
+void DSDK::setHead_DSDK(NodeDK *head){
+	this->head = head;
+}
+
+NodeDK*& DSDK::getHead_DSDK(){
+	return this->head;
+}
+
+void DSDK::freeDS_SV(NodeDK *&pHead){
 		
 		NodeDK* SV = NULL;
 		while (pHead != NULL)
@@ -100,8 +194,8 @@ public:
 			delete SV;
 		}
 	}
-	
-	NodeDK * timSV_DK(string maSV){
+
+NodeDK * DSDK::timSV_DK(string maSV){
 		if(head == NULL) return NULL;
 		NodeDK*p=head;
 		for(; p->getNext_DK() != NULL && p->getData_DK().getMaSV() != maSV ; p=p->getNext_DK());
@@ -110,25 +204,13 @@ public:
 		
 		return NULL;
 	}
-	
-	void xuatDS_DK(){
-		if(this->head == NULL) {
-			cout<<"\nDS rong";
-			return;
-		}
-		for(NodeDK *p = this->head; p != NULL ; p=(p->getNext_DK())){
-				cout<<"\n"<<p->getData_DK().getMaSV()<<" "<<p->getData_DK().getDiem();
 
-		}
-	}
-	
-	
-	void themDau_DK(NodeDK *DK){
+void DSDK::themDau_DK(NodeDK *DK){
 		DK->setNext_DK(this->head);
 		this->head = DK->getNode_DK();
 	}
-	
-	int timViTriThem_DK(NodeDK *DK){
+
+int DSDK::timViTriThem_DK(NodeDK *DK){
 		int viTri = 1;
 
 		NodeDK* p = this->head;
@@ -144,8 +226,8 @@ public:
 		//cout<<"\nVi tri them"<<viTri<<" "; system("pause");
 		return viTri;
 	}
-	
-	void them_DK(NodeDK *DK){
+
+void DSDK::them_DK(NodeDK *DK){
 		
 		int viTriThem = this->timViTriThem_DK(DK);
 	
@@ -163,8 +245,8 @@ public:
 		
 		//cout<<"\nthem thanh cong";
 	}
-	
-	bool checkSV_DK(string maSV){
+
+bool DSDK::checkSV_DK(string maSV){
 		
 		for(NodeDK *p = this->head; p != NULL; p=p->getNext_DK()){
 			if(p->getData_DK().getMaSV() == maSV) return true;
@@ -173,19 +255,19 @@ public:
 		
 		return false;
 	}
-	
-	bool isNull_DK(){
+
+bool DSDK::isNull_DK(){
 		return  this->head == NULL;
 	}
-	
-	int demSoLuongSV(){
+
+int DSDK::demSoLuongSV(){
 		int n = 0;
 		for(NodeDK *p = this->head; p != NULL ; n++,p=(p->getNext_DK()));
 		
 		return n;
 	}
-	
-	int xoaSV_DK(string maSV){
+
+int DSDK::xoaSV_DK(string maSV){
 	
 		if(this->head == NULL) return -1;
 		NodeDK *p,*q;
@@ -213,8 +295,8 @@ public:
 		
 		return -1;
 	}
-	
-	void thongKeDS_DK(DSSV &DSSVDK, DSLopSV DSLSV){
+
+void DSDK::thongKeDS_DK(DSSV &DSSVDK, DSLopSV DSLSV){
 		int n=0; int tmp=0; string tb = "MA SV KO  HOP LE, SE BI XOA !!!";
 		if(!isNull_DK()){ NodeDK *q=this->head;
 			for(NodeDK *p = this->head; p!=NULL; p=p->getNext_DK()){
@@ -242,16 +324,16 @@ public:
 		}
 		cout<<"\n so ld dk: "<<n<<" "<<tmp;
 	}
-	
-	float timDiem_DK(string maSV){
+
+float DSDK::timDiem_DK(string maSV){
 		for(NodeDK *k = this->head; k!=NULL; k=k->getNext_DK()){
 			if(k->getData_DK().getMaSV() == maSV)
 				return k->getData_DK().getDiem();
 		}
 		return -1;
 	}
-	
-	void xuatDS1Trang_DK(NodeSV *&head, int batDau, int ketThuc, Table newTable){
+
+void DSDK::xuatDS1Trang_DK(NodeSV *&head, int batDau, int ketThuc, Table newTable){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; // Xem can xuat bao nhieu dong
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG; // neu so du == 0 thi xuat ra MAX_DONG_1_TRANG dong
 		
@@ -419,8 +501,8 @@ public:
 			if(p!=NULL ) p = p->getNext_SV();
 		}
 	}
-	
-	void locDS_DK(string content, DSSV dssv,  DSSV &dssvfilter, int &nFilter, int &tongSoTrang){
+
+void DSDK::locDS_DK(string content, DSSV dssv,  DSSV &dssvfilter, int &nFilter, int &tongSoTrang){
 		dssvfilter.freeDS_SV(dssvfilter.getHead_DSSV());
 		dssvfilter.setHead_DSSV(NULL);
 		
@@ -449,8 +531,8 @@ public:
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
 		
 	}
-	
-	void xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac, Button *menuButton[]){
+
+void DSDK::xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac, Button *menuButton[]){
 		
 		DSSV DSSVDK; 
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -582,8 +664,8 @@ public:
 			return;
 		}
 	}
-	
-	void xuatDS1Trang_Diem(NodeSV *&head, int batDau, int ketThuc, Table newTable){
+
+void DSDK::xuatDS1Trang_Diem(NodeSV *&head, int batDau, int ketThuc, Table newTable){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; // Xem can xuat bao nhieu dong
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG; // neu so du == 0 thi xuat ra MAX_DONG_1_TRANG dong
 		
@@ -755,131 +837,8 @@ public:
 		}
 	}
 	
-	void xuatDSTheoTrang_Diem123(DSLopSV DSLSV, Action &thaoTac){
-		
-		DSSV DSSVDK; 
-		this->thongKeDS_DK(DSSVDK, DSLSV);
-		
-		DSSV DSSVDKFilter;
-		for(NodeSV *p = DSSVDK.getHead_DSSV(); p!=NULL; p=p->getNext_SV()){
-			NodeSV *sv = new NodeSV(p->getData_SV());
-			DSSVDKFilter.them_SV(sv);
-		}
-		
-		/*NodeSV *p = DSSVDK.getHead_DSSV();
-		NodeDK *k = this->head;
-		for( ;p!=NULL && k!=NULL; p=p->getNext_SV(), k=k->getNext_DK()){
-			cout<<"\n"<<p->getData_SV().getMaSV()<<" "<<k->getData_DK().getMaSV();
-		}*/
-		
-		if(!DSSVDK.isNULL_SV()){
-			int tongSoDong = this->demSoLuongSV();
-			int nFilter = tongSoDong;
-			
-			int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
-			
-			int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
-			int trangHienTai = 1;
-			
-			int batDau = 0;
-			int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
-			
-			Table newTable; newTable = table_Diem();
-			newTable.drawTable(MAX_DONG_1_TRANG);
-			
-			xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-			inTrang(trangHienTai, tongSoTrang);
-			
-			Input newInput("","Nhap ma sinh vien:" ,"", MAX_MASV, STUDENT_ID, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
-			newInput.draw();
-			
-			Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
-			btnPrev.draw();
-			
-			Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
-			btnNext.draw();
-			
-			// dau X tren cung goc phai
-			Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
-			btnBack.draw();
-			
-			Button btnSuaDiem("Sua diem","btnSuaDiem", tableLeft + 40, tableTop-60, (tableLeft + 40) + buttonWidth, tableTop-10 );
-			btnSuaDiem.draw();
-			
-			int x,y;
-			
-			while(true){
-				// Click event change page output
-				if (ismouseclick(WM_LBUTTONDOWN)){
-	            	getmouseclick(WM_LBUTTONDOWN, x, y);
-					
-					if(newInput.isClicked(x,y)){
-	            		newInput.requestFocus();
-	            		newInput.draw();
-					}
-					
-					if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
-            		
-	            		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
-	            		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-	            		ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
-	            		
-	            		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
-	            		
-	            		xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-						inTrang(trangHienTai, tongSoTrang);
-					}
-					
-					if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
-						
-						trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
-						batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
-						ketThuc = (nFilter > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : nFilter;
-						
-						ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
-						
-						xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-						inTrang(trangHienTai, tongSoTrang);
-					}else if(btnSuaDiem.isClicked(x,y)){
-						
-					}
-					
-				}
-				
-				// Filter
-				if(kbhit()){
-					char ch = getch();
-					newInput.appendText(ch);
-					newInput.draw();
-					(locDS_DK(newInput.getContent(), DSSVDK, DSSVDKFilter, nFilter, tongSoTrang)) ;
-					batDau = 0; trangHienTai = 1;
-					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-					cout<<"\nKet thucccccccccccccccccccc: "<<nFilter<<" "<<ketThuc;
-					
-					xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-					inTrang(trangHienTai, tongSoTrang);
-					
-					// nhap diem
-				}
-			}
-			
-			DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
-			DSSVDKFilter.freeDS_SV(DSSVDKFilter.getHead_DSSV());
-			newTable.freeTable();
-			
-		}else{
-			MessageBox(
-		        NULL,
-		        "HIEN KHONG CO LOP SINH VIEN NAO !!!",
-		        "THONG BAO",
-		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-    		);
-			return;
-		}
-		
-	}
-	
-	void xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac, Button *menuButton[]) {
+
+void DSDK::xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac, Button *menuButton[]) {
 
 		DSSV DSSVDK;
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -889,12 +848,6 @@ public:
 			NodeSV* sv = new NodeSV(p->getData_SV());
 			DSSVDKFilter.them_SV(sv);
 		}
-
-		/*NodeSV *p = DSSVDK.getHead_DSSV();
-		NodeDK *k = this->head;
-		for( ??!=NULL && k!=NULL; p=p->getNext_SV(), k=k->getNext_DK()){
-			cout<<"\n"<<p->getData_SV().getMaSV()<<" "<<k->getData_DK().getMaSV();
-		}*/
 
 		if (!DSSVDK.isNULL_SV()) {
 			int tongSoDong = this->demSoLuongSV();
@@ -1038,8 +991,8 @@ public:
 		}
 
 	}
-	
-	void formNhapDiem(SVDangKy &sv, Action &thaoTac){
+
+void DSDK::formNhapDiem(SVDangKy &sv, Action &thaoTac){
 		// Ve form
 		drawFrame(500, 150, 540 + 500, 200+300);
 		
@@ -1194,8 +1147,8 @@ public:
 		for(int i=0; i<nInput; i++) delete input[i];
 		clearRegion(500, 150, 550 + 500, 200+300);
 	}
-	
-	void nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
+
+void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 
 		DSSV DSSVDK;
 		this->thongKeDS_DK(DSSVDK, DSLSV);
@@ -1271,7 +1224,6 @@ public:
 			
 			int i = 0;
 			float diem;
-			cout << "\nINPUTDIEMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM\n";
 			for (NodeSV* p = DSSVDK.getHead_DSSV(); p != NULL && i < nInputDiem; p = p->getNext_SV(), i++) {
 				diem=timDiem_DK(p->getData_SV().getMaSV());
 				
@@ -1279,13 +1231,7 @@ public:
 				inputDiem[i]->setId(p->getData_SV().getMaSV());							
 			}
 
-			for(int i=0 ; i<nInputDiem;i++){
-				cout << inputDiem[i]->getContent() << "    " << inputDiem[i]->getId() << "\n";
-				cout <<	arrDiem[i].getDiem() << "      " << arrDiem[i].getMaSV() <<"\n";
-				cout << "\n==============================\n";
-			}
-			
-			
+		
 
 			for (int i = batDau; i < ketThuc; i++){
 				inputDiem[i]->draw();
@@ -1302,18 +1248,6 @@ public:
 				// Click event change page output
 				if (ismouseclick(WM_LBUTTONDOWN)) {
 					getmouseclick(WM_LBUTTONDOWN, x, y);
-
-//					if (newInput.isClicked(x, y)) {
-//						newInput.requestFocus();
-//						newInput.draw();
-//
-//						if (indexIsFocused != -1) {
-//
-//							inputDiem[indexIsFocused]->draw();
-//							indexIsFocused = -1;
-//						}				
-//					}
-
 		
 					for (int i = batDau; i < ketThuc; i++)
 					{
@@ -1589,23 +1523,6 @@ public:
 						continue;
 					}
 					
-//					//Filter
-//					char ch = getch();
-//					newInput.appendText(ch);
-//					newInput.draw();
-//					(locDS_DK(newInput.getContent(), DSSVDK, DSSVDKFilter, nFilter, tongSoTrang));
-//					batDau = 0; trangHienTai = 1;
-//					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-//					cout << "\nKet thucccccccccccccccccccc: " << nFilter << " " << ketThuc;
-//					
-//					xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-//					inTrang(trangHienTai, tongSoTrang);
-											
-//					for (int i = batDau; i < ketThuc; i++)
-//					{
-//						inputDiem[i]->draw();
-//					}
-
 				}
 			}
 			
@@ -1625,8 +1542,8 @@ public:
 			return;
 		}
 	}
-		
-	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]){
+
+void DSDK::chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]){
 		string strMaLopTC = convertIntToString(maLopTC);
 		string strKhoa = convertIntToString(khoa);
 		string strHK = convertIntToString(HK);
@@ -1635,7 +1552,7 @@ public:
 		string subTitle;
 		int soLuong;
 		string strSoLuong;
-		while(!isNull_DK() && indexMenu == -1){ lamVoVan();
+		while(!isNull_DK() && indexMenu == -1){ 
 			
 			
 			soLuong = this->demSoLuongSV();
@@ -1717,49 +1634,3 @@ public:
 			return;
 		}
 	}
-	
-};
-
-/*
-** ================ SV dang ky ================
-*/
-
-SVDangKy::SVDangKy(){
-	maSV = "";
-	diem = 0;
-}
-
-
-/*
-** ================ Node SV dang ky ================
-*/
-
-NodeDK::NodeDK(){
-	next = NULL;
-}
-
-NodeDK::~NodeDK(){
-	//delete next;
-	cout<<"\n delete next dk";
-}
-
-/*
-** ================ DS SV dang ky ================
-*/
-
-DSDK::DSDK(){
-	head = NULL;
-}
-
-DSDK::~DSDK(){
-	//delete head;
-	cout<<"\n delete head dk";
-}
-
-void DSDK::setHead_DSDK(NodeDK *head){
-	this->head = head;
-}
-
-NodeDK*& DSDK::getHead_DSDK(){
-	return this->head;
-}

@@ -11,66 +11,30 @@ private:
 	int STCTH;
 	bool daMoLop;
 public:
+	
 	MonHoc();
-	~MonHoc(){}
 	
-	void setTT(bool tt){
-		this->daMoLop = tt;
-	}
+	void setTT(bool tt);
 	
-	bool getTT(){
-		return this->daMoLop;
-	}
+	bool getTT();
 	
 	void setMaMH(string maMH);
+	
 	void setTenMH(string tenMH);
+	
 	void setSTCLT(int STCLT);
+	
 	void setSTCTH(int STCTH);
 	
 	string getMaMH();
+	
 	string getTenMH();
+	
 	int getSTCLT();
+	
 	int getSTCTH();
 	
-	void NhapThongTin(int chon, string str)
-	{
-		string temp;
-		// nhap moi
-		if(chon==0){
-			cin.ignore();
-			cout << "Nhap ma mon hoc: ";
-			getline(cin, temp);
-			this->maMH = temp;
-		 } // chinh sua
-		else if(chon==1){
-			this->maMH = str;
-		}
-	
-
-		cout << "Nhap ten mon hoc: ";
-		getline(cin, temp);
-		this->tenMH = temp;
-
-		int stclt;
-
-		cout << "Nhap so tin chi Ly Thuyet: ";
-		cin >> stclt;
-		this->STCLT = stclt;
-
-		int stcth;
-
-		cout << "Nhap so tin chi Thuc Hanh; ";
-		cin >> stcth;
-		this->STCTH = stcth;
-	}
-	
-	void setData(MonHoc data){
-		this->maMH = data.maMH;
-		this->tenMH = data.tenMH;
-		this->STCLT = data.STCLT;
-		this->STCTH = data.STCTH;
-	}
-	
+	void setData(MonHoc data);
 };
 
 class NodeMonHoc{
@@ -79,38 +43,22 @@ private:
 	NodeMonHoc *left;
 	NodeMonHoc *right;	
 public:
+	
 	NodeMonHoc();
-	~NodeMonHoc();
 	
-	NodeMonHoc(MonHoc MH){
-		this->data = MH;
-		left = NULL;
-		right = NULL;
-	}
+	NodeMonHoc(MonHoc MH);
 	
-	void setData(MonHoc data){
-		this->data = data;
-	}
+	void setData(MonHoc data);
 	
-	void setLeft(NodeMonHoc *left){
-		this->left = left;
-	}
+	void setLeft(NodeMonHoc *left);
 	
-	void setRight(NodeMonHoc *right){
-		this->right = right;
-	}
+	void setRight(NodeMonHoc *right);
 	
-	MonHoc &getData_MH(){
-		return this->data;
-	}
+	MonHoc &getData_MH();
 	
-	NodeMonHoc *& getLeft(){
-		return this->left;
-	}
+	NodeMonHoc *& getLeft();
 	
-	NodeMonHoc *& getRight(){
-		return this->right;
-	}
+	NodeMonHoc *& getRight();
 	
 };
 
@@ -118,28 +66,170 @@ class TREE{
 private:
 	NodeMonHoc *root;
 public:
-	TREE(){
+	
+	TREE();
+	
+	void freeDS_MH(NodeMonHoc *&root);
+	
+	NodeMonHoc *&getRoot();
+	
+	void setRoot(NodeMonHoc* root);
+	
+	void loadDataDS_MH();
+	
+	void writeData_MH(NodeMonHoc *root, ofstream &fileOut);
+	
+	void writeDataDS_MH();
+	
+	void them_MH(NodeMonHoc *&root, MonHoc &MH, int &checkTrung);
+	
+	NodeMonHoc* minValueNode(NodeMonHoc* root);
+	
+	NodeMonHoc* XoaTheoMaMonHoc(NodeMonHoc* &root, string key);
+	
+	void ChuyenCayVaoMang(MonHoc arr[], NodeMonHoc* root, int& n);
+	
+	int DemSoNodeTrongCay(NodeMonHoc *root);
+	
+	void Swap(MonHoc& a, MonHoc& b);
+	
+	void SapXepTheoTen(MonHoc arr[], int n);
+	
+	void xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac);		
+	
+	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter, MonHoc arrMH[], int n, int &tongSoTrang);
+	
+	void xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Action &thaoTac, Button *menuButton[] );
+	
+	void formNhap_MH(MonHoc &monHoc, Action &thaoTac);
+	
+	void chon_MH( Action &thaoTac, Button *menuButton[]);
+	
+	MonHoc chonMH_LTC(Action thaoTac, Button *menuButton[]);
+	
+};
+
+/*
+** ================ Mon hoc ================
+*/
+
+MonHoc::MonHoc(){
+	maMH = "";
+	tenMH = "";
+	STCLT = 0;
+	STCTH = 0;
+	daMoLop = false;
+}
+
+void MonHoc::setTT(bool tt){
+		this->daMoLop = tt;
+	}
+	
+bool MonHoc::getTT(){
+		return this->daMoLop;
+	}
+
+void MonHoc::setMaMH(string maMH){
+	this->maMH = maMH;
+}
+
+void MonHoc::setTenMH(string tenMH){
+	this->tenMH = tenMH;
+}
+
+void MonHoc::setSTCLT(int STCLT){
+	this->STCLT = STCLT;
+}
+
+void MonHoc::setSTCTH(int STCTH){
+	this->STCTH = STCTH;
+}
+
+string MonHoc::getMaMH(){
+	return this->maMH;
+}
+
+string MonHoc::getTenMH(){
+	return this->tenMH;
+}
+
+int MonHoc::getSTCLT(){
+	return this->STCLT;
+}
+
+int MonHoc::getSTCTH(){
+	return this->STCTH;
+}
+
+void MonHoc::setData(MonHoc data){
+		this->maMH = data.maMH;
+		this->tenMH = data.tenMH;
+		this->STCLT = data.STCLT;
+		this->STCTH = data.STCTH;
+	}
+	
+
+/*
+** ================ Danh sach mon hoc ================
+*/
+
+NodeMonHoc::NodeMonHoc(){
+	left = NULL;
+	right = NULL;
+}
+
+NodeMonHoc::NodeMonHoc(MonHoc MH){
+		this->data = MH;
+		left = NULL;
+		right = NULL;
+	}
+	
+void NodeMonHoc::setData(MonHoc data){
+		this->data = data;
+	}
+	
+void NodeMonHoc::setLeft(NodeMonHoc *left){
+		this->left = left;
+	}
+	
+void NodeMonHoc::setRight(NodeMonHoc *right){
+		this->right = right;
+	}
+	
+MonHoc &NodeMonHoc::getData_MH(){
+		return this->data;
+	}
+	
+NodeMonHoc *& NodeMonHoc::getLeft(){
+		return this->left;
+	}
+	
+NodeMonHoc *& NodeMonHoc::getRight(){
+		return this->right;
+	}
+
+/*
+** ================ TREE ================
+*/
+
+TREE::TREE(){
 		root = NULL;
 	}
-	~TREE(){
-		//delete root; 
-		cout<<"\nXoa root cmnr";
-	}
 	
-	void freeDS_MH(NodeMonHoc *&root){
+void TREE::freeDS_MH(NodeMonHoc *&root){
 		delete root;
 	}
-	
-	NodeMonHoc *&getRoot(){
+
+NodeMonHoc *& TREE::getRoot(){
 		return this->root;
 	}
-	
-	void setRoot(NodeMonHoc* root)
+
+void TREE::setRoot(NodeMonHoc* root)
 	{
 		this->root = root;
 	}
-	
-	void loadDataDS_MH(){ if(!loadFileIsSuccess) return;
+
+void TREE::loadDataDS_MH(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp; string tempStr; int tempInt;
 		fileIn.open(PATH_MH.c_str(), ios::in);
 		if (fileIn.is_open())	{
@@ -176,38 +266,36 @@ public:
 		
 		fileIn.close();
 	}
-	
-	void writeData_MH(NodeMonHoc *root, ofstream &fileOut){
-		char temp = ',';
-		if (root != NULL)	{
-			writeData_MH(root->getLeft(), fileOut);
-			fileOut << root->getData_MH().getMaMH();
-			fileOut << temp;
-			fileOut << root->getData_MH().getTenMH();
-			fileOut << temp;
-			fileOut << root->getData_MH().getSTCLT();
-			fileOut << temp;
-			fileOut << root->getData_MH().getSTCTH();
-			fileOut << temp;
-			fileOut << root->getData_MH().getTT();
-			fileOut << '\n';
-			writeData_MH(root->getRight(), fileOut);
-		}
+
+void TREE::writeData_MH(NodeMonHoc *root, ofstream &fileOut){
+	char temp = ',';
+	if (root != NULL)	{
+		writeData_MH(root->getLeft(), fileOut);
+		fileOut << root->getData_MH().getMaMH();
+		fileOut << temp;
+		fileOut << root->getData_MH().getTenMH();
+		fileOut << temp;
+		fileOut << root->getData_MH().getSTCLT();
+		fileOut << temp;
+		fileOut << root->getData_MH().getSTCTH();
+		fileOut << temp;
+		fileOut << root->getData_MH().getTT();
+		fileOut << '\n';
+		writeData_MH(root->getRight(), fileOut);
 	}
+}
 	
-	void writeDataDS_MH(const char *PATH_SAVE = PATH_SAVE_MH){
-		ofstream fileOut;
-		fileOut.open(PATH_SAVE, ios::out);
-		if (fileOut.is_open())	{
-			if(this->root!=NULL)
-			writeData_MH(root, fileOut);
-		}
-		fileOut.close();
+void TREE::writeDataDS_MH(){
+	ofstream fileOut;
+	fileOut.open(PATH_MH.c_str(), ios::out);
+	if (fileOut.is_open())	{
+		if(this->root!=NULL)
+		writeData_MH(root, fileOut);
 	}
-	
-	
-	
-	void them_MH(NodeMonHoc *&root, MonHoc &MH, int &checkTrung){
+	fileOut.close();
+}
+
+void TREE::them_MH(NodeMonHoc *&root, MonHoc &MH, int &checkTrung){
 		if(root == NULL){
 			
 			if(checkTrung == 0) { checkTrung = -1; return; // khong ton tai mon hoc ( tao ltc moi )
@@ -245,21 +333,8 @@ public:
 	
 		}
 	}
-	
-	/*	void XuatDanhSachMonHoc(NodeMonHoc* root)
-		{
-			if(root!=NULL)
-			{
-			 	XuatDanhSachMonHoc(root->getLeft());
-				cout << "Ma mon hoc: " << root->getData_MH().getMaMH() << endl;
-				cout << "Ten mon hoc: " << root->getData_MH().getTenMH() << endl;
-				cout << "So luong tin chi ly thuyet: " << root->getData_MH().getSTCLT() << endl;
-				cout << "So luong tin chi thuc hanh: " << root->getData_MH().getSTCTH() << endl;
-				XuatDanhSachMonHoc(root->getRight());
-			}
-		}*/
-	
-	NodeMonHoc* minValueNode(NodeMonHoc* root)
+
+NodeMonHoc* TREE::minValueNode(NodeMonHoc* root)
 	{
 		NodeMonHoc* current = root;
 
@@ -269,7 +344,7 @@ public:
 		return current;
 	}
 
-	NodeMonHoc* XoaTheoMaMonHoc(NodeMonHoc* &root, string key)
+NodeMonHoc* TREE::XoaTheoMaMonHoc(NodeMonHoc* &root, string key)
 	{
 		if (root == NULL)
 			return root;
@@ -329,25 +404,8 @@ public:
 		
 		return root;
 	}
-	
-	void XuatDanhSachMonHoc(MonHoc arr[], int n)
-	{
-		if(n==0)
-		{
-			cout << "\nDanh sach rong";
-		}
-		
-		SapXepTheoTen(arr, n);
-		for (int i = 0; i < n; i++)
-		{
-			cout << "Ma mon hoc: " << arr[i].getMaMH() << endl;
-			cout << "Ten mon hoc: " << arr[i].getTenMH() << endl;
-			cout << "So luong tin chi ly thuyet: " << arr[i].getSTCLT() << endl;
-			cout << "So luong tin chi thuc hanh: " << arr[i].getSTCTH() << endl;
-		}
-	}
-	
-	void ChuyenCayVaoMang(MonHoc arr[], NodeMonHoc* root, int& n)
+
+void TREE::ChuyenCayVaoMang(MonHoc arr[], NodeMonHoc* root, int& n)
 	{
 		if (root != NULL)
 		{
@@ -359,8 +417,8 @@ public:
 			ChuyenCayVaoMang(arr, root->getRight(), n);
 		}
 	}
-	
-	int DemSoNodeTrongCay(NodeMonHoc *root)
+
+int TREE::DemSoNodeTrongCay(NodeMonHoc *root)
 	{
 		if (root == NULL) {
 			return 0;
@@ -370,8 +428,8 @@ public:
 	
 	
 	}
-	
-	void Swap(MonHoc& a, MonHoc& b)
+
+void TREE::Swap(MonHoc& a, MonHoc& b)
 	{
 		MonHoc temp = a;
 
@@ -379,7 +437,7 @@ public:
 		b = temp;
 	}
 
-	void SapXepTheoTen(MonHoc arr[], int n)
+void TREE::SapXepTheoTen(MonHoc arr[], int n)
 	{
 
 		for (int i = 0; i < n - 1; i++)
@@ -393,15 +451,9 @@ public:
 			}
 		}
 	}
+
 	
-	void xoaTrongMang_MH(MonHoc arr[], int &n, int vt){
-		for(int i=vt+1; i<n; i++)
-			arr[i-1] = arr[i];
-		
-		n--;	
-	}
-	
-	void xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac){
+void TREE::xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, Button *editButton[], Button *deleteButton[], Table newTable, Action thaoTac){
 		
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
@@ -619,7 +671,8 @@ public:
 	
 	}
 	
-	void locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter, MonHoc arrMH[], int n, int &tongSoTrang){
+	
+void TREE::locDS_MH(string content, MonHoc arrMHFilter[], int &nFilter, MonHoc arrMH[], int n, int &tongSoTrang){
 		// reset so mon hoc loc ra duoc
 		nFilter = 0;
 		if(!content.empty()){
@@ -637,9 +690,8 @@ public:
 		int soDu = (nFilter % MAX_DONG_1_TRANG > 0) ? 1 : 0;
 		tongSoTrang = nFilter / MAX_DONG_1_TRANG + soDu;
 	}
-	
-	
-	void xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Action &thaoTac, Button *menuButton[] ){
+
+void TREE::xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Action &thaoTac, Button *menuButton[] ){
 		
 		MonHoc *arrMHFilter = new MonHoc [tongSoDong];
 		for(int i=0; i<tongSoDong; i++) arrMHFilter[i] = arrMH[i];
@@ -719,7 +771,6 @@ public:
             		if(thaoTac != CHON){
 	            		if(editButton[i] != NULL && deleteButton[i] != NULL){
 	            			if(editButton[i]->isClicked(x,y)){
-								cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
 								string tempMaMH = arrMHFilter[i].getMaMH();
 								// tim vi tri thuc(real) cua mon hoc can sua khi sau da filter trong mang ArrMH
 								int vt=0;
@@ -727,22 +778,13 @@ public:
 									if(arrMH[vt].getMaMH() == tempMaMH)	break;  
 								}
 								viTriChon = vt;
-								cout<<"\nvi tri thuc "<<arrMH[viTriChon].getTenMH();
-								/*MessageBox(
-							        NULL,
-							        "Ban muon sua mon hoc",
-							        "THONG BAO",
-							        MB_ICONWARNING | MB_OK
-					    		);*/
-					    		
-					    		
+							
 					    		
 					    		thaoTac=SUA;
 					    		exitLoop = true; continue;
 					    		
 					    		
 							}else if(deleteButton[i]->isClicked(x,y)){
-								cout<<"\n"<<i<<" is clicked "<<deleteButton[i]->getText();
 								// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
 										string tempMaMH = arrMHFilter[i].getMaMH();
 										for(int vt=0; vt<tongSoDong; vt++){
@@ -827,35 +869,8 @@ public:
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
-																									
-					
 					thaoTac = THEM;
-					
-					/*MonHoc monHoc;	
-					formNhap_MH(monHoc, thaoTac);
-					
-					if(thaoTac!=HUY)
-					{
-						
-						delete[] arrMH;
-						arrMH = new MonHoc;
-						if(arrMH == NULL ) cout<<"\nNULL";
-						else cout<<"\n not null";
-						arrMH->setData(monHoc);
-						cout << "\nTHAO TAC TRA VE: " << thaoTac << endl;
-										
-						cout<<"\n"<<arrMH->getMaMH()<<" "<<arrMH->getTenMH()<<" "<< arrMH->getSTCLT();
-						
-						delete [] arrMHFilter;			
-						freeArrButton(editButton, nFilter);
-						freeArrButton(deleteButton, nFilter);
-						newTable.freeTable();
-						cout<<"\n=====================================";
-						return;
-					}
-																																																																																
-					newTable.drawTable(MAX_DONG_1_TRANG);
-					xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);*/
+				
 					
 					freeArrButton(editButton, nFilter);
 					freeArrButton(deleteButton, nFilter);
@@ -881,10 +896,6 @@ public:
 				newInput.requestFocus();
 				newInput.draw();
 				locDS_MH(newInput.getContent(), arrMHFilter, nFilter, arrMH, tongSoDong, tongSoTrang);
-				/*cout<<"\n=================\n";
-				for(int i=0; i<nFilter; i++){
-					cout<<"\n"<<arrMHFilter[i].getMaMH()<<" "<<arrMHFilter[i].getTenMH()<<" "<<arrMHFilter[i].getSTCLT()<<" "<<arrMHFilter[i].getSTCTH();
-				}*/
 				
 				batDau = 0; trangHienTai = 1;
 				ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
@@ -901,9 +912,9 @@ public:
 		freeArrButton(editButton, nFilter);
 		freeArrButton(deleteButton, nFilter);
 	}
-	
-	void formNhap_MH(MonHoc &monHoc, Action &thaoTac)
-	{
+
+
+void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 		string title = thaoTac == THEM ? "Them mon hoc" : "Sua mon hoc";
 		drawFrame(500, 150, 500 + 600, 200+400, title);
 					Input *input[4];
@@ -921,8 +932,7 @@ public:
 					Button *btn[2];
 					int nButton = 2 ;
 					
-					if(thaoTac==THEM)
-					{
+					if(thaoTac==THEM)	{
 						btn[0]= new Button("THEM","T", 650, (200 + INPUT_HEIGHT * 5) + (20 * 5), 650 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), claqua, cllightblue, clblack);	
 					}else if(thaoTac==SUA)
 					{
@@ -933,10 +943,9 @@ public:
 					
 						input[1]->setContent(monHoc.getTenMH());				
 						input[2]->setContent(convertIntToString(monHoc.getSTCLT()));
-						cout << "\nDay neeeee1111111";
+						
 						input[3]->setContent(convertIntToString(monHoc.getSTCTH()));
 										
-						cout << "\nDay neeeee22222";
 										// draw input
 						for(int i = 0; i < nInput; i++)
 						{
@@ -980,9 +989,7 @@ public:
 							// Kiem tra click EditText
 							for(int i = 0; i < nInput; i++)
 							{
-								if(input[i]->isClicked(x,y) && input[i]->getEnable())
-								{
-									cout << "Clck ne";
+								if(input[i]->isClicked(x,y) && input[i]->getEnable()){
 									input[i]->requestFocus();																		
 									input[i]->draw();
 									
@@ -1005,13 +1012,11 @@ public:
 							
 								if(btn[i]->isClicked(x,y))
 								{
-									cout<<"\n"<<i;
 									idButton = btn[i]->getId();
 									//	cout << "\n222222222222222222=========== "<<idButton;
 										cout <<btn[i]->getId();
 									if(idButton == "T" && duyetInputs(input, nInput))
 									{
-										cout << "THEMMMMMMMM NEEEEEEEEEEe\n";
 										
 										//clearRegion(500, 150, 500 + 600, 200+400);
 																																			
@@ -1033,7 +1038,6 @@ public:
 											delete btn[i];
 										}
 										
-										cout << "\nTTTTTTTTTTTTTTTTTTtt";
 										
 										return;
 		
@@ -1062,7 +1066,6 @@ public:
 										return;
 									}else  if(idButton == "H")
 									{
-										cout << "HUYYYYYYYYY NEEEEEEE\n";
 										
 										// Khoi tao lai foucedId cua Ipnut cuoi cung duoc click
 										input[indexInput]->initFocusedId();	
@@ -1139,18 +1142,16 @@ public:
 														
 							}														
 						}
-					}					
-						
-					
-
+					}
 	}
 	
-	void chon_MH( Action &thaoTac, Button *menuButton[]){
+
+void TREE::chon_MH( Action &thaoTac, Button *menuButton[]){
 		MonHoc monhoc;
 		
 		int viTriChon = 0;
 		
-		while(this->root != NULL && indexMenu == -1){ lamVoVan();
+		while(this->root != NULL && indexMenu == -1){ 
 			int soLuong = DemSoNodeTrongCay(this->root);
 			MonHoc *arrMH = new MonHoc[soLuong];
 			soLuong = 0;
@@ -1183,7 +1184,6 @@ public:
 				}
 				case XOA:{
 					if(viTriChon < soLuong){
-						cout<<"\nvi tri :"<<viTriChon; 
 						if(!arrMH[viTriChon].getTT()) {
 							this->XoaTheoMaMonHoc(this->getRoot(), arrMH[viTriChon].getMaMH());
 							delete [] arrMH;
@@ -1200,7 +1200,7 @@ public:
 						}
 						
 						thaoTac = XUAT;
-						this->writeDataDS_MH(PATH_MH.c_str());
+						this->writeDataDS_MH();
 					}
 					break;
 				}
@@ -1212,8 +1212,6 @@ public:
 						thaoTac = XUAT;	
 					}else {
 						
-						cout<<"\nThem mon hoc"<<monhoc.getMaMH()<<" "<<monhoc.getTenMH();
-						 
 						int checkTrung = 0;
 						them_MH(this->root, monhoc, checkTrung );
 							
@@ -1236,7 +1234,7 @@ public:
 				    		clearRegion(500, 150, 500 + 600, 200+400);
 							thaoTac = XUAT;
 							monhoc.setMaMH(""); monhoc.setTenMH(""); monhoc.setSTCLT(0); monhoc.setSTCTH(0);
-							this->writeDataDS_MH(PATH_MH.c_str());
+							this->writeDataDS_MH();
 						}
 							
 				    		
@@ -1273,7 +1271,7 @@ public:
 						
 							clearRegion(500, 150, 500 + 600, 200+400);
 							thaoTac = XUAT;
-							this->writeDataDS_MH(PATH_MH.c_str());
+							this->writeDataDS_MH();
 					
 					break;
 				}
@@ -1302,8 +1300,9 @@ public:
 			return;
 		}
 	}
-	
-	MonHoc chonMH_LTC(Action thaoTac, Button *menuButton[]){
+
+
+MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 			MonHoc MH;
 			int soLuong = DemSoNodeTrongCay(this->root);
 			MonHoc *arrMH = new MonHoc[soLuong];
@@ -1314,7 +1313,7 @@ public:
 					
 			int viTriChon = 0;
 			
-			if(this->root != NULL){ lamVoVan();
+			if(this->root != NULL){ 
 				soLuong = DemSoNodeTrongCay(this->root);
 				arrMH = new MonHoc[soLuong];
 				soLuong = 0;
@@ -1376,73 +1375,4 @@ public:
 	    		);
 		}
 		return MH;
-	}
-	
-};
-
-/*
-** ================ Mon hoc ================
-*/
-
-MonHoc::MonHoc(){
-	maMH = "";
-	tenMH = "";
-	STCLT = 0;
-	STCTH = 0;
-	daMoLop = false;
 }
-
-
-
-void MonHoc::setMaMH(string maMH){
-	this->maMH = maMH;
-}
-
-void MonHoc::setTenMH(string tenMH){
-	this->tenMH = tenMH;
-}
-
-void MonHoc::setSTCLT(int STCLT){
-	this->STCLT = STCLT;
-}
-
-void MonHoc::setSTCTH(int STCTH){
-	this->STCTH = STCTH;
-}
-
-string MonHoc::getMaMH(){
-	return this->maMH;
-}
-
-string MonHoc::getTenMH(){
-	return this->tenMH;
-}
-
-int MonHoc::getSTCLT(){
-	return this->STCLT;
-}
-
-int MonHoc::getSTCTH(){
-	return this->STCTH;
-}
-
-/*
-** ================ Danh sach mon hoc ================
-*/
-
-NodeMonHoc::NodeMonHoc(){
-	left = NULL;
-	right = NULL;
-}
-
-NodeMonHoc::~NodeMonHoc(){
-	//delete left;
-	//delete right;
-	
-	cout<<"\nXoa left va right";
-}
-
-/*
-** ================ TREE ================
-*/
-
