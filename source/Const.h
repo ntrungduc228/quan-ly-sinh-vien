@@ -180,7 +180,7 @@ const int MAX_TENMH = 50;
 */
 
 const int MAX_MASV = 15;
-const int MAX_SDT = 11;
+const int MAX_SDT = 10;
 const int MAX_MALOPSV = 15;
 const int MAX_HOSV = 21;
 const int MAX_TENSV = 12;

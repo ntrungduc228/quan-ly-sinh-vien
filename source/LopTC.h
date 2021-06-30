@@ -2225,7 +2225,9 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 														menuButton
 													);
 						if(thaoTac == THOAT) thaoTac = DIEM;
-						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);								
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						lopTC[viTriChon]->setSoSVDK(lopTC[viTriChon]->getDSDK().demSoLuongSV());
+						this->writeDataDS_DK();							
 					}
 					break;
 				}
@@ -2269,6 +2271,7 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 							
 							clearRegion(tableLeft, frameTop+12, frameRight - 12, frameBottom - 12);
 							thaoTac = XUAT;
+							lopTC[viTriChon]->setSoSVDK(lopTC[viTriChon]->getDSDK().demSoLuongSV());
 							this->writeDataDS_DK();
 						}
 					}

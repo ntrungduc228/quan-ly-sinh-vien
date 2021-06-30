@@ -726,7 +726,23 @@ void menuTitle(Button *button[], string MENU[], string MENU_ID[]){
 
 
 void decorMainScreen(){
-	
+	ifstream fileIn("data\\Logo.txt", ios::in); string str;
+	if(fileIn.is_open()){
+		int y = 50; 
+		setcolor(clblack); setbkcolor(cllightwhite);
+		while (!fileIn.eof()){
+			getline(fileIn, str);
+			if(!str.empty()){
+				for(int i=0; i<str.length(); i++){
+					if(str[i] == '@') str[i] = ' ';
+				}
+				outtextxy(400, y, str.c_str());
+			}
+			y+= textheight(str.c_str());
+		}
+		
+	}
+	fileIn.close();
 	
 	//setbkcolor(cllightred); setcolor(cllightwhite);
 	//outtextxy(600, 600, "AUTHORS:   NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
