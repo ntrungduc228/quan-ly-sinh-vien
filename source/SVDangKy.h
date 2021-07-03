@@ -91,7 +91,7 @@ public:
 	
 	void nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac);
 	
-	void chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]);
+	void menu_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]);
 	
 };
 
@@ -1543,7 +1543,7 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 		}
 	}
 
-void DSDK::chon_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]){
+void DSDK::menu_DK(DSLopSV DSLSV, int maLopTC, int khoa, int HK, int nhom, bool trangThai, string tenMH, Action thaoTac, Button *menuButton[]){
 		string strMaLopTC = convertIntToString(maLopTC);
 		string strKhoa = convertIntToString(khoa);
 		string strHK = convertIntToString(HK);

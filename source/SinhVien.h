@@ -110,7 +110,7 @@ public:
 	
 	void formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac);
 	
-	void chon_SV(string maLop, Action thaoTac, Button *menuButton[]);
+	void menu_SV(string maLop, Action thaoTac, Button *menuButton[]);
 	
 };
 
@@ -1573,7 +1573,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 		
 	}
 
-void DSSV::chon_SV(string maLop, Action thaoTac, Button *menuButton[]){
+void DSSV::menu_SV(string maLop, Action thaoTac, Button *menuButton[]){
 		int viTriChon = 1;
 		int soLuongSV = this->demSoLuongSV();
 			char *intStr;  itoa(soLuongSV,intStr, 10);
@@ -1684,7 +1684,7 @@ void DSSV::chon_SV(string maLop, Action thaoTac, Button *menuButton[]){
 						}
 						thaoTac = XUAT;
 						if(isNULL_SV())	clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-						//this->chon_SV(thaoTac);
+						//this->menu_SV(thaoTac);
 					}
 					break;
 				}

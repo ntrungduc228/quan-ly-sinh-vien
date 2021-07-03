@@ -69,7 +69,7 @@ public:
 	
 	void formThem_LSV(string &maLopSV, Action &thaoTac);
 
-	void chon_LSV(Action &thaoTac, Button *menuButton[]);
+	void menu_LSV(Action &thaoTac, Button *menuButton[]);
 	
 };
 
@@ -668,7 +668,7 @@ void DSLopSV::formThem_LSV(string &maLopSV, Action &thaoTac){
 		}
 	}
 
-void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
+void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 		int viTriChon = 0; 
 		string maLopSV = "";
 		
@@ -729,7 +729,7 @@ void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 					if(viTriChon < n){
 						thaoTac = XUAT;
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
+						this->lopSV[viTriChon]->getDS_SV().menu_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						
 						this->writeDataDS_SV();
 					}
@@ -751,7 +751,7 @@ void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 					if(thaoTac == HUY){
 						thaoTac = XUAT;
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-						//chon_LSV(thaoTac);
+						//menu_LSV(thaoTac);
 					}else if(thaoTac == THEM){						
 						cout<<"\nma lop can them: "<<maLopSV;
 						int kq = them_LSV(maLopSV);
@@ -798,7 +798,7 @@ void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 					if(viTriChon < n){
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 						thaoTac = THEM;
-						this->lopSV[viTriChon]->getDS_SV().chon_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
+						this->lopSV[viTriChon]->getDS_SV().menu_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						thaoTac = XUAT_DS;
 						this->writeDataDS_SV();
 					}

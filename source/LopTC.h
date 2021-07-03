@@ -136,7 +136,7 @@ public:
 	
 	void formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]);
 	
-	void chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]);
+	void menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]);
 	
 };
 
@@ -2013,7 +2013,7 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 		
 	}
 
-void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
+void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
 		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
 		int viTriChon = 0;
 		int khoa = 0, HK = 0;
@@ -2225,7 +2225,7 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 						MonHoc MH; int temp = 0;
 						MH.setMaMH(lopTC[viTriChon]->getMaMH());
 						DSMH.them_MH(DSMH.getRoot(), MH, temp );
-						lopTC[viTriChon]->getDSDK().chon_DK(
+						lopTC[viTriChon]->getDSDK().menu_DK(
 														DSLSV,
 														lopTC[viTriChon]->getMaLopTC(),
 														lopTC[viTriChon]->getNienKhoa(),
@@ -2248,7 +2248,7 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					formXuatDS_DK(viTriChon, thaoTac);
 					if(thaoTac == HUY){
 						thaoTac = XUAT;
-							//chon_LTC(DSMH, DSLSV, thaoTac);
+							//menu_LTC(DSMH, DSLSV, thaoTac);
 					}else {
 						
 						viTriChon = this->tim_LTC(viTriChon);
@@ -2269,7 +2269,7 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 							if(!lopTC[viTriChon]->getDSDK().isNull_DK()) 
 								clearRegion(tableLeft, frameTop+12, frameRight - 12, frameBottom - 12);
 								
-							lopTC[viTriChon]->getDSDK().chon_DK(
+							lopTC[viTriChon]->getDSDK().menu_DK(
 															DSLSV,
 															lopTC[viTriChon]->getMaLopTC(),
 															lopTC[viTriChon]->getNienKhoa(),

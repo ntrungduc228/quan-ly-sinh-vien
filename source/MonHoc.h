@@ -103,7 +103,7 @@ public:
 	
 	void formNhap_MH(MonHoc &monHoc, Action &thaoTac);
 	
-	void chon_MH( Action &thaoTac, Button *menuButton[]);
+	void menu_MH( Action &thaoTac, Button *menuButton[]);
 	
 	MonHoc chonMH_LTC(Action thaoTac, Button *menuButton[]);
 	
@@ -1150,7 +1150,7 @@ void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 	}
 	
 
-void TREE::chon_MH( Action &thaoTac, Button *menuButton[]){
+void TREE::menu_MH( Action &thaoTac, Button *menuButton[]){
 		MonHoc monhoc;
 		
 		int viTriChon = 0;

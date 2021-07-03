@@ -48,25 +48,25 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLTC.chon_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt ltc "<<indexMenu;
+				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt ltc "<<indexMenu;
 				
 			}else if(menuButton[indexMenu]->getId() == "SV"){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLSV.chon_LSV(thaoTac, menuButton); //cout<<"\ntt lsv "<<indexMenu;
+				DSLSV.menu_LSV(thaoTac, menuButton); //cout<<"\ntt lsv "<<indexMenu;
 				
 			}else if(menuButton[indexMenu]->getId() == "MH"){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSMH.chon_MH(thaoTac, menuButton); //cout<<"\ntt mh "<<indexMenu;
+				DSMH.menu_MH(thaoTac, menuButton); //cout<<"\ntt mh "<<indexMenu;
 				
 			}else if(menuButton[indexMenu]->getId() == "DIEM"){
 				
 				thaoTac = DIEM; oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLTC.chon_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt dk "<<indexMenu;
+				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt dk "<<indexMenu;
 			}else if(indexMenu == nMenuButton -1 ){
 				exitProgram = isExit();
 				if(!exitProgram){
