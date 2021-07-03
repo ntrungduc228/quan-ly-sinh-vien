@@ -1874,6 +1874,7 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 		
 		
 		input[indexInput]->draw();
+		string tempMaMHCu;
 		
 		while(true){
 			delay(0.000);
@@ -1881,12 +1882,13 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 				getmouseclick(WM_LBUTTONDOWN, x, y);
 				
 				if(btnChonMH.isClicked(x,y) && initPos == 1){
-					thaoTac = CHON;
+					thaoTac = CHON; tempMaMHCu = input[1]->getContent();
 					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					MH = DSMH.chonMH_LTC(thaoTac, menuButton);
 					
 					if(!MH.getMaMH().empty())
 						loptc->setMaMH(MH.getMaMH());
+					else loptc->setMaMH(tempMaMHCu);
 					loptc->setNienKhoa(atoi(input[2]->getContent().c_str()));
 					loptc->setHocKy(atoi(input[3]->getContent().c_str()));
 					loptc->setNhom(atoi(input[4]->getContent().c_str()));
@@ -2049,9 +2051,19 @@ void DSLopTC::chon_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 			}		
 			
 			
-			cout<<"\ncheck thao tac ltc";
+			//cout<<"\ncheck thao tac ltc";
 			switch(thaoTac){
 				case THEM:{
+					
+					if(n == MAX_LOPTC) {
+						MessageBox(
+						        NULL,
+						        "DS LOP TC DA TOI DA, KHONG THE THEM !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		); thaoTac = XUAT; continue;
+					}
+					
 					if(loptc == NULL || daThem){
 						loptc = new LopTC;
 						daThem = false;

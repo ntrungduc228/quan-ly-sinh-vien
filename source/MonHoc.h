@@ -411,9 +411,9 @@ void TREE::ChuyenCayVaoMang(MonHoc arr[], NodeMonHoc* root, int& n)
 		{
 			ChuyenCayVaoMang(arr, root->getLeft(), n); 
 			if(root != NULL)
-				arr[n] = root->getData_MH();  
+				arr[n++] = root->getData_MH();  
 			else cout<<"\nroot null";
-			n++;
+			
 			ChuyenCayVaoMang(arr, root->getRight(), n);
 		}
 	}
@@ -711,12 +711,15 @@ void TREE::xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Ac
 		Table newTable = table_MH();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
+		Input newInput("","Nhap ten mon hoc:" ,"N", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
+		
+		//newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
+		newInput.requestFocus();
+		
 		xuatDS1Trang_MH(arrMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
 		inTrang(trangHienTai, tongSoTrang);
 		
-		Input newInput("","Nhap ten mon hoc:" ,"N", MAX_TENMH, TEXT, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
 		newInput.draw();
-		newInput.setBorderColor(INPUT_BORDER_VALIDATION); // cllightgreen;
 	
 		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
 		btnPrev.draw();
@@ -1082,7 +1085,7 @@ void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 											
 						if(kbhit())
 						{
-							char character = getch();
+							char character = getch();// cout<<"\n"<<character;
 							if(character == TAB){
 								oldIndexInput = indexInput;
 								indexInput++;
@@ -1133,9 +1136,10 @@ void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 						    		continue;
 								}
 								
-							}
-							if(indexInput != -1)
-							{
+							}else if(indexInput != -1)
+							{ 
+								//if(character == -32 || character == 0 ) { character = getch(); continue;}
+								
 								input[indexInput]->appendText(character);
 								input[indexInput]->draw();	
 								
@@ -1311,7 +1315,7 @@ MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 			SapXepTheoTen(arrMH, soLuong);
 			string strSoLuong = convertIntToString(soLuong);
 					
-			int viTriChon = 0;
+			int viTriChon = -1;
 			
 			if(this->root != NULL){ 
 				soLuong = DemSoNodeTrongCay(this->root);
@@ -1320,8 +1324,6 @@ MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 				ChuyenCayVaoMang(arrMH, this->root, soLuong);
 				SapXepTheoTen(arrMH, soLuong);
 				strSoLuong = convertIntToString(soLuong);
-				
-				viTriChon = 0;
 					
 					Label title(
 							"CHON MON HOC",
@@ -1354,12 +1356,12 @@ MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 						break;
 					}
 					case CHON: default:{
-						if(viTriChon < soLuong){
+						if(viTriChon < soLuong && viTriChon != -1){
 							cout<<"\n"<<arrMH[viTriChon].getMaMH()<<" "<<arrMH[viTriChon].getTenMH();
 							MH.setData(arrMH[viTriChon]);
-							clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-							delete[] arrMH;
 						}
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						delete[] arrMH;
 						break;
 					}
 					

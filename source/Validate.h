@@ -113,6 +113,10 @@ public:
 			content.erase(content.length() - 1, 1);
 		}else
 		{
+			if(character == -32 || character == 0){ cout<<"\n bat duoc roi"<<character; 
+				character = getch(); cout<<" "<<character; return; 
+			}
+		
 			switch(type){
 				case NUMBER:{
 					if(content.length() == maxLength)
@@ -136,10 +140,11 @@ public:
 					}
 					else
 					{	if(character == TAB || character == ENTER) return;			
-						if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
-					
-						content.push_back(character);
-					}		
+						if(character == ' ' || (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9')){
+							if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
+							content.push_back(character);
+						}
+					}
 					break;
 				}
 				
@@ -164,8 +169,10 @@ public:
 				case NON_SPACE:{
 					if(character != ' ' && content.length() <= maxLength)
 					{
-						character=toupper(character);
-						content.push_back(character);
+						if((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9')){
+							character=toupper(character);
+							content.push_back(character);
+						}
 					}
 					
 					break;

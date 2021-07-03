@@ -722,7 +722,6 @@ void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 				
 				case XUAT:{
 					xuatDSTheoTrang_LSV(viTriChon, thaoTac, menuButton);
-					if(thaoTac == NHAP_DS) cout<<"\nNhap dssv";
 					break;
 				}
 				
@@ -738,6 +737,16 @@ void DSLopSV::chon_LSV(Action &thaoTac, Button *menuButton[]){
 				}
 					
 				case THEM:{
+					
+					if(n == MAX_LOPSV) {
+						MessageBox(
+						        NULL,
+						        "DS LOP SV DA TOI DA, KHONG THE THEM !!!",
+						        "THONG BAO",
+						        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				    		); thaoTac = XUAT; continue;
+					}
+					
 					formThem_LSV(maLopSV, thaoTac);
 					if(thaoTac == HUY){
 						thaoTac = XUAT;

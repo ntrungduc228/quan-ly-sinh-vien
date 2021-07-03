@@ -572,7 +572,7 @@ void freeArrButton(Button *arrButton[], int n){
 		delete arrButton[i];
 		arrButton[i] = NULL;
 	}
-	cout<<"\nXoa xong ds button";
+	//cout<<"\nXoa xong ds button";
 }
 
 void xoaTrang(){
@@ -736,7 +736,7 @@ void decorMainScreen(){
 				for(int i=0; i<str.length(); i++){
 					if(str[i] == '@') str[i] = ' ';
 				}
-				outtextxy(400, y, str.c_str());
+				outtextxy(450, y, str.c_str());
 			}
 			y+= textheight(str.c_str());
 		}
