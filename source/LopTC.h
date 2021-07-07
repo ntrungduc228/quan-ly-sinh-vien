@@ -294,6 +294,9 @@ int DSLopTC::xoa_LTC(int maLopTC){
 	
 	int viTri = tim_LTC(maLopTC);
 	if(viTri>=0){
+		// xoa dsdk cua lop tc bi huy
+		if(!lopTC[viTri]->getDSDK().isNull_DK()) 
+			lopTC[viTri]->getDSDK().freeDS_SV(lopTC[viTri]->getDSDK().getHead_DSDK());
 		
 		delete this->lopTC[viTri];
 		
@@ -409,6 +412,7 @@ void DSLopTC::loadDataDS_DK(){ if(!loadFileIsSuccess) return;
 						
 						this->lopTC[viTriLop]->getDSDK().them_DK(DK);
 						this->lopTC[viTriLop]->setSoSVDK(this->lopTC[viTriLop]->getSoSVDK() + 1);
+					}else { fileIn >> temp; getline(fileIn, tempStr, ','); fileIn>>tempFloat;
 					}
 	
 	
@@ -1031,7 +1035,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 							// tim vi tri thuc(real) cua lop tc can xoa khi sau da filter trong mang lopTC
 							int tempMaLopTC = loptc[i]->getMaLopTC();
 								viTriChon = tim_LTC(tempMaLopTC);
-								if(lopTC[viTriChon]->getSoSVDK() == 0){
+								if(lopTC[viTriChon]->getSoSVDK() == 0 || lopTC[viTriChon]->getTrangThai()){
 									int isConfirmed = MessageBox(
 													        NULL,
 													        "BAN CO CHAC CHAN MUON XOA LOP TIN CHI NAY",
@@ -1248,7 +1252,6 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 		soLuongMH = 0;
 		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH);
 		
-		
 		nFilter = tongSoDong;
 		LopTC *loptc[nFilter] = {NULL};
 		nFilter = 0;
@@ -1283,6 +1286,7 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 		
 		Button btnSave("Luu","luu",380, 80, 380 + buttonWidth, 120);
 		btnSave.draw();
+		btnSave.requestFocus();
 		
 		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, chooseButton, deleteButton, newTable, thaoTac);
 		inTrang(trangHienTai, tongSoTrang);
@@ -1294,7 +1298,7 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 			if(chooseButton[i] == NULL){
 				if(ketThuc % MAX_DONG_1_TRANG) yBtn = tableTop+rowTableHeight;
 				chooseButton[i] = new Button(
-										"Dang ky1",
+										"Dang ky",
 										convertIntToString(i+1), 
 										xBtn+15, 
 										yBtn+3, 
@@ -1306,18 +1310,11 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 									);
 				yBtn += rowTableHeight;
 				
-				if((loptc[i]->getSVMax() - loptc[i]->getSoSVDK()) == 0){
-					chooseButton[i]->setBGColor(clgray);
-					chooseButton[i]->setId("da_du");
-					chooseButton[i]->setOffEnable();
-					chooseButton[i]->draw();
-				}
-				
 			}
 		}
 		
 		// kiem tra nhung lop tc da dang ki truoc do trong nien khoa, hoc ki da nhap
-		for(int i=batDau; i<ketThuc; i++){
+		for(int i=batDau; i<nFilter; i++){
 			if(chooseButton[i] != NULL){
 				if(this->checkSVDK_LTC(loptc[i]->getMaLopTC(),maSV)){
 					chooseButton[i]->setBGColor(clgray);
@@ -1331,8 +1328,9 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 				if((loptc[i]->getSVMax() - loptc[i]->getSoSVDK()) == 0){
 					chooseButton[i]->setBGColor(clgray);
 					chooseButton[i]->setId("da_du");
+					chooseButton[i]->setText("Da du sv");
 					chooseButton[i]->setOffEnable();
-					chooseButton[i]->draw();
+					
 				}
 			}
 		}
@@ -1781,8 +1779,10 @@ void DSLopTC::formXuatDS_DK(int &viTriChon, Action &thaoTac){
 	}
 
 void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]){
-		
-		drawFrame(500, 150, 640 + 500, 580, "them lop tc");
+		string title;
+		if(thaoTac == THEM) title = "them lop tc";
+		else if(thaoTac == SUA) title = "sua lop tc";
+		drawFrame(500, 150, 640 + 500, 580, title);
 		int nInput = 7; 
 		Input *input[nInput] = {NULL};
 		MonHoc MH;

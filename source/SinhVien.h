@@ -1257,28 +1257,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 					    tiepTucNhap = false; 
 						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
 					    else if(suaSV) thaoTac = SUA;
-					    
 					   
-					    /*for(int i=0; i<soLuong; i++){
-					    	if(input[i][nCol-1]->getContent().length() != MAX_SDT){
-					    		isValidatePhone = false; 
-					    		input[i][nCol-1]->requestFocus();
-					    		input[indexOfRow][indexOfCol]->draw();
-					    		indexOfRow = i; indexOfCol = nCol-1;
-					    		input[indexOfRow][indexOfCol]->draw();
-								break;
-							}
-						}
-						
-						if(!isValidatePhone){
-							MessageBox(
-							        NULL,
-							        "VUI LONG NHAP DUNG SDT !!!",
-							        "THONG BAO",
-							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-					    		);
-					    	tiepTucNhap = true; continue;
-						}*/
 					    
 					}else if(!biTrung && !isFullInfo && isValidatePhone){
 						MessageBox(

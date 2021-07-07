@@ -40,7 +40,7 @@ INT1434,Lap trinh web,4,1,0
 INT1450,Quan ly du an phan mem,3,2,0
 INT1528,Nhap mon tri tue nhan tao,2,3,1
 TEL1401,An toan mang thong tin,3,1,0
-int1300,Opk,2,3,0
+int1300,Opkfgv,2,3,0
 int1301,Okok,2,4,0
 int1303,Ctdl,2,2,0
 int1305,Fd,2,3,0
@@ -52,7 +52,6 @@ int1343,Ctdl4,2,2,0
 int1353,Ctdl5,2,2,0
 int1363,Ctdl6,2,2,0
 int1383,Ctdl8,2,2,0
-int1393,Ctdl9,2,2,0
 int1413,Ctdl10,2,2,0
 int1423,Ctdl11,2,2,0
 int1433,Ctdl12,2,2,0
@@ -60,4 +59,4 @@ int1443,Ctdl13,2,2,0
 int1453,Ctdl14,2,2,0
 int1463,Ctdl15,2,2,0
 int1473,Ctdl16,2,2,0
-int1484,Dsgfdfd,2,2,0
+int1484,Thuuuuu,1,0,0

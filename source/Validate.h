@@ -139,11 +139,11 @@ public:
 						return;
 					}
 					else
-					{	if(character == TAB || character == ENTER) return;			
-						if(character == ' ' || (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9')){
+					{	//if(character == TAB || character == ENTER) return;			
+						//if(character == ' ' || (character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9')){
 							if(content.empty()) character = toupper(character); // Viet hoa chu cai dau
 							content.push_back(character);
-						}
+						//}
 					}
 					break;
 				}

@@ -348,7 +348,6 @@ void DSDK::xuatDS1Trang_DK(NodeSV *&head, int batDau, int ketThuc, Table newTabl
 			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
 		
 		setbkcolor(cllightwhite); setcolor(clblack);
-		cout<<"\nBat dau "<<batDau<<" "<<ketThuc;
 		
 		NodeSV *p = head;
 		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
@@ -643,7 +642,7 @@ void DSDK::xuatDSTheoTrang_DK(DSLopSV DSLSV, Action &thaoTac, Button *menuButton
 					(locDS_DK(newInput.getContent(), DSSVDK, DSSVDKFilter, nFilter, tongSoTrang)) ;
 					batDau = 0; trangHienTai = 1;
 					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-					cout<<"\nKet thucccccccccccccccccccc: "<<nFilter<<" "<<ketThuc;
+
 					
 					xuatDS1Trang_DK(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
 					inTrang(trangHienTai, tongSoTrang);
@@ -941,14 +940,13 @@ void DSDK::xuatDSTheoTrang_Diem(DSLopSV DSLSV, Action& thaoTac, Button *menuButt
 
 					if (btnSuaDiem.isClicked(x, y))
 					{
-						//INPUT_X, INPUT_Y, INPUT_X + INPUT_WIDTH, INPUT_Y + INPUT_HEIGHT
+						
 						clearRegion(INPUT_X, INPUT_Y, INPUT_X + INPUT_WIDTH+2, INPUT_Y + INPUT_HEIGHT+2);
 						clearRegion(INPUT_X - 150 , INPUT_Y + 10, INPUT_X , INPUT_Y + INPUT_HEIGHT - 5 );
 						nhapDiemTheoTrang(DSLSV, thaoTac);
 						thaoTac = DIEM;
 						exitLoop=true; cout<<"\nda luu xong diem";
-						//xuatDS1Trang_Diem(DSSVDKFilter.getHead_DSSV(), batDau, ketThuc, newTable);
-						//inTrang(trangHienTai, tongSoTrang);
+						
 						continue;
 					}
 					
@@ -1178,9 +1176,6 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 			xuatDS1Trang_Diem(DSSVDK.getHead_DSSV(), batDau, ketThuc, newTable);
 			inTrang(trangHienTai, tongSoTrang);
 
-//			Input newInput("", "Nhap ma sinh vien:", "", MAX_MASV, STUDENT_ID, INPUT_X, INPUT_Y, INPUT_X + INPUT_WIDTH, INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
-//			newInput.draw();
-
 			Button btnTimSV("Tim SV", "btnSV", tableLeft + 40, tableTop - 60, (tableLeft + 40) + buttonWidth, tableTop - 10);			
 			btnTimSV.draw();
 
@@ -1231,7 +1226,6 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 				inputDiem[i]->setId(p->getData_SV().getMaSV());							
 			}
 
-		
 
 			for (int i = batDau; i < ketThuc; i++){
 				inputDiem[i]->draw();
@@ -1306,10 +1300,9 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 						inTrang(trangHienTai, tongSoTrang);
 
 					
-							for (int i = batDau; i < ketThuc; i++)
-							{
-								inputDiem[i]->draw();
-							}
+						for (int i = batDau; i < ketThuc; i++){
+							inputDiem[i]->draw();
+						}
 						
 					}
 
@@ -1330,10 +1323,9 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 						inTrang(trangHienTai, tongSoTrang);
 
 						
-							for (int i = batDau; i < ketThuc; i++)
-							{
-								inputDiem[i]->draw();
-							}
+						for (int i = batDau; i < ketThuc; i++)	{
+							inputDiem[i]->draw();
+						}
 					
 					}
 
@@ -1392,8 +1384,8 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 								{								
 									p->getData_DK().setDiem(atof(inputDiem[i]->getContent().c_str()));
 
-									cout << inputDiem[i]->getId() << ": ";
-									cout << p->getData_DK().getDiem() << endl;
+									//cout << inputDiem[i]->getId() << ": ";
+									//cout << p->getData_DK().getDiem() << endl;
 
 								}
 							}
