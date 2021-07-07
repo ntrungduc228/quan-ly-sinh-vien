@@ -1348,7 +1348,8 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 								"THONG BAO",
 								MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 							);
-
+							
+							// Tim toi vi tri thieu
 							int viTriTrang = 1;
 							while (viTriTrang < tongSoTrang && viTriThieu >= (viTriTrang * MAX_DONG_1_TRANG)) viTriTrang++;
 
@@ -1361,14 +1362,10 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 
 							inputDiem[viTriThieu]->requestFocus();
 							indexIsFocused = viTriThieu;
-							//xuatDS1Trang_Diem(DSSVDK.getHead_DSSV(), batDau, ketThuc, newTable);
-
-							for (NodeDK* p = this->head; p != NULL; p = p->getNext_DK()) {
-								for (int i = 0; i < ketThuc; i++) {
-									if (p->getData_DK().getMaSV() == inputDiem[i]->getId()) {
-										inputDiem[i]->draw();
-									}
-								}
+							xuatDS1Trang_Diem(DSSVDK.getHead_DSSV(), batDau, ketThuc, newTable);
+							
+							for(int i=batDau; i<ketThuc; i++){
+								inputDiem[i]->draw();
 							}
 
 							inputDiem[viTriThieu]->draw();
@@ -1423,7 +1420,7 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 							
 							//===============
 							for (int i = 0; i < nInputDiem; i++)	delete inputDiem[i];
-							return;
+							exitLoop = true; continue;
 
 							break;
 						}
@@ -1460,13 +1457,8 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 								indexIsFocused = viTriThieu;
 								xuatDS1Trang_Diem(DSSVDK.getHead_DSSV(), batDau, ketThuc, newTable);
 							
-
-								for (NodeDK* p = this->head; p != NULL; p = p->getNext_DK()) {
-									for (int i = 0; i < ketThuc; i++) {
-										if (p->getData_DK().getMaSV() == inputDiem[i]->getId()) {
-											inputDiem[i]->draw();
-										}
-									}
+								for(int i=batDau; i<ketThuc; i++){
+									inputDiem[i]->draw();
 								}
 
 								inputDiem[viTriThieu]->draw();
@@ -1519,7 +1511,7 @@ void DSDK::nhapDiemTheoTrang(DSLopSV DSLSV, Action& thaoTac) {
 			}
 			
 			// FREE
-			//DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
+			
 			DSSVDK.freeDS_SV(DSSVDK.getHead_DSSV());
 			newTable.freeTable();
 

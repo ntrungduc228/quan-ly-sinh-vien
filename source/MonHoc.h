@@ -923,9 +923,9 @@ void TREE::xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Ac
 void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 		string title = thaoTac == THEM ? "Them mon hoc" : "Sua mon hoc";
 		drawFrame(500, 150, 500 + 600, 200+400, title);
-		Input *input[4];
-		int nInput = 4; 
-					
+		int nInput = 4;
+		Input *input[nInput];
+		
 		int initPos = thaoTac == THEM ? 0 : 1;
 												
 	
@@ -1130,7 +1130,7 @@ void TREE::menu_MH( Action &thaoTac, Button *menuButton[]){
 					break;
 				}
 				
-				case SUA:{ cout<<"\n"<<arrMH[viTriChon].getTenMH();
+				case SUA:{ //cout<<"\n"<<arrMH[viTriChon].getTenMH();
 						monhoc.setMaMH(arrMH[viTriChon].getMaMH());
 					    monhoc.setTenMH(arrMH[viTriChon].getTenMH());
 					    monhoc.setSTCLT(arrMH[viTriChon].getSTCLT());

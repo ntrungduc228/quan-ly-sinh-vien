@@ -382,7 +382,6 @@ void DSSV::xuatDS1Trang_SV(NodeSV *&head, int batDau, int ketThuc, Button *editB
 			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
 		
 		setbkcolor(cllightwhite); setcolor(clblack);
-		cout<<"\nBat dau "<<batDau<<" "<<ketThuc;
 		
 		NodeSV *p = head;
 		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
