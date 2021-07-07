@@ -942,24 +942,22 @@ void TREE::formNhap_MH(MonHoc &monHoc, Action &thaoTac){
 		Button btnHuy("HUY","H", 900, (200 + INPUT_HEIGHT * 5) + (20 * 5), 900 + buttonWidth, (200 + INPUT_HEIGHT * 6) + (20 * 5), cllightred, clred, cllightwhite);
 		btnHuy.draw();
 	
-		if(thaoTac == SUA){
-			input[0]->setContent(monHoc.getMaMH());
-			
-			input[1]->setContent(monHoc.getTenMH());				
-			input[2]->setContent(convertIntToString(monHoc.getSTCLT()));
-			input[3]->setContent(convertIntToString(monHoc.getSTCTH()));
-		}
-		
-		for(int i=0; i<nInput; i++)
-			input[i]->draw();
-		
+		input[0]->setContent(monHoc.getMaMH());
+		input[1]->setContent(monHoc.getTenMH());				
+		input[2]->setContent(convertIntToString(monHoc.getSTCLT()));
+		input[3]->setContent(convertIntToString(monHoc.getSTCTH()));
+	
 		bool exitLoop = false;
 		char ch;
 		int x,y;
 		int indexInput = initPos;
 		input[indexInput]->requestFocus();
-		input[indexInput]->draw();
 		int viTriThieu = -1;
+		
+		for(int i=0; i<nInput; i++)
+			input[i]->draw();
+		
+		input[indexInput]->draw();
 		
 		while(!exitLoop){
 			delay(0.001);
@@ -1096,6 +1094,7 @@ void TREE::menu_MH( Action &thaoTac, Button *menuButton[]){
 					formNhap_MH(monhoc, thaoTac);
 					if(thaoTac == HUY){
 						clearRegion(500, 150, 500 + 600, 200+400);
+						monhoc.setMaMH(""); monhoc.setTenMH(""); monhoc.setSTCLT(0); monhoc.setSTCTH(0);
 						thaoTac = XUAT;	
 					}else {
 						
