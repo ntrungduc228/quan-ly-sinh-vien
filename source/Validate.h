@@ -169,7 +169,7 @@ public:
 				case NON_SPACE:{
 					if(character != ' ' && content.length() <= maxLength)
 					{
-						if((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9')){
+						if((character >= 'a' && character <= 'z') || (character >= 'A' && character <= 'Z') || (character >= '0' && character <= '9') || character == '-'){
 							character=toupper(character);
 							content.push_back(character);
 						}

@@ -142,9 +142,6 @@ void DSLopSV::loadData_LSV(){ if(!loadFileIsSuccess) return;
 			
 				getline(fileIn, str, '\n');
 				if(str=="") break;
-				
-				/*getline(fileIn, str, '\n');
-				this->lopSV[this->n]->setTenLop(str);*/
 	
 				them_LSV(str);
 				if (fileIn.eof()) break;
@@ -753,7 +750,7 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
 						//menu_LSV(thaoTac);
 					}else if(thaoTac == THEM){						
-						cout<<"\nma lop can them: "<<maLopSV;
+						
 						int kq = them_LSV(maLopSV);
 						switch(kq){
 							case -1:{ // ds lop sv da full
@@ -813,6 +810,5 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 				
 			} // switch case 
 				
-			
-		} 
+		} // while 
 	}

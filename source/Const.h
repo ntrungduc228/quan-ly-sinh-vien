@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <cstdlib>
 
-#include "Menu.h"
+//#include "Menu.h"
 
 using namespace std;
 
@@ -85,8 +85,8 @@ const int menuSpace = btnMenuHeight + 20;
 
 const int MAX_NUM_COLUMN = 15;
 const int tableLeft = leftSideBar + 20;
-const int tableTop = 130;//110; 
-const int rowTableHeight = 32;//36; 
+const int tableTop = 130;
+const int rowTableHeight = 32; 
 
 const int MAX_DONG_1_TRANG = 15;//15;
 

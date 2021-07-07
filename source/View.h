@@ -1,19 +1,9 @@
 
 #pragma once
-//#include "Const.h"
 #include "Utilities.h"
 
 void resizeConsole(int width, int height)
 {
-	// CODE 1
-
-	/*HWND console = GetConsoleWindow();
-	RECT r;
-	GetWindowRect(console, &r);
-	MoveWindow(console, r.left, r.top, width, height, TRUE);*/
-
-	// CODE 2
-
 	HWND c = GetConsoleWindow();
 	DWORD style = GetWindowLong(c, GWL_STYLE);
 	RECT r;
@@ -572,7 +562,6 @@ void freeArrButton(Button *arrButton[], int n){
 		delete arrButton[i];
 		arrButton[i] = NULL;
 	}
-	//cout<<"\nXoa xong ds button";
 }
 
 void xoaTrang(){
@@ -592,7 +581,6 @@ void inTrang(int trangHienTai, int tongSoTrang){
 	strTrangHT += "/" + strTongST;
 	
 	outtextxy(buttonPrevX + buttonWidth + 80, buttonY + 10, strTrangHT.c_str());
-	//outtextxy(buttonPrevX + buttonWidth + 160, buttonY + 10 , string("1/3").c_str());
 }
 
 
@@ -654,7 +642,7 @@ void drawMainFrame(){
 	setfillstyle(SOLID_FILL,backgroundColor);	
 	bar(frameLeft+frameBorder,frameTop+frameBorder,leftSideBar - frameBorder, frameBottom - frameBorder);
 	
-	// 
+
 	int x = frameLeft, y = (frameBottom-frameBorder)/2;
 	setcolor(Border_Color);
 	rectangle(frameLeft+frameBorder-1,y,leftSideBar - frameBorder-1,y+2);
@@ -698,7 +686,7 @@ int isClickMenuButton(Button **menuButton, int x, int y){
 	return -1;
 }
 
-void drawMenu(Button *menuButton[]){ cout<<"\nold "<<oldIndexMenu<<" "<<indexMenu;
+void drawMenu(Button *menuButton[]){
 	if(oldIndexMenu != -1){
 		menuButton[oldIndexMenu]->setBGColor(claqua);
 		menuButton[oldIndexMenu]->draw();
@@ -715,7 +703,6 @@ void menuTitle(Button *button[], string MENU[], string MENU_ID[]){
 	
 	for(int i=0; i< nMenuButton; i++){
 	 if(button[i] == NULL)
-		//button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, cllightgreen, clblack, clblack);
 		button[i] = new Button(MENU[i],MENU_ID[i], x, y, x + btnMenuWidth, y+btnMenuHeight, claqua, clblack, clblack);
 		button[i]->draw();
 		
@@ -744,8 +731,6 @@ void decorMainScreen(){
 	}
 	fileIn.close();
 	
-	//setbkcolor(cllightred); setcolor(cllightwhite);
-	//outtextxy(600, 600, "AUTHORS:   NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
 }
 
 void init_View(){
@@ -758,13 +743,8 @@ void init_View(){
    	setusercharsize(2,5,1,2);   // response font-size text UI
 	setcolor(clblack);					// set text color
 	
-	
 	drawMainFrame();
-	//MenuTitle(MENU, MENU_ID, 5);
-	
-	//while(!kbhit()) delay(1);	// pause screen	
-	// MessageBox(NULL,"Dat Ve Thanh Cong !!!","THONG BAO",MB_ICONINFORMATION);
-	
+
 }
 
 bool isExit(string title = "BAN CO CHAC CHAN THOAT CHUONG TRINH"){

@@ -38,7 +38,7 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 		
 		if(indexMenu == -1) {
 			decorMainScreen();
-		}else if(indexMenu != -1){ cout<<"\nindex khac 1";
+		}else if(indexMenu != -1){
 			thaoTac = XUAT;
 			clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 			
@@ -48,25 +48,25 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt ltc "<<indexMenu;
+				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton);
 				
 			}else if(menuButton[indexMenu]->getId() == "SV"){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLSV.menu_LSV(thaoTac, menuButton); //cout<<"\ntt lsv "<<indexMenu;
+				DSLSV.menu_LSV(thaoTac, menuButton);
 				
 			}else if(menuButton[indexMenu]->getId() == "MH"){
 				
 				oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSMH.menu_MH(thaoTac, menuButton); //cout<<"\ntt mh "<<indexMenu;
+				DSMH.menu_MH(thaoTac, menuButton);
 				
 			}else if(menuButton[indexMenu]->getId() == "DIEM"){
 				
 				thaoTac = DIEM; oldIndexMenu = indexMenu; indexMenu = -1;
 				
-				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton); //cout<<"\ntt dk "<<indexMenu;
+				DSLTC.menu_LTC(DSMH, DSLSV, thaoTac, menuButton);
 			}else if(indexMenu == nMenuButton -1 ){
 				exitProgram = isExit();
 				if(!exitProgram){

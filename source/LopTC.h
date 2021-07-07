@@ -114,7 +114,7 @@ public:
 	
 	void dangKyMH_LTC(int maLopTC, NodeDK *DK);
 	
-	bool checkTrungDS_LTC(LopTC *ltc);
+	bool checkTrungDS_LTC(LopTC *ltc, int viTri);
 	
 	void writeDataDS_DK();
 	
@@ -521,11 +521,12 @@ void DSLopTC::dangKyMH_LTC(int maLopTC, NodeDK *DK){
 		}
 	}
 
-bool DSLopTC::checkTrungDS_LTC(LopTC *ltc){
+bool DSLopTC::checkTrungDS_LTC(LopTC *ltc, int viTri){
 		if(this->isNull_LTC()) return false;
 		
 		for(int i=0; i<n; i++){
-			if(this->lopTC[i]->checkTrung_LTC(*(ltc))) return true;
+			if(i != viTri)
+				if(this->lopTC[i]->checkTrung_LTC(*(ltc))) return true;
 		}
 		
 		return false;
@@ -915,7 +916,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 		MonHoc *arrMH = new MonHoc[soLuongMH];
 		soLuongMH = 0; 
 		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH); 
-		cout<<"\nSo luong sau "<<soLuongMH;
+		
 		LopTC *loptc[n] = {NULL};
 		for(int i=0; i<n; i++) {
 		 	loptc[i] = this->lopTC[i];
@@ -1016,7 +1017,6 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 						if(editButton[i] != NULL && deleteButton[i] != NULL){
 							// btn sua
 							if(editButton[i]->isClicked(x,y)){
-								cout<<"\n"<<i<<" is clicked "<<editButton[i]->getText();
 								int tempMaLopTC = loptc[i]->getMaLopTC();
 								viTriChon = tim_LTC(tempMaLopTC);
 								thaoTac = SUA;
@@ -1872,9 +1872,7 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 			}
 		}
 		
-		
 		input[indexInput]->draw();
-		string tempMaMHCu;
 		
 		while(true){
 			delay(0.000);
@@ -1882,13 +1880,14 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 				getmouseclick(WM_LBUTTONDOWN, x, y);
 				
 				if(btnChonMH.isClicked(x,y) && initPos == 1){
-					thaoTac = CHON; tempMaMHCu = input[1]->getContent();
+					thaoTac = CHON;
 					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					MH = DSMH.chonMH_LTC(thaoTac, menuButton);
 					
 					if(!MH.getMaMH().empty())
 						loptc->setMaMH(MH.getMaMH());
-					else loptc->setMaMH(tempMaMHCu);
+					else 
+						loptc->setMaMH(input[1]->getContent());
 					loptc->setNienKhoa(atoi(input[2]->getContent().c_str()));
 					loptc->setHocKy(atoi(input[3]->getContent().c_str()));
 					loptc->setNhom(atoi(input[4]->getContent().c_str()));
@@ -1898,9 +1897,7 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 					for(int i=0; i<nInput; i++)	if(input[i] != NULL) delete input[i];
 					return;
 					
-				}
-				
-				if(btnSave.isClicked(x,y)){
+				}else if(btnSave.isClicked(x,y)){
 					isFullInfo = true;
 					for(int i=initPos; i<nInput; i++){
 						if(input[i]->getContent().empty()){
@@ -1932,7 +1929,7 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 						
 						// check ma mon hoc co ton tai trong danh sach hay ko
 						MH.setMaMH(input[1]->getContent());
-						DSMH.them_MH(DSMH.getRoot(), MH, checkTrung); cout<<"\ncheck trung "<<checkTrung<<" "<<MH.getMaMH();
+						DSMH.them_MH(DSMH.getRoot(), MH, checkTrung);
 						if(checkTrung == -1){
 							MessageBox(
 						        NULL,
@@ -2051,7 +2048,6 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 			}		
 			
 			
-			//cout<<"\ncheck thao tac ltc";
 			switch(thaoTac){
 				case THEM:{
 					
@@ -2067,9 +2063,9 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					if(loptc == NULL || daThem){
 						loptc = new LopTC;
 						daThem = false;
+						loptc->taoMaLop_LTC(this->getMaLopTCMax());
 					}
 					
-					loptc->taoMaLop_LTC(this->getMaLopTCMax());
 					
 					thaoTac = THEM;
 					formNhap_LTC(loptc, DSMH,thaoTac, menuButton);
@@ -2078,7 +2074,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 						thaoTac = XUAT;
 						daThem = true;
 					}else if(thaoTac == THEM){
-						if(this->checkTrungDS_LTC(loptc)){
+						if(this->checkTrungDS_LTC(loptc, -1)){
 							MessageBox(
 						        NULL,
 						        "THONG TIN NHAP BI TRUNG VOI THONG TIN DA CO !!!",
@@ -2112,7 +2108,6 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					}else if(thaoTac == CHON){
 						thaoTac = THEM;
 						xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac, menuButton);
-						//clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
 					
 					}
 					break;
@@ -2138,7 +2133,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 									delete loptc;
 									thaoTac = XUAT; loptc = NULL; daThem = true;
 								}else if(thaoTac == SUA){
-									if(this->checkTrungDS_LTC(loptc)){
+									if(this->checkTrungDS_LTC(loptc, viTriChon)){
 										MessageBox(
 									        NULL,
 									        "THONG TIN NHAP BI TRUNG VOI THONG TIN DA CO !!!",
@@ -2248,7 +2243,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					formXuatDS_DK(viTriChon, thaoTac);
 					if(thaoTac == HUY){
 						thaoTac = XUAT;
-							//menu_LTC(DSMH, DSLSV, thaoTac);
+						
 					}else {
 						
 						viTriChon = this->tim_LTC(viTriChon);

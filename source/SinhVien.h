@@ -865,7 +865,7 @@ void DSSV::resetArrInput(Input ***&input, Input ***&inputPhai, int &nRow, int nC
 				
 			} 
 		}
-	
+		
 		// free input param to allocate new memory
 		
 		for(int i=0; i<nRow; i++){
@@ -877,10 +877,11 @@ void DSSV::resetArrInput(Input ***&input, Input ***&inputPhai, int &nRow, int nC
 			delete[] input[i]; delete[] inputPhai[i];
 		}
 		
-		delete [] input; delete[] inputPhai;
+		delete [] input; delete[] inputPhai; cout<<"\n dong 880";
 	
 		// allocate new memory for input parameters
 		int oldNRow = nRow;
+		nRow *= 2; cout<<"\nnew nrow: "<<nRow;
 		input = new Input**[nRow]; inputPhai = new Input **[nRow];
 		for(int i=0; i<nRow; i++){
 			input[i] = new Input*[nCol];
@@ -966,7 +967,7 @@ void DSSV::resetArrInput(Input ***&input, Input ***&inputPhai, int &nRow, int nC
 			}
 			delete[] tempInput[i]; delete[] tempInputPhai[i];
 		}
-		delete [] tempInput; delete[] tempInputPhai;
+		delete [] tempInput; delete[] tempInputPhai; cout<<"\nDong 969";
 	}
 
 void DSSV::nhapDSTheoDong_SV(Input ***input, Input ***inputPhai, int batDau, int ketThuc, int nRow, int nCol){
@@ -994,9 +995,9 @@ void DSSV::nhapDSTheoDong_SV(Input ***input, Input ***inputPhai, int batDau, int
 			// xoa du lieu cu
 			setbkcolor(cllightwhite); setcolor(clblack);
 			outtextxy(
-					x+(input[i][0]->getLeft()-x)/2 - textwidth(strSTT.c_str())/2 - 10,
+					x+(input[i][0]->getLeft()-x)/2 - textwidth(strSTT.c_str())/2 - 15,
 					y + INPUT_HEIGHT/2 - textheight(strSTT.c_str())/2,
-					string(textwidth(strSTT.c_str())/2+2,' ').c_str()	
+					string(textwidth(strSTT.c_str())/2,' ').c_str()	
 				);
 			
 			// in du lieu moi
@@ -1137,6 +1138,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 		bool isFullInfo = false;
 		bool biTrung = false;
 		int viTriTrung = -1;
+		bool isValidatePhone = true; 
 		
 		int indexOfRow=0, indexOfCol = initPos;
 		//int oldIndexOfRow=-1, oldIndexOfCol = -1;
@@ -1191,7 +1193,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 				
 				if(btnSave.isClicked(x,y) || thaoTac == THOAT){
 					
-					isFullInfo = true;  biTrung = false; viTriTrung = -1;
+					isFullInfo = true;  biTrung = false; viTriTrung = -1; isValidatePhone = true;
 					
 					soLuong--;
 					for(int j=0; j<nCol; j++){
@@ -1229,9 +1231,16 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 								}
 							}
 							
-							
 						}
 						
+						// check nhap dung 10 sdt
+						if(input[i][nCol-1]->getContent().length() != MAX_SDT){
+					    		isValidatePhone = false; isFullInfo = false;
+					    		input[i][nCol-1]->requestFocus();
+					    		indexOfRow = i; indexOfCol = nCol-1;
+								break;
+						}
+							
 							// check trung voi cac o da nhap truoc do
 							// neu biTrung == true thi bo qua, vi da trung o tren
 						if(viTriTrung == -1 && !suaSV){
@@ -1249,8 +1258,8 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
 					    else if(suaSV) thaoTac = SUA;
 					    
-					   bool isValidatePhone = true; 
-					    for(int i=0; i<soLuong; i++){
+					   
+					    /*for(int i=0; i<soLuong; i++){
 					    	if(input[i][nCol-1]->getContent().length() != MAX_SDT){
 					    		isValidatePhone = false; 
 					    		input[i][nCol-1]->requestFocus();
@@ -1269,9 +1278,9 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 					    		);
 					    	tiepTucNhap = true; continue;
-						}
+						}*/
 					    
-					}else if(!biTrung && !isFullInfo){
+					}else if(!biTrung && !isFullInfo && isValidatePhone){
 						MessageBox(
 							        NULL,
 							        "VUI LONG NHAP DU THONG TIN TRUOC KHI LUU !!!",
@@ -1304,7 +1313,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 						    	); 
 						    	
 						if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
-					    else thaoTac = SUA;
+					    else if(suaSV) thaoTac = SUA;
 					    
 						input[viTriTrung][0]->requestFocus();
 						input[indexOfRow][indexOfCol]->draw();
@@ -1314,6 +1323,29 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 						    		
 						int viTriTrang = 1;
 						while(viTriTrang < tongSoTrang && viTriTrung >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
+						    		
+						if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
+						    		
+						batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+						ketThuc = (soLuong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : soLuong;
+				            		
+				        ketThuc = (ketThuc > soLuong) ? batDau + soLuong % batDau : ketThuc;
+						nhapDSTheoDong_SV(input, inputPhai, batDau, ketThuc, nRow, nCol);
+						input[indexOfRow][indexOfCol]->draw();
+						inTrang(trangHienTai, tongSoTrang);
+					}else if(!isValidatePhone){
+						MessageBox(
+							        NULL,
+							        "VUI LONG NHAP DUNG SDT !!!",
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		); 
+					    		
+					    if(thaoTac == THOAT && !suaSV) thaoTac = THEM;
+					    else if(suaSV) thaoTac = SUA;
+					    
+					    int viTriTrang = 1;
+						while(viTriTrang < tongSoTrang && indexOfRow >= (viTriTrang * MAX_DONG_1_TRANG ) ) viTriTrang++;
 						    		
 						if(trangHienTai != viTriTrang) trangHienTai = viTriTrang;
 						    		
@@ -1470,7 +1502,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 						isFullInfo = false;
 						
 						if(soLuong + 1 > tongSoTrang*MAX_DONG_1_TRANG){
-							tongSoTrang++; cout<<"\nreset lai thoi";
+							tongSoTrang++; cout<<"\nreset lai thoii";
 							resetArrInput(input, inputPhai, nRow, nCol, newTable);
 							
 							trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
@@ -1513,7 +1545,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 		} // end while
 		
 		// luu ds sinh vien da nhap
-		if(thaoTac != THOAT && thaoTac == THEM){
+		if(thaoTac != THOAT && thaoTac == THEM){ cout<<"\nLuu sinh vine ne";
 			string str;
 			for(int i=0; i<soLuong; i++){
 				SinhVien sv;
@@ -1536,7 +1568,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 				NodeSV *p = new NodeSV(sv);
 				this->them_SV(p);
 			}
-		} else if(thaoTac != THOAT && thaoTac == SUA){
+		} else if(thaoTac != THOAT && thaoTac == SUA){ cout<<"\nSua sv ne";
 				string str;
 				SinhVien sv;
 				
@@ -1558,7 +1590,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 				
 				NSV->setData_SV(sv);
 		}
-			
+			cout<<"\nGiai phong sv ne";
 		// giai phong arr input
 		for(int i=0; i<nRow; i++){
 			for(int j=0; j<nCol; j++){

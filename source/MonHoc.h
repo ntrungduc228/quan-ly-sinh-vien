@@ -217,6 +217,10 @@ TREE::TREE(){
 	}
 	
 void TREE::freeDS_MH(NodeMonHoc *&root){
+		if(root == NULL) return;
+		freeDS_MH(root->getLeft());
+		freeDS_MH(root->getRight());
+		
 		delete root;
 	}
 
@@ -233,7 +237,6 @@ void TREE::loadDataDS_MH(){ if(!loadFileIsSuccess) return;
 		ifstream fileIn; char temp; string tempStr; int tempInt;
 		fileIn.open(PATH_MH.c_str(), ios::in);
 		if (fileIn.is_open())	{
-			//if(DSMH==NULL)
 			while (!fileIn.eof())
 			{
 				MonHoc MH;
@@ -444,7 +447,7 @@ void TREE::SapXepTheoTen(MonHoc arr[], int n)
 		{
 			for (int j = i + 1; j < n; j++)
 			{
-				if (arr[i].getTenMH()[0] > arr[j].getTenMH()[0])
+				if (arr[i].getTenMH() > arr[j].getTenMH())
 				{
 					Swap(arr[i], arr[j]);
 				}
@@ -476,7 +479,7 @@ void TREE::xuatDS1Trang_MH(MonHoc arrMH[], int batDau, int ketThuc, Button *edit
 		//cout<<"\nbat dau: "<<batDau<<" "<<ketThuc<<" "<<soDong;
 		 
 		
-		for(int i = batDau; i < soDong; i++){ 
+		for(int i = batDau; i < soDong; i++){
 			
 			setbkcolor(cllightwhite); setcolor(clblack); 
 			yBtn += rowTableHeight;
@@ -1341,13 +1344,7 @@ MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 								strSoLuong
 							);
 					
-				/*MessageBox(
-						NULL,
-						"VUI LONG CHON 1 MON HOC !!!",
-						"THONG BAO",
-						MB_ICONINFORMATION | MB_OK | MB_DEFAULT_DESKTOP_ONLY
-				    );*/
-				
+			
 				xuatDSTheoTrang_MH(arrMH, soLuong, viTriChon, thaoTac, menuButton);
 				
 				switch(thaoTac){
@@ -1357,7 +1354,6 @@ MonHoc TREE::chonMH_LTC(Action thaoTac, Button *menuButton[]){
 					}
 					case CHON: default:{
 						if(viTriChon < soLuong && viTriChon != -1){
-							cout<<"\n"<<arrMH[viTriChon].getMaMH()<<" "<<arrMH[viTriChon].getTenMH();
 							MH.setData(arrMH[viTriChon]);
 						}
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);

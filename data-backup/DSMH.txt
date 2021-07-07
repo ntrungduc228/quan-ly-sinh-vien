@@ -10,7 +10,7 @@ BAS1143,Tieng anh A2.1,2,1,0
 BAS1145,Tieng anh B1.1,3,3,0
 BAS1150,Triet hoc Mac - Lenin,2,0,0
 BAS1151,Kinh te chinh tri Mac - Lenin,2,2,0
-BAS1152,Chu nghia xa hoi khoa hoc,2,2,0
+BAS1152,Chu nghia xa hoi khoa hoc,2,2,1
 BAS1201,Dai so,3,0,0
 BAS1203,Giai tich 1,3,0,0
 BAS1204,Giai tich 2,3,0,0
