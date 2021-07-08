@@ -653,21 +653,26 @@ void drawMainFrame(){
 	string title = "   MENU   ";
 	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , frameTop+15, title.c_str());
 	
-	title = "   THONG TIN   ";
+	title = "   HUONG DAN   ";
 	outtextxy( (frameLeft + leftSideBar)/2 - textwidth(title.c_str())/2 , y+10, title.c_str());
 	
-	y+= 80;
-	// thong tin ve do an
-	string info = "Nguyen Trung Duc - N19DCCN040";
-	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	setbkcolor(cllightwhite);
+	y+= 40;
+	// thong tin
+	string info = " - Dung chuot de thao tac";
+	outtextxy(frameLeft + 12, y, info.c_str());
 	
-	y+=40;
-	info = "Nguyen Thanh Trung - N19DCCN216";
-	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	y+=30;
+	info = " - Khi nhap khong the thao tac voi";
+	outtextxy(frameLeft + 12, y, info.c_str());
+	y+=20;
+	info = "menu chinh";
+	outtextxy(frameLeft + 30, y, info.c_str());
 	
-	y+=40;
-	info = "D19CQCCN03-N";
-	outtextxy((frameLeft + leftSideBar)/2 - textwidth(info.c_str())/2, y, info.c_str());
+	y+=30;
+	info = " - TAB: di chuyen giua cac o nhap";
+	outtextxy(frameLeft + 12, y, info.c_str());
+	
 	
 	y+=40;
 	info = "PTIT HCM";
@@ -730,6 +735,9 @@ void decorMainScreen(){
 		
 	}
 	fileIn.close();
+	
+	setbkcolor(cllightred); setcolor(cllightwhite);
+	outtextxy(600, 630, "    NGUYEN TRUNG DUC   -   NGUYEN THANH TRUNG   ");
 	
 }
 
