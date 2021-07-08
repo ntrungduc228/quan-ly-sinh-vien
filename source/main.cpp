@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 	DSLTC.loadDataDS_DK();
 	
 	if(loadFileIsSuccess){
-		resizeConsole(745, 545);
+		//resizeConsole(745, 545);
 		
 		init_View();
 		menu(DSMH, DSLTC, DSLSV);

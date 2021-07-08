@@ -113,8 +113,8 @@ public:
 			content.erase(content.length() - 1, 1);
 		}else
 		{
-			if(character == -32 || character == 0){ cout<<"\n bat duoc roi"<<character; 
-				character = getch(); cout<<" "<<character; return; 
+			if(character == -32 || character == 0){
+				character = getch(); return; 
 			}
 		
 			switch(type){

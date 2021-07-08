@@ -222,6 +222,7 @@ void TREE::freeDS_MH(NodeMonHoc *&root){
 		freeDS_MH(root->getRight());
 		
 		delete root;
+		root = NULL;
 	}
 
 NodeMonHoc *& TREE::getRoot(){

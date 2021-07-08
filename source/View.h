@@ -124,7 +124,6 @@ protected:
 	int bottom;
 	int backgroundColor=15;
 	int borderColor=0;
-	bool isInvalidate;
 	static string focusedId;
 	bool enable = true;
 public:
@@ -141,7 +140,7 @@ public:
 		this->bottom = bottom;
 		this->backgroundColor = backgroundColor;
 		this->borderColor = borderColor;
-		this->isInvalidate = true;
+		
 	}
 	
 	bool isClicked(int x, int y){
@@ -164,7 +163,7 @@ public:
 	
 	virtual void draw(){
 		
-		isInvalidate = false;
+		
 		
 		// Draw background
 		setfillstyle(SOLID_FILL, backgroundColor);
@@ -217,9 +216,7 @@ public:
 		return enable;
 	}
 	
-	void Invalidate()	{
-		isInvalidate = true;
-	}
+	
 };
 
 string View::focusedId = "";

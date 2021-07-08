@@ -578,12 +578,13 @@ void DSSV::locDS_SV(string content, DSSV &dssv, int &nFilter, int &tongSoTrang){
 		if(!content.empty()){
 			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
 				if(p->getData_SV().getMaSV().find(content) != string::npos){
-					cout<<"\n"<<p->getData_SV().getMaSV();
+					//cout<<"\n"<<p->getData_SV().getMaSV();
 					
 					NodeSV*SV = new NodeSV(p->getData_SV());
-					//SV->getData_SV().xuat_SV();
 					dssv.them_SV(SV);
-					cout<<"\nThem thanh cong";
+					
+					//SV->getData_SV().xuat_SV();
+					//cout<<"\nThem thanh cong";
 				}
 			}
 			
