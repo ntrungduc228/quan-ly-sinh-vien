@@ -122,7 +122,6 @@ SinhVien::SinhVien(){
 	phai = "nam";
 }
 
-
 void SinhVien::setMaSV(string maSV){
 	this->maSV = maSV;
 }

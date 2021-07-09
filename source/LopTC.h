@@ -136,6 +136,10 @@ public:
 	
 	void formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *menuButton[]);
 	
+	void xuatDiem1SVTheoTrang_LTC(TREE DSMH, string maSV, Action &thaoTac, Button *menuButton[]);
+	
+	string formXemDiemSV_LTC(DSLopSV DSLSV, Action &thaoTac);
+	
 	void menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]);
 	
 };
@@ -825,7 +829,7 @@ void DSLopTC::xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  in
 					);
 				x += newTable.getCols(10)->getWidth();
 			
-			if(thaoTac != DIEM && thaoTac != DK_LTC){
+			if(thaoTac != DIEM && thaoTac != DK_LTC && thaoTac != DIEM_SV){
 				// ve button sua 
 				if(editButton[i] == NULL)
 					editButton[i] = new Button(
@@ -884,6 +888,9 @@ void DSLopTC::xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  in
 											clblack
 										);
 				editButton[i]->draw();
+			}else if(thaoTac == DIEM_SV){
+				if(editButton[i] != NULL)
+					editButton[i]->draw();
 			}
 			
 				
@@ -964,6 +971,16 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 		Button btnXuat("XEM DSSV","xuat", 410, 80, 410 + buttonWidth, 120);
 		Button btnHuyLTC("HUY LTC", "huy", 500, 80, 500 + buttonWidth, 120);
 		Button btnDangKy("DANG KY LTC","dang_ky", 590, 80, 610 + buttonWidth, 120);
+		Button btnDiemSV("DIEM 1 SV", "diem_sv", 332, 80, 340 + buttonWidth, 120);
+		Button btnDiemTB("Diem TB", "diem_tb", 440, 80, 440 + buttonWidth, 120);
+		Button btnDiemTK("Diem TK", "diem_tk", 540, 80, 540 + buttonWidth, 120);
+		
+		if(thaoTac == DIEM){
+			btnDiemSV.draw();
+			btnDiemTB.draw();
+			btnDiemTK.draw();
+		}
+			
 		
 		if(thaoTac == XUAT || thaoTac == THEM || thaoTac == SUA)	{
 			btnThem.draw();
@@ -1121,7 +1138,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				if(btnHuyLTC.isClicked(x,y)){
+				if(btnHuyLTC.isClicked(x,y) && thaoTac != DIEM){
 					thaoTac = HUY_LTC; 
 					newTable.freeTable();
 					delete[] arrMH;
@@ -1131,7 +1148,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 					
 				}
 				
-				if(btnXuat.isClicked(x,y)){
+				if(btnXuat.isClicked(x,y) && thaoTac != DIEM){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
@@ -1144,7 +1161,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 					
 				}
 				
-				if(btnThem.isClicked(x,y)){
+				if(btnThem.isClicked(x,y) && thaoTac != DIEM){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
@@ -1156,7 +1173,7 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 					return;
 				}
 				
-				if(btnDangKy.isClicked(x,y)){
+				if(btnDangKy.isClicked(x,y) && thaoTac != DIEM){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
@@ -1166,6 +1183,29 @@ void DSLopTC::xuatDSTheoTrang_LTC(TREE DSMH, int &viTriChon, Action &thaoTac, Bu
 					freeArrButton(editButton, nFilter);
 					freeArrButton(deleteButton, nFilter);
 					return;
+				}
+				
+				if(btnDiemSV.isClicked(x,y) && thaoTac == DIEM){
+					newInput.setBorderColor(clblack);
+					newInput.draw();
+					thaoTac = DIEM_SV;
+					exitLoop = true;
+					continue;
+					
+				}else if(btnDiemTB.isClicked(x,y) && thaoTac == DIEM){
+					MessageBox(
+				        NULL,
+				        "xem diem tb !!!",
+				        "THONG BAO",
+				        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    		);
+				}else if(btnDiemTK.isClicked(x,y) && thaoTac == DIEM){
+					MessageBox(
+				        NULL,
+				        "xem diem tk !!!",
+				        "THONG BAO",
+				        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+		    		);
 				}
 				
 			}
@@ -1401,9 +1441,7 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 								return; 	
 						}
 					}
-					
-            		
-            		
+				
 				}else if(btnSave.isClicked(x,y)){
 					
 					for(int i=0; i<tongSoDong; i++){
@@ -2009,6 +2047,244 @@ void DSLopTC::formNhap_LTC(LopTC *loptc, TREE DSMH, Action &thaoTac, Button *men
 			if(input[i] != NULL) delete input[i];
 		
 	}
+	
+void DSLopTC::xuatDiem1SVTheoTrang_LTC(TREE DSMH, string maSV, Action &thaoTac, Button *menuButton[]){
+		int tongSoDong = this->n;
+		LopTC *loptc[this->n];
+		tongSoDong = 0;
+		
+		// lay ds lop tc ma sv da dang ky
+		for(int i=0; i<this->n; i++){
+			if(this->checkSVDK_LTC(lopTC[i]->getMaLopTC(),maSV)){
+				loptc[tongSoDong++] = this->lopTC[i];
+			}
+		}
+		
+		// sinh vien chua dang ky bat ki 1 lop tc nao
+		if(tongSoDong == 0){
+			MessageBox(
+				NULL,
+				"SINH VIEN CHUA DANG KY LOP TC NAO !!!",
+				"THONG BAO",
+				MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+			);
+			return;
+		}
+		
+		int soLuongMH = 0;
+		soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
+		MonHoc *arrMH = new MonHoc[soLuongMH];
+		soLuongMH = 0;
+		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH);
+		
+		Button *editButton[tongSoDong] = {NULL};
+		Button *deleteButton[tongSoDong] = {NULL};
+		
+		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		
+		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
+		int trangHienTai = 1;
+		
+		int batDau = 0;
+		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
+		
+		Table newTable = table_LTC();
+		newTable.getCols(newTable.getNumOfCols() - 1)->setName("Diem");
+		newTable.drawTable(MAX_DONG_1_TRANG);
+		
+		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
+		btnPrev.draw();
+		
+		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
+		btnNext.draw();
+		
+		btnNext.requestFocus();
+		
+		// dau X tren cung goc phai
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
+		int xBtn = tableLeft; int yBtn = tableTop+rowTableHeight;
+		for(int i=0; i<newTable.getNumOfCols() -1 ; i++) xBtn += newTable.getCols(i)->getWidth();
+		
+		int lastX = newTable.getCols(newTable.getNumOfCols() - 1)->getWidth();
+		
+		for(int i=0; i<tongSoDong; i++){
+			if(editButton[i] == NULL){
+				editButton[i] = new Button (
+										convertFloatToString(loptc[i]->getDSDK().timDiem_DK(maSV)),
+										convertIntToString(i),
+										xBtn,
+										yBtn,
+										xBtn + lastX,
+										yBtn + rowTableHeight,
+										cllightwhite,
+										clblack,
+										clblack
+									);
+				yBtn += rowTableHeight;
+			}
+		}
+		
+		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+		inTrang(trangHienTai, tongSoTrang);
+		
+		int x,y;
+		bool exitLoop = false;
+		while(!exitLoop){
+			delay(0.000);
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				indexMenu = isClickMenuButton(menuButton, x,y);
+				if(indexMenu != -1){
+					if(indexMenu == nMenuButton - 1){
+            			exitProgram = isExit();
+            			if(exitProgram)
+            				exitLoop = true;
+            			else indexMenu = -1;
+            			continue;	
+					}            			
+					else {
+						exitLoop = true; continue;
+					}
+					
+				}
+				
+				if(btnBack.isClicked(x,y)){
+					thaoTac = THOAT_CT;
+					exitLoop = true; continue;
+				}else if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+            		
+            		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
+            		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		
+            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		
+            		xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+					inTrang(trangHienTai, tongSoTrang);
+				}else if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
+					
+					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
+					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					
+					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					
+					xuatDS1Trang_LTC(loptc, arrMH, soLuongMH, batDau, ketThuc, editButton, deleteButton, newTable, thaoTac);
+					inTrang(trangHienTai, tongSoTrang);
+				}
+			}
+		}
+		
+		delete[] arrMH;
+		freeArrButton(editButton, tongSoDong);
+		freeArrButton(deleteButton, tongSoDong);
+		newTable.freeTable();
+		return;
+	}
+	
+string DSLopTC::formXemDiemSV_LTC(DSLopSV DSLSV, Action &thaoTac){
+		drawFrame(500, 150, 540 + 500, 200+270, "Xem diem cac lop tc cua 1 sv");
+		
+		int left = 650;
+		int top = 220;
+		
+		Input *input = new Input("", "Ma sinh vien ", "0", MAX_MASV, STUDENT_ID, left, top, left+300, top+INPUT_HEIGHT);
+		input->requestFocus();
+		input->draw();
+		
+		Button btnTT("Xem Diem","TT",left, top+100, left+buttonWidth+20, top+INPUT_HEIGHT+110, claqua, cllightblue, clblack);
+		btnTT.draw();
+		
+		Button btnThoat("Thoat", "T", left + 200, top+100, 850+buttonWidth+20, top+INPUT_HEIGHT+110, cllightred, clred, cllightwhite);
+		btnThoat.draw();
+		
+		bool exitLoop = false;
+		int x,y;
+		char ch;
+		string maSV = "";
+		bool isFullInfo = true;
+		int coSV = -1;
+		
+		while(!exitLoop){
+			delay(0.000);
+			if(ismouseclick(WM_LBUTTONDOWN)) {
+				getmouseclick(WM_LBUTTONDOWN, x, y);
+				
+				if(btnTT.isClicked(x,y)){
+					isFullInfo = true;
+					if(!input->getContent().empty()){
+						coSV = DSLSV.timSV_LSV(input->getContent());
+						if(coSV == -1) {
+							MessageBox(
+									NULL,
+									"KHONG TIM THAY SINH VIEN !!!",
+									"THONG BAO",
+									MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							);
+						
+						}else {
+							maSV = input->getContent();
+							exitLoop = true;
+							continue;
+						}
+					}else {
+						MessageBox(
+							        NULL,
+							        "VUI LONG NHAP DU THONG TIN !!!",
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+						continue;
+					}
+				} else if(btnThoat.isClicked(x,y)){
+					thaoTac = THOAT;
+					maSV = ""; exitLoop = true;
+					continue;
+				}
+			}
+			
+			if(kbhit()){
+				ch = getch();
+				if(ch == ENTER){
+					isFullInfo = true;
+					if(!input->getContent().empty()){
+						coSV = DSLSV.timSV_LSV(input->getContent());
+						if(coSV == -1) {
+							MessageBox(
+									NULL,
+									"KHONG TIM THAY SINH VIEN !!!",
+									"THONG BAO",
+									MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							);
+						
+						}else {
+							maSV = input->getContent();
+							exitLoop = true;
+							continue;
+						}
+					}else {
+						MessageBox(
+							        NULL,
+							        "VUI LONG NHAP DU THONG TIN !!!",
+							        "THONG BAO",
+							        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+					    		);
+						continue;
+					}
+				}else {
+					input->appendText(ch);
+					input->draw();
+				}
+			}
+		}
+		
+		delete input;
+		
+		return maSV;
+	}
 
 void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
 		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
@@ -2020,10 +2296,12 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 		string strN;
 		while(!isNull_LTC() && indexMenu == -1){ 
 			strN = convertIntToString(n);
-			if(thaoTac != DK_LTC) 
-				subTitle = "DANH SACH LOP TIN CHI";
-			else 
+			
+			subTitle = "DANH SACH LOP TIN CHI";
+			if(thaoTac == DK_LTC)
 				subTitle = "DANG KY LOP TIN CHI";
+			else if(thaoTac == DIEM_SV && !maSV.empty())
+				subTitle = "DANH SACH LOP TIN CHI DA DANG KY";
 			
 			Label title(
 					subTitle,
@@ -2041,6 +2319,13 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 						strN
 					);
 			}else if(thaoTac == DK_LTC && coSV != -1 && coLTC != -1){
+				title.printLabel(
+						"Ma sinh vien",
+						maSV
+					);
+			}
+			
+			if(thaoTac == DIEM_SV && !maSV.empty()){
 				title.printLabel(
 						"Ma sinh vien",
 						maSV
@@ -2215,27 +2500,51 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				
 				case DIEM:{
 					xuatDSTheoTrang_LTC(DSMH, viTriChon, thaoTac, menuButton);
-					if(viTriChon < n && indexMenu == -1){
-						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-						MonHoc MH; int temp = 0;
-						MH.setMaMH(lopTC[viTriChon]->getMaMH());
-						DSMH.them_MH(DSMH.getRoot(), MH, temp );
-						lopTC[viTriChon]->getDSDK().menu_DK(
-														DSLSV,
-														lopTC[viTriChon]->getMaLopTC(),
-														lopTC[viTriChon]->getNienKhoa(),
-														lopTC[viTriChon]->getHocKy(),
-														lopTC[viTriChon]->getNhom(),
-														lopTC[viTriChon]->getTrangThai(),
-														MH.getTenMH(),
-														thaoTac,
-														menuButton
-													);
-						if(thaoTac == THOAT) thaoTac = DIEM;
-						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-						lopTC[viTriChon]->setSoSVDK(lopTC[viTriChon]->getDSDK().demSoLuongSV());
-						this->writeDataDS_DK();							
+					if(thaoTac == DIEM) {
+						if(viTriChon < n && indexMenu == -1){
+							clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+							MonHoc MH; int temp = 0;
+							MH.setMaMH(lopTC[viTriChon]->getMaMH());
+							DSMH.them_MH(DSMH.getRoot(), MH, temp );
+							lopTC[viTriChon]->getDSDK().menu_DK(
+															DSLSV,
+															lopTC[viTriChon]->getMaLopTC(),
+															lopTC[viTriChon]->getNienKhoa(),
+															lopTC[viTriChon]->getHocKy(),
+															lopTC[viTriChon]->getNhom(),
+															lopTC[viTriChon]->getTrangThai(),
+															MH.getTenMH(),
+															thaoTac,
+															menuButton
+														);
+							if(thaoTac == THOAT) thaoTac = DIEM;
+							clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+							lopTC[viTriChon]->setSoSVDK(lopTC[viTriChon]->getDSDK().demSoLuongSV());
+							this->writeDataDS_DK();							
+						}
 					}
+					
+					break;
+				}
+				
+				case DIEM_SV:{
+					
+					if(!maSV.empty()){
+							xuatDiem1SVTheoTrang_LTC(DSMH, maSV, thaoTac, menuButton);
+							thaoTac = DIEM; maSV = "";
+						}
+					else {
+						maSV = formXemDiemSV_LTC(DSLSV, thaoTac);
+					}
+					
+			    	if(thaoTac == THOAT){
+			    		clearRegion(500, 150, 540 + 500, 200+270);
+			    		thaoTac = DIEM; maSV = "";
+					}else {
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					}
+					
+					
 					break;
 				}
 				
@@ -2364,6 +2673,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					
 					break;
 				}
+				
 				
 				case THOAT_CT:{
 					indexMenu =-1;
