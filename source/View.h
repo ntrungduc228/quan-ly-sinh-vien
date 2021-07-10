@@ -400,13 +400,51 @@ public:
 	}
 };
 
+Table table_DiemTB(){
+	int numOfCols = 5;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 200, 380, 250, 150};
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho",
+								  "Ten",
+								  "Diem TB"};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
+
+Table table_DiemTK(){
+	int numOfCols = 9;
+	Table newTable;
+	newTable.setCols(numOfCols);
+	
+	int arrWidth[numOfCols] = {60, 160, 280, 90, 90, 90, 90, 90, 90};
+	string arrName[numOfCols] = { "STT",
+								  "Ma sinh vien",
+								  "Ho ten",
+								  "","","","","",""};
+	
+	for(int i=0; i<numOfCols; i++){
+		newTable.getCols(i)->setWidth(arrWidth[i]);
+		newTable.getCols(i)->setName(arrName[i]);
+	}
+	
+	return newTable;
+}
 
 Table table_SV(){
 	int numOfCols = 7;
 	Table newTable;
 	newTable.setCols(numOfCols);
 	
-	int arrWidth[numOfCols] = {60, 200, 280, 160, 80, 150, 110}; //{60, 200, 280, 160, 80, 170};
+	int arrWidth[numOfCols] = {60, 200, 280, 160, 80, 150, 110};
 	string arrName[numOfCols] = { "STT",
 								  "Ma sinh vien",
 								  "Ho",

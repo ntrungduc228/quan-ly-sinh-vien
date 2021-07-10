@@ -15,8 +15,6 @@ public:
 	
 	string getMaLop();
 	
-	string getTenLop();
-	
 	DSSV &getDS_SV();
 
 	void setDS_SV(DSSV ds);
@@ -61,7 +59,7 @@ public:
 	
 	NodeSV * layInfo_SV(string maSV);
 	
-	void xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable);
+	void xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable, Action thaoTac);
 	
 	void locDS_LSV(string content, LopSV *lop[], int &nFilter, int &tongSoTrang);
 	
@@ -289,7 +287,7 @@ NodeSV * DSLopSV::layInfo_SV(string maSV){
 		return NULL;
 	}
 
-void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable){
+void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *printButton[], Table newTable, Action thaoTac){
 		int soDong = ketThuc % MAX_DONG_1_TRANG; 
 		if(soDong == 0) soDong = MAX_DONG_1_TRANG;
 		
@@ -390,22 +388,39 @@ void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *
 			
 			x += newTable.getCols(2)->getWidth();
 			
-		if(printButton[i] == NULL)
-			printButton[i] = new Button(
-										 "Xem DSSV",
-										 strSTT, 
-										 x+30, 
-										 yBtn+3, 
-										 x+30+checkBoxButtonWidth+30,
-										 yBtn-3+checkBoxButtonHeight, 
-										 claqua, 
-										 cllightblue, 
-										 clblack
-										);
-			printButton[i]->draw();
-				
-			
+			if(thaoTac != DIEM_TB){
+				if(printButton[i] == NULL)
+					printButton[i] = new Button(
+												 "Xem DSSV",
+												 strSTT, 
+												 x+30, 
+												 yBtn+3, 
+												 x+30+checkBoxButtonWidth+30,
+												 yBtn-3+checkBoxButtonHeight, 
+												 claqua, 
+												 cllightblue, 
+												 clblack
+												);
+				printButton[i]->draw();
+			}else if(thaoTac == DIEM_TB){
+				if(printButton[i] == NULL)
+					printButton[i] = new Button(
+												 "Xem Diem TB",
+												 strSTT, 
+												 x+20, 
+												 yBtn+3, 
+												 x+40+checkBoxButtonWidth+30,
+												 yBtn-3+checkBoxButtonHeight, 
+												 claqua, 
+												 cllightblue, 
+												 clblack
+												);
+				printButton[i]->draw();
+			}
+		
 			x = tableLeft ;
+		
+		
 		}
 	}
 
@@ -448,7 +463,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 		Table newTable = table_LSV();
 		newTable.drawTable(MAX_DONG_1_TRANG);
 		
-		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable, thaoTac);
 		inTrang(trangHienTai, tongSoTrang);
 		
 		Input newInput("","Nhap ten lop hoc:" ,"N", MAX_MALOPSV, NON_SPACE, INPUT_X, INPUT_Y ,INPUT_X + INPUT_WIDTH , INPUT_Y + INPUT_HEIGHT, cllightwhite, clblack, clblack);
@@ -466,7 +481,8 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 		btnBack.draw();
 		
 		Button btnAdd("THEM LOP HOC","btnAdd",400, 80, 430 + buttonWidth, 120);
-		btnAdd.draw();
+		if(thaoTac != DIEM_TB)
+			btnAdd.draw();
 		
 		int x,y;
 		
@@ -541,7 +557,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 									}
 						    		
 							}else{
-								thaoTac = XUAT_DS;
+								if(thaoTac != DIEM_TB) thaoTac = XUAT_DS;
 	            				newTable.freeTable();
 								freeArrButton(printButton, nFilter);
 								return;
@@ -560,7 +576,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
             		
             		ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
             		
-            		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+            		xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
 				}
 					
@@ -572,11 +588,11 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 					
 					ketThuc = (ketThuc > nFilter) ? batDau + nFilter % batDau : ketThuc;
 					
-					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				if(btnAdd.isClicked(x,y)){
+				if(btnAdd.isClicked(x,y) && thaoTac != DIEM_TB){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
@@ -592,14 +608,13 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 			if(kbhit()){
 					freeArrButton(printButton, nFilter);
 					char ch = getch();
-					//newInput.xuLyNhapMa_LSV((int)ch);
 					newInput.appendText(ch);
 					newInput.draw();
 					locDS_LSV(newInput.getContent(), lop, nFilter, tongSoTrang);
 					
 					batDau = 0; trangHienTai = 1;
 					ketThuc = (nFilter > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : nFilter;
-					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable);
+					xuatDS1Trang_LSV(lop, batDau, ketThuc, printButton, newTable, thaoTac);
 					inTrang(trangHienTai, tongSoTrang);
 			}
 		}
@@ -748,7 +763,6 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 					if(thaoTac == HUY){
 						thaoTac = XUAT;
 						clearRegion(tableLeft, INPUT_Y-30, frameRight - 12, frameBottom - 12);
-						//menu_LSV(thaoTac);
 					}else if(thaoTac == THEM){						
 						
 						int kq = them_LSV(maLopSV);
@@ -798,6 +812,18 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 						this->lopSV[viTriChon]->getDS_SV().menu_SV(this->lopSV[viTriChon]->getMaLop(), thaoTac, menuButton);
 						thaoTac = XUAT_DS;
 						this->writeDataDS_SV();
+					}
+					break;
+				}
+				
+				case DIEM_TB:{
+					xuatDSTheoTrang_LSV(viTriChon, thaoTac, menuButton);
+					if(thaoTac == THOAT_CT){
+						thaoTac = DIEM;
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						return;	
+					}else if(viTriChon < n){
+						cout<<"\n"<<lopSV[viTriChon]->getMaLop();
 					}
 					break;
 				}
