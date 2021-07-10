@@ -140,15 +140,13 @@ public:
 	
 	string formXemDiemSV_LTC(DSLopSV DSLSV, Action &thaoTac);
 	
-	void thongKeDiemTB_LSV(DSSV dssv, TREE DSMH){
-		int tongSoDong = dssv.demSoLuongSV();
-		float *diemTB = new float[tongSoDong];
-		
-		float tongDiem = 0;
-		int tongSoTC = 0; // tong so tin chi
-		
-		
-	}
+	int locCacLopDK_LTC(MonHoc *arrMH, int soLuongMH, string maSV);
+	
+	void thongKeDiemTB_LSV(DSSV &dssv, TREE &DSMH, float *diemTB, int tongSoDong);
+	
+	void xuatDiemTB1Trang_LSV(NodeSV *&head, float *diemTB, int batDau, int ketThuc, Table newTable);
+	
+	void xuatDiemTBTheoTrang_LSV(TREE &DSMH, DSSV &dssv, Action thaoTac, Button *menuButton[]);
 	
 	void menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]);
 	
@@ -2340,9 +2338,304 @@ string DSLopTC::formXemDiemSV_LTC(DSLopSV DSLSV, Action &thaoTac){
 		return maSV;
 	}
 
+int DSLopTC::locCacLopDK_LTC(MonHoc *arrMH, int soLuongMH, string maSV){
+		for(int i=0; i<soLuongMH; i++) arrMH[i].setTenMH("-1");
+	
+		for(int i=0; i<this->n; i++){
+			if(this->checkSVDK_LTC(lopTC[i]->getMaLopTC(), maSV)){ // check sinh vien co dang ky vo lop tc nay ko
+				for(int j=0; j<soLuongMH; j++){ // check xem sinh vien co hoc lai ko -> co, luu lai de lay diem nam hoc moi nhat
+					if(arrMH[j].getMaMH() == lopTC[i]->getMaMH()){
+						if(atoi(arrMH[j].getTenMH().c_str()) < lopTC[i]->getNienKhoa()){
+							arrMH[j].setTenMH(convertIntToString(i)); // loi dung ten mh de luu lai vi tri ltc 
+						}
+					}
+				}
+			}
+		}
+	}
+	
+void DSLopTC::thongKeDiemTB_LSV(DSSV &dssv, TREE &DSMH, float *diemTB, int tongSoDong){
+		
+		float tongDiem = 0;
+		int tongSoTC = 0; // tong so tin chi
+		int tongTC = 0; // tong cua tc ly thuyet va tc thuc hanh 1 mon hoc -> tranh get nhieu lan trong Class
+		
+		int soLuongMH=0;
+		soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
+		MonHoc *arrMH = new MonHoc[soLuongMH];
+		soLuongMH = 0; 
+		DSMH.ChuyenCayVaoMang(arrMH, DSMH.getRoot(), soLuongMH); 
+		
+		int vtsv = -1;
+		
+		for(int i=0; i<soLuongMH; i++) arrMH[i].setTenMH("-1");
+		
+		// tinh diem trung binh tung sinh vien
+		for(NodeSV *SV = dssv.getHead_DSSV(); SV != NULL; SV=SV->getNext_SV()){
+			tongDiem = 0; tongSoTC = 0; vtsv++;
+			
+			this->locCacLopDK_LTC(arrMH, soLuongMH, SV->getData_SV().getMaSV());
+			for(int i=0; i<soLuongMH; i++){
+				if(arrMH[i].getTenMH() != "-1"){
+					tongTC = arrMH[i].getSTCLT() + arrMH[i].getSTCTH();
+					tongSoTC += tongTC;
+					tongDiem += (lopTC[atoi(arrMH[i].getTenMH().c_str())]->getDSDK().timDiem_DK(SV->getData_SV().getMaSV()) * tongTC);
+				}
+			}
+			
+			if(tongSoTC != 0 && vtsv < tongSoDong) {
+				diemTB[vtsv] = tongDiem / (1.0*tongSoTC);
+				diemTB[vtsv] = round(diemTB[vtsv] * 10) / 10;     //  lam tron diem, lay 1 chu so sau day phay
+			}
+			
+		}
+		
+		delete[] arrMH;
+		
+	}
+	
+void DSLopTC::xuatDiemTB1Trang_LSV(NodeSV *&head, float *diemTB, int batDau, int ketThuc, Table newTable){
+		int soDong = ketThuc % MAX_DONG_1_TRANG; // Xem can xuat bao nhieu dong
+		if(soDong == 0) soDong = MAX_DONG_1_TRANG; // neu so du == 0 thi xuat ra MAX_DONG_1_TRANG dong
+		
+		int x = tableLeft ;
+		int y = tableTop + rowTableHeight/2- textheight(string("0").c_str())/2  ;
+		int yBtn = tableTop;
+		
+		string strSTT;
+		
+		if(ketThuc==0 && batDau == 0) soDong = MAX_DONG_1_TRANG;
+		else
+			soDong = ketThuc % MAX_DONG_1_TRANG == 0 ? ketThuc : ketThuc + MAX_DONG_1_TRANG - ketThuc % MAX_DONG_1_TRANG;
+		
+		setbkcolor(cllightwhite); setcolor(clblack);
+		
+		NodeSV *p = head;
+		for(int vt = 0;  p !=NULL && vt < batDau; vt++, p = p->getNext_SV()) ; // chay den STT can xuat
+		
+		for(int i = batDau; i < soDong; i++){ 
+			setbkcolor(cllightwhite); setcolor(clblack); 
+			yBtn += rowTableHeight;
+			// in ra chuoi rong cac dong con thua
+			if(i >= ketThuc){
+				y +=  rowTableHeight;
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); 	x += newTable.getCols(0)->getWidth();
+				
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(1)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(2)->getWidth()- 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				); x += newTable.getCols(2)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(3)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(3)->getWidth();
+				
+				outtextxy(
+					x +textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(4)->getWidth() - 4 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),	' ').c_str()
+				); x += newTable.getCols(4)->getWidth();
+				
+				x =  tableLeft;
+				continue;
+			}
+			
+			y += rowTableHeight;
+			strSTT = convertIntToString(i+1);
+			
+			outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string((newTable.getCols(0)->getWidth() - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(x + newTable.getCols(0)->getWidth()/2 - textwidth(strSTT.c_str())/2, y, strSTT.c_str());
+				x += newTable.getCols(0)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(1)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(1)->getWidth()/2  - textwidth(p->getData_SV().getMaSV().c_str())/2, 
+						y, 
+						p->getData_SV().getMaSV().c_str()
+					);
+					
+				x += newTable.getCols(1)->getWidth();
+				
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(2)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + 10, 
+						y, 
+						p->getData_SV().getHo().c_str()
+					);
+					
+				x += newTable.getCols(2)->getWidth();
+				
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(3)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + 10, 
+						y, 
+						p->getData_SV().getTen().c_str()
+					);
+					
+				x += newTable.getCols(3)->getWidth();
+			
+			// xoa du lieu cu
+				outtextxy(
+					x + textwidth(string("|").c_str()), 
+					y, 
+					string(	(newTable.getCols(4)->getWidth() - 3 - textwidth(string("|").c_str())) / textwidth(string(" ").c_str()),' ').c_str()
+				);
+				
+			// xuat du lieu moi
+				outtextxy(
+						x + newTable.getCols(4)->getWidth()/2 - textwidth(convertFloatToString(diemTB[i]).c_str())/2, 
+						y, 
+						convertFloatToString(diemTB[i]).c_str()
+				);
+				
+			x = tableLeft;
+			if(p!=NULL ) p = p->getNext_SV();
+		}
+	}
+	
+void DSLopTC::xuatDiemTBTheoTrang_LSV(TREE &DSMH, DSSV &dssv, Action thaoTac, Button *menuButton[]){
+		int tongSoDong = dssv.demSoLuongSV();
+		if(tongSoDong <= 0){
+			MessageBox(
+					NULL,
+					"LOP HOC KHONG CO SINH VIEN NAO !!!",
+					"THONG BAO",
+					MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+				);
+			return;
+		}
+		
+		float *diemTB = new float[tongSoDong];
+		for(int i=0; i<tongSoDong; i++) diemTB[i]=0.0;
+		
+		thongKeDiemTB_LSV(dssv, DSMH, diemTB, tongSoDong);
+		int vt = 0;
+		
+		
+		int soDu = (tongSoDong % MAX_DONG_1_TRANG > 0) ? 1 : 0;
+		
+		int tongSoTrang = tongSoDong / MAX_DONG_1_TRANG + soDu;
+		int trangHienTai = 1;
+		
+		int batDau = 0;
+		int ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? MAX_DONG_1_TRANG : tongSoDong;
+		
+		Table newTable = table_DiemTB();
+		newTable.drawTable(MAX_DONG_1_TRANG);
+		
+		Button btnPrev("<","btnPrev",buttonPrevX, buttonY, buttonPrevX + buttonWidth, buttonHeight);
+		btnPrev.draw();
+		
+		Button btnNext(">","btnNext",buttonNextX, buttonY, buttonNextX + buttonWidth, buttonHeight);
+		btnNext.draw();
+		
+		Button btnBack("X","quay_lai", buttonXLeft, buttonXTop, buttonXLeft + buttonXWidth, buttonXTop + buttonXHeight, cllightred, clred, cllightwhite);
+		btnBack.draw();
+		
+		xuatDiemTB1Trang_LSV(dssv.getHead_DSSV(), diemTB, batDau, ketThuc, newTable);
+		inTrang(trangHienTai, tongSoTrang);
+		
+		int x,y;
+		bool exitLoop = false;
+		
+		while(!exitLoop){
+			delay(0.0000);
+			// Click event change page output
+			if (ismouseclick(WM_LBUTTONDOWN)){
+            	getmouseclick(WM_LBUTTONDOWN, x, y);
+            	
+            	indexMenu = isClickMenuButton(menuButton, x,y);
+				if(indexMenu != -1){
+					if(indexMenu == nMenuButton - 1){
+            			exitProgram = isExit();
+            			if(exitProgram)
+            				exitLoop = true;
+            			else indexMenu = -1;
+            			continue;	
+					}            			
+					else {
+						exitLoop = true; continue;
+					}
+					
+				}
+				
+				if(btnBack.isClicked(x,y)){
+					thaoTac = THOAT_CT;
+					exitLoop = true; continue;
+				}else if(btnPrev.isClicked(x,y) && (trangHienTai > 1)){
+            		
+            		trangHienTai = --trangHienTai == 0 ? 1 : trangHienTai;
+            		batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+            		ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+            		
+            		ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+            		
+            		xuatDiemTB1Trang_LSV(dssv.getHead_DSSV(), diemTB, batDau, ketThuc, newTable);
+					inTrang(trangHienTai, tongSoTrang);
+				}else if(btnNext.isClicked(x,y) && (trangHienTai < tongSoTrang )) {
+					
+					trangHienTai = ++trangHienTai > tongSoTrang ? tongSoTrang : trangHienTai;
+					batDau = (trangHienTai - 1) * MAX_DONG_1_TRANG;
+					ketThuc = (tongSoDong > MAX_DONG_1_TRANG) ? batDau + MAX_DONG_1_TRANG : tongSoDong;
+					
+					ketThuc = (ketThuc > tongSoDong) ? batDau + tongSoDong % batDau : ketThuc;
+					
+					xuatDiemTB1Trang_LSV(dssv.getHead_DSSV(), diemTB, batDau, ketThuc, newTable);
+					inTrang(trangHienTai, tongSoTrang);
+				}
+				
+				
+			}
+		}
+		
+		
+		delete[] diemTB;
+		newTable.freeTable();
+	}
+
 void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
 		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
-		int viTriChon = 0;
+		int viTriChon = -1; bool daChon = false;
 		int khoa = 0, HK = 0;
 		string subTitle;
 		// DKI LTC
@@ -2356,6 +2649,8 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				subTitle = "DANG KY LOP TIN CHI";
 			else if(thaoTac == DIEM_SV && !maSV.empty())
 				subTitle = "DANH SACH LOP TIN CHI DA DANG KY";
+			else if(thaoTac == DIEM_TB && daChon && viTriChon != -1)
+				subTitle = "DIEM TRUNG BINH KHOA HOC CUA DS SINH VIEN 1 LOP";
 			
 			Label title(
 					subTitle,
@@ -2384,6 +2679,13 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 						"Ma sinh vien",
 						maSV
 					);
+			}else if(thaoTac == DIEM_TB && daChon && viTriChon != -1){
+				title.printLabel(
+					"   Lop",
+					DSLSV.getLopSV_LSV(viTriChon)->getMaLop() + "    ",
+					"So sinh vien hien tai",
+					convertIntToString(DSLSV.getLopSV_LSV(viTriChon)->getDS_SV().demSoLuongSV())
+				);
 			}		
 			
 			
@@ -2602,19 +2904,34 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				}
 				
 				case DIEM_TB:{
-					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-					DSLSV.menu_LSV(thaoTac, menuButton);
-					if(thaoTac == THOAT_CT){
-						
-					}else if(thaoTac == DIEM_TB){
-						
+					if(!daChon){ viTriChon = -1;
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						DSLSV.menu_LSV(viTriChon, thaoTac, menuButton);
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						if(viTriChon != -1){
+							daChon = true;
+							if(DSLSV.getLopSV_LSV(viTriChon)->getDS_SV().isNULL_SV()){
+								daChon = false; // lop khong co sinh vien thi cho chon lai
+							}
+						}
+						else {
+							thaoTac = DIEM; daChon = false;
+						}
+						continue; // cap nhat title neu viTriChon != -1
 					}
+					
+					if(thaoTac == DIEM_TB && daChon && viTriChon != -1){
+						xuatDiemTBTheoTrang_LSV(DSMH, DSLSV.getLopSV_LSV(viTriChon)->getDS_SV(), thaoTac, menuButton);
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+					}
+					
+					viTriChon = -1; daChon = false; //thaoTac = DIEM;
 					break;
 				}
 				
 				case DIEM_TK: {
 					clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-					DSLSV.menu_LSV(thaoTac, menuButton);
+					//DSLSV.menu_LSV(thaoTac, menuButton);
 					break;
 				}
 				

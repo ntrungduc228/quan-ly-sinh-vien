@@ -61,12 +61,12 @@ LeftChar=1
 [Editor_5]
 CursorCol=12
 CursorRow=1603
-TopLine=79
+TopLine=76
 LeftChar=1
 [Editor_6]
 CursorCol=3
-CursorRow=1283
-TopLine=1302
+CursorRow=194
+TopLine=164
 LeftChar=1
 [Editor_7]
 CursorCol=5
@@ -78,9 +78,9 @@ TopLine=20
 >>>>>>> temp
 LeftChar=1
 [Editor_8]
-CursorCol=35
-CursorRow=428
-TopLine=414
+CursorCol=14
+CursorRow=68
+TopLine=59
 LeftChar=1
 [Editor_9]
 CursorCol=15
@@ -88,7 +88,7 @@ CursorRow=12
 TopLine=1
 LeftChar=1
 [Editor_10]
-CursorCol=1
-CursorRow=4
+CursorCol=28
+CursorRow=12
 TopLine=1
 LeftChar=1

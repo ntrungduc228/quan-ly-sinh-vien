@@ -11,8 +11,6 @@ public:
 	
 	void setMaLop(string maLop);
 	
-	void setTenLop(string tenLop);
-	
 	string getMaLop();
 	
 	DSSV &getDS_SV();
@@ -67,7 +65,7 @@ public:
 	
 	void formThem_LSV(string &maLopSV, Action &thaoTac);
 
-	void menu_LSV(Action &thaoTac, Button *menuButton[]);
+	void menu_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]);
 	
 };
 
@@ -538,23 +536,25 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 								        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 						    		);
 						    		
-						    		int isConfirmed = MessageBox(
+						    		if(thaoTac != DIEM_TB && thaoTac != DIEM_TK){
+						    			int isConfirmed = MessageBox(
 											        NULL,
 											        "BAN CO MUON NHAP SINH VIEN CHO LOP NAY",
 											        "THONG BAO",
 											        MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
 									    		);
-									switch(isConfirmed){
-										case IDCANCEL:{
-											break;
+										switch(isConfirmed){
+											case IDCANCEL:{
+												break;
+											}
+											case IDOK: default:{
+												thaoTac = NHAP_DS;
+												newTable.freeTable();
+												freeArrButton(printButton, nFilter);
+												return;
+											}
 										}
-										case IDOK: default:{
-											thaoTac = NHAP_DS;
-											newTable.freeTable();
-											freeArrButton(printButton, nFilter);
-											return;
-										}
-									}
+									}else { exitLoop = true; continue; }
 						    		
 							}else{
 								if(thaoTac != DIEM_TB) thaoTac = XUAT_DS;
@@ -680,9 +680,10 @@ void DSLopSV::formThem_LSV(string &maLopSV, Action &thaoTac){
 		}
 	}
 
-void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
-		int viTriChon = 0; 
+void DSLopSV::menu_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
+		//int viTriChon = 0; 
 		string maLopSV = "";
+		string strN;
 		
 		if(n==0){
 			
@@ -693,26 +694,29 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 		        MB_ICONERROR | MB_OK | MB_DEFAULT_DESKTOP_ONLY
     		);
 		
-			
-			int isConfirmed = MessageBox(
-									NULL,
-									"BAN CO MUON THEM LOP SINH VIEN",
-									"THONG BAO",
-									MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
-								);
-			switch(isConfirmed){
-				case IDCANCEL:{
-					break;
+			if(thaoTac != DIEM_TB && thaoTac != DIEM_TK){
+				int isConfirmed = MessageBox(
+										NULL,
+										"BAN CO MUON THEM LOP SINH VIEN",
+										"THONG BAO",
+										MB_ICONQUESTION | MB_OKCANCEL | MB_DEFAULT_DESKTOP_ONLY 
+									);
+				switch(isConfirmed){
+					case IDCANCEL:{
+						break;
+						}
+					case IDOK: default:{
+						thaoTac = THEM;
+						break;
 					}
-				case IDOK: default:{
-					thaoTac = THEM;
-					break;
 				}
+			}else { return;
 			}
+			
 		}
 		
 		while((n>0 || thaoTac == THEM ) && indexMenu == -1){ 
-			string strN = convertIntToString(n);
+			strN = convertIntToString(n);
 			Label title(
 					"DANH SACH LOP SINH VIEN",
 					LABEL_X,
@@ -819,12 +823,10 @@ void DSLopSV::menu_LSV(Action &thaoTac, Button *menuButton[]){
 				case DIEM_TB:{
 					xuatDSTheoTrang_LSV(viTriChon, thaoTac, menuButton);
 					if(thaoTac == THOAT_CT){
-						thaoTac = DIEM;
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
-						return;	
-					}else if(viTriChon < n){
-						cout<<"\n"<<lopSV[viTriChon]->getMaLop();
+						viTriChon = -1;
 					}
+					return;
 					break;
 				}
 				

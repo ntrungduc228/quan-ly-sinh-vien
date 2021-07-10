@@ -25,6 +25,7 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 	int x,y;
 	
 	Action thaoTac = XUAT;
+	int viTriChon = -1;
 
 	while(true){
 		
@@ -52,9 +53,9 @@ void menu(TREE &DSMH, DSLopTC &DSLTC, DSLopSV &DSLSV){
 				
 			}else if(menuButton[indexMenu]->getId() == "SV"){
 				
-				oldIndexMenu = indexMenu; indexMenu = -1;
+				oldIndexMenu = indexMenu; indexMenu = -1; viTriChon = -1;
 				
-				DSLSV.menu_LSV(thaoTac, menuButton);
+				DSLSV.menu_LSV(viTriChon, thaoTac, menuButton);
 				
 			}else if(menuButton[indexMenu]->getId() == "MH"){
 				

@@ -1649,7 +1649,6 @@ void DSSV::menu_SV(string maLop, Action thaoTac, Button *menuButton[]){
 				
 				case SUA:{
 					if(viTriChon < soLuongSV){
-						cout<<"\nSua sv tai vi tri "<<viTriChon;
 						NodeSV *sv = tim_SV(viTriChon);
 						if(sv != NULL){
 							formNhap_SV(maLop, sv, thaoTac);
