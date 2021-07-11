@@ -89,6 +89,7 @@ const int tableTop = 130;
 const int rowTableHeight = 32; 
 
 const int MAX_DONG_1_TRANG = 15;//15;
+const int MAX_COT_1_TRANG = 6; // hien chi dung o chuc nang xuat diem tong ket cua lop sv
 
 /*
 ** ================ Label ================

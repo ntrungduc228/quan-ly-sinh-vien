@@ -386,7 +386,7 @@ void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *
 			
 			x += newTable.getCols(2)->getWidth();
 			
-			if(thaoTac != DIEM_TB){
+			if(thaoTac != DIEM_TB && thaoTac != DIEM_TK){
 				if(printButton[i] == NULL)
 					printButton[i] = new Button(
 												 "Xem DSSV",
@@ -400,7 +400,7 @@ void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *
 												 clblack
 												);
 				printButton[i]->draw();
-			}else if(thaoTac == DIEM_TB){
+			}else if(thaoTac == DIEM_TB || thaoTac == DIEM_TK){
 				if(printButton[i] == NULL)
 					printButton[i] = new Button(
 												 "Xem Diem TB",
@@ -413,6 +413,8 @@ void DSLopSV::xuatDS1Trang_LSV(LopSV *lopSV[], int batDau, int ketThuc, Button *
 												 cllightblue, 
 												 clblack
 												);
+												
+				if(thaoTac == DIEM_TK) printButton[i]->setText("Xem diem TK");
 				printButton[i]->draw();
 			}
 		
@@ -479,7 +481,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 		btnBack.draw();
 		
 		Button btnAdd("THEM LOP HOC","btnAdd",400, 80, 430 + buttonWidth, 120);
-		if(thaoTac != DIEM_TB)
+		if(thaoTac != DIEM_TB && thaoTac != DIEM_TK)
 			btnAdd.draw();
 		
 		int x,y;
@@ -557,7 +559,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 									}else { exitLoop = true; continue; }
 						    		
 							}else{
-								if(thaoTac != DIEM_TB) thaoTac = XUAT_DS;
+								if(thaoTac != DIEM_TB && thaoTac != DIEM_TK ) thaoTac = XUAT_DS; // xuat ds sinh vien
 	            				newTable.freeTable();
 								freeArrButton(printButton, nFilter);
 								return;
@@ -592,7 +594,7 @@ void DSLopSV::xuatDSTheoTrang_LSV(int &viTriChon, Action &thaoTac, Button *menuB
 					inTrang(trangHienTai, tongSoTrang);
 				}
 				
-				if(btnAdd.isClicked(x,y) && thaoTac != DIEM_TB){
+				if(btnAdd.isClicked(x,y) && thaoTac != DIEM_TB && thaoTac != DIEM_TK){
 					newInput.setBorderColor(clblack);
 					newInput.draw();
 					
@@ -820,7 +822,7 @@ void DSLopSV::menu_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
 					break;
 				}
 				
-				case DIEM_TB:{
+				case DIEM_TB: case DIEM_TK:{
 					xuatDSTheoTrang_LSV(viTriChon, thaoTac, menuButton);
 					if(thaoTac == THOAT_CT){
 						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
