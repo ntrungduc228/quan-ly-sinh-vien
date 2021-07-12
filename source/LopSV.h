@@ -731,8 +731,10 @@ void DSLopSV::menu_LSV(int &viTriChon, Action &thaoTac, Button *menuButton[]){
 				);
 				
 			title.printLabel(
-						"Tong so lop",
-						strN
+						"   Tong so lop",
+						strN + "     ",
+						"                             "
+						
 					);
 			
 			

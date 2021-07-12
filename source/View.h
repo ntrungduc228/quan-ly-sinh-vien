@@ -298,13 +298,13 @@ public:
 			setbkcolor(cllightwhite);
 			setcolor(clblack);
 			
-			if(name1 != "") name1 +=  ": " + content1;
-			if(name2 != "") name2 +=  ": " + content2;
-			if(name3 != "") name3 +=  ": " + content3;
-			if(name4 != "") name4 +=  ": " + content4;
-			if(name5 != "") name5 +=  ": " + content5;
-			if(name6 != "") name6 +=  ": " + content6;
-			if(name7 != "") name7 +=  ": " + content7;
+			if(name1 != "" && content1 != "") name1 +=  ": " + content1;
+			if(name2 != "" && content2 != "") name2 +=  ": " + content2;
+			if(name3 != "" && content3 != "") name3 +=  ": " + content3;
+			if(name4 != "" && content4 != "") name4 +=  ": " + content4;
+			if(name5 != "" && content5 != "") name5 +=  ": " + content5;
+			if(name6 != "" && content6 != "") name6 +=  ": " + content6;
+			if(name7 != "" && content7 != "") name7 +=  ": " + content7;
 			
 			if(name1 != "")
 				outtextxy((right+left)/2 - textwidth(name1.c_str())/2, top + LABEL_SPACE_Y, name1.c_str());

@@ -299,9 +299,9 @@ int DSSV::xoa_SV(string maSV){
 	if(this->head->getData_SV().getMaSV() == maSV){
 		p = this->head;
 		this->head = p->getNext_SV();
-		//delete p; 
+		
 		p->setNext_SV(NULL);
-		p->~NodeSV();
+		delete p;
 		return 1;
 	}
 	
@@ -310,10 +310,10 @@ int DSSV::xoa_SV(string maSV){
 			
 			q = p->getNext_SV();
 			p->setNext_SV(q->getNext_SV());
-			//delete q; 
+			
 			q->setNext_SV(NULL);
 			delete q;
-			//q->~NodeSV();
+			
 			return 1;
 		}
 	
