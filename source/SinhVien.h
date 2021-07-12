@@ -1523,7 +1523,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 		} // end while
 		
 		// luu ds sinh vien da nhap
-		if(thaoTac != THOAT && thaoTac == THEM){ cout<<"\nLuu sinh vine ne";
+		if(thaoTac != THOAT && thaoTac == THEM){ cout<<"\nLuu sinh vine";
 			string str;
 			for(int i=0; i<soLuong; i++){
 				SinhVien sv;
@@ -1546,7 +1546,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 				NodeSV *p = new NodeSV(sv);
 				this->them_SV(p);
 			}
-		} else if(thaoTac != THOAT && thaoTac == SUA){ cout<<"\nSua sv ne";
+		} else if(thaoTac != THOAT && thaoTac == SUA){ cout<<"\nSua sv";
 				string str;
 				SinhVien sv;
 				
@@ -1568,7 +1568,7 @@ void DSSV::formNhap_SV(string maLop, NodeSV *NSV, Action &thaoTac){
 				
 				NSV->setData_SV(sv);
 		}
-			cout<<"\nGiai phong sv ne";
+			cout<<"\nGiai phong sv";
 		// giai phong arr input
 		for(int i=0; i<nRow; i++){
 			for(int j=0; j<nCol; j++){

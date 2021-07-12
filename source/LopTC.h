@@ -2654,7 +2654,7 @@ void DSLopTC::thongKeDiemTK_LSV(DSSV &dssv, MonHoc *arrMH, int soLuongMH, float 
 					//cout<<"\n"<<diemTK[vtsv][i]<<" "<<arrMH[i].getMaMH()<<" "<<SV->getData_SV().getMaSV()<<" "<<i;
 				} 
 			}
-		}	
+		}
 	}
 	
 void DSLopTC::xuatMonHocTK1Trang_LSV(MonHoc *arrMH, int soLuongMH, float **diemTK, int batDau, int ketThuc, int batDauMH, int ketThucMH, Table newTable){
@@ -2718,9 +2718,10 @@ void DSLopTC::xuatMonHocTK1Trang_LSV(MonHoc *arrMH, int soLuongMH, float **diemT
 		x = xTemp;
 		
 		// ===================== XUAT DIEM TK =========================
-		for(int i = batDau; i < soDong; i++){
+		for(int i = batDau; i < soDong; i++){ 
 			
 			// khong can xoa cac chuoi thua vi ben sinh vien da xoa roi
+			if( i>= ketThuc) break;
 			
 			y += rowTableHeight;
 			for(int j=batDauMH; j<soCot; j++){
