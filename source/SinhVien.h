@@ -573,17 +573,14 @@ void DSSV::xuatDS1Trang_SV(NodeSV *&head, int batDau, int ketThuc, Button *editB
 void DSSV::locDS_SV(string content, DSSV &dssv, int &nFilter, int &tongSoTrang){
 		dssv.freeDS_SV(dssv.getHead_DSSV());
 		dssv.setHead_DSSV(NULL);
-		//DSSV newds; newds.setHead_DSSV(NULL);
+		
 		if(!content.empty()){
 			for(NodeSV *p = this->head; p!=NULL; p=p->getNext_SV()){
 				if(p->getData_SV().getMaSV().find(content) != string::npos){
-					//cout<<"\n"<<p->getData_SV().getMaSV();
 					
 					NodeSV*SV = new NodeSV(p->getData_SV());
 					dssv.them_SV(SV);
 					
-					//SV->getData_SV().xuat_SV();
-					//cout<<"\nThem thanh cong";
 				}
 			}
 			

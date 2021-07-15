@@ -59,4 +59,4 @@ SKD1101,Ky nang thuyet trinh,2,2,0
 SKD1102,Ky nang lam viec nhom,1,1,0
 SKD1103,Ky nang tao lap van ban,2,2,0
 SKD1108,Phuong phap luan nghien cuu khoa hoc,2,2,0
-TEL1401,An toan mang thong tin,3,1,0
+TEL1401,An toan mang thong tin,3,1,1

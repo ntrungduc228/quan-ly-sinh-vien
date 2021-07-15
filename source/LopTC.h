@@ -10,7 +10,7 @@ private:
 	int nhom;
 	int svMax;
 	int svMin;
-	bool huyLop = false;
+	bool huyLop;
 	int soSVDK;
 	DSDK dsdk;
 public:
@@ -727,7 +727,7 @@ void DSLopTC::xuatDS1Trang_LTC(LopTC *loptc[], MonHoc *arrMH, int soLuongMH,  in
 			// lay ten mon hoc	
 			for(int j=0; j<soLuongMH; j++){
 				if(arrMH[j].getMaMH() == loptc[i]->getMaMH()){
-					viTriMH=j; j = soLuongMH;
+					viTriMH=j; break; //j = soLuongMH;
 				}
 			}
 				
@@ -1335,7 +1335,7 @@ void DSLopTC::dangKyTheoLop_LTC(TREE DSMH, string maSV, int khoa, int HK, Action
 			return;
 		}
 		
-		int nFilter = n; int soLuongMH=0;
+		int nFilter = 0; int soLuongMH=0;
 		soLuongMH = DSMH.DemSoNodeTrongCay(DSMH.getRoot());
 		MonHoc *arrMH = new MonHoc[soLuongMH];
 		soLuongMH = 0;
@@ -3270,9 +3270,8 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 									        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 							    		);
 									}else if(loptc->getSVMax() < lopTC[viTriChon]->getSoSVDK()){
-										string svdadk = convertIntToString(lopTC[viTriChon]->getSoSVDK());
-										svdadk.insert(0,"SO SV MAX KHONG DUOC NHO HON SO SV DA DK( ");
-										svdadk.insert((svdadk.length()), " )");
+//									
+										string svdadk = "SO SV MAX KHONG DUOC NHO HON SO SV DA DK( " + convertIntToString(lopTC[viTriChon]->getSoSVDK()) + " )";
 										MessageBox(
 									        NULL,
 									        svdadk.c_str(),
@@ -3395,7 +3394,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 			    		clearRegion(500, 150, 540 + 500, 200+270);
 			    		thaoTac = DIEM; maSV = "";
 					}else {
-						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12);
+						clearRegion(tableLeft, frameTop + 12, frameRight - 12, frameBottom - 12); continue;
 					}
 					
 					break;

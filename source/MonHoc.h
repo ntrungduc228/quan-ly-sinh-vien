@@ -826,7 +826,7 @@ void TREE::xuatDSTheoTrang_MH(MonHoc *&arrMH, int tongSoDong, int &viTriChon, Ac
 					else {
 						if(editButton[i] != NULL){
 							if(editButton[i]->isClicked(x,y)){
-								// tim vi tri thuc(real) cua mon hoc can xoa khi sau da filter trong mang ArrMH
+								// tim vi tri thuc(real) cua mon hoc can chon khi sau da filter trong mang ArrMH
 								string tempMaMH = arrMHFilter[i].getMaMH();
 								for(int vt=0; vt<tongSoDong; vt++){
 									if(arrMH[vt].getMaMH() == tempMaMH){
