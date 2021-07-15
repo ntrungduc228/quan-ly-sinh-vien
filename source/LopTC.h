@@ -114,7 +114,7 @@ public:
 	
 	void dangKyMH_LTC(int maLopTC, NodeDK *DK);
 	
-	bool checkTrungDS_LTC(LopTC *ltc, int viTri);
+	bool checkTrungDS_LTC(LopTC *ltc, int viTri, string maMH);
 	
 	void writeDataDS_DK();
 	
@@ -545,11 +545,11 @@ void DSLopTC::dangKyMH_LTC(int maLopTC, NodeDK *DK){
 		}
 	}
 
-bool DSLopTC::checkTrungDS_LTC(LopTC *ltc, int viTri){
+bool DSLopTC::checkTrungDS_LTC(LopTC *ltc, int viTri, string maMH){
 		if(this->isNull_LTC()) return false;
 		
 		for(int i=0; i<n; i++){
-			if(i != viTri)
+			if(i != viTri && this->lopTC[i]->getMaMH() == maMH)
 				if(this->lopTC[i]->checkTrung_LTC(*(ltc))) return true;
 		}
 		
@@ -3120,7 +3120,7 @@ void  DSLopTC::xuatDiemTKTheoTrang_LSV(TREE &DSMH, DSSV &dssv, Action thaoTac, B
 	}
 
 void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuButton[]){
-		MonHoc MH;	LopTC *loptc = NULL; bool daThem = true; 
+		MonHoc MH;	LopTC *loptc = NULL; bool chuaThem = true; // de cap phat vung nho moi cho ltc, vi ltc cu sau khi them van giu nguyen data
 		int viTriChon = -1; bool daChon = false; // da chon lop sinh vien hay chua
 		int khoa = 0, HK = 0;
 		string subTitle;
@@ -3189,9 +3189,9 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				    		); thaoTac = XUAT; continue;
 					}
 					
-					if(loptc == NULL || daThem){
+					if(loptc == NULL || chuaThem){
 						loptc = new LopTC;
-						daThem = false;
+						chuaThem = false;
 						loptc->taoMaLop_LTC(this->getMaLopTCMax());
 					}
 					
@@ -3201,9 +3201,9 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 					if(thaoTac == HUY){
 						delete loptc;
 						thaoTac = XUAT;
-						daThem = true;
+						chuaThem = true;
 					}else if(thaoTac == THEM){
-						if(this->checkTrungDS_LTC(loptc, -1)){
+						if(this->checkTrungDS_LTC(loptc, -1, loptc->getMaMH())){
 							MessageBox(
 						        NULL,
 						        "THONG TIN NHAP BI TRUNG VOI THONG TIN DA CO !!!",
@@ -3221,7 +3221,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				    		);
 				    		clearRegion(500, 150, 640 + 500, 600);
 							thaoTac = XUAT;
-							daThem = true;
+							chuaThem = true;
 							
 							MH.setMaMH(lopTC[n-1]->getMaMH());
 							
@@ -3244,8 +3244,8 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 				case SUA:{
 					if(viTriChon < n){
 							if(!lopTC[viTriChon]->getTrangThai()){
-								if(loptc == NULL || daThem) {
-								loptc = new LopTC; daThem = false;
+								if(loptc == NULL || chuaThem) {
+								loptc = new LopTC; chuaThem = false;
 								
 								loptc->setMaLopTC(lopTC[viTriChon]->getMaLopTC());
 								loptc->setMaMH(lopTC[viTriChon]->getMaMH());
@@ -3260,12 +3260,22 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 								formNhap_LTC(loptc, DSMH, thaoTac, menuButton);
 								if(thaoTac == HUY){
 									delete loptc;
-									thaoTac = XUAT; loptc = NULL; daThem = true;
+									thaoTac = XUAT; loptc = NULL; chuaThem = true;
 								}else if(thaoTac == SUA){
-									if(this->checkTrungDS_LTC(loptc, viTriChon)){
+									if(this->checkTrungDS_LTC(loptc, viTriChon, loptc->getMaMH())){
 										MessageBox(
 									        NULL,
 									        "THONG TIN NHAP BI TRUNG VOI THONG TIN DA CO !!!",
+									        "THONG BAO",
+									        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
+							    		);
+									}else if(loptc->getSVMax() < lopTC[viTriChon]->getSoSVDK()){
+										string svdadk = convertIntToString(lopTC[viTriChon]->getSoSVDK());
+										svdadk.insert(0,"SO SV MAX KHONG DUOC NHO HON SO SV DA DK( ");
+										svdadk.insert((svdadk.length()), " )");
+										MessageBox(
+									        NULL,
+									        svdadk.c_str(),
 									        "THONG BAO",
 									        MB_ICONWARNING | MB_OK | MB_DEFAULT_DESKTOP_ONLY
 							    		);
@@ -3291,7 +3301,7 @@ void DSLopTC::menu_LTC(TREE &DSMH, DSLopSV DSLSV, Action thaoTac, Button *menuBu
 										clearRegion(500, 150, 640 + 500, 600);
 										delete loptc;
 										thaoTac = XUAT;
-										daThem = true;
+										chuaThem = true;
 										viTriChon = 0;
 										this->writeDataDS_LTC();
 									}
