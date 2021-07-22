@@ -1,4 +1,4 @@
 *.docx
 *.doc
-/data-backup/
+./data-backup/
 
