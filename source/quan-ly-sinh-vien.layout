@@ -1,11 +1,11 @@
 [Editors]
 <<<<<<< HEAD
 Order=2,0,9,3,4,7,6,5,1,8
-Focused=0
+Focused=6
 [Editor_0]
-CursorCol=33
-CursorRow=13
-TopLine=1
+CursorCol=12
+CursorRow=15
+TopLine=11
 LeftChar=1
 [Editor_1]
 CursorCol=46
@@ -45,7 +45,7 @@ LeftChar=1
 [Editor_3]
 CursorCol=15
 CursorRow=9
-TopLine=43
+TopLine=64
 LeftChar=1
 [Editor_4]
 <<<<<<< HEAD
@@ -66,13 +66,13 @@ LeftChar=1
 [Editor_6]
 CursorCol=2
 CursorRow=61
-TopLine=52
+TopLine=1052
 LeftChar=1
 [Editor_7]
 CursorCol=12
 CursorRow=705
 <<<<<<< HEAD
-TopLine=1
+TopLine=64
 =======
 TopLine=20
 >>>>>>> temp

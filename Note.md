@@ -1,4 +1,4 @@
-Những thứ chưa tốt sau báo cáo chưa fix (sẽ được fix dần):
+Những thứ chưa tốt sau báo cáo chưa fix:
 - Lớp tín chỉ nên sửa lại mã lớp tín chỉ trong file cho tăng dần, và thay đổi thuật toán sinh mã lớp tự động ko trùng cho nhanh nhất
 - Filter ở phần xuất ds lớp tin chỉ nên cho tìm kiếm bằng tên môn học thay vì mã lớp tin chỉ (người dùng không nhớ mã lớp)
 - Lớp tín chỉ có 4 khóa chính, mã môn học, khóa, học kỳ, nhóm, khi thông báo nhập bị trùng thì phải chỉ rõ là trùng khóa nào
